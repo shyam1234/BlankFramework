@@ -7,4 +7,7 @@
     <color name="colorWhite">#fffdfe</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGreen">#2a732a</color>
+    <color name="colorHint">#000000</color>
+    <color name="colorBlue">#F7F7F7</color>
+    <color name="colorSignIn">#4990E2</color>
 </resources>
