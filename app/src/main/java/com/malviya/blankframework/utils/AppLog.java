@@ -1,0 +1,32 @@
+package com.malviya.blankframework.utils;
+
+import android.util.Log;
+
+/**
+ * Created by Admin on 15-11-2016.
+ */
+
+public class AppLog {
+    private static boolean FLAG_LOG = true;
+    private static boolean FLAG_ERR_LOG = true;
+    private static final String TAG_LOG = "log";
+    private static final String TAG_NET_LOG = "net_log";
+    private static final String TAG_ERR_LOG = "error_log";
+
+    public static void log(String TAG, String msg){
+       if(FLAG_LOG){
+           Log.d(TAG_LOG,TAG+"- "+msg);
+       }
+    }
+
+    public static void networkLog(String TAG, String msg){
+        if(FLAG_LOG){
+            Log.d(TAG_NET_LOG,TAG+"- "+msg);
+        }
+    }
+    public static void errLog(String TAG, String msg){
+        if(FLAG_ERR_LOG){
+            Log.e(TAG_ERR_LOG,TAG+"- "+msg);
+        }
+    }
+}
