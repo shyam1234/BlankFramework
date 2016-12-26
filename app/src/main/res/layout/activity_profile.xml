@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/inc_inner_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/profile_holder_height"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/colorPrimary"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageview_profile_image_holder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/logo" />
+
+                <TextView
+                    android:id="@+id/textview_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="User Name"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/comm_text_bold_size"
+                    android:textStyle="bold" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_horizontal">
+
+                    <ImageView
+                        android:id="@+id/imageview_profile_designation_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/design_logo" />
+
+                    <TextView
+                        android:id="@+id/textview_profile_designation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="0dp"
+                        android:text="Designation"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/comm_text_bold_size"
+                        android:textStyle="normal" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textview_profile_name_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBlue"
+                    android:padding="@dimen/comm_padding"
+                    android:text="@string/profile_name_logo"
+                    android:textColor="@color/colorLightBlue"
+                    android:textSize="18sp" />
+
+
+                <TextView
+                    android:id="@+id/textview_profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:padding="@dimen/comm_padding"
+                    android:text="@string/profile_name_logo"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp" />
+
+
+                <TextView
+                    android:id="@+id/textview_profile_phone_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBlue"
+                    android:padding="@dimen/comm_padding"
+                    android:text="@string/phone"
+                    android:textColor="@color/colorLightBlue"
+                    android:textSize="18sp" />
+
+
+                <TextView
+                    android:id="@+id/textview_profile_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:padding="@dimen/comm_padding"
+                    android:text="@string/phone"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp" />
+
+
+                <TextView
+                    android:id="@+id/textview_profile_email_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBlue"
+                    android:padding="@dimen/comm_padding"
+                    android:text="@string/email"
+                    android:textColor="@color/colorLightBlue"
+                    android:textSize="18sp" />
+
+
+                <TextView
+                    android:id="@+id/textview_profile_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:padding="@dimen/comm_padding"
+                    android:text="@string/email"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp" />
+
+
+                <TextView
+                    android:id="@+id/textview_profile_address_logo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBlue"
+                    android:padding="@dimen/comm_padding"
+                    android:text="@string/address"
+                    android:textColor="@color/colorLightBlue"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/textview_profile_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:padding="@dimen/comm_padding"
+                    android:text="@string/address"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

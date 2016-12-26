@@ -37,7 +37,7 @@ public class ConnectivityReceiver extends BroadcastReceiver {
     }
 
     public interface ConnectivityReceiverListener {
-        public void onNetworkConnectionChanged(boolean isConnected);
+        void onNetworkConnectionChanged(boolean isConnected);
     }
 
 

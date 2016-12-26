@@ -1,0 +1,14 @@
+<tabs>
+    <tab
+        icon="@drawable/login_user"
+        id="@+id/tab_home"
+        title="Home" />
+    <tab
+        icon="@drawable/login_pass"
+        id="@+id/tab_profile"
+        title="Profile" />
+    <tab
+        icon="@drawable/email"
+        id="@+id/tab_setting"
+        title="Setting" />
+</tabs>

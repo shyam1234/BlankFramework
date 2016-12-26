@@ -54,11 +54,7 @@ public class TableDiary {
                     contentValues.put(TOPIC, holder.getTopic());
                     contentValues.put(DESCRIPTION, holder.getDescription());
                     contentValues.put(NOTE, holder.getNote());
-                    if (mDB.insert(TABLE_DIARY, null, contentValues) > 0) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return mDB.insert(TABLE_DIARY, null, contentValues) > 0;
                 }
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
