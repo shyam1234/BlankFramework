@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.utils.Utils;
 
 /**
  * Created by Admin on 11-12-2016.
@@ -60,5 +61,12 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
 //                finish();
 //                break;
 //        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Utils.animLeftToRight(ForgotActivity.this);
+
     }
 }

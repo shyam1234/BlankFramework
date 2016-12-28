@@ -3,14 +3,13 @@ package com.malviya.blankframework.activities;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.MyPagerAdapter;
+import com.malviya.blankframework.utils.Utils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -93,5 +92,12 @@ public class NewDashboard extends AppCompatActivity implements OnTabSelectListen
     @Override
     public void onPageScrollStateChanged(int state) {
         //Toast.makeText(NewDashboard.this, "Selected page position: " + state, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Utils.animLeftToRight(NewDashboard.this);
+
     }
 }
