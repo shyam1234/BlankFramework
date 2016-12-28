@@ -11,4 +11,6 @@ public interface WSContant {
     //http://stpl-edurpapi.azurewebsites.net/api/Account/ChangePassword?EmailAddress=a1@a.com&Password=login@123
     String URL_CHANGEPASSWORD = URL_BASE + "/Account/ChangePassword?EmailAddress";
     String URL_REGISTRATION = URL_BASE + "/Account/Register";
+    String TAG_LOGIN = "login";
+    String TAG_AUTHORIZATION = "Authorization";
 }

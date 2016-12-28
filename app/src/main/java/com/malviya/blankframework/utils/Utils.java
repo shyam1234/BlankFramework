@@ -2,6 +2,7 @@ package com.malviya.blankframework.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Base64;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 
+import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +34,7 @@ public class Utils {
 
     public static boolean validatePassword(EditText pEditText) {
         if (pEditText != null && !pEditText.getText().toString().equals("")) {
-            if (pEditText.getText().toString().length() >= 4 && pEditText.getText().toString().length() <= 6) {
+            if (pEditText.getText().toString().length() >= 4 && pEditText.getText().toString().length() <= 12) {
                 return true;
             } else {
                 pEditText.setError(mContext.getResources().getString(R.string.msg_validate_password_3));
@@ -91,6 +93,31 @@ public class Utils {
     public static void animLeftToRight(Activity pActivity) {
         if (pActivity instanceof Activity)
             pActivity.overridePendingTransition(R.anim.left, R.anim.right);
+    }
+
+
+
+    public static String encodeToString(String text) {
+        byte[] data = new byte[0];
+        try {
+            data = text.getBytes("UTF-8");
+            return Base64.encodeToString(data, Base64.DEFAULT);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    public static String decodeToString(String base64) {
+        try {
+            byte[] data = Base64.decode(base64, Base64.DEFAULT);
+            return new String(data, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 }
