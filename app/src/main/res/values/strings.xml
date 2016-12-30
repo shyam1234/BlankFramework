@@ -2,7 +2,8 @@
     <string name="app_name">BlankFramework</string>
     <string name="forgot_password">Submit</string>
     <string name="sign_in">Login</string>
-    <string name="email">Username</string>
+    <string name="username">Username</string>
+    <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="title_forgot_password">Forgot Password?</string>
     <string name="confirm_password">Confirm Password</string>
@@ -23,4 +24,7 @@
     <string name="proceeding">Proceeding...</string>
     <string name="success">Successful Logged In</string>
     <string name="msg_error_model">No model instance registered with IModel</string>
+    <string name="msg_validate_new_password">Confirm password should match with new password</string>
+    <string name="msg_validate_new_password1">New password should not as same as old password</string>
+    <string name="btn_submit">Submit</string>
 </resources>

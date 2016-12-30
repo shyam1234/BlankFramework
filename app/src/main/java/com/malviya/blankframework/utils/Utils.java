@@ -96,7 +96,6 @@ public class Utils {
     }
 
 
-
     public static String encodeToString(String text) {
         byte[] data = new byte[0];
         try {
@@ -120,4 +119,21 @@ public class Utils {
 
     }
 
+
+    public static boolean validateChangePassword(EditText pEditTextEmail, EditText pEditTextNewPassword, EditText pEditTextConfirmPassword) {
+        if (validateEmail(pEditTextEmail)
+                && validatePassword(pEditTextNewPassword)
+                && validatePassword(pEditTextConfirmPassword)) {
+            // if (!pEditTextEmail.getText().toString().equals(pEditTextNewPassword.getText().toString())) {
+            if (pEditTextNewPassword.getText().toString().equals(pEditTextConfirmPassword.getText().toString())) {
+                return true;
+            } else {
+                pEditTextConfirmPassword.setError(mContext.getResources().getString(R.string.msg_validate_new_password));
+            }
+//            } else {
+//                pEditTextNewPassword.setError(mContext.getResources().getString(R.string.msg_validate_new_password1));
+//            }
+        }
+        return false;
+    }
 }

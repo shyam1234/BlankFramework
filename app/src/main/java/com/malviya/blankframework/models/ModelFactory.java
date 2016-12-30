@@ -36,11 +36,11 @@ public class ModelFactory {
         throw new ModelException(MyApplication.getInstance().getApplicationContext().getResources().getString(R.string.msg_error_model));
     }
 
-    public void registerModel(String key, IModel model) {
+    public void register(String key, IModel model) {
         mHashMapMode.put(key, model);
     }
 
-    public void unRegisterModel(String key) {
+    public void unRegister(String key) {
         mHashMapMode.remove(key);
     }
 

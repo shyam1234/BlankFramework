@@ -15,7 +15,7 @@ import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.LoginDataHolder;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
-import com.malviya.blankframework.parser.ResponseParser;
+import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.Utils;
 
@@ -96,15 +96,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_LOGIN, header, null, WSContant.TAG_LOGIN, new IWSRequest() {
                 @Override
                 public void onResponse(String response) {
-                   // ResponseParser obj = new ResponseParser(response);
-                   // AppLog.log(TAG,""+((LoginDataHolder)obj.getModel()).getPhoneNumber());
-
-
-                    Intent i = new Intent(LoginActivity.this, NewDashboard.class);
-                    startActivity(i);
-                    Utils.animRightToLeft(LoginActivity.this);
+                    //--parsing logic------------------------------------------------------------------
+                    ParseResponse obj = new ParseResponse(response, LoginDataHolder.class, LoginDataHolder.KEY);
+                    AppLog.log(TAG, "getPhoneNumber: " + ((LoginDataHolder) obj.getModel()).data.PhoneNumber);
+                    obj = null;
+                    /*try {
+                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataHolder) ModelFactory.getInstance().getModel(LoginDataHolder.KEY)).data.PhoneNumber);
+                    } catch (ModelException e) {
+                        e.printStackTrace();
+                    }*/
+                    //--------------------------------------------------------------------
                     mButtonLogin.setText(getResources().getString(R.string.success));
                     mButtonLogin.setEnabled(false);
+                    navigateToNextPage();
                 }
 
                 @Override
@@ -115,6 +119,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //------------------------------------------------
 
         }
+    }
+
+    private void navigateToNextPage() {
+        Intent i = new Intent(LoginActivity.this, NewDashboard.class);
+        startActivity(i);
+        finish();
+        Utils.animRightToLeft(LoginActivity.this);
     }
 
     private void reset() {
