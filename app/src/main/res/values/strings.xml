@@ -21,4 +21,6 @@
     <string name="msg_validate_password_3">Length of password should between 4 and 6</string>
     <string name="msg_validate_emai">Email is not correct</string>
     <string name="proceeding">Proceeding...</string>
+    <string name="success">Successful Logged In</string>
+    <string name="msg_error_model">No model instance registered with IModel</string>
 </resources>
