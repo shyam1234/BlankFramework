@@ -135,4 +135,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mButtonLogin.setEnabled(true);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        Utils.animLeftToRight(LoginActivity.this);
+    }
 }

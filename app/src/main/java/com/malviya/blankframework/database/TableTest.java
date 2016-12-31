@@ -15,8 +15,8 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 26-11-2016.
  */
-public class TableDiary {
-    public static final String TAG = "TableDiary";
+public class TableTest {
+    public static final String TAG = "TableTest";
     private static final String TABLE_DIARY = "table_diary";
     private static final String INDEX = "index";
     private static final String TOPIC = "topic";

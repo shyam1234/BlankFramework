@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Admin on 26-11-2016.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "db_name";
+    private static final String DB_NAME = "edurp_dp";
     private static final int DB_VERSION = 1;
     private static DatabaseHelper mInstance;
 
@@ -27,14 +27,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //create table
-        db.execSQL(TableDiary.CREATE_TABLE_DIARY);
+        db.execSQL(TableTest.CREATE_TABLE_DIARY);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int old_version, int new_version) {
         //modify table if version changes
         if (old_version < new_version) {
-            db.execSQL(TableDiary.DROP_TABLE_DIARY);
+            db.execSQL(TableTest.DROP_TABLE_DIARY);
             onCreate(db);
         }
     }

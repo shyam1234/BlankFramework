@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.utils.Utils;
 
 /**
  * Created by Admin on 11-12-2016.
@@ -21,6 +22,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        Utils.animRightToLeft(SplashActivity.this);
         init();
     }
 
@@ -29,42 +31,24 @@ public class SplashActivity extends AppCompatActivity {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                //navigate to next page
                 navigateToNextPage();
             }
         };
         mHandler.postDelayed(mRunnable, TIME_DELAY);
+        //------------------------------------------
+        checkForLanguage();
+    }
+
+    private void checkForLanguage() {
+
     }
 
     private void navigateToNextPage() {
         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+        Utils.animRightToLeft(SplashActivity.this);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
 }
