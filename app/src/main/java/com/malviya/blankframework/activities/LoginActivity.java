@@ -10,9 +10,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
+import com.malviya.blankframework.Exceptions.ModelException;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.LoginDataHolder;
+import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
@@ -100,11 +102,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     ParseResponse obj = new ParseResponse(response, LoginDataHolder.class, LoginDataHolder.KEY);
                     AppLog.log(TAG, "getPhoneNumber: " + ((LoginDataHolder) obj.getModel()).data.PhoneNumber);
                     obj = null;
-                    /*try {
-                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataHolder) ModelFactory.getInstance().getModel(LoginDataHolder.KEY)).data.PhoneNumber);
-                    } catch (ModelException e) {
-                        e.printStackTrace();
-                    }*/
+//                    try {
+//                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataHolder) ModelFactory.getInstance().getModel(LoginDataHolder.KEY)).data.PhoneNumber);
+//                    } catch (ModelException e) {
+//                        AppLog.errLog(TAG,"Exception from "+e.getMessage());
+//                    }
                     //--------------------------------------------------------------------
                     mButtonLogin.setText(getResources().getString(R.string.success));
                     mButtonLogin.setEnabled(false);
@@ -123,6 +125,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void navigateToNextPage() {
         Intent i = new Intent(LoginActivity.this, NewDashboard.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();
         Utils.animRightToLeft(LoginActivity.this);

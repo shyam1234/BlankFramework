@@ -8,7 +8,15 @@ import com.malviya.blankframework.utils.AppLog;
 
 public class ModelException extends Exception {
 
+    private final String mExceptionMesg;
+
     public ModelException(String exceptionMesg) {
-        AppLog.errLog("ModelException", exceptionMesg);
+        mExceptionMesg = exceptionMesg;
+    }
+
+    @Override
+    public String getMessage() {
+        AppLog.errLog("ModelException", mExceptionMesg);
+        return mExceptionMesg;
     }
 }
