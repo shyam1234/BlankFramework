@@ -7,7 +7,7 @@ package com.malviya.blankframework.constant;
 public interface WSContant {
     String URL_BASE = "http://stpl-edurpapi.azurewebsites.net/api";
     String URL_LOGIN = URL_BASE + "/authenticate";
-    String URL_FORGET = URL_BASE + "/Account/ForgetPassword?EmailAddress=";
+    String URL_FORGET = URL_BASE + "/Account/ForgetPassword?";
     //http://stpl-edurpapi.azurewebsites.net/api/Account/ChangePassword?EmailAddress=a1@a.com&Password=login@123
     String URL_CHANGEPASSWORD = URL_BASE + "/Account/ChangePassword?";
     String URL_REGISTRATION = URL_BASE + "/Account/Register";
@@ -16,4 +16,6 @@ public interface WSContant {
     String TAG_EMIALADDRESS = "EmailAddress";
     String TAG_PASSWORD = "Password";
     String TAG_CHANGE_PASSWORD = "change_password";
+    String TAAG_DATA = "Data";
+    String TAG_SUCCESS = "Success";
 }

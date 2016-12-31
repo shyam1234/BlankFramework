@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">BlankFramework</string>
-    <string name="forgot_password">Submit</string>
+    <string name="Submit">Submit</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="forgot_password_success">Forgot Password Sent</string>
     <string name="sign_in">Login</string>
     <string name="username">Username</string>
     <string name="email">Email</string>

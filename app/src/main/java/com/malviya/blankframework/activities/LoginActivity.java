@@ -10,11 +10,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
-import com.malviya.blankframework.Exceptions.ModelException;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.LoginDataHolder;
-import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
@@ -75,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.textview_forgot_password:
+                //  Intent intent = new Intent(LoginActivity.this, ChangePasswordtActivity.class);
                 Intent intent = new Intent(LoginActivity.this, ForgotActivity.class);
                 startActivity(intent);
                 Utils.animRightToLeft(LoginActivity.this);
