@@ -1,14 +1,14 @@
 <tabs>
     <tab
-        icon="@drawable/login_user"
+        icon="@drawable/home_menu"
         id="@+id/tab_home"
-        title="Home" />
+        title="@string/tab_home" />
     <tab
-        icon="@drawable/login_pass"
+        icon="@drawable/my_wards"
         id="@+id/tab_profile"
-        title="Profile" />
+        title="@string/tab_wards" />
     <tab
-        icon="@drawable/email"
+        icon="@drawable/option_menu"
         id="@+id/tab_setting"
-        title="Setting" />
+        title="@string/tab_options" />
 </tabs>

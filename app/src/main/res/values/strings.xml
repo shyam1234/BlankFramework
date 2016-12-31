@@ -1,4 +1,7 @@
 <resources>
+    <string name="tab_home">Home</string>
+    <string name="tab_wards">My Wards</string>
+    <string name="tab_options">Options</string>
     <string name="app_name">BlankFramework</string>
     <string name="Submit">Submit</string>
     <string name="forgot_password">Forgot Password</string>
