@@ -8,5 +8,6 @@
     <dimen name="comm_text_bold_size">18sp</dimen>
     <dimen name="comm_cell_padding">22dp</dimen>
     <dimen name="comm_cell_bottom_padding">5dp</dimen>
+    <dimen name="padding_option">15dp</dimen>
 
 </resources>

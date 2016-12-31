@@ -5,7 +5,10 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.MyPagerAdapter;
@@ -24,6 +27,8 @@ public class NewDashboard extends AppCompatActivity implements OnTabSelectListen
     private BottomBar mBottomBar;
     private ViewPager mViewPage;
     private MyPagerAdapter mAdapterViewPager;
+    private ImageView mImgProfile;
+    private TextView mTextViewTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +46,11 @@ public class NewDashboard extends AppCompatActivity implements OnTabSelectListen
 
 
     private void initView() {
+        mTextViewTitle = (TextView) findViewById(R.id.textview_title);
+        mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
+        //----------------------------------------------------------------------------
+
+
         mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mViewPage = (ViewPager) findViewById(R.id.vpPager);
@@ -67,12 +77,15 @@ public class NewDashboard extends AppCompatActivity implements OnTabSelectListen
             case R.id.tab_home:
                 //lFragmentTransaction.replace(R.id.contentContainer, new HomeFragment());
                 mViewPage.setCurrentItem(0);
+                mTextViewTitle.setText(getResources().getString(R.string.tab_home));
                 break;
             case R.id.tab_profile:
                 mViewPage.setCurrentItem(1);
+                mTextViewTitle.setText(getResources().getString(R.string.tab_wards));
                 break;
             case R.id.tab_setting:
                 mViewPage.setCurrentItem(2);
+                mTextViewTitle.setText(getResources().getString(R.string.tab_options));
                 break;
         }
 

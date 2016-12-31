@@ -33,4 +33,7 @@
     <string name="msg_validate_new_password1">New password should not as same as old password</string>
     <string name="btn_submit">Submit</string>
     <string name="msg_error_model1">Testing message</string>
+    <string name="setting">Setting</string>
+    <string name="logout">Logout</string>
+    <string name="share_this_app">Share this app</string>
 </resources>
