@@ -11,6 +11,8 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -135,5 +137,15 @@ public class Utils {
 //            }
         }
         return false;
+    }
+
+
+    public static String getCurrTime() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String formattedDate = df.format(c.getTime());
+        AppLog.log("formattedDate", formattedDate);
+        return formattedDate;
+
     }
 }

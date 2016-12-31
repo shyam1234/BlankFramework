@@ -2,6 +2,7 @@ package com.malviya.blankframework.parser;
 
 import com.google.gson.Gson;
 import com.malviya.blankframework.interfaces.IModel;
+import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.LoginDataHolder;
 import com.malviya.blankframework.models.ModelFactory;
 
@@ -34,6 +35,10 @@ public class ParseResponse {
         switch (mKey) {
             case LoginDataHolder.KEY:
                 mModel = mGson.fromJson(mRespose, LoginDataHolder.class);
+                ModelFactory.getInstance().register(mKey, mModel);
+                break;
+            case LanguageArrayDataModel.KEY:
+                mModel = mGson.fromJson(mRespose, LanguageArrayDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
             default:

@@ -17,4 +17,6 @@ public interface WSContant {
     String TAG_CHANGE_PASSWORD = "change_password";
     String TAAG_DATA = "Data";
     String TAG_SUCCESS = "Success";
+    String TAG_UNIVERSITYID = "UniversityId";
+    String TAG_LANGUAGE_VERSION_DATE = "LanguageVersionDate";
 }

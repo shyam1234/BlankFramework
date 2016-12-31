@@ -33,14 +33,15 @@ public class TableLanguage {
     public static final String TRUNCATE_TABLE_DIARY = "TRUNCATE TABLE " + TABLE_NAME;
 
 
-    public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
-            + UNIVERSITY_ID + " int"
-            + CONVERSION_ID + " int"
-            + CONVERSION_CODE + " varchar(255)"
-            + ENGLISH_VERSION + " varchar(255)"
-            + BAHASA_VERSION + " varchar(255)"
-            + DATE_MODIFIED + " varchar(255)"
+    public static final String CREATE_LANGUAGE_TABLE = "Create table " + TABLE_NAME + "( "
+            + UNIVERSITY_ID + " int, "
+            + CONVERSION_ID + " int, "
+            + CONVERSION_CODE + " varchar(255), "
+            + ENGLISH_VERSION + " varchar(255), "
+            + BAHASA_VERSION + " varchar(255), "
+            + DATE_MODIFIED + " varchar(255) "
             + " ) ";
+
 
 
     public void openDB(Context pContext) {
@@ -58,6 +59,7 @@ public class TableLanguage {
         try {
             if (mDB != null) {
                 for (LanguageArrayDataModel.LanguageDataModel holder : list) {
+                    deleteDataIfExist(holder.UniversityId,holder.ConversionId);
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(UNIVERSITY_ID, holder.UniversityId);
                     contentValues.put(CONVERSION_ID, holder.ConversionId);
@@ -75,6 +77,10 @@ public class TableLanguage {
             return false;
         }
         return false;
+    }
+
+    private void deleteDataIfExist(int pUniversityId, int pConversionId) {
+
     }
 
     public ArrayList<LanguageArrayDataModel.LanguageDataModel> read() {
