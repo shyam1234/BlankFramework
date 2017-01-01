@@ -43,7 +43,6 @@ public class TableLanguage {
             + " ) ";
 
 
-
     public void openDB(Context pContext) {
         DatabaseHelper helper = DatabaseHelper.getInstance(pContext);
         mDB = helper.getWritableDatabase();
@@ -59,7 +58,7 @@ public class TableLanguage {
         try {
             if (mDB != null) {
                 for (LanguageArrayDataModel.LanguageDataModel holder : list) {
-                    deleteDataIfExist(holder.UniversityId,holder.ConversionId);
+                    deleteDataIfExist(holder.UniversityId, holder.ConversionId);
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(UNIVERSITY_ID, holder.UniversityId);
                     contentValues.put(CONVERSION_ID, holder.ConversionId);
@@ -80,7 +79,12 @@ public class TableLanguage {
     }
 
     private void deleteDataIfExist(int pUniversityId, int pConversionId) {
-
+        try {
+            String selectQuery = "DELETE FROM " + TABLE_NAME + " WHERE " + UNIVERSITY_ID + "=" + pUniversityId + " AND " + CONVERSION_ID + "=" + pConversionId;
+            mDB.execSQL(selectQuery);
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "Exception from deleteDataIfExist " + e.getMessage());
+        }
     }
 
     public ArrayList<LanguageArrayDataModel.LanguageDataModel> read() {
@@ -99,6 +103,7 @@ public class TableLanguage {
                         model.EnglishVersion = (cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION)));
                         model.BahasaVersion = (cursor.getString(cursor.getColumnIndex(BAHASA_VERSION)));
                         model.DateModified = (cursor.getString(cursor.getColumnIndex(DATE_MODIFIED)));
+                        AppLog.errLog(" :", model.EnglishVersion);
                         list.add(model);
                     } while (cursor.moveToNext());
                 }

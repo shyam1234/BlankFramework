@@ -38,6 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         Utils.animRightToLeft(SplashActivity.this);
         init();
+        SharePreferenceApp.getInstance();
 
     }
 
@@ -55,9 +56,13 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkForLanguage() {
-       // SharePreferenceApp.getInstance().removeAll();
+        TableLanguage table = new TableLanguage();
+        table.openDB(SplashActivity.this);
+        //AppLog.log("table: ",((LanguageArrayDataModel) obj.getModel()).LanguageArray.get(3).EnglishVersion);
+        table.read();
+        //SharePreferenceApp.getInstance().removeAll();
         Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_UNIVERSITYID, "" + SharePreferenceApp.getInstance().universityID);
+        header.put(WSContant.TAG_UNIVERSITYID, SharePreferenceApp.getInstance().universityID);
         header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharePreferenceApp.getInstance().languageLastUpdateTime);
         WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LOGIN, new IWSRequest() {
             @Override
@@ -78,9 +83,10 @@ public class SplashActivity extends AppCompatActivity {
     private void storeIntoDB(ParseResponse obj) {
         TableLanguage table = new TableLanguage();
         table.openDB(SplashActivity.this);
+        //AppLog.log("table: ",((LanguageArrayDataModel) obj.getModel()).LanguageArray.get(3).EnglishVersion);
         boolean isAdded = table.insert(((LanguageArrayDataModel) obj.getModel()).LanguageArray);
         if(isAdded)
-        Toast.makeText(this, "Language database is updated for university id "+SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Language db updated for university id: "+SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
         table.closeDB();
         SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
         navigateToNextPage();
