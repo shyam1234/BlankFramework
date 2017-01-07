@@ -8,7 +8,15 @@
     android:orientation="vertical"
     android:padding="@dimen/comm_padding">
 
+    <include
+        android:visibility="visible"
+        layout="@layout/inc_university_header"
+        android:id="@+id/inc_fragment_home_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></include>
+
     <com.malviya.blankframework.utils.MyGridView
+        android:layout_marginTop="10dp"
         android:id="@+id/gridview_dashboard"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

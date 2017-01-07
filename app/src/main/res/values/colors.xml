@@ -26,4 +26,8 @@
     <color name="colorGrayTransparent">#22000000</color>
     <color name="dashboardTextColor">#686868</color>
 
+    <color name="progressBarColor">#3fa5b5</color>
+    <color name="backgroundProgressBarColor">#309f60</color>
+    <color name="colorMargin">#22000000</color>
+
 </resources>

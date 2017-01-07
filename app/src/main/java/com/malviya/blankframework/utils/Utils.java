@@ -2,6 +2,7 @@ package com.malviya.blankframework.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -148,4 +150,15 @@ public class Utils {
         return formattedDate;
 
     }
+
+    public static void showProgressBar(int progress, CircularProgressBar circularProgressBar){
+
+        circularProgressBar.setColor(ContextCompat.getColor(circularProgressBar.getContext(), R.color.progressBarColor));
+        circularProgressBar.setBackgroundColor(ContextCompat.getColor(circularProgressBar.getContext(), R.color.backgroundProgressBarColor));
+        circularProgressBar.setProgressBarWidth(6);
+        circularProgressBar.setBackgroundProgressBarWidth(9);
+        int animationDuration = 2500; // 2500ms = 2,5s
+        circularProgressBar.setProgressWithAnimation(progress, animationDuration); // Default duration = 1500ms
+    }
+
 }

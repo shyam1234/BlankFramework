@@ -1,8 +1,11 @@
 package com.malviya.blankframework.network;
 
+import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -10,8 +13,15 @@ import com.android.volley.toolbox.StringRequest;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.utils.AppLog;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Created by Admin on 26-11-2016.
@@ -22,6 +32,7 @@ public class WSRequest {
     public static int GET = Request.Method.GET;
     public static int PUT = Request.Method.PUT;
     private static WSRequest mInstance;
+    private int count;
 
     private WSRequest() {
 
@@ -95,6 +106,21 @@ public class WSRequest {
             }
 
 
+            @Override
+            public boolean isCanceled() {
+                return super.isCanceled();
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse resp) {
+               if(resp.statusCode==200) {
+                   AppLog.networkLog("parseNetworkResponse", "" + resp.statusCode);
+                   AppLog.networkLog("networkTimeMs", "" + resp.networkTimeMs);
+                   AppLog.networkLog("notModified", "" + resp.notModified);
+                   //parseData(resp.data);
+               }
+               return super.parseNetworkResponse(resp);
+            }
         };
         if (TAG == null) {
             MyApplication.getInstance().addToRequestQueue(request, "");
@@ -103,6 +129,51 @@ public class WSRequest {
         }
 
     }
+
+//    private String parseData(byte[] response) {
+//        HashMap<String, Object> map = new HashMap<String, Object>();
+//        try {
+//            if (response!=null) {
+//
+//                //String content =request.responseHeaders.get("Content-Disposition").toString();
+//                StringTokenizer st = new StringTokenizer("");
+//                //String[] arrTag = st.toArray();
+//
+//                //String filename = arrTag[1];
+//                //filename = filename.replace(":", ".");
+//               // Log.d("DEBUG::FILE NAME", filename);
+//
+//                try{
+//                    long lenghtOfFile = response.length;
+//
+//                    InputStream input = new ByteArrayInputStream(response);
+//
+//                    File path = Environment.getExternalStorageDirectory();
+//                    File file = new File(path, "ddd");
+//                    map.put("resume_path", file.toString());
+//                    BufferedOutputStream output = new BufferedOutputStream(new FileOutputStream(file));
+//                    byte data[] = new byte[1024];
+//
+//                    long total = 0;
+//                    count = 0;
+//                    while ((count = input.read(data)) != -1) {
+//                        total += count;
+//                        output.write(data, 0, count);
+//                    }
+//
+//                    output.flush();
+//
+//                    output.close();
+//                    input.close();
+//                }catch(IOException e){
+//                    e.printStackTrace();
+//
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 
 }

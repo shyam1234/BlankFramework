@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void navigateToNextPage() {
-        Intent i = new Intent(LoginActivity.this, NewDashboard.class);
+        Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();

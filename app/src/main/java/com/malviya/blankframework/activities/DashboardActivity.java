@@ -5,7 +5,6 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +20,7 @@ import com.roughike.bottombar.OnTabSelectListener;
  * Created by Admin on 24-12-2016.
  */
 
-public class NewDashboard extends AppCompatActivity implements OnTabSelectListener, ViewPager.OnPageChangeListener {
+public class DashboardActivity extends AppCompatActivity implements OnTabSelectListener, ViewPager.OnPageChangeListener {
 
     private FrameLayout mContainer;
     private BottomBar mBottomBar;
@@ -94,7 +93,7 @@ public class NewDashboard extends AppCompatActivity implements OnTabSelectListen
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        //Toast.makeText(NewDashboard.this, "Selected page position: " + position, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(DashboardActivity.this, "Selected page position: " + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -104,13 +103,13 @@ public class NewDashboard extends AppCompatActivity implements OnTabSelectListen
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        //Toast.makeText(NewDashboard.this, "Selected page position: " + state, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(DashboardActivity.this, "Selected page position: " + state, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onBackPressed() {
         finish();
-        Utils.animLeftToRight(NewDashboard.this);
+        Utils.animLeftToRight(DashboardActivity.this);
 
     }
 }

@@ -10,7 +10,7 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.utils.RenderImageByPicasso;
 import com.malviya.blankframework.utils.RenderImageByUIL;
 
-public class DemoImageLoad extends AppCompatActivity implements View.OnClickListener{
+public class TestImageLoad extends AppCompatActivity implements View.OnClickListener{
 
     private Button btnShow1;
     private Button btnShow2;
@@ -41,16 +41,16 @@ public class DemoImageLoad extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
          switch (view.getId()){
              case R.id.btn_show1:
-                 RenderImageByPicasso.setImageByPicasso(DemoImageLoad.this,url, imageHolder);
+                 RenderImageByPicasso.setImageByPicasso(TestImageLoad.this,url, imageHolder);
                  break;
              case R.id.btn_show2:
-                 RenderImageByPicasso.setCircleImageByPicasso(DemoImageLoad.this,url, imageHolder);
+                 RenderImageByPicasso.setCircleImageByPicasso(TestImageLoad.this,url, imageHolder);
                  break;
              case R.id.btn_show3:
-                 RenderImageByPicasso.setSquareImageByPicasso(DemoImageLoad.this,url, imageHolder);
+                 RenderImageByPicasso.setSquareImageByPicasso(TestImageLoad.this,url, imageHolder);
                  break;
              case R.id.btn_show4:
-                 RenderImageByUIL.getInstance(DemoImageLoad.this).setImageByURL(url,imageHolder,R.mipmap.ic_launcher,R.drawable.loader);
+                 RenderImageByUIL.getInstance(TestImageLoad.this).setImageByURL(url,imageHolder,R.mipmap.ic_launcher,R.drawable.loader);
                  break;
 
          }

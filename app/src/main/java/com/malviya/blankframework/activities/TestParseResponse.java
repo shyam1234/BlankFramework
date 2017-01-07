@@ -13,7 +13,7 @@ import com.malviya.blankframework.network.WSRequest;
  * Created by Admin on 26-11-2016.
  */
 
-public class DemoParseResponse extends Activity {
+public class TestParseResponse extends Activity {
     final String TAG = "DemoParseResponse";
     private TextView mTextView;
     private String url ="http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.quotes%20WHERE%20symbol%3D%27WRC%27&format=json&diagnostics=true&env=store://datatables.org/alltableswithkeys&callback";

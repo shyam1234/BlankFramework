@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -15,9 +16,9 @@ import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
-import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.SharePreferenceApp;
 import com.malviya.blankframework.utils.Utils;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
     private static final long TIME_DELAY = 3000;
     private Handler mHandler;
     private Runnable mRunnable;
-
+    CircularProgressBar mCircularProgressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,8 +39,12 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         Utils.animRightToLeft(SplashActivity.this);
         init();
-        SharePreferenceApp.getInstance();
+        initView();
+        Utils.showProgressBar(100,mCircularProgressBar);
+    }
 
+    private void initView() {
+        mCircularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
     }
 
     private void init() {
@@ -47,12 +52,13 @@ public class SplashActivity extends AppCompatActivity {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                //navigateToNextPage();
+                checkForLanguage();
             }
         };
         mHandler.postDelayed(mRunnable, TIME_DELAY);
+        SharePreferenceApp.getInstance();
         //------------------------------------------
-        checkForLanguage();
+
     }
 
     private void checkForLanguage() {
@@ -85,8 +91,8 @@ public class SplashActivity extends AppCompatActivity {
         table.openDB(SplashActivity.this);
         //AppLog.log("table: ",((LanguageArrayDataModel) obj.getModel()).LanguageArray.get(3).EnglishVersion);
         boolean isAdded = table.insert(((LanguageArrayDataModel) obj.getModel()).LanguageArray);
-        if(isAdded)
-        Toast.makeText(this, "Language db updated for university id: "+SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
+        if (isAdded)
+            Toast.makeText(this, "Language db updated for university id: " + SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
         table.closeDB();
         SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
         navigateToNextPage();
@@ -98,6 +104,4 @@ public class SplashActivity extends AppCompatActivity {
         finish();
         Utils.animRightToLeft(SplashActivity.this);
     }
-
-
 }

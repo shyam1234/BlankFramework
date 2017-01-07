@@ -14,7 +14,7 @@ import com.malviya.blankframework.utils.CustomDialogbox;
  * Created by Admin on 26-11-2016.
  */
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class TestMainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_show:
-                startActivity(new Intent(MainActivity.this, DemoImageLoad.class));
+                startActivity(new Intent(TestMainActivity.this, TestImageLoad.class));
                 break;
             case R.id.btn_parse_url:
-                startActivity(new Intent(MainActivity.this, DemoParseResponse.class));
+                startActivity(new Intent(TestMainActivity.this, TestParseResponse.class));
                 break;
         }
     }
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
 
         //super.onBackPressed();
-        final CustomDialogbox dialogbox = new CustomDialogbox(MainActivity.this, CustomDialogbox.TYPE_YES_NO);
+        final CustomDialogbox dialogbox = new CustomDialogbox(TestMainActivity.this, CustomDialogbox.TYPE_YES_NO);
         dialogbox.setCancelable(false);
         dialogbox.setMessage("Do you want to exit?");
         dialogbox.show();
