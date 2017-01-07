@@ -78,7 +78,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
                 mViewPage.setCurrentItem(0);
                 mTextViewTitle.setText(getResources().getString(R.string.tab_home));
                 break;
-            case R.id.tab_profile:
+            case R.id.tab_ward:
                 mViewPage.setCurrentItem(1);
                 mTextViewTitle.setText(getResources().getString(R.string.tab_wards));
                 break;

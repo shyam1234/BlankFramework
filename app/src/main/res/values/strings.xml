@@ -1,6 +1,7 @@
 <resources>
     <string name="tab_home">Home</string>
     <string name="tab_wards">My Wards</string>
+    <string name="tab_profile">My Profile</string>
     <string name="tab_options">Options</string>
     <string name="app_name">BlankFramework</string>
     <string name="Submit">Submit</string>
@@ -38,4 +39,7 @@
     <string name="share_this_app">Share this app</string>
     <string name="welcome_to_rtm_university">RTM University</string>
     <string name="welcome_to">Welcome to</string>
+    <string name="name">Name</string>
+    <string name="user_name">User Name</string>
+    <string name="location">Location</string>
 </resources>

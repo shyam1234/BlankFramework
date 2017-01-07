@@ -37,39 +37,17 @@
                 android:textSize="18sp" />
 
 
-            <RelativeLayout
+            <include
                 android:id="@+id/rel_radio_btn"
+                layout="@layout/inc_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageview_logo"
                 android:layout_marginTop="40dp"
                 android:gravity="center_horizontal">
 
-                <TextView
-                    android:id="@+id/textview1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="English"
-                    android:textColor="@color/colorWhite" />
 
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/switch_login_language"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/textview1"
-                    android:gravity="center_horizontal" />
-
-                <TextView
-                    android:id="@+id/textview2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/switch_login_language"
-                    android:text="Bahasa"
-                    android:textColor="@color/colorWhite" />
-            </RelativeLayout>
+            </include>
 
 
             <ImageView

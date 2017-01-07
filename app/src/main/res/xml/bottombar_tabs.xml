@@ -5,7 +5,7 @@
         title="@string/tab_home" />
     <tab
         icon="@drawable/my_wards"
-        id="@+id/tab_profile"
+        id="@+id/tab_ward"
         title="@string/tab_wards" />
     <tab
         icon="@drawable/option_menu"
