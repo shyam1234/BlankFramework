@@ -2,6 +2,7 @@ package com.malviya.blankframework.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     private WardChildRowAdapter mChildAdapter;
     private ArrayList<WardChildDataHolder> mListChildInfoHolder;
     private ImageView mProfileEye;
+    private FloatingActionButton mFloatingBtn;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,10 +68,11 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mProfileHeaderLocation = (TextView) getView().findViewById(R.id.textview_profile_header_name);
         mProfileView = (ImageView) getView().findViewById(R.id.imageview_profile_logo);
         mProfileEye = (ImageView) getView().findViewById(R.id.imageview_profile_eye);
+        mFloatingBtn = (FloatingActionButton)getView().findViewById(R.id.fab_edit);
         mProfileEye.setVisibility(View.VISIBLE);
         mRecycleViewChildInfo = (RecyclerView) getView().findViewById(R.id.listview_frag_ward);
         mProfileEye.setOnClickListener(this);
-
+        mFloatingBtn.setOnClickListener(this);
         initRecycleAdapter();
     }
 
@@ -86,6 +89,9 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imageview_profile_eye:
+                Toast.makeText(getContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.fab_edit:
                 Toast.makeText(getContext(), "Coming soon", Toast.LENGTH_SHORT).show();
                 break;
         }
