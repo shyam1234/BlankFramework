@@ -13,7 +13,7 @@ import com.malviya.blankframework.R;
  * Created by Admin on 24-12-2016.
  */
 
-public class ProfileFragment extends Fragment {
+public class WardFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
-        view = inflater.inflate(R.layout.fragment_profile, null);
+        view = inflater.inflate(R.layout.fragment_ward, null);
         return view;
     }
 

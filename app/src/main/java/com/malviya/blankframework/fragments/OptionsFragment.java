@@ -1,16 +1,16 @@
 package com.malviya.blankframework.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.ProfileActivity;
 import com.malviya.blankframework.utils.Utils;
 
 /**
@@ -22,6 +22,7 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout relShareTab;
     private RelativeLayout relSettingTab;
     private RelativeLayout relLogoutTab;
+    private RelativeLayout relMyProfileTab;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +48,7 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
         relShareTab = (RelativeLayout) getView().findViewById(R.id.rel_options_share_app);
         relSettingTab = (RelativeLayout) getView().findViewById(R.id.rel_options_setting);
         relLogoutTab = (RelativeLayout) getView().findViewById(R.id.rel_options_logout);
+        relMyProfileTab = (RelativeLayout) getView().findViewById(R.id.rel_options_profile);
         setListener();
     }
 
@@ -54,6 +56,7 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
         relShareTab.setOnClickListener(this);
         relSettingTab.setOnClickListener(this);
         relLogoutTab.setOnClickListener(this);
+        relMyProfileTab.setOnClickListener(this);
     }
 
 
@@ -66,7 +69,19 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.rel_options_logout:
                 break;
+            case R.id.rel_options_profile:
+                navigateToNextPage(ProfileActivity.class);
+                break;
         }
     }
+
+
+    private void navigateToNextPage(Class mClass) {
+        Intent i = new Intent(getActivity(), mClass);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        Utils.animRightToLeft(getActivity());
+    }
+
 
 }
