@@ -59,7 +59,7 @@ public class DashboardCellAdapter extends BaseAdapter {
         holder.setImage(mCellList.get(position).getImage());
         holder.setTextView(mCellList.get(position).getText());
         holder.setNotificationCounter(mCellList.get(position).getNotification());
-       // holder.setColor(mCellList.get(position).getColor());
+        //holder.setColor(mCellList.get(position).getColor());
         return holder.getView();
     }
 

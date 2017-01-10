@@ -43,7 +43,7 @@
             android:textAlignment="gravity"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/textview_uni_header_name"
@@ -57,6 +57,6 @@
             android:textAlignment="gravity"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 </RelativeLayout>

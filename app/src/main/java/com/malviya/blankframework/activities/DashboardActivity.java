@@ -1,16 +1,23 @@
 package com.malviya.blankframework.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.MyPagerAdapter;
+import com.malviya.blankframework.fragments.NoticeboardFragment;
 import com.malviya.blankframework.utils.Utils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -20,14 +27,23 @@ import com.roughike.bottombar.OnTabSelectListener;
  * Created by Admin on 24-12-2016.
  */
 
-public class DashboardActivity extends AppCompatActivity implements OnTabSelectListener, ViewPager.OnPageChangeListener {
-
-    private FrameLayout mContainer;
+public class DashboardActivity extends AppCompatActivity implements OnTabSelectListener, ViewPager.OnPageChangeListener, Handler.Callback {
+    private final int NOTICE_BOARD = 0;
+    private final int ATTENDANCE = 1;
+    private final int HOMEWORK = 2;
+    private final int DIARY = 3;
+    private final int MESSAGE = 4;
+    private final int EVENTS = 5;
+    private final int GALLARY = 6;
+    private final int FEEDBACK = 7;
+    private final int FEE = 8;
+    //private FrameLayout mContainer;
     private BottomBar mBottomBar;
     private ViewPager mViewPage;
     private MyPagerAdapter mAdapterViewPager;
     private ImageView mImgProfile;
     private TextView mTextViewTitle;
+    private Handler mHandlerNavigationToDetail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,7 +56,8 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     }
 
     private void init() {
-        mAdapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        mHandlerNavigationToDetail = new Handler(this);
+        mAdapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), mHandlerNavigationToDetail);
     }
 
 
@@ -50,7 +67,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         //----------------------------------------------------------------------------
 
 
-        mContainer = (FrameLayout) findViewById(R.id.contentContainer);
+       // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mViewPage = (ViewPager) findViewById(R.id.vpPager);
         mViewPage.addOnPageChangeListener(this);
@@ -112,4 +129,41 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         Utils.animLeftToRight(DashboardActivity.this);
 
     }
+
+    @Override
+    public boolean handleMessage(Message message) {
+        int index = (int) message.obj;
+        Toast.makeText(this, "position " + index, Toast.LENGTH_SHORT).show();
+        switch (index) {
+            case NOTICE_BOARD:
+              // navigateFragment(new NoticeboardFragment());
+                break;
+            case ATTENDANCE:
+                break;
+            case HOMEWORK:
+                break;
+            case DIARY:
+                break;
+            case MESSAGE:
+                break;
+            case EVENTS:
+                break;
+            case GALLARY:
+                break;
+            case FEEDBACK:
+                break;
+            case FEE:
+                break;
+
+        }
+        return false;
+    }
+
+//    private void navigateFragment(Fragment fragment) {
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction ft = fm.beginTransaction();
+//        ft.replace(R.id.lin_home, fragment);
+//        ft.commit();
+//        ft.setCustomAnimations(R.anim.left, R.anim.right);
+//    }
 }

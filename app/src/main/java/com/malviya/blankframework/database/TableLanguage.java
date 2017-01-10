@@ -54,6 +54,8 @@ public class TableLanguage {
         }
     }
 
+    //--------------------------------------------------------------------------------------------------------------------
+
     public boolean insert(ArrayList<LanguageArrayDataModel.LanguageDataModel> list) {
         try {
             if (mDB != null) {

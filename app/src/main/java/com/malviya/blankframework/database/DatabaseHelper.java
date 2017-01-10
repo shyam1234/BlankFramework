@@ -8,15 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by Admin on 26-11-2016.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "edurp_dp";
+    private static final String DB_NAME = "db_edurp";
     private static final int DB_VERSION = 1;
     private static DatabaseHelper mInstance;
 
-    public static DatabaseHelper getInstance(Context context){
-        if(mInstance==null){
+    public static DatabaseHelper getInstance(Context context) {
+        if (mInstance == null) {
             mInstance = new DatabaseHelper(context);
         }
-        return  mInstance;
+        return mInstance;
     }
 
 
@@ -27,15 +27,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //create table
-       // db.execSQL(TableTest.CREATE_TABLE_DIARY);
         db.execSQL(TableLanguage.CREATE_LANGUAGE_TABLE);
+        db.execSQL(TableMenuDetails.CREATE_TABLE);
+        db.execSQL(TableMenuMaster.CREATE_TABLE);
+        db.execSQL(TableParentMaster.CREATE_TABLE);
+        db.execSQL(TableParentStudentRelation.CREATE_TABLE);
+        db.execSQL(TableStudentDetails.CREATE_TABLE);
+        db.execSQL(TableUniversityMaster.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int old_version, int new_version) {
         //modify table if version changes
         if (old_version < new_version) {
-            db.execSQL(TableTest.DROP_TABLE_DIARY);
+            db.execSQL(TableLanguage.DROP_TABLE_DIARY);
+            db.execSQL(TableMenuDetails.DROP_TABLE);
+            db.execSQL(TableMenuMaster.DROP_TABLE);
+            db.execSQL(TableParentMaster.DROP_TABLE);
+            db.execSQL(TableParentStudentRelation.DROP_TABLE);
+            db.execSQL(TableStudentDetails.DROP_TABLE);
+            db.execSQL(TableUniversityMaster.DROP_TABLE);
             onCreate(db);
         }
     }
