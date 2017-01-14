@@ -1,11 +1,16 @@
 package com.malviya.blankframework.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.models.TableParentMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
+
+import java.util.ArrayList;
 
 /**
  * Created by Admin on 26-11-2016.
@@ -31,10 +36,10 @@ public class TableParentMaster {
             + COL_PARENTID + " varchar(255), "
             + COL_PARENT_NAME + " varchar(255), "
             + COL_PHONE_NUMBER + " varchar(255) "
-            +" )";
+            + " )";
 
-           //For Foreign key
-          //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
+    //For Foreign key
+    //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
 
 
     public void openDB(Context pContext) {
@@ -50,7 +55,7 @@ public class TableParentMaster {
 
     //--------------------------------------------------------------------------------------------------------------------
 
-      public void dropTable() {
+    public void dropTable() {
         try {
             if (mDB != null) {
                 mDB.execSQL(DROP_TABLE);
@@ -72,6 +77,64 @@ public class TableParentMaster {
         } catch (Exception e) {
             AppLog.errLog(TAG, "Exception from reset " + e.getMessage());
         }
+    }
+
+    //---------------------------------------------------------------------------------------
+
+    public void insert(ArrayList<TableParentMasterDataModel> list) {
+        try {
+            if (mDB != null) {
+                for (TableParentMasterDataModel holder : list) {
+                    if (isExists(holder)) {
+                        deleteRecord(holder);
+                    }
+                    //----------------------------------------
+                    ContentValues value = new ContentValues();
+                    value.put(COL_EMAILID, holder.getEmailid());
+                    value.put(COL_IMAGE_URL, holder.getImageurl());
+                    value.put(COL_PARENTID, holder.getParentid());
+                    value.put(COL_PARENT_NAME, holder.getParent_name());
+                    value.put(COL_PHONE_NUMBER, holder.getPhone_number());
+                    long row = mDB.insert(TABLE_NAME, null, value);
+                    AppLog.log(TABLE_NAME + " inserted: ", holder.getParentid() + " row: " + row);
+                }
+            }
+        } catch (Exception e) {
+            AppLog.errLog("insert", e.getMessage());
+        }
+    }
+
+
+    public boolean isExists(TableParentMasterDataModel model) {
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = " + model.getParentid();
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    AppLog.log("isExists ", "" + true);
+                    return true;
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("isIDExists", e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean deleteRecord(TableParentMasterDataModel holder) {
+        try {
+            if (mDB != null) {
+                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=?", new String[]{holder.getParentid()});
+                AppLog.log("deleteRecord ", "" + row);
+                return true;
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "deleteRecord from TableParentMasterDataModel" + e.getMessage());
+        }
+        return false;
     }
 
 

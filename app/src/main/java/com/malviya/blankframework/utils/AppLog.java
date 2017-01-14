@@ -26,7 +26,7 @@ public class AppLog {
     }
     public static void errLog(String TAG, String msg){
         if(FLAG_ERR_LOG){
-            Log.e(TAG_ERR_LOG,TAG+"- "+msg);
+            Log.e(TAG_ERR_LOG,"Exception from: "+TAG+"- "+msg);
         }
     }
 }

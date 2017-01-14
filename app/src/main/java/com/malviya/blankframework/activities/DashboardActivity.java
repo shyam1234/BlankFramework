@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.MyPagerAdapter;
 import com.malviya.blankframework.fragments.HomeFragment;
-import com.malviya.blankframework.fragments.NoticeboardFragment;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.Utils;
 import com.roughike.bottombar.BottomBar;
@@ -163,22 +162,39 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
 
     @Override
     public void onBackPressed() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
-            switch (name) {
-                case HomeFragment.TAG:
-                     getSupportFragmentManager().popBackStack(HomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    break;
-                default:
-                    getSupportFragmentManager().popBackStack();
-                    break;
+        try {
+            if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+                switch (mBottomBar.getCurrentTabPosition()) {
+                    case 0:
+                        switch (name) {
+                            case HomeFragment.TAG:
+                               // getSupportFragmentManager().popBackStack(HomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                finish();
+                                Utils.animLeftToRight(DashboardActivity.this);
+                                break;
+                            default:
+                                getSupportFragmentManager().popBackStack();
+                                break;
+                        }
+                        break;
+                    case 1:
+                        mBottomBar.selectTabAtPosition(0);
+                        break;
+                    case 2:
+                        mBottomBar.selectTabAtPosition(1);
+                        break;
+                }
+
+                AppLog.log("onBackPressed", "" + getSupportFragmentManager().getBackStackEntryCount());
+                AppLog.log("onBackPressed", "name " + name);
+            } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                finish();
+                Utils.animLeftToRight(DashboardActivity.this);
+                AppLog.log("onBackPressed", "finish ");
             }
-            AppLog.log("onBackPressed", "" + getSupportFragmentManager().getBackStackEntryCount());
-            AppLog.log("onBackPressed", "name " + name);
-        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            finish();
-            Utils.animLeftToRight(DashboardActivity.this);
-            AppLog.log("onBackPressed", "finish ");
+        } catch (Exception e) {
+            AppLog.errLog("onBackPressed", e.getMessage());
         }
     }
 }

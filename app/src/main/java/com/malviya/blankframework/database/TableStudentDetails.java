@@ -1,11 +1,17 @@
 package com.malviya.blankframework.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.models.TableParentMasterDataModel;
+import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
+
+import java.util.ArrayList;
 
 /**
  * Created by Admin on 26-11-2016.
@@ -73,6 +79,67 @@ public class TableStudentDetails {
             AppLog.errLog(TAG, "Exception from reset " + e.getMessage());
         }
     }
+
+
+    //---------------------------------------------------------------------------------------
+
+    public void insert(ArrayList<TableStudentDetailsDataModel> list) {
+        try {
+            if (mDB != null) {
+                for (TableStudentDetailsDataModel holder : list) {
+                    if (isExists(holder)) {
+                        deleteRecord(holder);
+                    }
+                    //----------------------------------------
+                    ContentValues value = new ContentValues();
+                    value.put(COL_COURSE, holder.getCourse());
+                    value.put(COL_GENDER, holder.getGender());
+                    value.put(COL_IMAGEURL, holder.getImageurl());
+                    value.put(COL_STUDENT_ID, holder.getStudent_id());
+                    value.put(COL_STUDENT_NAME, holder.getStudent_name());
+                    value.put(COL_UNIVERSITY_ID, holder.getUniversity_id());
+                    long row = mDB.insert(TABLE_NAME, null, value);
+                    AppLog.log(TABLE_NAME + " inserted: ", holder.getStudent_id() + " row: " + row);
+                }
+            }
+        } catch (Exception e) {
+            AppLog.errLog("insert", e.getMessage());
+        }
+    }
+
+
+    public boolean isExists(TableStudentDetailsDataModel model) {
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_STUDENT_ID + " = " + model.getStudent_id();
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    AppLog.log("isExists ", "" + true);
+                    return true;
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("isIDExists", e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean deleteRecord(TableStudentDetailsDataModel holder) {
+        try {
+            if (mDB != null) {
+                long row = mDB.delete(TABLE_NAME, COL_STUDENT_ID + "=?", new String[]{holder.getStudent_id()});
+                AppLog.log("deleteRecord ", "" + row);
+                return true;
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "deleteRecord from TableStudentDetailsDataModel" + e.getMessage());
+        }
+        return false;
+    }
+
 
 
 }

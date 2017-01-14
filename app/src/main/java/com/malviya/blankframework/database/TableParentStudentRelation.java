@@ -1,11 +1,16 @@
 package com.malviya.blankframework.database;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.models.TableParentStudentRelationDataModel;
 import com.malviya.blankframework.utils.AppLog;
+
+import java.util.ArrayList;
 
 /**
  * Created by Admin on 26-11-2016.
@@ -66,6 +71,63 @@ public class TableParentStudentRelation {
         } catch (Exception e) {
             AppLog.errLog(TAG, "Exception from reset " + e.getMessage());
         }
+    }
+
+
+    //-------------------------------------------------------------------------------
+    public void insert(ArrayList<TableParentStudentRelationDataModel> list) {
+        try {
+            if (mDB != null) {
+                for (TableParentStudentRelationDataModel holder : list) {
+                    if (isExists(holder)) {
+                        deleteRecord(holder);
+                    }
+                    //----------------------------------------
+                    ContentValues value = new ContentValues();
+                    value.put(COL_IS_DEFAULT, holder.getIs_default());
+                    value.put(COL_PARENTID, holder.getParent_id());
+                    value.put(COL_STUDENTID, holder.getStudentid());
+                    long row = mDB.insert(TABLE_NAME, null, value);
+                    AppLog.log(TABLE_NAME + " inserted: ", holder.getStudentid() + " row: " + row);
+                }
+            }
+        } catch (Exception e) {
+            AppLog.errLog("insert", e.getMessage());
+        }
+    }
+
+
+    public boolean isExists(TableParentStudentRelationDataModel model) {
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = " + model.getParent_id()
+                    +" AND "+ COL_STUDENTID + " = " + model.getStudentid();
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    AppLog.log("isExists ", "" + true);
+                    return true;
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("isIDExists", e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean deleteRecord(TableParentStudentRelationDataModel holder) {
+        try {
+            if (mDB != null) {
+                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=? , "+COL_STUDENTID + "=?", new String[]{holder.getParent_id(),holder.getStudentid()});
+                AppLog.log("deleteRecord ", "" + row);
+                return true;
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "deleteRecord from TableParentStudentRelationDataModel" + e.getMessage());
+        }
+        return false;
     }
 
 
