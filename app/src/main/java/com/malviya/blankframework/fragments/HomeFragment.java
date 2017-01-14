@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.DashboardCellAdapter;
+import com.malviya.blankframework.constant.Contant;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
@@ -66,7 +69,38 @@ public class HomeFragment extends Fragment {
         mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Utils.navigateFragment(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
+                TextView textView = ((TextView) view.findViewById(R.id.textview_dashboard_cell_name));
+                AppLog.log("onItemClick name", textView.getText().toString());
+                switch (textView.getText().toString()) {
+                    case Contant.TAG_NOTICEBOARD:
+                        Utils.navigateFragment(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
+                        break;
+                    case Contant.TAG_ATTENDANCE:
+                        Utils.navigateFragment(getFragmentManager(), new AttendanceFragment(), AttendanceFragment.TAG);
+                        break;
+                    case Contant.TAG_DIARY:
+                        Utils.navigateFragment(getFragmentManager(), new DiaryFragment(), DiaryFragment.TAG);
+                        break;
+                    case Contant.TAG_EVENTS:
+                        Utils.navigateFragment(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
+                        break;
+                    case Contant.TAG_FEE:
+                        Utils.navigateFragment(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
+                        break;
+                    case Contant.TAG_GALLERY:
+                        Utils.navigateFragment(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
+                        break;
+                    case Contant.TAG_FEEDBACK:
+                        Utils.navigateFragment(getFragmentManager(), new FeedbackFragment(), FeedbackFragment.TAG);
+                        break;
+                    case Contant.TAG_MESSAGE:
+                        Utils.navigateFragment(getFragmentManager(), new MessageFragment(), MessageFragment.TAG);
+                        break;
+                    case Contant.TAG_HOMEWORK:
+                        Utils.navigateFragment(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
+                        break;
+                }
+
             }
         });
     }
@@ -75,14 +109,14 @@ public class HomeFragment extends Fragment {
     private void addCellItem() {
         DashboardCellDataHolder holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.noticeboard);
-        holder.setText("Notice Board");
+        holder.setText(getString(R.string.notice_board));
         holder.setNotification("33");
         holder.setColor(R.color.colorLightGreen);
         mCellList.add(holder);
 
         holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.attendance);
-        holder.setText("Attendance");
+        holder.setText(getString(R.string.attendance));
         holder.setNotification("3");
         holder.setColor(R.color.colorLightYellow);
         mCellList.add(holder);
@@ -90,49 +124,49 @@ public class HomeFragment extends Fragment {
         holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.homework);
         holder.setNotification("1");
-        holder.setText("Homework");
+        holder.setText(getString(R.string.homework));
         holder.setColor(R.color.colorLightWallet);
         mCellList.add(holder);
 
         holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.diary);
         holder.setNotification("1");
-        holder.setText("Diary");
+        holder.setText(getString(R.string.diary));
         holder.setColor(R.color.colorDarkBlue);
         mCellList.add(holder);
 
         holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.messages);
         holder.setNotification("1");
-        holder.setText("Message");
+        holder.setText(getString(R.string.message));
         holder.setColor(R.color.colorSkyBlue);
         mCellList.add(holder);
 
         holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.events);
         holder.setNotification("1");
-        holder.setText("Events");
+        holder.setText(getString(R.string.events));
         holder.setColor(R.color.colorDarkYellow);
         mCellList.add(holder);
 
         holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.gallery);
         holder.setNotification("1");
-        holder.setText("Gallery");
+        holder.setText(getString(R.string.gallery));
         holder.setColor(R.color.colorLightVallet);
         mCellList.add(holder);
 
         holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.fee);
         holder.setNotification("1");
-        holder.setText("Feedback");
+        holder.setText(getString(R.string.feedback));
         holder.setColor(R.color.colorLightRed);
         mCellList.add(holder);
 
         holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.fee);
         holder.setNotification("1");
-        holder.setText("Fee");
+        holder.setText(getString(R.string.fee));
         holder.setColor(R.color.colorLightGray);
         mCellList.add(holder);
 

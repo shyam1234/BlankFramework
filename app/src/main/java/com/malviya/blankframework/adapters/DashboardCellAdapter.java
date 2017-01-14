@@ -77,6 +77,8 @@ public class DashboardCellAdapter extends BaseAdapter {
             textView = (TextView) view.findViewById(R.id.textview_dashboard_cell_name);
             notificationCounter = (TextView) view.findViewById(R.id.textview_dashboard_notifcation_count);
             cellLayout = (RelativeLayout) view.findViewById(R.id.rel_cell_holder);
+
+
         }
 
         public View getView() {
