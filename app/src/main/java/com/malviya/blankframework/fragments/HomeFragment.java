@@ -106,6 +106,8 @@ public class HomeFragment extends Fragment {
     }
 
 
+
+
     private void addCellItem() {
         DashboardCellDataHolder holder = new DashboardCellDataHolder();
         holder.setImage(R.drawable.noticeboard);

@@ -166,11 +166,11 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
             switch (name) {
-                case NoticeboardFragment.TAG:
-                    getSupportFragmentManager().popBackStack();
-                    break;
                 case HomeFragment.TAG:
                      getSupportFragmentManager().popBackStack(HomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    break;
+                default:
+                    getSupportFragmentManager().popBackStack();
                     break;
             }
             AppLog.log("onBackPressed", "" + getSupportFragmentManager().getBackStackEntryCount());
