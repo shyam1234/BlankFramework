@@ -145,8 +145,9 @@ public class TableMenuDetails {
         try {
             AppLog.log("getNotificationCellData++++++","");
             if (mDB != null) {
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + COL_PARENT_ID + "='" + parentId
-                        + "' AND " + COL_STUDENT_ID + "='" + studentId+"'";
+//                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + COL_PARENT_ID + "='" + parentId
+//                        + "' AND " + COL_STUDENT_ID + "='" + studentId+"'";
+                String selectQuery = "Select * from "+TABLE_NAME+" join "+TableMenuMaster.TABLE_NAME+" on "+TABLE_NAME+"."+COL_MENU_CODE+"="+TableMenuMaster.TABLE_NAME+"."+TableMenuMaster.COL_MENUCODE;
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
@@ -158,7 +159,7 @@ public class TableMenuDetails {
                         model.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENT_ID)));
                         model.setMenu_code(cursor.getString(cursor.getColumnIndex(COL_MENU_CODE)));
                         model.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENT_ID)));
-                        //model.setText(cursor.getString(cursor.getColumnIndex(TableMenuMaster.COL_MENU_DESCRIPTION)));
+                        model.setText(cursor.getString(cursor.getColumnIndex(TableMenuMaster.COL_MENU_DESCRIPTION)));
                         AppLog.log("getNotificationCellData parentId",parentId);
                         AppLog.log("getNotificationCellData studentId ",studentId);
                         AppLog.log("getNotificationCellData",model.getText());
