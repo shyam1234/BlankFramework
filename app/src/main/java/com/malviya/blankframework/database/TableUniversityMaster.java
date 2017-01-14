@@ -102,7 +102,7 @@ public class TableUniversityMaster {
 
     public boolean isExists(TableUniversityMasterDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_UNIVERSITY_ID + " = " + model.getUniversity_id();
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_UNIVERSITY_ID + " = '" + model.getUniversity_id()+"'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {

@@ -13,8 +13,12 @@ import android.widget.TextView;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.DashboardCellAdapter;
 import com.malviya.blankframework.constant.Contant;
+import com.malviya.blankframework.database.DatabaseHelper;
+import com.malviya.blankframework.database.TableMenuDetails;
+import com.malviya.blankframework.database.TableMenuMaster;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
@@ -30,21 +34,35 @@ public class HomeFragment extends Fragment {
     private ArrayList<DashboardCellDataHolder> mCellList;
 
     public HomeFragment() {
+
     }
+
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        fetchDataFromWS();
     }
 
     private void init() {
         mCellList = new ArrayList<>();
-        addCellItem();
 
     }
 
+
+    private void fetchDataFromWS() {
+        UserInfo.userId = "parent2";
+        UserInfo.userName = "Prafulla";
+        UserInfo.studentId = "student2";
+        //need to fetch data from DB WRT to above parameters
+        TableMenuDetails table =  new TableMenuDetails();
+        table.openDB(getContext());
+        mCellList = table.getNotificationCellData( UserInfo.userId,UserInfo.studentId);
+        table.closeDB();
+
+    }
 
     @Nullable
     @Override
@@ -104,8 +122,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-
 
 
     private void addCellItem() {

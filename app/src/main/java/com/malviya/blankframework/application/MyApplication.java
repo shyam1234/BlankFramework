@@ -48,7 +48,7 @@ public class MyApplication extends Application {
         initTableMenuDetailsDataModel();
         initUnivercityMaster();
         initParentStudent();
-        //createDatabase();
+        createDatabase();
     }
 
 
@@ -141,10 +141,96 @@ public class MyApplication extends Application {
         holder.setDate_updated("16072017");
         tableMenuDetailList.add(holder);
 
+        new TableMenuDetailsDataModel();
+        holder.setStudentId("student1");
+        holder.setAlert_count("3");
+        holder.setMenuCode("MENU2");
+        holder.setParentId("parent1");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+        new TableMenuDetailsDataModel();
+        holder.setStudentId("student1");
+        holder.setAlert_count("23");
+        holder.setMenuCode("MENU3");
+        holder.setParentId("parent1");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+        new TableMenuDetailsDataModel();
+        holder.setStudentId("student1");
+        holder.setAlert_count("98");
+        holder.setMenuCode("MENU4");
+        holder.setParentId("parent1");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+
+        new TableMenuDetailsDataModel();
+        holder.setStudentId("student1");
+        holder.setAlert_count("11");
+        holder.setMenuCode("MENU5");
+        holder.setParentId("parent1");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+
+        new TableMenuDetailsDataModel();
+        holder.setStudentId("student1");
+        holder.setAlert_count("55");
+        holder.setMenuCode("MENU6");
+        holder.setParentId("parent1");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+
+        new TableMenuDetailsDataModel();
+        holder.setStudentId("student1");
+        holder.setAlert_count("1");
+        holder.setMenuCode("MENU7");
+        holder.setParentId("parent1");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+
+        new TableMenuDetailsDataModel();
+        holder.setStudentId("student1");
+        holder.setAlert_count("9");
+        holder.setMenuCode("MENU8");
+        holder.setParentId("parent1");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+
+        new TableMenuDetailsDataModel();
+        holder.setStudentId("student1");
+        holder.setAlert_count("243");
+        holder.setMenuCode("MENU9");
+        holder.setParentId("parent1");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
         holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student2");
-        holder.setAlert_count("RTM");
+        holder.setAlert_count("2");
+        holder.setMenuCode("MENU1");
+        holder.setParentId("parent2");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+        holder = new TableMenuDetailsDataModel();
+        holder.setStudentId("student2");
+        holder.setAlert_count("3");
         holder.setMenuCode("MENU2");
+        holder.setParentId("parent2");
+        holder.setDate_updated("16072017");
+        tableMenuDetailList.add(holder);
+
+
+        holder = new TableMenuDetailsDataModel();
+        holder.setStudentId("student2");
+        holder.setAlert_count("34");
+        holder.setMenuCode("MENU3");
         holder.setParentId("parent2");
         holder.setDate_updated("16072017");
         tableMenuDetailList.add(holder);
@@ -212,10 +298,17 @@ public class MyApplication extends Application {
 
 
     private void createDatabase() {
+
+
         TableMenuMaster tableMenuMaster = new TableMenuMaster();
         tableMenuMaster.openDB(getApplicationContext());
         tableMenuMaster.insert(tableMenuMasterList);
         tableMenuMaster.closeDB();
+        //--------------------------------
+        TableUniversityMaster table3 = new TableUniversityMaster();
+        table3.openDB(getApplicationContext());
+        table3.insert(tableUniList);
+        table3.closeDB();
         //--------------------------------
         TableParentMaster table1 = new TableParentMaster();
         table1.openDB(getApplicationContext());
@@ -226,11 +319,7 @@ public class MyApplication extends Application {
         table2.openDB(getApplicationContext());
         table2.insert(tableStudentList);
         table2.closeDB();
-        //--------------------------------
-        TableUniversityMaster table3 = new TableUniversityMaster();
-        table3.openDB(getApplicationContext());
-        table3.insert(tableUniList);
-        table3.closeDB();
+
         //--------------------------------
         TableMenuDetails table4 = new TableMenuDetails();
         table4.openDB(getApplicationContext());

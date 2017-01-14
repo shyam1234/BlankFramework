@@ -110,7 +110,7 @@ public class TableStudentDetails {
 
     public boolean isExists(TableStudentDetailsDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_STUDENT_ID + " = " + model.getStudent_id();
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_STUDENT_ID + " = '" + model.getStudent_id()+"'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {

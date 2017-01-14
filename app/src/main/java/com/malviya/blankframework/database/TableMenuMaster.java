@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.TableMenuMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
@@ -19,9 +21,9 @@ public class TableMenuMaster {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
     public static final String TAG = "TableMenuMaster";
-    private static final String TABLE_NAME = "table_menumaster";
-    private static final String COL_MENUCODE = "menucode";
-    private static final String COL_MENU_DESCRIPTION = "menu_description";
+    public static final String TABLE_NAME = "table_menumaster";
+    public static final String COL_MENUCODE = "menucode";
+    public static final String COL_MENU_DESCRIPTION = "menu_description";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -95,7 +97,7 @@ public class TableMenuMaster {
 
     public boolean isExists(TableMenuMasterDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = " + model.getMenucode();
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + model.getMenucode()+"'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -124,6 +126,7 @@ public class TableMenuMaster {
         }
         return false;
     }
+
 
 
 }

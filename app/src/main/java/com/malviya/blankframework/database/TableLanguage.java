@@ -125,7 +125,7 @@ public class TableLanguage {
         try {
             ArrayList<LanguageArrayDataModel.LanguageDataModel> list = new ArrayList<>();
             if (mDB != null) {
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + UNIVERSITY_ID + "=" + pUniID;
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + UNIVERSITY_ID + "='" + pUniID+"'";
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
@@ -155,7 +155,7 @@ public class TableLanguage {
         try {
             // ArrayList<LanguageArrayDataModel.LanguageDataModel> list = new ArrayList<>();
             if (mDB != null) {
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + CONVERSION_CODE + "=" + pKey;
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + CONVERSION_CODE + "='" + pKey+"'";
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
@@ -191,7 +191,7 @@ public class TableLanguage {
                     HashMap<String, LanguageArrayDataModel.LanguageDataModel> mHashMap = new HashMap<String, LanguageArrayDataModel.LanguageDataModel>();
                     if (mDB != null) {
                         for (String key : pKeyArray) {
-                            String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + CONVERSION_CODE + "=" + key;
+                            String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + CONVERSION_CODE + "='" + key+"'";
                             Cursor cursor = mDB.rawQuery(selectQuery, null);
                             if (cursor.moveToFirst()) {
                                 do {

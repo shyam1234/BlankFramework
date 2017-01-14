@@ -14,11 +14,9 @@ import com.malviya.blankframework.fragments.OptionsFragment;
  */
 
 public class MyPagerAdapter extends FragmentPagerAdapter {
-    private Handler mHandlerNavigationToDetail;
 
-    public MyPagerAdapter(FragmentManager supportFragmentManager, Handler mHandlerNavigationToDetail) {
+    public MyPagerAdapter(FragmentManager supportFragmentManager) {
         super(supportFragmentManager);
-        this.mHandlerNavigationToDetail =mHandlerNavigationToDetail;
     }
 
     @Override

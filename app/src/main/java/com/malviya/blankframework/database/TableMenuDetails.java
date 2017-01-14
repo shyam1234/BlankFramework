@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.TableMenuDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
@@ -35,10 +38,9 @@ public class TableMenuDetails {
             + COL_DATE_UPDATED + " varchar(255), "
             + COL_MENU_CODE + " varchar(255), "
             + COL_PARENT_ID + " varchar(255), "
-            + COL_STUDENT_ID + " varchar(255)"
-            + " ) ";
-    //For Foreign key
-    //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
+            + COL_STUDENT_ID + " varchar(255), "
+            //For Foreign key
+            + " FOREIGN KEY (" + COL_MENU_CODE + ") REFERENCES " + TableMenuMaster.TABLE_NAME + "(" + TableMenuMaster.COL_MENUCODE + "));";
 
     public void openDB(Context pContext) {
         DatabaseHelper helper = DatabaseHelper.getInstance(pContext);
@@ -106,8 +108,8 @@ public class TableMenuDetails {
 
     public boolean isExists(TableMenuDetailsDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENT_ID + " = " + model.getParent_id()
-                    + " AND " + COL_STUDENT_ID + " = " + model.getStudentId();
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENT_ID + " = '" + model.getParent_id()
+                    + "' AND " + COL_STUDENT_ID + " = '" + model.getStudentId()+"'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -125,7 +127,7 @@ public class TableMenuDetails {
     public boolean deleteRecord(TableMenuDetailsDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENT_ID + "=? ,"+COL_STUDENT_ID + "=? ", new String[]{holder.getParent_id(),holder.getStudentId()});
+                long row = mDB.delete(TABLE_NAME, COL_PARENT_ID + "=? and " + COL_STUDENT_ID + "=? ", new String[]{holder.getParent_id(), holder.getStudentId()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
@@ -137,5 +139,43 @@ public class TableMenuDetails {
         return false;
     }
 
+
+    public ArrayList<DashboardCellDataHolder> getNotificationCellData(String parentId, String studentId) {
+        ArrayList<DashboardCellDataHolder> list = new ArrayList<DashboardCellDataHolder>();
+        try {
+            AppLog.log("getNotificationCellData++++++","");
+            if (mDB != null) {
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + COL_PARENT_ID + "='" + parentId
+                        + "' AND " + COL_STUDENT_ID + "='" + studentId+"'";
+                Cursor cursor = mDB.rawQuery(selectQuery, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        // get the data into array, or class variable
+                        DashboardCellDataHolder model = new DashboardCellDataHolder();
+                        model.setColor(R.color.colorLightYellow);
+                        model.setImage(R.drawable.noticeboard);
+                        model.setNotification(cursor.getString(cursor.getColumnIndex(COL_ALERT_COUNT)));
+                        model.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENT_ID)));
+                        model.setMenu_code(cursor.getString(cursor.getColumnIndex(COL_MENU_CODE)));
+                        model.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENT_ID)));
+                        //model.setText(cursor.getString(cursor.getColumnIndex(TableMenuMaster.COL_MENU_DESCRIPTION)));
+                        AppLog.log("getNotificationCellData parentId",parentId);
+                        AppLog.log("getNotificationCellData studentId ",studentId);
+                        AppLog.log("getNotificationCellData",model.getText());
+                        AppLog.log("getNotificationCellData",model.getMenu_code());
+                        list.add(model);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getNotificationCellData", e.getMessage());
+        } finally {
+            return list;
+        }
+
+    }
 
 }

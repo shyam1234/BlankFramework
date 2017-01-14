@@ -99,8 +99,8 @@ public class TableParentStudentRelation {
 
     public boolean isExists(TableParentStudentRelationDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = " + model.getParent_id()
-                    +" AND "+ COL_STUDENTID + " = " + model.getStudentid();
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParent_id()
+                    +"' AND "+ COL_STUDENTID + " = '" + model.getStudentid()+"'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -118,14 +118,14 @@ public class TableParentStudentRelation {
     public boolean deleteRecord(TableParentStudentRelationDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=? , "+COL_STUDENTID + "=?", new String[]{holder.getParent_id(),holder.getStudentid()});
+                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=? and "+COL_STUDENTID + "=?", new String[]{holder.getParent_id(),holder.getStudentid()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "deleteRecord from TableParentStudentRelationDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "delete Record from TableParentStudentRelationDataModel" + e.getMessage());
         }
         return false;
     }
