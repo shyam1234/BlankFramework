@@ -30,8 +30,11 @@ public class TableParentMaster {
             + COL_IMAGE_URL + " varchar(255), "
             + COL_PARENTID + " varchar(255), "
             + COL_PARENT_NAME + " varchar(255), "
-            + COL_PHONE_NUMBER + " varchar(255)"
-            + " ) ";
+            + COL_PHONE_NUMBER + " varchar(255) "
+            +" )";
+
+           //For Foreign key
+          //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
 
 
     public void openDB(Context pContext) {

@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/view"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textview_welcome_to"
@@ -50,7 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="2dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="0dp"
             android:gravity="left"
             android:src="@drawable/logo"
             android:text="@string/welcome_to_rtm_university"

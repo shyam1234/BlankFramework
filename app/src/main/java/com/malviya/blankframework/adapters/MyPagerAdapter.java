@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.malviya.blankframework.fragments.HomeFragment;
+import com.malviya.blankframework.fragments.MainHomeFragment;
 import com.malviya.blankframework.fragments.WardFragment;
 import com.malviya.blankframework.fragments.OptionsFragment;
 
@@ -25,7 +25,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Fragment # 0 - This will show FirstFragment
-                return  new HomeFragment(mHandlerNavigationToDetail);
+                return  new MainHomeFragment();
             case 1: // Fragment # 0 - This will show FirstFragment different title
                 return  new WardFragment();
             case 2: // Fragment # 1 - This will show SecondFragment
@@ -39,4 +39,7 @@ public class MyPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return 3;
     }
+
+
+
 }

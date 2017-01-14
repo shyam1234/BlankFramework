@@ -41,7 +41,8 @@ public class TableLanguage {
             + BAHASA_VERSION + " varchar(255), "
             + DATE_MODIFIED + " varchar(255) "
             + " ) ";
-
+    //For Foreign key
+    //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
 
     public void openDB(Context pContext) {
         DatabaseHelper helper = DatabaseHelper.getInstance(pContext);

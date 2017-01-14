@@ -1,6 +1,5 @@
 package com.malviya.blankframework.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,9 +14,9 @@ import com.malviya.blankframework.utils.Utils;
  * Created by Admin on 24-12-2016.
  */
 
-public class NoticeboardFragment extends Fragment implements View.OnClickListener {
-    public final static String TAG="NoticeboardFragment";
-    public NoticeboardFragment() {
+public class MainHomeFragment extends Fragment implements View.OnClickListener {
+    public final static String TAG="MainHomeFragment";
+    public MainHomeFragment() {
 
     }
 
@@ -30,7 +29,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
-        view = inflater.inflate(R.layout.fragment_noticeboard, null);
+        view = inflater.inflate(R.layout.fragment_mainhome, null);
         return view;
     }
 
@@ -42,7 +41,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     }
 
     private void initView() {
-
+        Utils.navigateFragment(getFragmentManager(), new HomeFragment(), HomeFragment.TAG);
         setListener();
     }
 
@@ -58,13 +57,6 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         }
     }
 
-
-    private void navigateToNextPage(Class mClass) {
-        Intent i = new Intent(getActivity(), mClass);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(i);
-        Utils.animRightToLeft(getActivity());
-    }
 
 
 }

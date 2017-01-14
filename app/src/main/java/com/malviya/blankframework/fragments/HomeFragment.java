@@ -1,21 +1,18 @@
 package com.malviya.blankframework.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.DashboardCellAdapter;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -24,13 +21,12 @@ import java.util.ArrayList;
  */
 
 public class HomeFragment extends Fragment {
-    private Handler mHandlerNavigationToDetail;
+    public static final String TAG = "HomeFramgent";
     private GridView mGridViewCell;
     private DashboardCellAdapter mAdapter;
     private ArrayList<DashboardCellDataHolder> mCellList;
 
-    public HomeFragment(Handler pHandlerNavigationToDetail) {
-        this.mHandlerNavigationToDetail = pHandlerNavigationToDetail;
+    public HomeFragment() {
     }
 
 
@@ -70,9 +66,7 @@ public class HomeFragment extends Fragment {
         mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Toast.makeText(getContext(), "position " + i, Toast.LENGTH_SHORT).show();
-                //mHandlerNavigationToDetail.sendMessage(mHandlerNavigationToDetail.obtainMessage(0, i));
-                navigateFragment(new NoticeboardFragment());
+                Utils.navigateFragment(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
             }
         });
     }
@@ -145,12 +139,4 @@ public class HomeFragment extends Fragment {
     }
 
 
-    private void navigateFragment(Fragment fragment) {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.linearlayout, fragment);
-        ft.commit();
-        //ft.setCustomAnimations(R.anim.left, R.anim.right);
-        Toast.makeText(getContext(), "position +++ ", Toast.LENGTH_SHORT).show();
-    }
 }

@@ -2,6 +2,9 @@ package com.malviya.blankframework.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.animation.Animation;
@@ -151,7 +154,7 @@ public class Utils {
 
     }
 
-    public static void showProgressBar(int progress, CircularProgressBar circularProgressBar){
+    public static void showProgressBar(int progress, CircularProgressBar circularProgressBar) {
 
         circularProgressBar.setColor(ContextCompat.getColor(circularProgressBar.getContext(), R.color.progressBarColor));
         circularProgressBar.setBackgroundColor(ContextCompat.getColor(circularProgressBar.getContext(), R.color.backgroundProgressBarColor));
@@ -161,4 +164,12 @@ public class Utils {
         circularProgressBar.setProgressWithAnimation(progress, animationDuration); // Default duration = 1500ms
     }
 
+
+    public static void navigateFragment(FragmentManager fragmentManager, Fragment fragment, String TAG) {
+        FragmentTransaction ft = fragmentManager.beginTransaction();
+        ft.replace(R.id.framelayout_holder, fragment);
+        ft.addToBackStack(TAG);
+        ft.commit();
+        ft.setCustomAnimations(R.anim.left, R.anim.right);
+    }
 }

@@ -14,7 +14,7 @@ public class TableMenuMaster {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
     public static final String TAG = "TableMenuMaster";
-    private static final String TABLE_NAME = "table_parentmaster";
+    private static final String TABLE_NAME = "table_menumaster";
     private static final String COL_MENUCODE = "menucode";
     private static final String COL_MENU_DESCRIPTION = "menu_description";
     //-------------------------------------------------------------------------
@@ -26,7 +26,8 @@ public class TableMenuMaster {
             + COL_MENUCODE + " varchar(255), "
             + COL_MENU_DESCRIPTION + " varchar(255) "
             + " ) ";
-
+    //For Foreign key
+    //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
 
     public void openDB(Context pContext) {
         DatabaseHelper helper = DatabaseHelper.getInstance(pContext);

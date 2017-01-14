@@ -5,19 +5,18 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.MyPagerAdapter;
+import com.malviya.blankframework.fragments.HomeFragment;
 import com.malviya.blankframework.fragments.NoticeboardFragment;
+import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.Utils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -67,7 +66,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         //----------------------------------------------------------------------------
 
 
-       // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
+        // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mViewPage = (ViewPager) findViewById(R.id.vpPager);
         mViewPage.addOnPageChangeListener(this);
@@ -123,12 +122,6 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         //Toast.makeText(DashboardActivity.this, "Selected page position: " + state, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onBackPressed() {
-        finish();
-        Utils.animLeftToRight(DashboardActivity.this);
-
-    }
 
     @Override
     public boolean handleMessage(Message message) {
@@ -136,7 +129,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         Toast.makeText(this, "position " + index, Toast.LENGTH_SHORT).show();
         switch (index) {
             case NOTICE_BOARD:
-              // navigateFragment(new NoticeboardFragment());
+                // navigateFragment(new NoticeboardFragment());
                 break;
             case ATTENDANCE:
                 break;
@@ -166,4 +159,26 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
 //        ft.commit();
 //        ft.setCustomAnimations(R.anim.left, R.anim.right);
 //    }
+
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+            String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+            switch (name) {
+                case NoticeboardFragment.TAG:
+                    getSupportFragmentManager().popBackStack();
+                    break;
+                case HomeFragment.TAG:
+                     getSupportFragmentManager().popBackStack(HomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    break;
+            }
+            AppLog.log("onBackPressed", "" + getSupportFragmentManager().getBackStackEntryCount());
+            AppLog.log("onBackPressed", "name " + name);
+        } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            finish();
+            Utils.animLeftToRight(DashboardActivity.this);
+            AppLog.log("onBackPressed", "finish ");
+        }
+    }
 }

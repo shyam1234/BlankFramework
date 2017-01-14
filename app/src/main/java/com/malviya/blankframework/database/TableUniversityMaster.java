@@ -28,6 +28,8 @@ public class TableUniversityMaster {
             + COL_UNIVERSITY_NAME + " varchar(255), "
             + COL_UNIVERSITY_URL + " varchar(255) "
             + " ) ";
+    //For Foreign key
+    //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
 
 
     public void openDB(Context pContext) {
@@ -43,7 +45,7 @@ public class TableUniversityMaster {
 
     //--------------------------------------------------------------------------------------------------------------------
 
-      public void dropTable() {
+    public void dropTable() {
         try {
             if (mDB != null) {
                 mDB.execSQL(DROP_TABLE);

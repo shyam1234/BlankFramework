@@ -32,7 +32,8 @@ public class TableMenuDetails {
             + COL_PARENT_ID + " varchar(255), "
             + COL_STUDENT_ID + " varchar(255)"
             + " ) ";
-
+    //For Foreign key
+    //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
 
     public void openDB(Context pContext) {
         DatabaseHelper helper = DatabaseHelper.getInstance(pContext);
