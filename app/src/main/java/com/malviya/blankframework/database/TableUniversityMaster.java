@@ -20,10 +20,10 @@ public class TableUniversityMaster {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
     public static final String TAG = "TableUniversityMaster";
-    private static final String TABLE_NAME = "table_university_master";
-    private static final String COL_UNIVERSITY_ID = "university_id";
-    private static final String COL_UNIVERSITY_NAME = "university_name";
-    private static final String COL_UNIVERSITY_URL = "university_url";
+    public static final String TABLE_NAME = "table_university_master";
+    public static final String COL_UNIVERSITY_ID = "university_id";
+    public static final String COL_UNIVERSITY_NAME = "university_name";
+    public static final String COL_UNIVERSITY_URL = "university_url";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;

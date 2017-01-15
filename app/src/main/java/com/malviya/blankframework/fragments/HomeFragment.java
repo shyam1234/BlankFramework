@@ -8,15 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.DashboardCellAdapter;
 import com.malviya.blankframework.constant.Contant;
-import com.malviya.blankframework.database.DatabaseHelper;
 import com.malviya.blankframework.database.TableMenuDetails;
-import com.malviya.blankframework.database.TableMenuMaster;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
@@ -32,11 +32,13 @@ public class HomeFragment extends Fragment {
     private GridView mGridViewCell;
     private DashboardCellAdapter mAdapter;
     private ArrayList<DashboardCellDataHolder> mCellList;
+    private ArrayList<TableStudentDetailsDataModel> mUniver;
+    private ImageView mImageViewUnivercityLogo;
+    private TextView mTextViewUnivercityText;
 
     public HomeFragment() {
 
     }
-
 
 
     @Override
@@ -57,9 +59,10 @@ public class HomeFragment extends Fragment {
         UserInfo.userName = "Prafulla";
         UserInfo.studentId = "student2";
         //need to fetch data from DB WRT to above parameters
-        TableMenuDetails table =  new TableMenuDetails();
+        //----------------------------------------------------------
+        TableMenuDetails table = new TableMenuDetails();
         table.openDB(getContext());
-        mCellList = table.getNotificationCellData( UserInfo.userId,UserInfo.studentId);
+        mCellList = table.getHomeFragmentData(UserInfo.userId, UserInfo.studentId);
         table.closeDB();
 
     }
@@ -84,6 +87,8 @@ public class HomeFragment extends Fragment {
         mAdapter = new DashboardCellAdapter(getContext(), mCellList);
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
+        mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
+        mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
         mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -121,6 +126,11 @@ public class HomeFragment extends Fragment {
 
             }
         });
+
+        if (mCellList.size() > 0) {
+            //pp mImageViewUnivercityLogo.setImageBitmap(Utils.getImage(mCellList.get(0).getUniversity_image_url()));
+            mTextViewUnivercityText.setText(mCellList.get(0).getUniversity_name());
+        }
     }
 
 

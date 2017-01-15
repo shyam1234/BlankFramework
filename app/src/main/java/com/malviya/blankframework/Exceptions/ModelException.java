@@ -1,4 +1,4 @@
-package com.malviya.blankframework.Exceptions;
+package com.malviya.blankframework.exceptions;
 
 import com.malviya.blankframework.utils.AppLog;
 

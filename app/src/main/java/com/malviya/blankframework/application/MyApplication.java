@@ -48,7 +48,7 @@ public class MyApplication extends Application {
         initTableMenuDetailsDataModel();
         initUnivercityMaster();
         initParentStudent();
-        createDatabase();
+        //createDatabase();
     }
 
 
@@ -111,7 +111,7 @@ public class MyApplication extends Application {
         holder.setParentId("parent1");
         holder.setStudentid("student1");
         tableParentStudentList.add(holder);
-        new TableParentStudentRelationDataModel();
+        holder = new TableParentStudentRelationDataModel();
         holder.setIsDefault("student2");
         holder.setParentId("parent2");
         holder.setStudentid("student2");
@@ -125,6 +125,7 @@ public class MyApplication extends Application {
         holder.setUniversity_name("RTM");
         holder.setUniversity_url("http://results.rtmnuresults.org/");
         tableUniList.add(holder);
+        holder =  new TableUniversityMasterDataModel();
         holder.setUniversity_id("univercity2");
         holder.setUniversity_name("swami vivekanand university");
         holder.setUniversity_url("https://www.svnuniversity.co.in/mainsite/home.aspx");
@@ -141,7 +142,7 @@ public class MyApplication extends Application {
         holder.setDate_updated("16072017");
         tableMenuDetailList.add(holder);
 
-        new TableMenuDetailsDataModel();
+        holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("3");
         holder.setMenuCode("MENU2");
@@ -149,7 +150,7 @@ public class MyApplication extends Application {
         holder.setDate_updated("16072017");
         tableMenuDetailList.add(holder);
 
-        new TableMenuDetailsDataModel();
+        holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("23");
         holder.setMenuCode("MENU3");
@@ -157,7 +158,7 @@ public class MyApplication extends Application {
         holder.setDate_updated("16072017");
         tableMenuDetailList.add(holder);
 
-        new TableMenuDetailsDataModel();
+        holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("98");
         holder.setMenuCode("MENU4");
@@ -166,7 +167,7 @@ public class MyApplication extends Application {
         tableMenuDetailList.add(holder);
 
 
-        new TableMenuDetailsDataModel();
+        holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("11");
         holder.setMenuCode("MENU5");
@@ -175,7 +176,7 @@ public class MyApplication extends Application {
         tableMenuDetailList.add(holder);
 
 
-        new TableMenuDetailsDataModel();
+        holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("55");
         holder.setMenuCode("MENU6");
@@ -184,7 +185,7 @@ public class MyApplication extends Application {
         tableMenuDetailList.add(holder);
 
 
-        new TableMenuDetailsDataModel();
+        holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("1");
         holder.setMenuCode("MENU7");
@@ -193,7 +194,7 @@ public class MyApplication extends Application {
         tableMenuDetailList.add(holder);
 
 
-        new TableMenuDetailsDataModel();
+        holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("9");
         holder.setMenuCode("MENU8");
@@ -202,7 +203,7 @@ public class MyApplication extends Application {
         tableMenuDetailList.add(holder);
 
 
-        new TableMenuDetailsDataModel();
+        holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("243");
         holder.setMenuCode("MENU9");
@@ -247,6 +248,7 @@ public class MyApplication extends Application {
         holder.setUniversity_id("univercity1");
         tableStudentList.add(holder);
 
+        holder = new TableStudentDetailsDataModel();
         holder.setCourse("science");
         holder.setImageurl("");
         holder.setGender("female");

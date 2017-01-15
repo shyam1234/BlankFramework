@@ -1,6 +1,6 @@
 package com.malviya.blankframework.models;
 
-import com.malviya.blankframework.Exceptions.ModelException;
+import com.malviya.blankframework.exceptions.ModelException;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.interfaces.IModel;

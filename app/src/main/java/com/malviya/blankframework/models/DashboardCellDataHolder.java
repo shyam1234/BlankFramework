@@ -12,6 +12,9 @@ public class DashboardCellDataHolder {
     private String menu_code;
     private String parent_id;
     private String student_id;
+    private String university_id;
+    private String university_name;
+    private String university_image_url;
     private int color;
 
     public int getImage() {
@@ -76,5 +79,29 @@ public class DashboardCellDataHolder {
 
     public void setStudentId(String student_id) {
         this.student_id = student_id;
+    }
+
+    public String getUniversity_id() {
+        return university_id;
+    }
+
+    public void setUniversity_id(String university_id) {
+        this.university_id = university_id;
+    }
+
+    public String getUniversity_name() {
+        return university_name;
+    }
+
+    public void setUniversity_name(String university_name) {
+        this.university_name = university_name;
+    }
+
+    public String getUniversity_image_url() {
+        return university_image_url;
+    }
+
+    public void setUniversity_image_url(String university_image_url) {
+        this.university_image_url = university_image_url;
     }
 }

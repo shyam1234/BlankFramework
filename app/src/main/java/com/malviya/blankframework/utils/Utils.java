@@ -2,6 +2,7 @@ package com.malviya.blankframework.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -175,5 +176,9 @@ public class Utils {
         }catch (Exception e){
             AppLog.errLog("navigateFragment",e.getMessage());
         }
+    }
+
+    public static Bitmap getImage(String university_image_url) {
+        return null;
     }
 }

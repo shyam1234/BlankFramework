@@ -9,7 +9,6 @@ import android.widget.Toast;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
-import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.TableMenuDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
@@ -108,8 +107,8 @@ public class TableMenuDetails {
 
     public boolean isExists(TableMenuDetailsDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENT_ID + " = '" + model.getParent_id()
-                    + "' AND " + COL_STUDENT_ID + " = '" + model.getStudentId()+"'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENU_CODE + " = '" + model.getMenu_code()
+                    + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -127,8 +126,8 @@ public class TableMenuDetails {
     public boolean deleteRecord(TableMenuDetailsDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENT_ID + "=? and " + COL_STUDENT_ID + "=? ", new String[]{holder.getParent_id(), holder.getStudentId()});
-                AppLog.log("deleteRecord ", "" + row);
+                long row = mDB.delete(TABLE_NAME, COL_MENU_CODE + "=? ", new String[]{holder.getMenu_code()});
+                AppLog.log("deleteRecord from TableMenuDetailsDataModel ", "" + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
@@ -140,14 +139,17 @@ public class TableMenuDetails {
     }
 
 
-    public ArrayList<DashboardCellDataHolder> getNotificationCellData(String parentId, String studentId) {
+    public ArrayList<DashboardCellDataHolder> getHomeFragmentData(String parentId, String studentId) {
         ArrayList<DashboardCellDataHolder> list = new ArrayList<DashboardCellDataHolder>();
         try {
-            AppLog.log("getNotificationCellData++++++","");
             if (mDB != null) {
-//                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + COL_PARENT_ID + "='" + parentId
-//                        + "' AND " + COL_STUDENT_ID + "='" + studentId+"'";
-                String selectQuery = "Select * from "+TABLE_NAME+" join "+TableMenuMaster.TABLE_NAME+" on "+TABLE_NAME+"."+COL_MENU_CODE+"="+TableMenuMaster.TABLE_NAME+"."+TableMenuMaster.COL_MENUCODE;
+                String selectQuery = "Select * from " + TABLE_NAME
+                        + " join " + TableMenuMaster.TABLE_NAME + " , " + TableStudentDetails.TABLE_NAME + " , " + TableUniversityMaster.TABLE_NAME
+                        + " on " + TABLE_NAME + "." + COL_MENU_CODE + "=" + TableMenuMaster.TABLE_NAME + "." + TableMenuMaster.COL_MENUCODE
+                        + " and " + TABLE_NAME + "." + COL_STUDENT_ID + "=" + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_STUDENT_ID
+                        + " and " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID+ "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
+                        + " where " + TABLE_NAME + "." + COL_PARENT_ID + "='" + parentId
+                        + "' and " + TABLE_NAME + "." + COL_STUDENT_ID + "='" + studentId + "'";
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
@@ -155,15 +157,18 @@ public class TableMenuDetails {
                         DashboardCellDataHolder model = new DashboardCellDataHolder();
                         model.setColor(R.color.colorLightYellow);
                         model.setImage(R.drawable.noticeboard);
+                        model.setUniversity_id(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_ID)));
+                        model.setUniversity_image_url(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_URL)));
+                        model.setUniversity_name(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_NAME)));
                         model.setNotification(cursor.getString(cursor.getColumnIndex(COL_ALERT_COUNT)));
                         model.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENT_ID)));
                         model.setMenu_code(cursor.getString(cursor.getColumnIndex(COL_MENU_CODE)));
                         model.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENT_ID)));
                         model.setText(cursor.getString(cursor.getColumnIndex(TableMenuMaster.COL_MENU_DESCRIPTION)));
-                        AppLog.log("getNotificationCellData parentId",parentId);
-                        AppLog.log("getNotificationCellData studentId ",studentId);
-                        AppLog.log("getNotificationCellData",model.getText());
-                        AppLog.log("getNotificationCellData",model.getMenu_code());
+                        AppLog.log("getHomeFragmentData parentId", parentId);
+                        AppLog.log("getHomeFragmentData studentId ", studentId);
+                        AppLog.log("getHomeFragmentData getUniversity_id", model.getUniversity_id());
+                        AppLog.log("getHomeFragmentData getUniversity_name ", model.getUniversity_name());
                         list.add(model);
                     } while (cursor.moveToNext());
                 }
@@ -172,7 +177,7 @@ public class TableMenuDetails {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog("getNotificationCellData", e.getMessage());
+            AppLog.errLog("getHomeFragmentData", e.getMessage());
         } finally {
             return list;
         }

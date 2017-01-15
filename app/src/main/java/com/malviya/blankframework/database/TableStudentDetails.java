@@ -6,8 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.TableParentMasterDataModel;
+import com.malviya.blankframework.models.DashboardCellDataHolder;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
@@ -20,13 +21,13 @@ public class TableStudentDetails {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
     public static final String TAG = "TableStudentDetails";
-    private static final String TABLE_NAME = "table_student_details";
-    private static final String COL_COURSE = "course";
-    private static final String COL_GENDER = "gender";
-    private static final String COL_IMAGEURL = "imageurl";
-    private static final String COL_STUDENT_ID = "student_id";
-    private static final String COL_STUDENT_NAME = "student_name";
-    private static final String COL_UNIVERSITY_ID = "university_id";
+    public static final String TABLE_NAME = "table_student_details";
+    public static final String COL_COURSE = "course";
+    public static final String COL_GENDER = "gender";
+    public static final String COL_IMAGEURL = "imageurl";
+    public static final String COL_STUDENT_ID = "student_id";
+    public static final String COL_STUDENT_NAME = "student_name";
+    public static final String COL_UNIVERSITY_ID = "university_id";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -110,7 +111,7 @@ public class TableStudentDetails {
 
     public boolean isExists(TableStudentDetailsDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_STUDENT_ID + " = '" + model.getStudent_id()+"'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_STUDENT_ID + " = '" + model.getStudent_id() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -141,5 +142,37 @@ public class TableStudentDetails {
     }
 
 
+    public ArrayList<TableStudentDetailsDataModel> getStudentInfo(String studentId) {
+        ArrayList<TableStudentDetailsDataModel> list = new ArrayList<TableStudentDetailsDataModel>();
+        try {
+            AppLog.log("getStudentInfo++++++", "");
+            if (mDB != null) {
+                String selectQuery = "Select * from " + TABLE_NAME
+                        + " WHERE " + COL_STUDENT_ID + "='" + studentId
+                        + "'";
+                Cursor cursor = mDB.rawQuery(selectQuery, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        // get the data into array, or class variable
+                        TableStudentDetailsDataModel model = new TableStudentDetailsDataModel();
+                        model.setGender(cursor.getString(cursor.getColumnIndex(COL_GENDER)));
+                        model.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENT_ID)));
+                        model.setCourse(cursor.getString(cursor.getColumnIndex(COL_COURSE)));
+                        model.setImageurl(cursor.getString(cursor.getColumnIndex(COL_IMAGEURL)));
+                        model.setStudent_name(cursor.getString(cursor.getColumnIndex(COL_STUDENT_NAME)));
+                        model.setUniversity_id(cursor.getString(cursor.getColumnIndex(COL_UNIVERSITY_ID)));
+                        list.add(model);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getStudentInfo", e.getMessage());
+        } finally {
+            return list;
+        }
 
+    }
 }
