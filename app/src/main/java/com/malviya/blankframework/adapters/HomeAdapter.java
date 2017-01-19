@@ -19,12 +19,12 @@ import java.util.ArrayList;
  * Created by Admin on 11-12-2016.
  */
 
-public class DashboardCellAdapter extends BaseAdapter {
+public class HomeAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final ArrayList<DashboardCellDataHolder> mCellList;
 
-    public DashboardCellAdapter(Context pContext, ArrayList<DashboardCellDataHolder> pCellList) {
+    public HomeAdapter(Context pContext, ArrayList<DashboardCellDataHolder> pCellList) {
         mContext = pContext;
         mCellList = pCellList;
     }
@@ -59,7 +59,7 @@ public class DashboardCellAdapter extends BaseAdapter {
         holder.setImage(mCellList.get(position).getImage());
         holder.setTextView(mCellList.get(position).getText());
         holder.setNotificationCounter(mCellList.get(position).getNotification());
-        //holder.setColor(mCellList.get(position).getColor());
+        holder.cellBgLayout.setBackgroundResource(mCellList.get(position).getColor());
         return holder.getView();
     }
 
@@ -70,6 +70,7 @@ public class DashboardCellAdapter extends BaseAdapter {
         private TextView textView;
         private TextView notificationCounter;
         private RelativeLayout cellLayout;
+        public RelativeLayout cellBgLayout;
 
         public ViewHolder(View view) {
             this.view = view;
@@ -77,7 +78,7 @@ public class DashboardCellAdapter extends BaseAdapter {
             textView = (TextView) view.findViewById(R.id.textview_dashboard_cell_name);
             notificationCounter = (TextView) view.findViewById(R.id.textview_dashboard_notifcation_count);
             cellLayout = (RelativeLayout) view.findViewById(R.id.rel_cell_holder);
-
+            cellBgLayout = (RelativeLayout)view.findViewById(R.id.rel_dashboard_cell_bg_holder);
 
         }
 

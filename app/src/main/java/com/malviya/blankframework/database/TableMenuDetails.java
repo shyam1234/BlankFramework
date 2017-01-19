@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.fragments.HomeFragment;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
 import com.malviya.blankframework.models.TableMenuDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
@@ -40,6 +41,7 @@ public class TableMenuDetails {
             + COL_STUDENT_ID + " varchar(255), "
             //For Foreign key
             + " FOREIGN KEY (" + COL_MENU_CODE + ") REFERENCES " + TableMenuMaster.TABLE_NAME + "(" + TableMenuMaster.COL_MENUCODE + "));";
+
 
     public void openDB(Context pContext) {
         DatabaseHelper helper = DatabaseHelper.getInstance(pContext);
@@ -107,8 +109,9 @@ public class TableMenuDetails {
 
     public boolean isExists(TableMenuDetailsDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENU_CODE + " = '" + model.getMenu_code()
-                    + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENU_CODE + " = '" + model.getMenu_code()+ "'"
+                    +" and "+ COL_PARENT_ID + " = '" + model.getParent_id()+ "'"
+                    +" and "+ COL_STUDENT_ID + " = '" + model.getStudentId()+ "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -126,7 +129,8 @@ public class TableMenuDetails {
     public boolean deleteRecord(TableMenuDetailsDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_MENU_CODE + "=? ", new String[]{holder.getMenu_code()});
+                long row = mDB.delete(TABLE_NAME, COL_MENU_CODE + "=? and "+COL_PARENT_ID + "=? " +
+                        "and "+ COL_STUDENT_ID + "=?", new String[]{holder.getMenu_code(),holder.getParent_id(),holder.getStudentId()});
                 AppLog.log("deleteRecord from TableMenuDetailsDataModel ", "" + row);
                 return true;
             } else {
@@ -138,7 +142,7 @@ public class TableMenuDetails {
         return false;
     }
 
-
+    private int position;
     public ArrayList<DashboardCellDataHolder> getHomeFragmentData(String parentId, String studentId) {
         ArrayList<DashboardCellDataHolder> list = new ArrayList<DashboardCellDataHolder>();
         try {
@@ -147,16 +151,18 @@ public class TableMenuDetails {
                         + " join " + TableMenuMaster.TABLE_NAME + " , " + TableStudentDetails.TABLE_NAME + " , " + TableUniversityMaster.TABLE_NAME
                         + " on " + TABLE_NAME + "." + COL_MENU_CODE + "=" + TableMenuMaster.TABLE_NAME + "." + TableMenuMaster.COL_MENUCODE
                         + " and " + TABLE_NAME + "." + COL_STUDENT_ID + "=" + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_STUDENT_ID
-                        + " and " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID+ "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
+                        + " and " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID + "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
                         + " where " + TABLE_NAME + "." + COL_PARENT_ID + "='" + parentId
                         + "' and " + TABLE_NAME + "." + COL_STUDENT_ID + "='" + studentId + "'";
+                AppLog.log("getHomeFragmentData ++++selectQuery++++++++++++++++",selectQuery);
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
+                position = 0 ;
                 if (cursor.moveToFirst()) {
                     do {
                         // get the data into array, or class variable
                         DashboardCellDataHolder model = new DashboardCellDataHolder();
-                        model.setColor(R.color.colorLightYellow);
-                        model.setImage(R.drawable.noticeboard);
+                        model.setColor(HomeFragment.mMenuColor[position]);
+                        model.setImage(HomeFragment.mMenuImage[position]);
                         model.setUniversity_id(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_ID)));
                         model.setUniversity_image_url(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_URL)));
                         model.setUniversity_name(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_NAME)));
@@ -167,9 +173,12 @@ public class TableMenuDetails {
                         model.setText(cursor.getString(cursor.getColumnIndex(TableMenuMaster.COL_MENU_DESCRIPTION)));
                         AppLog.log("getHomeFragmentData parentId", parentId);
                         AppLog.log("getHomeFragmentData studentId ", studentId);
+                        AppLog.log("getHomeFragmentData getMenu_code ", model.getMenu_code());
                         AppLog.log("getHomeFragmentData getUniversity_id", model.getUniversity_id());
                         AppLog.log("getHomeFragmentData getUniversity_name ", model.getUniversity_name());
+                        AppLog.log("getHomeFragmentData ++++++++++++++++++++","");
                         list.add(model);
+                        position++;
                     } while (cursor.moveToNext());
                 }
                 cursor.close();

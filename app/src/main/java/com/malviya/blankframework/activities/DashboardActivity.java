@@ -9,10 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.adapters.MyPagerAdapter;
+import com.malviya.blankframework.adapters.DashboardAdapter;
 import com.malviya.blankframework.fragments.HomeFragment;
 import com.malviya.blankframework.utils.AppLog;
-import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -26,7 +25,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     //private FrameLayout mContainer;
     private BottomBar mBottomBar;
     private ViewPager mViewPage;
-    private MyPagerAdapter mAdapterViewPager;
+    private DashboardAdapter mAdapterViewPager;
     private ImageView mImgProfile;
     private TextView mTextViewTitle;
 
@@ -42,7 +41,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     }
 
     private void init() {
-        mAdapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        mAdapterViewPager = new DashboardAdapter(getSupportFragmentManager());
     }
 
 

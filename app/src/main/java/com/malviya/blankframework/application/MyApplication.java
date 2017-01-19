@@ -45,12 +45,11 @@ public class MyApplication extends Application {
         initMenuMasterArrayList();
         initParentMaster();
         initStudentMaster();
-        initTableMenuDetailsDataModel();
+        initMenuDetails();
         initUnivercityMaster();
         initParentStudent();
-        //createDatabase();
+       // createDatabase();
     }
-
 
     public static synchronized MyApplication getInstance() {
         return mInstance;
@@ -125,7 +124,7 @@ public class MyApplication extends Application {
         holder.setUniversity_name("RTM");
         holder.setUniversity_url("http://results.rtmnuresults.org/");
         tableUniList.add(holder);
-        holder =  new TableUniversityMasterDataModel();
+        holder = new TableUniversityMasterDataModel();
         holder.setUniversity_id("univercity2");
         holder.setUniversity_name("swami vivekanand university");
         holder.setUniversity_url("https://www.svnuniversity.co.in/mainsite/home.aspx");
@@ -133,7 +132,7 @@ public class MyApplication extends Application {
     }
 
 
-    private void initTableMenuDetailsDataModel() {
+    private void initMenuDetails() {
         TableMenuDetailsDataModel holder = new TableMenuDetailsDataModel();
         holder.setStudentId("student1");
         holder.setAlert_count("33");
@@ -262,39 +261,39 @@ public class MyApplication extends Application {
     private void initMenuMasterArrayList() {
         TableMenuMasterDataModel holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU1");
-        holder.setMenu_description("MENU Description1");
+        holder.setMenu_description("Notice Board");
         tableMenuMasterList.add(holder);
         holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU2");
-        holder.setMenu_description("MENU Description2");
+        holder.setMenu_description("Attendance");
         tableMenuMasterList.add(holder);
         holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU3");
-        holder.setMenu_description("MENU Description3");
+        holder.setMenu_description("Homework");
         tableMenuMasterList.add(holder);
         holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU4");
-        holder.setMenu_description("MENU Description4");
+        holder.setMenu_description("Diary");
         tableMenuMasterList.add(holder);
         holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU5");
-        holder.setMenu_description("MENU Description5");
+        holder.setMenu_description("Messages");
         tableMenuMasterList.add(holder);
         holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU6");
-        holder.setMenu_description("MENU Description6");
+        holder.setMenu_description("Events");
         tableMenuMasterList.add(holder);
         holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU7");
-        holder.setMenu_description("MENU Description7");
+        holder.setMenu_description("Gallery");
         tableMenuMasterList.add(holder);
         holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU8");
-        holder.setMenu_description("MENU Description8");
+        holder.setMenu_description("Feedback");
         tableMenuMasterList.add(holder);
         holder = new TableMenuMasterDataModel();
         holder.setMenucode("MENU9");
-        holder.setMenu_description("MENU Description9");
+        holder.setMenu_description("Fee");
         tableMenuMasterList.add(holder);
     }
 

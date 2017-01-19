@@ -13,9 +13,9 @@ import com.malviya.blankframework.fragments.OptionsFragment;
  * Created by Admin on 24-12-2016.
  */
 
-public class MyPagerAdapter extends FragmentPagerAdapter {
+public class DashboardAdapter extends FragmentPagerAdapter {
 
-    public MyPagerAdapter(FragmentManager supportFragmentManager) {
+    public DashboardAdapter(FragmentManager supportFragmentManager) {
         super(supportFragmentManager);
     }
 

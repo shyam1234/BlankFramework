@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.adapters.DashboardCellAdapter;
+import com.malviya.blankframework.adapters.HomeAdapter;
 import com.malviya.blankframework.constant.Contant;
 import com.malviya.blankframework.database.TableMenuDetails;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
@@ -29,8 +29,15 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFramgent";
+    public static int[] mMenuColor = new int[]{R.color.colorGreen, R.color.colorDarkYellow, R.color.colorLightVallet,
+            R.color.colorSkyBlue, R.color.colorDarkPink, R.color.colorDarkblue,
+            R.color.colorLightParrot, R.color.colorDarkVal, R.color.colorLightOran};
+    public static int[] mMenuImage = new int[]{R.drawable.noticeboard, R.drawable.attendance, R.drawable.homework,
+            R.drawable.diary, R.drawable.messages, R.drawable.events,
+            R.drawable.gallery,R.drawable.feedback, R.drawable.fee};
+
     private GridView mGridViewCell;
-    private DashboardCellAdapter mAdapter;
+    private HomeAdapter mAdapter;
     private ArrayList<DashboardCellDataHolder> mCellList;
     private ArrayList<TableStudentDetailsDataModel> mUniver;
     private ImageView mImageViewUnivercityLogo;
@@ -55,9 +62,9 @@ public class HomeFragment extends Fragment {
 
 
     private void fetchDataFromWS() {
-        UserInfo.userId = "parent2";
+        UserInfo.userId = "parent1";
         UserInfo.userName = "Prafulla";
-        UserInfo.studentId = "student2";
+        UserInfo.studentId = "student1";
         //need to fetch data from DB WRT to above parameters
         //----------------------------------------------------------
         TableMenuDetails table = new TableMenuDetails();
@@ -84,7 +91,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void initView() {
-        mAdapter = new DashboardCellAdapter(getContext(), mCellList);
+        mAdapter = new HomeAdapter(getContext(), mCellList);
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
         mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
