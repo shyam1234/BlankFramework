@@ -19,10 +19,10 @@ public class TableParentStudentRelation {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
     public static final String TAG = "TableParentStudentRelation";
-    private static final String TABLE_NAME = "table_parent_student_rel";
-    private static final String COL_IS_DEFAULT = "is_default";
-    private static final String COL_PARENTID = "parent_id";
-    private static final String COL_STUDENTID = "studentid";
+    public static final String TABLE_NAME = "table_parent_student_rel";
+    public static final String COL_IS_DEFAULT = "is_default";
+    public static final String COL_PARENTID = "parent_id";
+    public static final String COL_STUDENTID = "studentid";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;

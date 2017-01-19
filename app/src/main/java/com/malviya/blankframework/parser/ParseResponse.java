@@ -33,11 +33,11 @@ public class ParseResponse {
      */
     private void doParse() {
         switch (mKey) {
-            case LoginDataHolder.KEY:
+            case ModelFactory.MODEL_LOGIN:
                 mModel = mGson.fromJson(mRespose, LoginDataHolder.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
-            case LanguageArrayDataModel.KEY:
+            case ModelFactory.MODEL_LANG:
                 mModel = mGson.fromJson(mRespose, LanguageArrayDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;

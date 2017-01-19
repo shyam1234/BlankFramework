@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * Created by Admin on 31-12-2016.
  */
 public class LanguageArrayDataModel extends IModel {
-    public final static String KEY="LanguageArrayDataModel";
+
 
     /*{
       "Data": {},

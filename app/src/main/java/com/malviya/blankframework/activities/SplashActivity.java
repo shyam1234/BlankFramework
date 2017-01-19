@@ -13,6 +13,7 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableLanguage;
 import com.malviya.blankframework.models.LanguageArrayDataModel;
+import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
@@ -74,7 +75,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //--parsing logic------------------------------------------------------------------
-                ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, LanguageArrayDataModel.KEY);
+                ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, ModelFactory.MODEL_LANG);
                 storeIntoDB(obj);
                 //--parsing logic------------------------------------------------------------------
             }

@@ -13,10 +13,12 @@ import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.LoginDataHolder;
+import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.HashMap;
@@ -98,7 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(String response) {
                     //--parsing logic------------------------------------------------------------------
-                    ParseResponse obj = new ParseResponse(response, LoginDataHolder.class, LoginDataHolder.KEY);
+                    ParseResponse obj = new ParseResponse(response, LoginDataHolder.class, ModelFactory.MODEL_LOGIN);
                     AppLog.log(TAG, "getPhoneNumber: " + ((LoginDataHolder) obj.getModel()).data.PhoneNumber);
                     obj = null;
 //                    try {
@@ -107,6 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                        AppLog.errLog(TAG,"Exception from "+e.getMessage());
 //                    }
                     //--------------------------------------------------------------------
+                    UserInfo.parentId = "parent1";
                     mButtonLogin.setText(getResources().getString(R.string.success));
                     mButtonLogin.setEnabled(false);
                     navigateToNextPage();

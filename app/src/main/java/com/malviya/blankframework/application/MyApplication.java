@@ -48,7 +48,7 @@ public class MyApplication extends Application {
         initMenuDetails();
         initUnivercityMaster();
         initParentStudent();
-       // createDatabase();
+        createDatabase();
     }
 
     public static synchronized MyApplication getInstance() {
@@ -110,6 +110,12 @@ public class MyApplication extends Application {
         holder.setParentId("parent1");
         holder.setStudentid("student1");
         tableParentStudentList.add(holder);
+        holder = new TableParentStudentRelationDataModel();
+        holder.setIsDefault("student1");
+        holder.setParentId("parent1");
+        holder.setStudentid("student3");
+        tableParentStudentList.add(holder);
+
         holder = new TableParentStudentRelationDataModel();
         holder.setIsDefault("student2");
         holder.setParentId("parent2");
@@ -240,19 +246,28 @@ public class MyApplication extends Application {
     private void initStudentMaster() {
         TableStudentDetailsDataModel holder = new TableStudentDetailsDataModel();
         holder.setCourse("math");
-        holder.setImageurl("");
+        holder.setImageurl("http://whatsappdp.net/wp-content/uploads/2016/03/funny-profile-pictures.jpg");
         holder.setGender("male");
         holder.setStudentId("student1");
-        holder.setStudent_name("Prafulla's child");
+        holder.setStudent_name("David");
+        holder.setUniversity_id("univercity1");
+        tableStudentList.add(holder);
+
+        holder = new TableStudentDetailsDataModel();
+        holder.setCourse("english");
+        holder.setImageurl("https://cdn2.iconfinder.com/data/icons/professions/512/student_graduate_boy_profile-512.png");
+        holder.setGender("female");
+        holder.setStudentId("student3");
+        holder.setStudent_name("Juli");
         holder.setUniversity_id("univercity1");
         tableStudentList.add(holder);
 
         holder = new TableStudentDetailsDataModel();
         holder.setCourse("science");
-        holder.setImageurl("");
+        holder.setImageurl("https://cdn2.iconfinder.com/data/icons/professions/512/student_graduate_boy_profile-512.png");
         holder.setGender("female");
         holder.setStudentId("student2");
-        holder.setStudent_name("Prafulla's child");
+        holder.setStudent_name("Shyli");
         holder.setUniversity_id("univercity2");
         tableStudentList.add(holder);
     }

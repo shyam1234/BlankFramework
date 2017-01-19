@@ -6,10 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.models.WardChildDataHolder;
+import com.malviya.blankframework.activities.TestImageLoad;
+import com.malviya.blankframework.models.TableStudentDetailsDataModel;
+import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -20,12 +24,14 @@ import java.util.ArrayList;
 public class WardChildRowAdapter extends RecyclerView.Adapter<WardChildRowAdapter.MyViewHolder> {
 
     private final Context mContext;
-    private ArrayList<WardChildDataHolder> mListHolder;
+    private final View.OnClickListener mListener;
+    private ArrayList<TableStudentDetailsDataModel> mListHolder;
 
 
-    public WardChildRowAdapter(Context context, ArrayList<WardChildDataHolder> pListChildInfoHolder) {
+    public WardChildRowAdapter(Context context, ArrayList<TableStudentDetailsDataModel> pListChildInfoHolder, View.OnClickListener pListener) {
         mContext = context;
         mListHolder = pListChildInfoHolder;
+        mListener = pListener;
     }
 
     @Override
@@ -37,27 +43,35 @@ public class WardChildRowAdapter extends RecyclerView.Adapter<WardChildRowAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
+        holder.mTextViewName.setText(mListHolder.get(position).getStudent_name());
+        holder.mTextViewAddress.setText(mListHolder.get(position).getCourse());
+        RenderImageByPicasso.setCircleImageByPicasso(mContext,mListHolder.get(position).getImageurl(), holder.mImageViewChildIcon);
+        holder.mRelHolder.setOnClickListener(mListener);
+        holder.mRelHolder.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        return 4;//mListHolder.size();
+        return mListHolder.size();
     }
 
 
     //create own view holder to club all the UI requirement
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        private ImageView mImageViewChildIcon;
-        private TextView mTextViewName;
-        private TextView mTextViewAddress;
+        private final RelativeLayout mRelHolder;
+        private final ImageView mImageViewChildIcon;
+        private final TextView mTextViewName;
+        private final TextView mTextViewAddress;
 
         public MyViewHolder(View v) {
             super(v);
             mImageViewChildIcon = (ImageView) v.findViewById(R.id.imageview_ward_row_icon);
             mTextViewName = (TextView) v.findViewById(R.id.textview_ward_row_name);
             mTextViewAddress = (TextView) v.findViewById(R.id.textview_ward_row_address);
+            mRelHolder = (RelativeLayout) v.findViewById(R.id.rel_ward_row_holder);
+
         }
     }
 
 }
+

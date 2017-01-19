@@ -62,14 +62,14 @@ public class HomeFragment extends Fragment {
 
 
     private void fetchDataFromWS() {
-        UserInfo.userId = "parent1";
-        UserInfo.userName = "Prafulla";
+        UserInfo.parentId = "parent1";
+        UserInfo.parentName = "Prafulla";
         UserInfo.studentId = "student1";
         //need to fetch data from DB WRT to above parameters
         //----------------------------------------------------------
         TableMenuDetails table = new TableMenuDetails();
         table.openDB(getContext());
-        mCellList = table.getHomeFragmentData(UserInfo.userId, UserInfo.studentId);
+        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
         table.closeDB();
 
     }

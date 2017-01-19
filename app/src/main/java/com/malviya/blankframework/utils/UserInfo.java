@@ -5,8 +5,8 @@ package com.malviya.blankframework.utils;
  */
 
 public class UserInfo {
-    public static String userId ;
-    public static String userName ;
+    public static String parentId;
+    public static String parentName;
     public static String studentId ;
     public static String univercityId ;
 }

@@ -8,7 +8,7 @@ import com.malviya.blankframework.interfaces.IModel;
  */
 
 public class LoginDataHolder extends IModel {
-    public final static String KEY = "LoginDataHolder";
+
     @SerializedName("Data")
     public Data data ;
 
