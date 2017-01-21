@@ -107,7 +107,7 @@ public class TableParentMaster {
 
     public boolean isExists(TableParentMasterDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentid()+"'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentid() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -125,7 +125,7 @@ public class TableParentMaster {
     public boolean deleteRecord(TableParentMasterDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=?", new String[]{holder.getParentid()});
+                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=?", new String[]{"" + holder.getParentid()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {

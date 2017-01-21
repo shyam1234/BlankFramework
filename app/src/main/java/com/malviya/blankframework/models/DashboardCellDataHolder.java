@@ -7,15 +7,15 @@ package com.malviya.blankframework.models;
 public class DashboardCellDataHolder {
     private int image;
     private String text;
-    private String alert_count;
+    private int alert_count;
     private String date_updated;
     private String menu_code;
-    private String parent_id;
-    private String student_id;
-    private String university_id;
+    private int parent_id;
+    private int student_id;
+    private int university_id;
     private String university_name;
     private int color;
-    private String isActive;
+    private int isActive;
 
     public int getImage() {
         return image;
@@ -33,11 +33,11 @@ public class DashboardCellDataHolder {
         this.text = text;
     }
 
-    public String getNotification() {
+    public int getNotification() {
         return alert_count;
     }
 
-    public void setNotification(String notification) {
+    public void setNotification(int notification) {
         this.alert_count = notification;
     }
 
@@ -65,27 +65,27 @@ public class DashboardCellDataHolder {
         this.menu_code = menu_code;
     }
 
-    public String getParent_id() {
+    public int getParent_id() {
         return parent_id;
     }
 
-    public void setParentId(String parent_id) {
+    public void setParentId(int parent_id) {
         this.parent_id = parent_id;
     }
 
-    public String getStudent_id() {
+    public int getStudent_id() {
         return student_id;
     }
 
-    public void setStudentId(String student_id) {
+    public void setStudentId(int student_id) {
         this.student_id = student_id;
     }
 
-    public String getUniversity_id() {
+    public int getUniversity_id() {
         return university_id;
     }
 
-    public void setUniversity_id(String university_id) {
+    public void setUniversity_id(int university_id) {
         this.university_id = university_id;
     }
 
@@ -97,7 +97,7 @@ public class DashboardCellDataHolder {
         this.university_name = university_name;
     }
 
-    public void setIsActive(String isActive) {
+    public void setIsActive(int isActive) {
         this.isActive = isActive;
     }
 }

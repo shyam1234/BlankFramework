@@ -13,15 +13,27 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
-import com.malviya.blankframework.models.LoginDataHolder;
+import com.malviya.blankframework.database.TableParentMaster;
+import com.malviya.blankframework.database.TableParentStudentAssociation;
+import com.malviya.blankframework.database.TableParentStudentMenuDetails;
+import com.malviya.blankframework.database.TableStudentDetails;
+import com.malviya.blankframework.database.TableUniversityMaster;
+import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.TableParentMasterDataModel;
+import com.malviya.blankframework.models.TableParentStudentAssociationDataModel;
+import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
+import com.malviya.blankframework.models.TableStudentDetailsDataModel;
+import com.malviya.blankframework.models.TableUniversityMasterDataModel;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.SharePreferenceApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,35 +109,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_AUTHORIZATION, "Basic " + Utils.encodeToString(mEditTextUserName.getText().toString() + ":" + mEditTextPassword.getText().toString()));
+            header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharePreferenceApp.getInstance().languageLastUpdateTime);
+            header.put(WSContant.TAG_ISMOBILE, "true");
+            header.put(WSContant.TAG_DATELASTRETRIEVED, SharePreferenceApp.getInstance().getSavedTime());
+
             WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_LOGIN, header, null, WSContant.TAG_LOGIN, new IWSRequest() {
                 @Override
                 public void onResponse(String response) {
                     //--parsing logic------------------------------------------------------------------
-                    ParseResponse obj = new ParseResponse(response, LoginDataHolder.class, ModelFactory.MODEL_LOGIN);
-                    LoginDataHolder holder = ((LoginDataHolder) obj.getModel());
+                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_LOGIN);
+                    LoginDataModel holder = ((LoginDataModel) obj.getModel());
                     if (holder.data.Status) {
                         AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
-//                    try {
-//                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataHolder) ModelFactory.getInstance().getModel(LoginDataHolder.KEY)).data.PhoneNumber);
-//                    } catch (ModelException e) {
-//                        AppLog.errLog(TAG,"Exception from "+e.getMessage());
-//                    }
-                        //--------------------------------------------------------------------
                         AppLog.log(TAG, "parentId: " + holder.data.UserId);
                         AppLog.log(TAG, "parentName: " + holder.data.UserName);
-                        for (LoginDataHolder.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
-                            AppLog.log(TAG, "parentName: " + parentStudentAsso.IsDefault);
-                            if (parentStudentAsso.IsDefault) {
-                                AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
-                                UserInfo.studentId = "" + parentStudentAsso.StudentId;
-                            }
-                        }
                         UserInfo.parentId = "" + holder.data.UserId;
                         UserInfo.parentName = holder.data.UserName;
+                        //-------------------------------------------------------------------
+                        bindDataWithTableParentStudentAssociationDataModel(holder);
+                        bindDataWithStudentDetailsDataModel(holder);
+                        bindDataWithParentDetailsDataModel(holder);
+                        bindDataWithUniversityDataModel(holder);
+                        bindDataWithParentStudentMenuDetailsDataModel(holder);
                         //--------------------------------------------------------------------
                         mButtonLogin.setText(getResources().getString(R.string.success));
                         mButtonLogin.setEnabled(false);
                         navigateToNextPage();
+                        SharePreferenceApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
                     } else {
                         Toast.makeText(LoginActivity.this, R.string.msg_invalide_credential, Toast.LENGTH_SHORT).show();
                     }
@@ -140,6 +150,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         }
     }
+
 
     private void navigateToNextPage() {
         Intent i = new Intent(LoginActivity.this, DashboardActivity.class);
@@ -159,4 +170,129 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         finish();
         Utils.animLeftToRight(LoginActivity.this);
     }
+
+    private void bindDataWithTableParentStudentAssociationDataModel(LoginDataModel holder) {
+        try {
+            ArrayList<TableParentStudentAssociationDataModel> tableParentStudentList = new ArrayList<TableParentStudentAssociationDataModel>();
+            for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
+                //-- assign value to model
+                TableParentStudentAssociationDataModel obj = new TableParentStudentAssociationDataModel();
+                obj.setStudentid(parentStudentAsso.StudentId);
+                obj.setParentId(parentStudentAsso.ParentId);
+                obj.setIsDefault(parentStudentAsso.IsDefault);
+                tableParentStudentList.add(obj);
+                if (parentStudentAsso.IsDefault) {
+                    AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
+                    UserInfo.studentId = "" + parentStudentAsso.StudentId;
+                }
+            }
+            //saving into database
+            TableParentStudentAssociation table = new TableParentStudentAssociation();
+            table.openDB(getApplicationContext());
+            table.insert(tableParentStudentList);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog("LoginActivity bindDataWithTableParentStudentAssociationDataModel", e.getMessage());
+        }
+    }
+
+
+    private void bindDataWithStudentDetailsDataModel(LoginDataModel holder) {
+        try {
+            ArrayList<TableStudentDetailsDataModel> list = new ArrayList<TableStudentDetailsDataModel>();
+            for (LoginDataModel.StudentProfiles model : holder.studentProfilesArrayList) {
+                //-- assign value to model
+                TableStudentDetailsDataModel obj = new TableStudentDetailsDataModel();
+                obj.setUniversity_id(model.UniversityId);
+                obj.setFullName(model.FullName);
+                obj.setImageurl(model.ImageURL);
+                obj.setCourseCode(model.CourseCode);
+                obj.setGender(model.Gender);
+                obj.setDateOfBirth(model.DateOfBirth);
+                obj.setStudentNumber(model.StudentNumber);
+                list.add(obj);
+            }
+            //saving into database
+            TableStudentDetails table = new TableStudentDetails();
+            table.openDB(getApplicationContext());
+            table.insert(list);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog("LoginActivity bindDataWithStudentDetailsDataModel", e.getMessage());
+        }
+    }
+
+
+    private void bindDataWithParentDetailsDataModel(LoginDataModel holder) {
+        try {
+            ArrayList<TableParentMasterDataModel> list = new ArrayList<TableParentMasterDataModel>();
+            for (LoginDataModel.ParentProfile model : holder.parentProfileArrayList) {
+                //-- assign value to model
+                TableParentMasterDataModel obj = new TableParentMasterDataModel();
+                obj.setParent_name(model.ParentName);
+                obj.setPhone_number(model.PhoneNumber);
+                obj.setImageurl(model.ImageURL);
+                obj.setParentid(model.ParentId);
+                obj.setEmailid(model.EmailAddress);
+                list.add(obj);
+            }
+            //saving into database
+            TableParentMaster table = new TableParentMaster();
+            table.openDB(getApplicationContext());
+            table.insert(list);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog("LoginActivity bindDataWithParentDetailsDataModel", e.getMessage());
+        }
+    }
+
+
+    private void bindDataWithUniversityDataModel(LoginDataModel holder) {
+        try {
+            ArrayList<TableUniversityMasterDataModel> list = new ArrayList<TableUniversityMasterDataModel>();
+            for (LoginDataModel.University model : holder.universityArrayList) {
+                //-- assign value to model
+                TableUniversityMasterDataModel obj = new TableUniversityMasterDataModel();
+                obj.setUniversity_id(model.UniversityId);
+                obj.setUniversity_url(model.UniversityURL);
+                obj.setUniversity_name(model.UniversityName);
+                obj.setUniversity_code(model.UniversityCode);
+                obj.setUniversity_logo_path(model.UniversityLogoPath);
+                list.add(obj);
+            }
+            //saving into database
+            TableUniversityMaster table = new TableUniversityMaster();
+            table.openDB(getApplicationContext());
+            table.insert(list);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog("LoginActivity bindDataWithUniversityDataModel", e.getMessage());
+        }
+    }
+
+
+    private void bindDataWithParentStudentMenuDetailsDataModel(LoginDataModel holder) {
+        try {
+            ArrayList<TableParentStudentMenuDetailsDataModel> list = new ArrayList<TableParentStudentMenuDetailsDataModel>();
+            for (LoginDataModel.ParentStudentMenuDetails model : holder.parentStudentMenuDetailsArrayList) {
+                //-- assign value to model
+                TableParentStudentMenuDetailsDataModel obj = new TableParentStudentMenuDetailsDataModel();
+                obj.setAlert_count(model.ColumnCount);
+                obj.setIsActive(model.IsActive);
+                obj.setMenuCode(model.SubscriptionCode);
+                obj.setParentId(model.ParentId);
+                obj.setStudentId(model.StudentId);
+                obj.setUniversityId(model.UniversityId);
+                list.add(obj);
+            }
+            //saving into database
+            TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+            table.openDB(getApplicationContext());
+            table.insert(list);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog("LoginActivity bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
+        }
+    }
+
 }

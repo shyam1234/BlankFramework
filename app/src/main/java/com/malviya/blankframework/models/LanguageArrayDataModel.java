@@ -26,12 +26,13 @@ public class LanguageArrayDataModel extends IModel {
         }
        }*/
 
+    @SerializedName("LanguageArray")
     public ArrayList<LanguageDataModel> LanguageArray;
     public LanguageArrayDataModel() {
         LanguageArray = new ArrayList<LanguageDataModel>();
     }
 
-    public static class LanguageDataModel {
+    public class LanguageDataModel {
           /*{
           "UniversityId": 1,
           "ConversionId": 1,
@@ -42,16 +43,40 @@ public class LanguageArrayDataModel extends IModel {
         }*/
 
         @SerializedName("UniversityId")
-        public int UniversityId;
+        private int UniversityId;
         @SerializedName("ConversionId")
-        public int ConversionId;
+        private int ConversionId;
         @SerializedName("ConversionCode")
-        public String ConversionCode;
+        private String ConversionCode;
         @SerializedName("EnglishVersion")
-        public String EnglishVersion;
+        private String EnglishVersion;
         @SerializedName("BahasaVersion")
-        public String BahasaVersion;
+        private String BahasaVersion;
         @SerializedName("DateModified")
-        public String DateModified;
+        private String DateModified;
+
+        public int getUniversityId() {
+            return UniversityId;
+        }
+
+        public int getConversionId() {
+            return ConversionId;
+        }
+
+        public String getConversionCode() {
+            return ConversionCode;
+        }
+
+        public String getEnglishVersion() {
+            return EnglishVersion;
+        }
+
+        public String getBahasaVersion() {
+            return BahasaVersion;
+        }
+
+        public String getDateModified() {
+            return DateModified;
+        }
     }
 }

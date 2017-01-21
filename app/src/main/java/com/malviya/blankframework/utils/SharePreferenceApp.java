@@ -16,6 +16,8 @@ public class SharePreferenceApp {
     public String universityID = "1";
     public String languageLastUpdateTime = "";
     private String mCurrTime;
+    private String mLastLoginTime;
+    private String mLangRetrivTime;
 
     private SharePreferenceApp() {
         //read all store value
@@ -79,9 +81,6 @@ public class SharePreferenceApp {
     }
 
 
-
-
-
     //-----------------------------------------------------------
 
     public void saveTime(String currTime) {
@@ -122,5 +121,81 @@ public class SharePreferenceApp {
     }
 
     //-----------------------------------------------------------
+    public void saveLastLoginTime(String currTime) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putString(WSContant.TAG_LAST_LOGIN_TIME, currTime);
+            data.commit();
+            AppLog.log("sharePreferenceApp", "saveLastLoginTime: " + currTime);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp saveLastLoginTime", e.getMessage());
+        }
+    }
+
+    public String getLastLoginTime() {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                mLastLoginTime = sharePref.getString(WSContant.TAG_LAST_LOGIN_TIME, null);
+            } else {
+                AppLog.log("getLastLoginTime", "there is not savedTime ");
+            }
+            sharePref = null;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getLastLoginTime", e.getMessage());
+        } finally {
+            return mLastLoginTime;
+        }
+    }
+
+    public void removeLastLoginTime() {
+        try {
+            mLastLoginTime = null;
+            saveTime(mLastLoginTime);
+        } catch (Exception e) {
+            AppLog.errLog(" removeLastLoginTime", e.getMessage());
+        }
+    }
+
+
+    //-----------------------------------------------------------
+/*    public void saveLangRetriveTime(String currTime) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putString(WSContant.TAG_LANG_RETRIVE_TIME, currTime);
+            data.commit();
+            AppLog.log("sharePreferenceApp", "saveLangRetriveTime: " + currTime);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp saveLangRetriveTime", e.getMessage());
+        }
+    }
+
+    public String getLangRetriveTime() {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                mLangRetrivTime = sharePref.getString(WSContant.TAG_LANG_RETRIVE_TIME, null);
+            } else {
+                AppLog.log("getLangRetriveTime", "there is not savedTime ");
+            }
+            sharePref = null;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getLangRetriveTime", e.getMessage());
+        } finally {
+            return mLangRetrivTime;
+        }
+    }
+
+    public void removeLangRetriveTime() {
+        try {
+            mLangRetrivTime = null;
+            saveTime(mLangRetrivTime);
+        } catch (Exception e) {
+            AppLog.errLog(" removeLangRetriveTime", e.getMessage());
+        }
+    }*/
+//-----------------------------------------------------------------------------------
 
 }

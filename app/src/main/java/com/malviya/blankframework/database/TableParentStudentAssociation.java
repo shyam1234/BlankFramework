@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.TableParentStudentRelationDataModel;
+import com.malviya.blankframework.models.TableParentStudentAssociationDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 26-11-2016.
  */
-public class TableParentStudentRelation {
+public class TableParentStudentAssociation {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
-    public static final String TAG = "TableParentStudentRelation";
+    public static final String TAG = "TableParentStudentAssociation";
     public static final String TABLE_NAME = "table_parent_student_rel";
     public static final String COL_IS_DEFAULT = "is_default";
     public static final String COL_PARENTID = "parent_id";
@@ -30,8 +30,8 @@ public class TableParentStudentRelation {
 
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
             + COL_IS_DEFAULT + " varchar(255), "
-            + COL_PARENTID + " varchar(255), "
-            + COL_STUDENTID + " varchar(255) "
+            + COL_PARENTID + " integer, "
+            + COL_STUDENTID + " integer "
             + " ) ";
     //For Foreign key
     //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
@@ -75,10 +75,10 @@ public class TableParentStudentRelation {
 
 
     //-------------------------------------------------------------------------------
-    public void insert(ArrayList<TableParentStudentRelationDataModel> list) {
+    public void insert(ArrayList<TableParentStudentAssociationDataModel> list) {
         try {
             if (mDB != null) {
-                for (TableParentStudentRelationDataModel holder : list) {
+                for (TableParentStudentAssociationDataModel holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
@@ -97,7 +97,7 @@ public class TableParentStudentRelation {
     }
 
 
-    public boolean isExists(TableParentStudentRelationDataModel model) {
+    public boolean isExists(TableParentStudentAssociationDataModel model) {
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParent_id()
                     +"' AND "+ COL_STUDENTID + " = '" + model.getStudentid()+"'";
@@ -115,17 +115,17 @@ public class TableParentStudentRelation {
         return false;
     }
 
-    public boolean deleteRecord(TableParentStudentRelationDataModel holder) {
+    public boolean deleteRecord(TableParentStudentAssociationDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=? and "+COL_STUDENTID + "=?", new String[]{holder.getParent_id(),holder.getStudentid()});
+                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=? and "+COL_STUDENTID + "=?", new String[]{""+holder.getParent_id(),""+holder.getStudentid()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "delete Record from TableParentStudentRelationDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "delete Record from TableParentStudentAssociationDataModel" + e.getMessage());
         }
         return false;
     }

@@ -4,15 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Handler;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.LanguageArrayDataModel;
+import com.malviya.blankframework.models.TableLanguageDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Admin on 26-11-2016.
@@ -57,19 +55,19 @@ public class TableLanguage {
 
     //--------------------------------------------------------------------------------------------------------------------
 
-    public boolean insert(ArrayList<LanguageArrayDataModel.LanguageDataModel> list) {
+    public boolean insert(ArrayList<TableLanguageDataModel> list) {
         try {
             if (mDB != null) {
-                for (LanguageArrayDataModel.LanguageDataModel holder : list) {
-                    deleteDataIfExist(holder.UniversityId, holder.ConversionId);
+                for (TableLanguageDataModel holder : list) {
+                    deleteDataIfExist(holder.getUniversityId(), holder.getConversionId());
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(UNIVERSITY_ID, holder.UniversityId);
-                    contentValues.put(CONVERSION_ID, holder.ConversionId);
-                    contentValues.put(CONVERSION_CODE, holder.ConversionCode);
-                    contentValues.put(ENGLISH_VERSION, holder.EnglishVersion);
-                    contentValues.put(BAHASA_VERSION, holder.BahasaVersion);
-                    contentValues.put(DATE_MODIFIED, holder.DateModified);
-                    return mDB.insert(TABLE_NAME, null, contentValues) > 0;
+                    contentValues.put(UNIVERSITY_ID, holder.getUniversityId());
+                    contentValues.put(CONVERSION_ID, holder.getConversionId());
+                    contentValues.put(CONVERSION_CODE, holder.getConversionCode());
+                    contentValues.put(ENGLISH_VERSION, holder.getEnglishVersion());
+                    contentValues.put(BAHASA_VERSION, holder.getBahasaVersion());
+                    contentValues.put(DATE_MODIFIED, holder.getDateModified());
+                    mDB.insert(TABLE_NAME, null, contentValues);
                 }
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
@@ -90,23 +88,22 @@ public class TableLanguage {
         }
     }
 
-    public ArrayList<LanguageArrayDataModel.LanguageDataModel> read() {
+    public ArrayList<TableLanguageDataModel> read() {
         try {
-            ArrayList<LanguageArrayDataModel.LanguageDataModel> list = new ArrayList<>();
+            ArrayList<TableLanguageDataModel> list = new ArrayList<>();
             if (mDB != null) {
                 String selectQuery = "SELECT  * FROM " + TABLE_NAME;
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
                         // get the data into array, or class variable
-                        LanguageArrayDataModel.LanguageDataModel model = new LanguageArrayDataModel.LanguageDataModel();
-                        model.UniversityId = (cursor.getInt(cursor.getColumnIndex(UNIVERSITY_ID)));
-                        model.ConversionId = (cursor.getInt(cursor.getColumnIndex(CONVERSION_CODE)));
-                        model.ConversionCode = (cursor.getString(cursor.getColumnIndex(CONVERSION_ID)));
-                        model.EnglishVersion = (cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION)));
-                        model.BahasaVersion = (cursor.getString(cursor.getColumnIndex(BAHASA_VERSION)));
-                        model.DateModified = (cursor.getString(cursor.getColumnIndex(DATE_MODIFIED)));
-                        AppLog.errLog(" :", model.EnglishVersion);
+                        TableLanguageDataModel model = new TableLanguageDataModel();
+                        model.setUniversityId(cursor.getInt(cursor.getColumnIndex(UNIVERSITY_ID)));
+                        model.setConversionCode((cursor.getString(cursor.getColumnIndex(CONVERSION_CODE))));
+                        model.setConversionCode((cursor.getString(cursor.getColumnIndex(CONVERSION_ID))));
+                        model.setEnglishVersion((cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION))));
+                        model.setBahasaVersion((cursor.getString(cursor.getColumnIndex(BAHASA_VERSION))));
+                        model.setDateModified((cursor.getString(cursor.getColumnIndex(DATE_MODIFIED))));
                         list.add(model);
                     } while (cursor.moveToNext());
                 }
@@ -121,22 +118,23 @@ public class TableLanguage {
         }
     }
 
-    public ArrayList<LanguageArrayDataModel.LanguageDataModel> read(int pUniID) {
+
+    public ArrayList<TableLanguageDataModel> read(int pUniID) {
         try {
-            ArrayList<LanguageArrayDataModel.LanguageDataModel> list = new ArrayList<>();
+            ArrayList<TableLanguageDataModel> list = new ArrayList<>();
             if (mDB != null) {
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + UNIVERSITY_ID + "='" + pUniID+"'";
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + UNIVERSITY_ID + "='" + pUniID + "'";
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
                         // get the data into array, or class variable
-                        LanguageArrayDataModel.LanguageDataModel model = new LanguageArrayDataModel.LanguageDataModel();
-                        model.UniversityId = (cursor.getInt(cursor.getColumnIndex(UNIVERSITY_ID)));
-                        model.ConversionId = (cursor.getInt(cursor.getColumnIndex(CONVERSION_CODE)));
-                        model.ConversionCode = (cursor.getString(cursor.getColumnIndex(CONVERSION_ID)));
-                        model.EnglishVersion = (cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION)));
-                        model.BahasaVersion = (cursor.getString(cursor.getColumnIndex(BAHASA_VERSION)));
-                        model.DateModified = (cursor.getString(cursor.getColumnIndex(DATE_MODIFIED)));
+                        TableLanguageDataModel model = new TableLanguageDataModel();
+                        model.setUniversityId(cursor.getInt(cursor.getColumnIndex(UNIVERSITY_ID)));
+                        model.setConversionCode((cursor.getString(cursor.getColumnIndex(CONVERSION_CODE))));
+                        model.setConversionCode((cursor.getString(cursor.getColumnIndex(CONVERSION_ID))));
+                        model.setEnglishVersion((cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION))));
+                        model.setBahasaVersion((cursor.getString(cursor.getColumnIndex(BAHASA_VERSION))));
+                        model.setDateModified((cursor.getString(cursor.getColumnIndex(DATE_MODIFIED))));
                         list.add(model);
                     } while (cursor.moveToNext());
                 }
@@ -151,71 +149,32 @@ public class TableLanguage {
         }
     }
 
-    public LanguageArrayDataModel.LanguageDataModel getValue(String pKey) {
+
+    public TableLanguageDataModel getValue(String pKey) {
         try {
-            // ArrayList<LanguageArrayDataModel.LanguageDataModel> list = new ArrayList<>();
+            TableLanguageDataModel model = new TableLanguageDataModel();
             if (mDB != null) {
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + CONVERSION_CODE + "='" + pKey+"'";
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + CONVERSION_CODE + "='" + pKey + "'";
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
                         // get the data into array, or class variable
-                        LanguageArrayDataModel.LanguageDataModel model = new LanguageArrayDataModel.LanguageDataModel();
-                        model.UniversityId = (cursor.getInt(cursor.getColumnIndex(UNIVERSITY_ID)));
-                        model.ConversionId = (cursor.getInt(cursor.getColumnIndex(CONVERSION_CODE)));
-                        model.ConversionCode = (cursor.getString(cursor.getColumnIndex(CONVERSION_ID)));
-                        model.EnglishVersion = (cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION)));
-                        model.BahasaVersion = (cursor.getString(cursor.getColumnIndex(BAHASA_VERSION)));
-                        model.DateModified = (cursor.getString(cursor.getColumnIndex(DATE_MODIFIED)));
-                        // list.add(model);
-                        return model;
+                        model.setUniversityId(cursor.getInt(cursor.getColumnIndex(UNIVERSITY_ID)));
+                        model.setConversionCode((cursor.getString(cursor.getColumnIndex(CONVERSION_CODE))));
+                        model.setConversionCode((cursor.getString(cursor.getColumnIndex(CONVERSION_ID))));
+                        model.setEnglishVersion((cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION))));
+                        model.setBahasaVersion((cursor.getString(cursor.getColumnIndex(BAHASA_VERSION))));
+                        model.setDateModified((cursor.getString(cursor.getColumnIndex(DATE_MODIFIED))));
                     } while (cursor.moveToNext());
                 }
                 cursor.close();
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
-            return null;
+            return model;
         } catch (Exception e) {
             AppLog.errLog(TAG, "Exception from insert() " + e.getMessage());
             return null;
-        }
-    }
-
-
-    public void getAllValues(final String[] pKeyArray, final Handler handler) {
-        try {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    HashMap<String, LanguageArrayDataModel.LanguageDataModel> mHashMap = new HashMap<String, LanguageArrayDataModel.LanguageDataModel>();
-                    if (mDB != null) {
-                        for (String key : pKeyArray) {
-                            String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + CONVERSION_CODE + "='" + key+"'";
-                            Cursor cursor = mDB.rawQuery(selectQuery, null);
-                            if (cursor.moveToFirst()) {
-                                do {
-                                    // get the data into array, or class variable
-                                    LanguageArrayDataModel.LanguageDataModel model = new LanguageArrayDataModel.LanguageDataModel();
-                                    model.UniversityId = (cursor.getInt(cursor.getColumnIndex(UNIVERSITY_ID)));
-                                    model.ConversionId = (cursor.getInt(cursor.getColumnIndex(CONVERSION_CODE)));
-                                    model.ConversionCode = (cursor.getString(cursor.getColumnIndex(CONVERSION_ID)));
-                                    model.EnglishVersion = (cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION)));
-                                    model.BahasaVersion = (cursor.getString(cursor.getColumnIndex(BAHASA_VERSION)));
-                                    model.DateModified = (cursor.getString(cursor.getColumnIndex(DATE_MODIFIED)));
-                                    mHashMap.put(key, model);
-                                } while (cursor.moveToNext());
-                            }
-                            cursor.close();
-                        }
-                        handler.sendMessage(handler.obtainMessage(0, mHashMap));
-                    } else {
-                        Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-        } catch (Exception e) {
-            AppLog.errLog(TAG, "Exception from insert() " + e.getMessage());
         }
     }
 

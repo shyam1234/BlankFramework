@@ -15,6 +15,7 @@ public interface WSContant {
 
     //-------------------------------------------------------------------------------------
     String TAG_LOGIN = "login";
+    String TAG_LANG = "lang";
     String TAG_GETMOBILEHOME = "mobilehome";
     String TAG_AUTHORIZATION = "Authorization";
     String TAG_EMIALADDRESS = "EmailAddress";
@@ -34,4 +35,7 @@ public interface WSContant {
     String TAG_SHAREDPREF_GET_LAST_TIME = "get_last_time";
     String TAG_PARENTID= "ParentId";
     String TAG_STUDENTID= "StudentId";
+    String TAG_ISMOBILE = "isMobile";
+    String TAG_LANG_RETRIVE_TIME= "lan_retriev_time";
+    String TAG_LAST_LOGIN_TIME= "last_login_time";
 }

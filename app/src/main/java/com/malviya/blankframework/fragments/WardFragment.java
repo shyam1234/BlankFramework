@@ -17,10 +17,6 @@ import android.widget.Toast;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.WardChildRowAdapter;
 import com.malviya.blankframework.database.CommonInfo;
-import com.malviya.blankframework.database.TableStudentDetails;
-import com.malviya.blankframework.exceptions.ModelException;
-import com.malviya.blankframework.models.LoginDataHolder;
-import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.RenderImageByPicasso;
@@ -88,10 +84,10 @@ public class WardFragment extends Fragment implements View.OnClickListener {
 
     private void setDefaultStudentProfileInHeader(int position) {
         RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
-        mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getStudent_name());
-        mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourse());
-        AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourse());
-        AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ",mListChildInfoHolder.get(position).getStudent_name());
+        mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
+        mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
+        AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourseCode());
+        AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ",mListChildInfoHolder.get(position).getFullName());
     }
 
     private void initRecycleAdapter() {
@@ -127,7 +123,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         CommonInfo table = new CommonInfo();
         table.openDB(getContext());
         try {
-           // mListChildInfoHolder =  table.getAllChildWRTParent(""+((LoginDataHolder)ModelFactory.getInstance().getModel(ModelFactory.MODEL_LOGIN)).data.UserId);
+           // mListChildInfoHolder =  table.getAllChildWRTParent(""+((LoginDataModel)ModelFactory.getInstance().getModel(ModelFactory.MODEL_LOGIN)).data.UserId);
             mListChildInfoHolder =  table.getAllChildWRTParent(UserInfo.parentId);
         } catch (Exception e) {
             AppLog.errLog("getAllChildWRTParent",e.getMessage());

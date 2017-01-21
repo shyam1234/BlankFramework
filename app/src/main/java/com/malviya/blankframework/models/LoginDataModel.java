@@ -9,12 +9,12 @@ import java.util.ArrayList;
  * Created by Admin on 30-12-2016.
  */
 
-public class LoginDataHolder extends IModel {
+public class LoginDataModel extends IModel {
 
     @SerializedName("Data")
     public Data data;
     @SerializedName("Status")
-    public String  Status;
+    public String Status;
     @SerializedName("University")
     public ArrayList<University> universityArrayList;
     @SerializedName("ParentProfile")
@@ -23,14 +23,16 @@ public class LoginDataHolder extends IModel {
     public ArrayList<StudentProfiles> studentProfilesArrayList;
     @SerializedName("ParentStudentAssociation")
     public ArrayList<ParentStudentAssociation> parentStudentAssociationArrayList;
+    @SerializedName("ParentStudentMenuDetails")
+    public ArrayList<ParentStudentMenuDetails> parentStudentMenuDetailsArrayList;
 
-
-    public LoginDataHolder() {
+    public LoginDataModel() {
         data = new Data();
         universityArrayList = new ArrayList<University>();
         parentProfileArrayList = new ArrayList<ParentProfile>();
         studentProfilesArrayList = new ArrayList<StudentProfiles>();
         parentStudentAssociationArrayList = new ArrayList<ParentStudentAssociation>();
+        parentStudentMenuDetailsArrayList = new ArrayList<ParentStudentMenuDetails>();
     }
 
 
@@ -231,5 +233,29 @@ public class LoginDataHolder extends IModel {
         @SerializedName("IsDefault")
         public boolean IsDefault;
 
+    }
+
+    public static class ParentStudentMenuDetails {
+        /*[{
+          "ParentId": 118,
+          "StudentId": 7,
+          "UniversityId": 1,
+          "SubscriptionCode": "NEW",
+          "IsActive": 1,
+          "ColumnCount": 2
+        }]*/
+
+        @SerializedName("ParentId")
+        public int ParentId;
+        @SerializedName("StudentId")
+        public int StudentId;
+        @SerializedName("UniversityId")
+        public int UniversityId;
+        @SerializedName("SubscriptionCode")
+        public String SubscriptionCode;
+        @SerializedName("IsActive")
+        public int IsActive;
+        @SerializedName("ColumnCount")
+        public int ColumnCount;
     }
 }

@@ -5,19 +5,21 @@ package com.malviya.blankframework.models;
  */
 
 public class TableStudentDetailsDataModel {
-    private   String course = "";
-    private   String gender = "";
-    private   String imageurl = "";
-    private   String student_id = "";
-    private   String student_name = "";
-    private   String university_id = "";
+    private String CourseCode = "";
+    private String gender = "";
+    private String imageurl = "";
+    private int student_id;
+    private String student_name = "";
+    private int university_id;
+    private String StudentNumber;
+    private String DateOfBirth;
 
-    public String getCourse() {
-        return course;
+    public String getCourseCode() {
+        return CourseCode;
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public void setCourseCode(String courseCode) {
+        this.CourseCode = courseCode;
     }
 
     public String getGender() {
@@ -36,27 +38,43 @@ public class TableStudentDetailsDataModel {
         this.imageurl = imageurl;
     }
 
-    public String getStudent_id() {
+    public int getStudent_id() {
         return student_id;
     }
 
-    public void setStudentId(String student_id) {
+    public void setStudentId(int student_id) {
         this.student_id = student_id;
     }
 
-    public String getStudent_name() {
+    public String getFullName() {
         return student_name;
     }
 
-    public void setStudent_name(String student_name) {
+    public void setFullName(String student_name) {
         this.student_name = student_name;
     }
 
-    public String getUniversity_id() {
+    public int getUniversity_id() {
         return university_id;
     }
 
-    public void setUniversity_id(String university_id) {
+    public void setUniversity_id(int university_id) {
         this.university_id = university_id;
+    }
+
+    public String getStudentNumber() {
+        return StudentNumber;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        StudentNumber = studentNumber;
+    }
+
+    public String getDateOfBirth() {
+        return DateOfBirth;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        DateOfBirth = dateOfBirth;
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -12,15 +11,21 @@ import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableLanguage;
+import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.models.LanguageArrayDataModel;
+import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.TableLanguageDataModel;
+import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
+import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.SharePreferenceApp;
 import com.malviya.blankframework.utils.Utils;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,14 +74,16 @@ public class SplashActivity extends AppCompatActivity {
         table.read();
         //SharePreferenceApp.getInstance().removeAll();
         Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_UNIVERSITYID, SharePreferenceApp.getInstance().universityID);
-        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharePreferenceApp.getInstance().languageLastUpdateTime);
-        WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LOGIN, new IWSRequest() {
+        header.put(WSContant.TAG_UNIVERSITYID,"1");// SharePreferenceApp.getInstance().universityID);
+        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE," ");// SharePreferenceApp.getInstance().languageLastUpdateTime);
+        WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LANG, new IWSRequest() {
             @Override
             public void onResponse(String response) {
                 //--parsing logic------------------------------------------------------------------
                 ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, ModelFactory.MODEL_LANG);
-                storeIntoDB(obj);
+                LanguageArrayDataModel holder = ((LanguageArrayDataModel) obj.getModel());
+                //storeIntoDB(obj);
+                bindDataWithLanguageDataModel(holder);
                 //--parsing logic------------------------------------------------------------------
             }
 
@@ -87,7 +94,7 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
-    private void storeIntoDB(ParseResponse obj) {
+   /* private void storeIntoDB(ParseResponse obj) {
         TableLanguage table = new TableLanguage();
         table.openDB(SplashActivity.this);
         //AppLog.log("table: ",((LanguageArrayDataModel) obj.getModel()).LanguageArray.get(3).EnglishVersion);
@@ -97,7 +104,36 @@ public class SplashActivity extends AppCompatActivity {
         table.closeDB();
         SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
         navigateToNextPage();
+    }*/
+
+    private void bindDataWithLanguageDataModel(LanguageArrayDataModel holder) {
+        try {
+            ArrayList<TableLanguageDataModel> list = new ArrayList<TableLanguageDataModel>();
+            for (LanguageArrayDataModel.LanguageDataModel model : holder.LanguageArray) {
+                //-- assign value to model
+                TableLanguageDataModel obj = new TableLanguageDataModel();
+                obj.setUniversityId(model.getUniversityId());
+                obj.setBahasaVersion(model.getBahasaVersion());
+                obj.setConversionCode(model.getConversionCode());
+                obj.setConversionId(model.getConversionId());
+                obj.setDateModified(model.getDateModified());
+                obj.setEnglishVersion(model.getEnglishVersion());
+                list.add(obj);
+            }
+            //saving into database
+            TableLanguage table = new TableLanguage();
+            table.openDB(getApplicationContext());
+            boolean isAdded =table.insert(list);
+            if (isAdded)
+                Toast.makeText(this, "Language db updated for university id: " + SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
+            table.closeDB();
+            SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
+            navigateToNextPage();
+        } catch (Exception e) {
+            AppLog.errLog("SplashActivity bindDataWithLanguageDataModel", e.getMessage());
+        }
     }
+
 
     private void navigateToNextPage() {
         Intent intent = new Intent(SplashActivity.this, LoginActivity.class);

@@ -24,15 +24,19 @@ public class TableUniversityMaster {
     public static final String COL_UNIVERSITY_ID = "university_id";
     public static final String COL_UNIVERSITY_NAME = "university_name";
     public static final String COL_UNIVERSITY_URL = "university_url";
+    public static final String COL_UNIVERSITY_CODE = "UniversityCode";
+    public static final String COL_UNIVERSITY_LOGO = "UniversityLogoPath";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
 
 
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
-            + COL_UNIVERSITY_ID + " varchar(255), "
+            + COL_UNIVERSITY_ID + " integer , "
             + COL_UNIVERSITY_NAME + " varchar(255), "
-            + COL_UNIVERSITY_URL + " varchar(255) "
+            + COL_UNIVERSITY_URL + " varchar(255), "
+            + COL_UNIVERSITY_CODE + " varchar(255), "
+            + COL_UNIVERSITY_LOGO + " varchar(255) "
             + " ) ";
     //For Foreign key
     //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
@@ -89,6 +93,8 @@ public class TableUniversityMaster {
                     value.put(COL_UNIVERSITY_ID, holder.getUniversity_id());
                     value.put(COL_UNIVERSITY_NAME, holder.getUniversity_name());
                     value.put(COL_UNIVERSITY_URL, holder.getUniversity_url());
+                    value.put(COL_UNIVERSITY_CODE, holder.getUniversity_code());
+                    value.put(COL_UNIVERSITY_LOGO, holder.getUniversity_logo_path());
                     value.put(COL_UNIVERSITY_ID, holder.getUniversity_id());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: ", holder.getUniversity_id() + " row: " + row);
@@ -120,7 +126,7 @@ public class TableUniversityMaster {
     public boolean deleteRecord(TableUniversityMasterDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_UNIVERSITY_ID + "=?", new String[]{holder.getUniversity_id()});
+                long row = mDB.delete(TABLE_NAME, COL_UNIVERSITY_ID + "=?", new String[]{""+holder.getUniversity_id()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {

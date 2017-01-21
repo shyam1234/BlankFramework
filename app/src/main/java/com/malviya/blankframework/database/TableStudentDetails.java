@@ -6,9 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
-import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.DashboardCellDataHolder;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
@@ -22,12 +20,14 @@ public class TableStudentDetails {
     //--------------------------------------------------------------------------
     public static final String TAG = "TableStudentDetails";
     public static final String TABLE_NAME = "table_student_details";
-    public static final String COL_COURSE = "course";
-    public static final String COL_GENDER = "gender";
-    public static final String COL_IMAGEURL = "imageurl";
-    public static final String COL_STUDENT_ID = "student_id";
-    public static final String COL_STUDENT_NAME = "student_name";
-    public static final String COL_UNIVERSITY_ID = "university_id";
+    public static final String COL_COURSE = "CourseCode";
+    public static final String COL_GENDER = "Gender";
+    public static final String COL_IMAGEURL = "ImageURL";
+    public static final String COL_STUDENT_ID = "StudentId";
+    public static final String COL_STUDENT_NAME = "FullName";
+    public static final String COL_UNIVERSITY_ID = "UniversityId";
+    public static final String COL_STUDENTNUMBER = "StudentNumber";
+    public static final String COL_DATAOFBIRTH = "DateOfBirth";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -37,9 +37,11 @@ public class TableStudentDetails {
             + COL_COURSE + " varchar(255), "
             + COL_GENDER + " varchar(255), "
             + COL_IMAGEURL + " varchar(255), "
-            + COL_STUDENT_ID + " varchar(255), "
+            + COL_STUDENT_ID + " integer, "
             + COL_STUDENT_NAME + " varchar(255), "
-            + COL_UNIVERSITY_ID + " varchar(255) "
+            + COL_UNIVERSITY_ID + " integer , "
+            + COL_STUDENTNUMBER + " varchar(255) , "
+            + COL_DATAOFBIRTH + " varchar(255) "
             + " ) ";
     //For Foreign key
     //  + " FOREIGN KEY ("+TASK_CAT+") REFERENCES "+CAT_TABLE+"("+CAT_ID+"));";
@@ -93,12 +95,14 @@ public class TableStudentDetails {
                     }
                     //----------------------------------------
                     ContentValues value = new ContentValues();
-                    value.put(COL_COURSE, holder.getCourse());
+                    value.put(COL_COURSE, holder.getCourseCode());
                     value.put(COL_GENDER, holder.getGender());
                     value.put(COL_IMAGEURL, holder.getImageurl());
                     value.put(COL_STUDENT_ID, holder.getStudent_id());
-                    value.put(COL_STUDENT_NAME, holder.getStudent_name());
+                    value.put(COL_STUDENT_NAME, holder.getFullName());
                     value.put(COL_UNIVERSITY_ID, holder.getUniversity_id());
+                    value.put(COL_STUDENTNUMBER, holder.getStudentNumber());
+                    value.put(COL_DATAOFBIRTH, holder.getDateOfBirth());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: ", holder.getStudent_id() + " row: " + row);
                 }
@@ -129,7 +133,7 @@ public class TableStudentDetails {
     public boolean deleteRecord(TableStudentDetailsDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_STUDENT_ID + "=?", new String[]{holder.getStudent_id()});
+                long row = mDB.delete(TABLE_NAME, COL_STUDENT_ID + "=?", new String[]{""+holder.getStudent_id()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
@@ -156,11 +160,13 @@ public class TableStudentDetails {
                         // get the data into array, or class variable
                         TableStudentDetailsDataModel model = new TableStudentDetailsDataModel();
                         model.setGender(cursor.getString(cursor.getColumnIndex(COL_GENDER)));
-                        model.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENT_ID)));
-                        model.setCourse(cursor.getString(cursor.getColumnIndex(COL_COURSE)));
+                        model.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENT_ID)));
+                        model.setCourseCode(cursor.getString(cursor.getColumnIndex(COL_COURSE)));
                         model.setImageurl(cursor.getString(cursor.getColumnIndex(COL_IMAGEURL)));
-                        model.setStudent_name(cursor.getString(cursor.getColumnIndex(COL_STUDENT_NAME)));
-                        model.setUniversity_id(cursor.getString(cursor.getColumnIndex(COL_UNIVERSITY_ID)));
+                        model.setFullName(cursor.getString(cursor.getColumnIndex(COL_STUDENT_NAME)));
+                        model.setUniversity_id(cursor.getInt(cursor.getColumnIndex(COL_UNIVERSITY_ID)));
+                        model.setStudentNumber(cursor.getString(cursor.getColumnIndex(COL_STUDENTNUMBER)));
+                        model.setDateOfBirth(cursor.getString(cursor.getColumnIndex(COL_DATAOFBIRTH)));
                         list.add(model);
                     } while (cursor.moveToNext());
                 }

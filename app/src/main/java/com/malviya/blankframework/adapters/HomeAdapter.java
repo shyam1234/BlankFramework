@@ -110,8 +110,8 @@ public class HomeAdapter extends BaseAdapter {
             return notificationCounter;
         }
 
-        public void setNotificationCounter(String number) {
-            this.notificationCounter.setText(number);
+        public void setNotificationCounter(int number) {
+            this.notificationCounter.setText(""+number);
         }
 
         public RelativeLayout getCellLayout() {

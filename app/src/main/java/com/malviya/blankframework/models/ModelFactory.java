@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class ModelFactory {
     private volatile static ModelFactory mInstance;
-    public final static String MODEL_LOGIN = "LoginDataHolder";
+    public final static String MODEL_LOGIN = "LoginDataModel";
     public final static String MODEL_LANG="LanguageArrayDataModel";
 
     private HashMap<String, IModel> mHashMapMode;

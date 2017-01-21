@@ -7,7 +7,7 @@ package com.malviya.blankframework.models;
 public class TableParentMasterDataModel {
     private String emailid = "";
     private String imageurl = "";
-    private String parentid = "";
+    private int parentid ;
     private String parent_name = "";
     private String phone_number = "";
 
@@ -27,11 +27,11 @@ public class TableParentMasterDataModel {
         this.imageurl = imageurl;
     }
 
-    public String getParentid() {
+    public int getParentid() {
         return parentid;
     }
 
-    public void setParentid(String parentid) {
+    public void setParentid(int parentid) {
         this.parentid = parentid;
     }
 

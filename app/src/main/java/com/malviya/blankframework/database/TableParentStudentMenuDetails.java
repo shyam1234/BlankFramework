@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.fragments.HomeFragment;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
-import com.malviya.blankframework.models.TableMenuDetailsDataModel;
+import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -17,13 +17,12 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 26-11-2016.
  */
-public class TableMenuDetails {
+public class TableParentStudentMenuDetails {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
-    public static final String TAG = "TableMenuDetails";
+    public static final String TAG = "TableParentStudentMenuDetails";
     private static final String TABLE_NAME = "table_menudetails";
     private static final String COL_COUNT = "ColumnCount";
-    private static final String COL_DATE_UPDATED = "date_updated";
     private static final String COL_SUBCRIPTIONCODE = "SubscriptionCode";
     private static final String COL_PARENTID = "ParentId";
     private static final String COL_STUDENTID = "StudentId";
@@ -34,12 +33,11 @@ public class TableMenuDetails {
 
 
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
-            + COL_ISACTIVE + " varchar(255), "
-            + COL_COUNT + " varchar(255), "
-            + COL_DATE_UPDATED + " varchar(255), "
+            + COL_ISACTIVE + " integer , "
+            + COL_COUNT + " integer , "
             + COL_SUBCRIPTIONCODE + " varchar(255), "
-            + COL_PARENTID + " varchar(255), "
-            + COL_STUDENTID + " varchar(255), "
+            + COL_PARENTID + " integer , "
+            + COL_STUDENTID + " integer ,  "
             //For Foreign key
             + " FOREIGN KEY (" + COL_SUBCRIPTIONCODE + ") REFERENCES " + TableMenuMaster.TABLE_NAME + "(" + TableMenuMaster.COL_MENUCODE + "));";
 
@@ -84,10 +82,10 @@ public class TableMenuDetails {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableMenuDetailsDataModel> list) {
+    public void insert(ArrayList<TableParentStudentMenuDetailsDataModel> list) {
         try {
             if (mDB != null) {
-                for (TableMenuDetailsDataModel holder : list) {
+                for (TableParentStudentMenuDetailsDataModel holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
@@ -95,7 +93,6 @@ public class TableMenuDetails {
                     ContentValues value = new ContentValues();
                     value.put(COL_COUNT, holder.getAlert_count());
                     value.put(COL_ISACTIVE, holder.getIsActive());
-                    value.put(COL_DATE_UPDATED, holder.getDate_updated());
                     value.put(COL_SUBCRIPTIONCODE, holder.getMenu_code());
                     value.put(COL_PARENTID, holder.getParent_id());
                     value.put(COL_STUDENTID, holder.getStudentId());
@@ -109,7 +106,7 @@ public class TableMenuDetails {
     }
 
 
-    public boolean isExists(TableMenuDetailsDataModel model) {
+    public boolean isExists(TableParentStudentMenuDetailsDataModel model) {
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_SUBCRIPTIONCODE + " = '" + model.getMenu_code()+ "'"
                     +" and "+ COL_PARENTID + " = '" + model.getParent_id()+ "'"
@@ -128,18 +125,18 @@ public class TableMenuDetails {
         return false;
     }
 
-    public boolean deleteRecord(TableMenuDetailsDataModel holder) {
+    public boolean deleteRecord(TableParentStudentMenuDetailsDataModel holder) {
         try {
             if (mDB != null) {
                 long row = mDB.delete(TABLE_NAME, COL_SUBCRIPTIONCODE + "=? and "+ COL_PARENTID + "=? " +
-                        "and "+ COL_STUDENTID + "=?", new String[]{holder.getMenu_code(),holder.getParent_id(),holder.getStudentId()});
-                AppLog.log("deleteRecord from TableMenuDetailsDataModel ", "" + row);
+                        "and "+ COL_STUDENTID + "=?", new String[]{holder.getMenu_code(),""+holder.getParent_id(),""+holder.getStudentId()});
+                AppLog.log("deleteRecord from TableParentStudentMenuDetailsDataModel ", "" + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "deleteRecord from TableMenuDetailsDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "deleteRecord from TableParentStudentMenuDetailsDataModel" + e.getMessage());
         }
         return false;
     }
@@ -165,18 +162,18 @@ public class TableMenuDetails {
                         DashboardCellDataHolder model = new DashboardCellDataHolder();
                         model.setColor(HomeFragment.mMenuColor[position]);
                         model.setImage(HomeFragment.mMenuImage[position]);
-                        model.setUniversity_id(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_ID)));
+                        model.setUniversity_id(cursor.getInt(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_ID)));
                         model.setUniversity_name(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_NAME)));
-                        model.setNotification(cursor.getString(cursor.getColumnIndex(COL_COUNT)));
-                        model.setIsActive(cursor.getString(cursor.getColumnIndex(COL_ISACTIVE)));
-                        model.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENTID)));
+                        model.setNotification(cursor.getInt(cursor.getColumnIndex(COL_COUNT)));
+                        model.setIsActive(cursor.getInt(cursor.getColumnIndex(COL_ISACTIVE)));
+                        model.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
                         model.setMenu_code(cursor.getString(cursor.getColumnIndex(COL_SUBCRIPTIONCODE)));
-                        model.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENTID)));
+                        model.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
                         model.setText(cursor.getString(cursor.getColumnIndex(TableMenuMaster.COL_MENU_DESCRIPTION)));
                         AppLog.log("getHomeFragmentData parentId", parentId);
                         AppLog.log("getHomeFragmentData studentId ", studentId);
                         AppLog.log("getHomeFragmentData getMenu_code ", model.getMenu_code());
-                        AppLog.log("getHomeFragmentData getUniversity_id", model.getUniversity_id());
+                        AppLog.log("getHomeFragmentData getUniversity_id", ""+model.getUniversity_id());
                         AppLog.log("getHomeFragmentData getUniversity_name ", model.getUniversity_name());
                         AppLog.log("getHomeFragmentData ++++++++++++++++++++","");
                         list.add(model);

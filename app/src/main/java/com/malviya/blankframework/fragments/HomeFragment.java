@@ -16,9 +16,9 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.HomeAdapter;
 import com.malviya.blankframework.constant.Contant;
 import com.malviya.blankframework.constant.WSContant;
-import com.malviya.blankframework.database.TableMenuDetails;
+import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
-import com.malviya.blankframework.models.LoginDataHolder;
+import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.network.IWSRequest;
@@ -90,18 +90,18 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     //--parsing logic------------------------------------------------------------------
-                    ParseResponse obj = new ParseResponse(response, LoginDataHolder.class, ModelFactory.MODEL_LOGIN);
-                    LoginDataHolder holder = ((LoginDataHolder) obj.getModel());
+                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_LOGIN);
+                    LoginDataModel holder = ((LoginDataModel) obj.getModel());
                     AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
 //                    try {
-//                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataHolder) ModelFactory.getInstance().getModel(LoginDataHolder.KEY)).data.PhoneNumber);
+//                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataModel) ModelFactory.getInstance().getModel(LoginDataModel.KEY)).data.PhoneNumber);
 //                    } catch (ModelException e) {
 //                        AppLog.errLog(TAG,"Exception from "+e.getMessage());
 //                    }
                     //--------------------------------------------------------------------
                     AppLog.log(TAG, "parentId: " + holder.data.UserId);
                     AppLog.log(TAG, "parentName: " + holder.data.UserName);
-                    for (LoginDataHolder.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
+                    for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
                         AppLog.log(TAG, "parentName: " + parentStudentAsso.IsDefault);
                         if (parentStudentAsso.IsDefault) {
                             AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
             AppLog.errLog("HomeFragment","Empty field studentId "+UserInfo.studentId);
         }
         //----------------------------------------------------------
-        TableMenuDetails table = new TableMenuDetails();
+        TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
         table.openDB(getContext());
         mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
         table.closeDB();
@@ -197,73 +197,4 @@ public class HomeFragment extends Fragment {
             mTextViewUnivercityText.setText(mCellList.get(0).getUniversity_name());
         }
     }
-
-
-    private void addCellItem() {
-        DashboardCellDataHolder holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.noticeboard);
-        holder.setText(getString(R.string.notice_board));
-        holder.setNotification("33");
-        holder.setColor(R.color.colorLightGreen);
-        mCellList.add(holder);
-
-        holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.attendance);
-        holder.setText(getString(R.string.attendance));
-        holder.setNotification("3");
-        holder.setColor(R.color.colorLightYellow);
-        mCellList.add(holder);
-
-        holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.homework);
-        holder.setNotification("1");
-        holder.setText(getString(R.string.homework));
-        holder.setColor(R.color.colorLightWallet);
-        mCellList.add(holder);
-
-        holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.diary);
-        holder.setNotification("1");
-        holder.setText(getString(R.string.diary));
-        holder.setColor(R.color.colorDarkBlue);
-        mCellList.add(holder);
-
-        holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.messages);
-        holder.setNotification("1");
-        holder.setText(getString(R.string.message));
-        holder.setColor(R.color.colorSkyBlue);
-        mCellList.add(holder);
-
-        holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.events);
-        holder.setNotification("1");
-        holder.setText(getString(R.string.events));
-        holder.setColor(R.color.colorDarkYellow);
-        mCellList.add(holder);
-
-        holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.gallery);
-        holder.setNotification("1");
-        holder.setText(getString(R.string.gallery));
-        holder.setColor(R.color.colorLightVallet);
-        mCellList.add(holder);
-
-        holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.fee);
-        holder.setNotification("1");
-        holder.setText(getString(R.string.feedback));
-        holder.setColor(R.color.colorLightRed);
-        mCellList.add(holder);
-
-        holder = new DashboardCellDataHolder();
-        holder.setImage(R.drawable.fee);
-        holder.setNotification("1");
-        holder.setText(getString(R.string.fee));
-        holder.setColor(R.color.colorLightGray);
-        mCellList.add(holder);
-
-    }
-
-
 }

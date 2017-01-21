@@ -35,11 +35,11 @@ public class CommonInfo {
         ArrayList<TableStudentDetailsDataModel> list = new ArrayList<TableStudentDetailsDataModel>();
         try {
             if (mDB != null) {
-                String query = "select * from " + TableStudentDetails.TABLE_NAME + " join " + TableParentStudentRelation.TABLE_NAME
+                String query = "select * from " + TableStudentDetails.TABLE_NAME + " join " + TableParentStudentAssociation.TABLE_NAME
                         + " on " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_STUDENT_ID
-                        + "=" + TableParentStudentRelation.TABLE_NAME + "." + TableParentStudentRelation.COL_STUDENTID
-                        + " where " + TableParentStudentRelation.TABLE_NAME + "." + TableParentStudentRelation.COL_PARENTID + "='" + parentId + "'";
-                AppLog.log("query getCourse: ",query);
+                        + "=" + TableParentStudentAssociation.TABLE_NAME + "." + TableParentStudentAssociation.COL_STUDENTID
+                        + " where " + TableParentStudentAssociation.TABLE_NAME + "." + TableParentStudentAssociation.COL_PARENTID + "='" + parentId + "'";
+                AppLog.log("query getCourseCode: ",query);
 
                 Cursor cursor = mDB.rawQuery(query, null);
                 if (cursor.moveToFirst()) {
@@ -47,14 +47,14 @@ public class CommonInfo {
                         // get the data into array, or class variable
                         TableStudentDetailsDataModel model = new TableStudentDetailsDataModel();
                         model.setGender(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_GENDER)));
-                        model.setStudentId(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_STUDENT_ID)));
-                        model.setCourse(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_COURSE)));
+                        model.setStudentId(cursor.getInt(cursor.getColumnIndex(TableStudentDetails.COL_STUDENT_ID)));
+                        model.setCourseCode(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_COURSE)));
                         model.setImageurl(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_IMAGEURL)));
-                        model.setStudent_name(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_STUDENT_NAME)));
-                        model.setUniversity_id(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_UNIVERSITY_ID)));
+                        model.setFullName(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_STUDENT_NAME)));
+                        model.setUniversity_id(cursor.getInt(cursor.getColumnIndex(TableStudentDetails.COL_UNIVERSITY_ID)));
                         list.add(model);
-                        AppLog.log("getAllChildWRTParent getStudent_name: ", model.getStudent_name());
-                        AppLog.log("getAllChildWRTParent getCourse: ", model.getCourse());
+                        AppLog.log("getAllChildWRTParent getFullName: ", model.getFullName());
+                        AppLog.log("getAllChildWRTParent getCourseCode: ", model.getCourseCode());
 
                     } while (cursor.moveToNext());
 

@@ -3,7 +3,7 @@ package com.malviya.blankframework.parser;
 import com.google.gson.Gson;
 import com.malviya.blankframework.interfaces.IModel;
 import com.malviya.blankframework.models.LanguageArrayDataModel;
-import com.malviya.blankframework.models.LoginDataHolder;
+import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 
 /**
@@ -34,7 +34,7 @@ public class ParseResponse {
     private void doParse() {
         switch (mKey) {
             case ModelFactory.MODEL_LOGIN:
-                mModel = mGson.fromJson(mRespose, LoginDataHolder.class);
+                mModel = mGson.fromJson(mRespose, LoginDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
             case ModelFactory.MODEL_LANG:

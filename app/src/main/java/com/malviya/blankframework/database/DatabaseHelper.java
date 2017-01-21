@@ -28,10 +28,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //create table
         db.execSQL(TableLanguage.CREATE_LANGUAGE_TABLE);
-        db.execSQL(TableMenuDetails.CREATE_TABLE);
+        db.execSQL(TableParentStudentMenuDetails.CREATE_TABLE);
         db.execSQL(TableMenuMaster.CREATE_TABLE);
         db.execSQL(TableParentMaster.CREATE_TABLE);
-        db.execSQL(TableParentStudentRelation.CREATE_TABLE);
+        db.execSQL(TableParentStudentAssociation.CREATE_TABLE);
         db.execSQL(TableStudentDetails.CREATE_TABLE);
         db.execSQL(TableUniversityMaster.CREATE_TABLE);
     }
@@ -41,10 +41,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //modify table if version changes
         if (old_version < new_version) {
             db.execSQL(TableLanguage.DROP_TABLE_DIARY);
-            db.execSQL(TableMenuDetails.DROP_TABLE);
+            db.execSQL(TableParentStudentMenuDetails.DROP_TABLE);
             db.execSQL(TableMenuMaster.DROP_TABLE);
             db.execSQL(TableParentMaster.DROP_TABLE);
-            db.execSQL(TableParentStudentRelation.DROP_TABLE);
+            db.execSQL(TableParentStudentAssociation.DROP_TABLE);
             db.execSQL(TableStudentDetails.DROP_TABLE);
             db.execSQL(TableUniversityMaster.DROP_TABLE);
             onCreate(db);
