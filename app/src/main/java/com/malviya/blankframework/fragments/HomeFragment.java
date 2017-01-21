@@ -62,9 +62,7 @@ public class HomeFragment extends Fragment {
 
 
     private void fetchDataFromWS() {
-        UserInfo.parentId = "parent1";
-        UserInfo.parentName = "Prafulla";
-        UserInfo.studentId = "student1";
+
         //need to fetch data from DB WRT to above parameters
         //----------------------------------------------------------
         TableMenuDetails table = new TableMenuDetails();

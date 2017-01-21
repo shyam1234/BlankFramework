@@ -109,7 +109,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                        AppLog.errLog(TAG,"Exception from "+e.getMessage());
 //                    }
                     //--------------------------------------------------------------------
-                    UserInfo.parentId = "parent1";
+                    UserInfo.parentId = "parent2";
+                    UserInfo.parentName = "Prafulla";
+                    UserInfo.studentId = "student2";
                     mButtonLogin.setText(getResources().getString(R.string.success));
                     mButtonLogin.setEnabled(false);
                     navigateToNextPage();
