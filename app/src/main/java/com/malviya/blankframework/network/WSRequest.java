@@ -1,7 +1,5 @@
 package com.malviya.blankframework.network;
 
-import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -11,17 +9,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.UserInfo;
 
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 /**
  * Created by Admin on 26-11-2016.
@@ -67,7 +60,7 @@ public class WSRequest {
     }
 
     public synchronized void requestWithParam(int method, String url, final Map<String, String> pHeader, final Map<String, String> pParam, final String TAG, final IWSRequest pWSRequest) {
-        AppLog.networkLog(TAG, "--------------------------------------------------------------------------------" );
+        AppLog.networkLog(TAG, "--------------------------------------------------------------------------------");
         AppLog.networkLog(TAG, "URL: " + url);
         AppLog.networkLog(TAG, "method: " + method);
         final StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
@@ -78,13 +71,13 @@ public class WSRequest {
                 else
                     Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Response is coming blank: " + response, Toast.LENGTH_SHORT).show();
 
-                AppLog.networkLog(TAG, "Response: "+response.toString());
+                AppLog.networkLog(TAG, "Response: " + response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pWSRequest.onErrorResponse(error);
-                AppLog.networkLog(TAG, "Error: "+error.getMessage());
+                AppLog.networkLog(TAG, "Error: " + error.getMessage());
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Error Response: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }) {
@@ -113,13 +106,18 @@ public class WSRequest {
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse resp) {
-               if(resp.statusCode==200) {
-                   AppLog.networkLog("parseNetworkResponse", "" + resp.statusCode);
-                   AppLog.networkLog("networkTimeMs", "" + resp.networkTimeMs);
-                   AppLog.networkLog("notModified", "" + resp.notModified);
-                   //parseData(resp.data);
-               }
-               return super.parseNetworkResponse(resp);
+                if (resp.statusCode == 200) {
+                    AppLog.networkLog("parseNetworkResponse", "" + resp.statusCode);
+                    AppLog.networkLog("networkTimeMs", "" + resp.networkTimeMs);
+                    AppLog.networkLog("notModified", "" + resp.notModified);
+                    Map<String, String> mapHeader = resp.headers;
+                    AppLog.networkLog("headers", "" + mapHeader);
+                    UserInfo.authToken = mapHeader.get(WSContant.TAG_TOKEN);
+                    UserInfo.tokenExp = mapHeader.get(WSContant.TAG_TOKEN_EXP);
+                    UserInfo.tokenIssue = mapHeader.get(WSContant.TAG_TOKEN_ISSUE);
+                    //parseData(resp.data);
+                }
+                return super.parseNetworkResponse(resp);
             }
         };
         if (TAG == null) {

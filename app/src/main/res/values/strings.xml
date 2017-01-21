@@ -51,4 +51,5 @@
     <string name="gallery">Gallery</string>
     <string name="feedback">Feedback</string>
     <string name="fee">Fee</string>
+    <string name="msg_invalide_credential">Invalid Credential</string>
 </resources>

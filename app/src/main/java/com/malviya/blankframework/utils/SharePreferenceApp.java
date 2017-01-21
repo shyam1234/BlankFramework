@@ -15,6 +15,7 @@ public class SharePreferenceApp {
     private static SharePreferenceApp mInstance;
     public String universityID = "1";
     public String languageLastUpdateTime = "";
+    private String mCurrTime;
 
     private SharePreferenceApp() {
         //read all store value
@@ -74,7 +75,52 @@ public class SharePreferenceApp {
 
     public void removeAll() {
         removeLanguageUpdateHistory();
+        removeSavedTime();
     }
 
+
+
+
+
+    //-----------------------------------------------------------
+
+    public void saveTime(String currTime) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putString(WSContant.TAG_SHAREDPREF_GET_LAST_TIME, currTime);
+            data.commit();
+            AppLog.log("sharePreferenceApp", "saveTime: " + currTime);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp saveTime", e.getMessage());
+        }
+    }
+
+    public String getSavedTime() {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                mCurrTime = sharePref.getString(WSContant.TAG_SHAREDPREF_GET_LAST_TIME, null);
+            } else {
+                AppLog.log("getSavedTime", "there is not savedTime ");
+            }
+            sharePref = null;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getSavedTime", e.getMessage());
+        } finally {
+            return mCurrTime;
+        }
+    }
+
+    public void removeSavedTime() {
+        try {
+            mCurrTime = null;
+            saveTime(mCurrTime);
+        } catch (Exception e) {
+            AppLog.errLog(" removeSavedTime", e.getMessage());
+        }
+    }
+
+    //-----------------------------------------------------------
 
 }

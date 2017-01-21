@@ -48,7 +48,7 @@ public class MyApplication extends Application {
         initMenuDetails();
         initUnivercityMaster();
         initParentStudent();
-        createDatabase();
+       // createDatabase();
     }
 
     public static synchronized MyApplication getInstance() {

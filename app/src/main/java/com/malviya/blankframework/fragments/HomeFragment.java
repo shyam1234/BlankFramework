@@ -11,17 +11,26 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.HomeAdapter;
 import com.malviya.blankframework.constant.Contant;
+import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableMenuDetails;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.models.LoginDataHolder;
+import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
+import com.malviya.blankframework.network.IWSRequest;
+import com.malviya.blankframework.network.WSRequest;
+import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Admin on 24-12-2016.
@@ -64,6 +73,57 @@ public class HomeFragment extends Fragment {
     private void fetchDataFromWS() {
 
         //need to fetch data from DB WRT to above parameters
+        //on the basis of parent id and student id
+        if(UserInfo.parentId!=null && UserInfo.studentId!=null){
+            //--for header
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            header.put(WSContant.TAG_CONTENT_TYPE, "application/json");
+            header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTime());
+            header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+            //--for body
+            Map<String, String> body = new HashMap<>();
+            body.put(WSContant.TAG_PARENTID, UserInfo.parentId);
+            body.put(WSContant.TAG_STUDENTID, UserInfo.studentId);
+
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEHOME, header, body, WSContant.TAG_GETMOBILEHOME, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    //--parsing logic------------------------------------------------------------------
+                    ParseResponse obj = new ParseResponse(response, LoginDataHolder.class, ModelFactory.MODEL_LOGIN);
+                    LoginDataHolder holder = ((LoginDataHolder) obj.getModel());
+                    AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
+//                    try {
+//                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataHolder) ModelFactory.getInstance().getModel(LoginDataHolder.KEY)).data.PhoneNumber);
+//                    } catch (ModelException e) {
+//                        AppLog.errLog(TAG,"Exception from "+e.getMessage());
+//                    }
+                    //--------------------------------------------------------------------
+                    AppLog.log(TAG, "parentId: " + holder.data.UserId);
+                    AppLog.log(TAG, "parentName: " + holder.data.UserName);
+                    for (LoginDataHolder.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
+                        AppLog.log(TAG, "parentName: " + parentStudentAsso.IsDefault);
+                        if (parentStudentAsso.IsDefault) {
+                            AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
+                            UserInfo.studentId = "" + parentStudentAsso.StudentId;
+                        }
+                    }
+                    UserInfo.parentId = "" + holder.data.UserId;
+                    UserInfo.parentName = holder.data.UserName;
+                    //--------------------------------------------------------------------
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError response) {
+
+                }
+            });
+
+
+        }else{
+            AppLog.errLog("HomeFragment","Empty field parentId "+UserInfo.parentId);
+            AppLog.errLog("HomeFragment","Empty field studentId "+UserInfo.studentId);
+        }
         //----------------------------------------------------------
         TableMenuDetails table = new TableMenuDetails();
         table.openDB(getContext());

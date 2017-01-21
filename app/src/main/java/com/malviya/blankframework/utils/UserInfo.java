@@ -8,5 +8,8 @@ public class UserInfo {
     public static String parentId;
     public static String parentName;
     public static String studentId ;
+    public static String authToken ;
     public static String univercityId ;
+    public static String tokenExp;
+    public static String tokenIssue;
 }

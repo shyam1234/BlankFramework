@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -101,20 +102,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onResponse(String response) {
                     //--parsing logic------------------------------------------------------------------
                     ParseResponse obj = new ParseResponse(response, LoginDataHolder.class, ModelFactory.MODEL_LOGIN);
-                    AppLog.log(TAG, "getPhoneNumber: " + ((LoginDataHolder) obj.getModel()).data.PhoneNumber);
-                    obj = null;
+                    LoginDataHolder holder = ((LoginDataHolder) obj.getModel());
+                    if (holder.data.Status) {
+                        AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
 //                    try {
 //                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataHolder) ModelFactory.getInstance().getModel(LoginDataHolder.KEY)).data.PhoneNumber);
 //                    } catch (ModelException e) {
 //                        AppLog.errLog(TAG,"Exception from "+e.getMessage());
 //                    }
-                    //--------------------------------------------------------------------
-                    UserInfo.parentId = "parent2";
-                    UserInfo.parentName = "Prafulla";
-                    UserInfo.studentId = "student2";
-                    mButtonLogin.setText(getResources().getString(R.string.success));
-                    mButtonLogin.setEnabled(false);
-                    navigateToNextPage();
+                        //--------------------------------------------------------------------
+                        AppLog.log(TAG, "parentId: " + holder.data.UserId);
+                        AppLog.log(TAG, "parentName: " + holder.data.UserName);
+                        for (LoginDataHolder.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
+                            AppLog.log(TAG, "parentName: " + parentStudentAsso.IsDefault);
+                            if (parentStudentAsso.IsDefault) {
+                                AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
+                                UserInfo.studentId = "" + parentStudentAsso.StudentId;
+                            }
+                        }
+                        UserInfo.parentId = "" + holder.data.UserId;
+                        UserInfo.parentName = holder.data.UserName;
+                        //--------------------------------------------------------------------
+                        mButtonLogin.setText(getResources().getString(R.string.success));
+                        mButtonLogin.setEnabled(false);
+                        navigateToNextPage();
+                    } else {
+                        Toast.makeText(LoginActivity.this, R.string.msg_invalide_credential, Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 @Override

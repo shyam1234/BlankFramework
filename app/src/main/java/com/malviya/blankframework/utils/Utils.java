@@ -30,6 +30,7 @@ public class Utils {
 
     private static Context mContext = MyApplication.getInstance().getApplicationContext();
 
+
     public static boolean validateUserName(EditText pEditText) {
         if (pEditText != null && !pEditText.getText().toString().equals("")) {
             return validateEmail(pEditText);
@@ -173,12 +174,47 @@ public class Utils {
             ft.addToBackStack(TAG);
             ft.commit();
             ft.setCustomAnimations(R.anim.left, R.anim.right);
-        }catch (Exception e){
-            AppLog.errLog("navigateFragment",e.getMessage());
+        } catch (Exception e) {
+            AppLog.errLog("navigateFragment", e.getMessage());
         }
     }
 
     public static Bitmap getImage(String university_image_url) {
         return null;
+    }
+
+
+//    public static String getLastRetrivedTime() {
+//        try {
+//            SharedPreferences sp = MyApplication.getInstance().getSharedPreferences(WSContant.TAG_SHAREDPREF_NAME, Context.MODE_PRIVATE);
+//            String lastRetrivedTime = getCurrTime();
+//            if ((lastRetrivedTime = sp.getString(WSContant.TAG_SHAREDPREF_GET_LAST_TIME, null)) != null) {
+//                return lastRetrivedTime;
+//            } else {
+//                SharedPreferences.Editor editor = sp.edit();
+//                editor.putString(WSContant.TAG_SHAREDPREF_GET_LAST_TIME, lastRetrivedTime);
+//                editor.commit();
+//            }
+//            return lastRetrivedTime;
+//        } catch (Exception e) {
+//            AppLog.errLog("getLastRetrivedTime", e.getMessage());
+//        } finally {
+//            return "";
+//        }
+//    }
+
+    public static String getLastRetrivedTime() {
+        try {
+            if (SharePreferenceApp.getInstance().getSavedTime() != null) {
+                return SharePreferenceApp.getInstance().getSavedTime();
+            } else {
+                SharePreferenceApp.getInstance().saveTime(getCurrTime());
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getLastRetrivedTime", e.getMessage());
+
+        } finally {
+            return SharePreferenceApp.getInstance().getSavedTime();
+        }
     }
 }

@@ -10,6 +10,8 @@ public class TableMenuDetailsDataModel {
     private String menu_code = "";
     private String parent_id = "";
     private String student_id = "";
+    private String UniversityId = "";
+    private String IsActive = "";
 
     public String getAlert_count() {
         return alert_count;
@@ -49,5 +51,21 @@ public class TableMenuDetailsDataModel {
 
     public void setStudentId(String student_id) {
         this.student_id = student_id;
+    }
+
+    public String getUniversityId() {
+        return UniversityId;
+    }
+
+    public void setUniversityId(String universityId) {
+        UniversityId = universityId;
+    }
+
+    public String getIsActive() {
+        return IsActive;
+    }
+
+    public void setIsActive(String isActive) {
+        IsActive = isActive;
     }
 }

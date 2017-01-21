@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Admin on 30-12-2016.
  */
 
-public class LoginDataHolder extends IModel {
+public class GetMobileHomeDataHolder extends IModel {
 
     @SerializedName("Data")
     public Data data;
@@ -25,7 +25,7 @@ public class LoginDataHolder extends IModel {
     public ArrayList<ParentStudentAssociation> parentStudentAssociationArrayList;
 
 
-    public LoginDataHolder() {
+    public GetMobileHomeDataHolder() {
         data = new Data();
         universityArrayList = new ArrayList<University>();
         parentProfileArrayList = new ArrayList<ParentProfile>();
@@ -97,7 +97,7 @@ public class LoginDataHolder extends IModel {
         @SerializedName("AuthenticationToken")
         public String AuthenticationToken;
         @SerializedName("Status")
-        public boolean Status;
+        public String Status;
         @SerializedName("UserStatus")
         public String UserStatus;
         @SerializedName("LastLoginIPAddress")
