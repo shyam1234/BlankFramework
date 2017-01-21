@@ -74,8 +74,8 @@ public class SplashActivity extends AppCompatActivity {
         table.read();
         //SharePreferenceApp.getInstance().removeAll();
         Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_UNIVERSITYID,"1");// SharePreferenceApp.getInstance().universityID);
-        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE," ");// SharePreferenceApp.getInstance().languageLastUpdateTime);
+        header.put(WSContant.TAG_UNIVERSITYID, SharePreferenceApp.getInstance().universityID);
+        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharePreferenceApp.getInstance().languageLastUpdateTime);
         WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LANG, new IWSRequest() {
             @Override
             public void onResponse(String response) {

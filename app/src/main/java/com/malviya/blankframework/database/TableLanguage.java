@@ -19,13 +19,13 @@ public class TableLanguage {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
     public static final String TAG = "TableLanguage";
-    private static final String TABLE_NAME = "table_language";
-    private static final String UNIVERSITY_ID = "UniversityId";
-    private static final String CONVERSION_ID = "ConversionId";
-    private static final String CONVERSION_CODE = "ConversionCode";
-    private static final String ENGLISH_VERSION = "EnglishVersion";
-    private static final String BAHASA_VERSION = "BahasaVersion";
-    private static final String DATE_MODIFIED = "DateModified";
+    public static final String TABLE_NAME = "table_language";
+    public static final String UNIVERSITY_ID = "UniversityId";
+    public static final String CONVERSION_ID = "ConversionId";
+    public static final String CONVERSION_CODE = "ConversionCode";
+    public static final String ENGLISH_VERSION = "EnglishVersion";
+    public static final String BAHASA_VERSION = "BahasaVersion";
+    public static final String DATE_MODIFIED = "DateModified";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE_DIARY = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE_DIARY = "TRUNCATE TABLE " + TABLE_NAME;

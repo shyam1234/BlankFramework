@@ -39,7 +39,7 @@ public class TableParentStudentMenuDetails {
             + COL_PARENTID + " integer , "
             + COL_STUDENTID + " integer ,  "
             //For Foreign key
-            + " FOREIGN KEY (" + COL_SUBCRIPTIONCODE + ") REFERENCES " + TableMenuMaster.TABLE_NAME + "(" + TableMenuMaster.COL_MENUCODE + "));";
+            + " FOREIGN KEY (" + COL_SUBCRIPTIONCODE + ") REFERENCES " + TableLanguage.TABLE_NAME + "(" + TableLanguage.CONVERSION_CODE + "));";
 
 
     public void openDB(Context pContext) {
@@ -147,8 +147,8 @@ public class TableParentStudentMenuDetails {
         try {
             if (mDB != null) {
                 String selectQuery = "Select * from " + TABLE_NAME
-                        + " join " + TableMenuMaster.TABLE_NAME + " , " + TableStudentDetails.TABLE_NAME + " , " + TableUniversityMaster.TABLE_NAME
-                        + " on " + TABLE_NAME + "." + COL_SUBCRIPTIONCODE + "=" + TableMenuMaster.TABLE_NAME + "." + TableMenuMaster.COL_MENUCODE
+                        + " join " + TableLanguage.TABLE_NAME + " , " + TableStudentDetails.TABLE_NAME + " , " + TableUniversityMaster.TABLE_NAME
+                        + " on " + TABLE_NAME + "." + COL_SUBCRIPTIONCODE + "=" + TableLanguage.TABLE_NAME + "." + TableLanguage.CONVERSION_CODE
                         + " and " + TABLE_NAME + "." + COL_STUDENTID + "=" + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_STUDENT_ID
                         + " and " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID + "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
                         + " where " + TABLE_NAME + "." + COL_PARENTID + "='" + parentId
@@ -169,7 +169,7 @@ public class TableParentStudentMenuDetails {
                         model.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
                         model.setMenu_code(cursor.getString(cursor.getColumnIndex(COL_SUBCRIPTIONCODE)));
                         model.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
-                        model.setText(cursor.getString(cursor.getColumnIndex(TableMenuMaster.COL_MENU_DESCRIPTION)));
+                        model.setText(cursor.getString(cursor.getColumnIndex(TableLanguage.ENGLISH_VERSION)));
                         AppLog.log("getHomeFragmentData parentId", parentId);
                         AppLog.log("getHomeFragmentData studentId ", studentId);
                         AppLog.log("getHomeFragmentData getMenu_code ", model.getMenu_code());
