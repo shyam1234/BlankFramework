@@ -80,6 +80,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //--parsing logic------------------------------------------------------------------
+                AppLog.log("onResponse", "res++ "+response);
                 ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, ModelFactory.MODEL_LANG);
                 LanguageArrayDataModel holder = ((LanguageArrayDataModel) obj.getModel());
                 //storeIntoDB(obj);
@@ -124,11 +125,14 @@ public class SplashActivity extends AppCompatActivity {
             TableLanguage table = new TableLanguage();
             table.openDB(getApplicationContext());
             boolean isAdded =table.insert(list);
-            if (isAdded)
+            AppLog.log("bindDataWithLanguageDataModel+++ 111 ",""+isAdded);
+            if (isAdded) {
+                SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
                 Toast.makeText(this, "Language db updated for university id: " + SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
+            }
             table.closeDB();
-            SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
             navigateToNextPage();
+            AppLog.log("bindDataWithLanguageDataModel+++ 2222 ","");
         } catch (Exception e) {
             AppLog.errLog("SplashActivity bindDataWithLanguageDataModel", e.getMessage());
         }

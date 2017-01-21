@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 public class LoginDataModel extends IModel {
 
+    @SerializedName("Status")
+    public boolean Status;
     @SerializedName("Data")
     public Data data;
-    @SerializedName("Status")
-    public String Status;
     @SerializedName("University")
     public ArrayList<University> universityArrayList;
     @SerializedName("ParentProfile")

@@ -193,7 +193,6 @@ public class HomeFragment extends Fragment {
         });
 
         if (mCellList.size() > 0) {
-            //pp mImageViewUnivercityLogo.setImageBitmap(Utils.getImage(mCellList.get(0).getUniversity_image_url()));
             mTextViewUnivercityText.setText(mCellList.get(0).getUniversity_name());
         }
     }

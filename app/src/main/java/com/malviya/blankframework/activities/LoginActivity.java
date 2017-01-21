@@ -119,7 +119,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     //--parsing logic------------------------------------------------------------------
                     ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_LOGIN);
                     LoginDataModel holder = ((LoginDataModel) obj.getModel());
-                    if (holder.data.Status) {
+                    AppLog.log(TAG, "holder.data.Status: " + holder.Status);
+                    AppLog.log(TAG, "holder.data.UniversityName: " + holder.universityArrayList.get(0).UniversityName);
+                    if (holder.Status) {
                         AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
                         AppLog.log(TAG, "parentId: " + holder.data.UserId);
                         AppLog.log(TAG, "parentName: " + holder.data.UserName);
@@ -136,6 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         mButtonLogin.setEnabled(false);
                         navigateToNextPage();
                         SharePreferenceApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+                        AppLog.log(TAG, "++++++++++ load all the data+++++++++");
                     } else {
                         Toast.makeText(LoginActivity.this, R.string.msg_invalide_credential, Toast.LENGTH_SHORT).show();
                     }
@@ -210,6 +213,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 obj.setGender(model.Gender);
                 obj.setDateOfBirth(model.DateOfBirth);
                 obj.setStudentNumber(model.StudentNumber);
+                obj.setStudentId(model.StudentId);
                 list.add(obj);
             }
             //saving into database

@@ -49,9 +49,27 @@ public class SharePreferenceApp {
         }
     }
 
+    public String getSavedLanguageTime() {
+        SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+        try {
+            if (sharePref != null) {
+                return languageLastUpdateTime = sharePref.getString(WSContant.TAG_LANGUAGE_VERSION_DATE, "");
+            } else {
+                AppLog.log("readSavedLanguageTime", "there is not university language history");
+            }
+        } catch (Exception e) {
+            AppLog.errLog("Exception from saveLanguageUpdateHistory", e.getMessage());
+        } finally {
+            sharePref = null;
+
+        }
+        return "";
+    }
+
 
     public void saveLanguageUpdateHistory(String pUniversity, String pLastUpdateDate) {
         try {
+            AppLog.log("saveLanguageUpdateHistory","");
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             SharedPreferences.Editor data = sharePref.edit();
             data.putString(WSContant.TAG_UNIVERSITYID, pUniversity);

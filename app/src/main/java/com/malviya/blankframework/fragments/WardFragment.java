@@ -33,7 +33,6 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     private ImageView mProfileImage;//
     private TextView mTextViewProfileHeaderName; //textview_profile_header_name
     private TextView mProfileHeaderLocation;  //textview_profile_header_location
-    private ImageView mProfileView; //imageview_profile_eye
     private RecyclerView mRecycleViewChildInfo;
     private WardChildRowAdapter mChildAdapter;
     private ArrayList<TableStudentDetailsDataModel> mListChildInfoHolder;
@@ -71,7 +70,6 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mProfileImage = (ImageView) getView().findViewById(R.id.imageview_profile_logo);
         mTextViewProfileHeaderName = (TextView) getView().findViewById(R.id.textview_profile_header_name);
         mProfileHeaderLocation = (TextView) getView().findViewById(R.id.textview_profile_header_location);
-        mProfileView = (ImageView) getView().findViewById(R.id.imageview_profile_logo);
         mProfileEye = (ImageView) getView().findViewById(R.id.imageview_profile_eye);
         mFloatingBtn = (FloatingActionButton)getView().findViewById(R.id.fab_edit);
         mProfileEye.setVisibility(View.VISIBLE);
@@ -125,6 +123,8 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         try {
            // mListChildInfoHolder =  table.getAllChildWRTParent(""+((LoginDataModel)ModelFactory.getInstance().getModel(ModelFactory.MODEL_LOGIN)).data.UserId);
             mListChildInfoHolder =  table.getAllChildWRTParent(UserInfo.parentId);
+            AppLog.log("getAllChildWRTParent parentId ",UserInfo.parentId);
+            AppLog.log("getAllChildWRTParent mListChildInfoHolder ",""+mListChildInfoHolder.size());
         } catch (Exception e) {
             AppLog.errLog("getAllChildWRTParent",e.getMessage());
         }
