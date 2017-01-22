@@ -8,6 +8,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.malviya.blankframework.utils.ConnectivityReceiver;
+import com.malviya.blankframework.utils.SharedPreferencesApp;
 
 
 /**
@@ -24,7 +25,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
-        initVolley();
+        SharedPreferencesApp.getInstance();
     }
 
     private void initVolley() {

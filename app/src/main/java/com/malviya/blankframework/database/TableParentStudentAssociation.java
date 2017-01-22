@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.models.TableParentStudentAssociationDataModel;
+import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -128,6 +129,57 @@ public class TableParentStudentAssociation {
             AppLog.errLog(TAG, "delete Record from TableParentStudentAssociationDataModel" + e.getMessage());
         }
         return false;
+    }
+
+
+    public TableParentStudentAssociationDataModel getStudentIDWRTParentID(int parentId) {
+        TableParentStudentAssociationDataModel model = new TableParentStudentAssociationDataModel();
+        try {
+            AppLog.log("getStudentIDWRTParentID++++++", "");
+            if (mDB != null) {
+                String selectQuery = "Select * from " + TABLE_NAME  + " WHERE " + COL_PARENTID + "='" + parentId+ "'";
+                Cursor cursor = mDB.rawQuery(selectQuery, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        // get the data into array, or class variable
+                        model.setIsDefault(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(COL_IS_DEFAULT))));
+                        model.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
+                        model.setStudentid(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getStudentIDWRTParentID", e.getMessage());
+        }
+        return model;
+    }
+
+    public TableParentStudentAssociationDataModel getParentIDWRTStudentId(int studentid) {
+        TableParentStudentAssociationDataModel model = new TableParentStudentAssociationDataModel();
+        try {
+            AppLog.log("getParentIDWRTStudentId++++++", "");
+            if (mDB != null) {
+                String selectQuery = "Select * from " + TABLE_NAME  + " WHERE " + COL_STUDENTID + "='" + studentid+ "'";
+                Cursor cursor = mDB.rawQuery(selectQuery, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        // get the data into array, or class variable
+                        model.setIsDefault(Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex(COL_IS_DEFAULT))));
+                        model.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
+                        model.setStudentid(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getParentIDWRTStudentId", e.getMessage());
+        }
+        return model;
     }
 
 

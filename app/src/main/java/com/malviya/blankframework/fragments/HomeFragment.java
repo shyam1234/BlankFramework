@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
 
         //need to fetch data from DB WRT to above parameters
         //on the basis of parent id and student id
-        if(UserInfo.parentId!=null && UserInfo.studentId!=null){
+        if(UserInfo.parentId!=-1 && UserInfo.studentId!=-1){
             //--for header
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
@@ -83,8 +83,8 @@ public class HomeFragment extends Fragment {
             header.put(WSContant.TAG_NEW, Utils.getCurrTime());
             //--for body
             Map<String, String> body = new HashMap<>();
-            body.put(WSContant.TAG_PARENTID, UserInfo.parentId);
-            body.put(WSContant.TAG_STUDENTID, UserInfo.studentId);
+            body.put(WSContant.TAG_PARENTID, ""+UserInfo.parentId);
+            body.put(WSContant.TAG_STUDENTID, ""+UserInfo.studentId);
 
             WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEHOME, header, body, WSContant.TAG_GETMOBILEHOME, new IWSRequest() {
                 @Override
@@ -105,10 +105,10 @@ public class HomeFragment extends Fragment {
                         AppLog.log(TAG, "parentName: " + parentStudentAsso.IsDefault);
                         if (parentStudentAsso.IsDefault) {
                             AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
-                            UserInfo.studentId = "" + parentStudentAsso.StudentId;
+                            UserInfo.studentId =  parentStudentAsso.StudentId;
                         }
                     }
-                    UserInfo.parentId = "" + holder.data.UserId;
+                    UserInfo.parentId = holder.data.UserId;
                     UserInfo.parentName = holder.data.UserName;
                     //--------------------------------------------------------------------
                 }

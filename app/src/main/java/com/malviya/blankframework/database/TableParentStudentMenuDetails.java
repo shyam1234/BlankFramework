@@ -142,7 +142,7 @@ public class TableParentStudentMenuDetails {
     }
 
     private int position;
-    public ArrayList<DashboardCellDataHolder> getHomeFragmentData(String parentId, String studentId) {
+    public ArrayList<DashboardCellDataHolder> getHomeFragmentData(int parentId, int studentId) {
         ArrayList<DashboardCellDataHolder> list = new ArrayList<DashboardCellDataHolder>();
         try {
             if (mDB != null) {
@@ -170,8 +170,8 @@ public class TableParentStudentMenuDetails {
                         model.setMenu_code(cursor.getString(cursor.getColumnIndex(COL_SUBCRIPTIONCODE)));
                         model.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
                         model.setText(cursor.getString(cursor.getColumnIndex(TableLanguage.ENGLISH_VERSION)));
-                        AppLog.log("getHomeFragmentData parentId", parentId);
-                        AppLog.log("getHomeFragmentData studentId ", studentId);
+                        AppLog.log("getHomeFragmentData parentId", ""+parentId);
+                        AppLog.log("getHomeFragmentData studentId ", ""+studentId);
                         AppLog.log("getHomeFragmentData getMenu_code ", model.getMenu_code());
                         AppLog.log("getHomeFragmentData getUniversity_id", ""+model.getUniversity_id());
                         AppLog.log("getHomeFragmentData getUniversity_name ", model.getUniversity_name());

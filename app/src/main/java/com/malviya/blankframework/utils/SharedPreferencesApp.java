@@ -10,24 +10,26 @@ import com.malviya.blankframework.constant.WSContant;
  * Created by Admin on 31-12-2016.
  */
 
-public class SharePreferenceApp {
+public class SharedPreferencesApp {
     private static final String DEFAULT_SHAREPREF = "edurp_sharepref";
-    private static SharePreferenceApp mInstance;
+    private static SharedPreferencesApp mInstance;
     public String universityID = "1";
     public String languageLastUpdateTime = "";
     private String mCurrTime;
     private String mLastLoginTime;
     private String mLangRetrivTime;
 
-    private SharePreferenceApp() {
+    private SharedPreferencesApp() {
         //read all store value
         readSavedLanguageUpdateHistory();
     }
 
-    public static SharePreferenceApp getInstance() {
-        synchronized (SharePreferenceApp.class) {
+    public static SharedPreferencesApp getInstance() {
+        synchronized (SharedPreferencesApp.class) {
             if (mInstance == null) {
-                mInstance = new SharePreferenceApp();
+                mInstance = new SharedPreferencesApp();
+                //retrieve value from store
+                getStoreData();
             }
         }
 
@@ -69,7 +71,7 @@ public class SharePreferenceApp {
 
     public void saveLanguageUpdateHistory(String pUniversity, String pLastUpdateDate) {
         try {
-            AppLog.log("saveLanguageUpdateHistory","");
+            AppLog.log("saveLanguageUpdateHistory", "");
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             SharedPreferences.Editor data = sharePref.edit();
             data.putString(WSContant.TAG_UNIVERSITYID, pUniversity);
@@ -96,6 +98,8 @@ public class SharePreferenceApp {
     public void removeAll() {
         removeLanguageUpdateHistory();
         removeSavedTime();
+        removeAuthToken();
+        UserInfo.clearUSerInfo();
     }
 
 
@@ -176,7 +180,6 @@ public class SharePreferenceApp {
         }
     }
 
-
     //-----------------------------------------------------------
 /*    public void saveLangRetriveTime(String currTime) {
         try {
@@ -215,5 +218,48 @@ public class SharePreferenceApp {
         }
     }*/
 //-----------------------------------------------------------------------------------
+    public void saveAuthToken(String authToken, int id, String currUserType) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putString(WSContant.TAG_AUTHTOKEN, authToken);
+            data.putInt(WSContant.TAG_USERID, id);
+            data.putString(WSContant.TAG_USERTYPE, currUserType);
+            data.commit();
+            AppLog.log("sharePreferenceApp", "saveAuthToken: " + authToken);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp saveAuthToken", e.getMessage());
+        }
+    }
+
+    private static void getStoreData() {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                UserInfo.userId= sharePref.getInt(WSContant.TAG_USERID, -1);
+                UserInfo.authToken = sharePref.getString(WSContant.TAG_AUTHTOKEN, null);
+                UserInfo.currUserType = sharePref.getString(WSContant.TAG_USERTYPE, null);
+                AppLog.log("getUserInfo", " UserInfo.userId: " +  UserInfo.userId);
+                AppLog.log("getUserInfo", " UserInfo.authToken: " +  UserInfo.authToken);
+                AppLog.log("getUserInfo", " UserInfo.currUserType: " +  UserInfo.currUserType);
+            } else {
+                AppLog.log("getUserInfo", "there is not getStoreData ");
+            }
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getStoreData", e.getMessage());
+        }
+    }
+
+
+    public void removeAuthToken() {
+        try {
+            saveAuthToken(null, -1, null);
+        } catch (Exception e) {
+            AppLog.errLog(" removeAuthToken", e.getMessage());
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------
+
 
 }

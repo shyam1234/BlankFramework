@@ -205,16 +205,16 @@ public class Utils {
 
     public static String getLastRetrivedTime() {
         try {
-            if (SharePreferenceApp.getInstance().getSavedTime() != null) {
-                return SharePreferenceApp.getInstance().getSavedTime();
+            if (SharedPreferencesApp.getInstance().getSavedTime() != null) {
+                return SharedPreferencesApp.getInstance().getSavedTime();
             } else {
-                SharePreferenceApp.getInstance().saveTime(getCurrTime());
+                SharedPreferencesApp.getInstance().saveTime(getCurrTime());
             }
         } catch (Exception e) {
             AppLog.errLog("getLastRetrivedTime", e.getMessage());
 
         } finally {
-            return SharePreferenceApp.getInstance().getSavedTime();
+            return SharedPreferencesApp.getInstance().getSavedTime();
         }
     }
 }

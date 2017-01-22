@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -21,7 +21,8 @@ import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.CustomDialogbox;
-import com.malviya.blankframework.utils.SharePreferenceApp;
+import com.malviya.blankframework.utils.SharedPreferencesApp;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
@@ -62,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
         mHandler.postDelayed(mRunnable, TIME_DELAY);
-        SharePreferenceApp.getInstance();
+        SharedPreferencesApp.getInstance();
         //------------------------------------------
 
     }
@@ -72,10 +73,10 @@ public class SplashActivity extends AppCompatActivity {
         table.openDB(SplashActivity.this);
         //AppLog.log("table: ",((LanguageArrayDataModel) obj.getModel()).LanguageArray.get(3).EnglishVersion);
         table.read();
-        //SharePreferenceApp.getInstance().removeAll();
+        //SharedPreferencesApp.getInstance().removeAll();
         Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_UNIVERSITYID, SharePreferenceApp.getInstance().universityID);
-        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharePreferenceApp.getInstance().languageLastUpdateTime);
+        header.put(WSContant.TAG_UNIVERSITYID, SharedPreferencesApp.getInstance().universityID);
+        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().languageLastUpdateTime);
         WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LANG, new IWSRequest() {
             @Override
             public void onResponse(String response) {
@@ -110,9 +111,9 @@ public class SplashActivity extends AppCompatActivity {
         //AppLog.log("table: ",((LanguageArrayDataModel) obj.getModel()).LanguageArray.get(3).EnglishVersion);
         boolean isAdded = table.insert(((LanguageArrayDataModel) obj.getModel()).LanguageArray);
         if (isAdded)
-            Toast.makeText(this, "Language db updated for university id: " + SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Language db updated for university id: " + SharedPreferencesApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
         table.closeDB();
-        SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
+        SharedPreferencesApp.getInstance().saveLanguageUpdateHistory(SharedPreferencesApp.getInstance().universityID, Utils.getCurrTime());
         navigateToNextPage();
     }*/
 
@@ -134,22 +135,26 @@ public class SplashActivity extends AppCompatActivity {
             TableLanguage table = new TableLanguage();
             table.openDB(getApplicationContext());
             boolean isAdded = table.insert(list);
-            AppLog.log("bindDataWithLanguageDataModel+++ 111 ", "" + isAdded);
+            AppLog.log("lang inserted+++ 111 ", "" + isAdded);
             if (isAdded) {
-                SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
-                Toast.makeText(this, "Language db updated for university id: " + SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
+                SharedPreferencesApp.getInstance().saveLanguageUpdateHistory(SharedPreferencesApp.getInstance().universityID, Utils.getCurrTime());
+                Toast.makeText(this, "Language db updated for university id: " + SharedPreferencesApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
             }
             table.closeDB();
-            navigateToNextPage();
-            AppLog.log("bindDataWithLanguageDataModel+++ 2222 ", "");
+            AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );
+            if( UserInfo.authToken !=null) {
+                navigateToNextPage(DashboardActivity.class);
+            }else{
+                navigateToNextPage(LoginActivity.class);
+            }
         } catch (Exception e) {
             AppLog.errLog("SplashActivity bindDataWithLanguageDataModel", e.getMessage());
         }
     }
 
 
-    private void navigateToNextPage() {
-        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+    private void navigateToNextPage(Class<?> activity) {
+        Intent intent = new Intent(SplashActivity.this, activity);
         startActivity(intent);
         finish();
         Utils.animRightToLeft(SplashActivity.this);

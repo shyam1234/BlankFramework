@@ -38,4 +38,9 @@ public interface WSContant {
     String TAG_ISMOBILE = "isMobile";
     String TAG_LANG_RETRIVE_TIME= "lan_retriev_time";
     String TAG_LAST_LOGIN_TIME= "last_login_time";
+    String TAG_AUTHTOKEN = "auth_token";
+    String TAG_USERID = "saved_userid";
+    String TAG_USERTYPE_PARENT = "P";
+    String TAG_USERTYPE_STUDENT = "S";
+    String TAG_USERTYPE = "user_type";
 }

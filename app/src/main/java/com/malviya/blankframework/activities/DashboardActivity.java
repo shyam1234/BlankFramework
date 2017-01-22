@@ -10,8 +10,12 @@ import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.DashboardAdapter;
+import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.database.DatabaseHelper;
+import com.malviya.blankframework.database.TableParentStudentAssociation;
 import com.malviya.blankframework.fragments.HomeFragment;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -42,6 +46,21 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
 
     private void init() {
         mAdapterViewPager = new DashboardAdapter(getSupportFragmentManager());
+        TableParentStudentAssociation table = new TableParentStudentAssociation();
+        switch (UserInfo.currUserType){
+            case WSContant.TAG_USERTYPE_PARENT:
+                UserInfo.parentId = UserInfo.userId;
+                table.openDB(DashboardActivity.this);
+                UserInfo.studentId = table.getStudentIDWRTParentID(UserInfo.parentId).getStudentid();
+
+                break;
+            case WSContant.TAG_USERTYPE_STUDENT:
+                UserInfo.studentId = UserInfo.userId;
+                table.openDB(DashboardActivity.this);
+                UserInfo.parentId = table.getParentIDWRTStudentId(UserInfo.parentId).getParent_id();
+                break;
+        }
+        table.closeDB();
     }
 
 

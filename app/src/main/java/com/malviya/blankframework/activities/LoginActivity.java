@@ -29,7 +29,7 @@ import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
-import com.malviya.blankframework.utils.SharePreferenceApp;
+import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -109,9 +109,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_AUTHORIZATION, "Basic " + Utils.encodeToString(mEditTextUserName.getText().toString() + ":" + mEditTextPassword.getText().toString()));
-            header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharePreferenceApp.getInstance().languageLastUpdateTime);
+            header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().languageLastUpdateTime);
             header.put(WSContant.TAG_ISMOBILE, "true");
-            header.put(WSContant.TAG_DATELASTRETRIEVED, SharePreferenceApp.getInstance().getSavedTime());
+            header.put(WSContant.TAG_DATELASTRETRIEVED, SharedPreferencesApp.getInstance().getSavedTime());
 
             WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_LOGIN, header, null, WSContant.TAG_LOGIN, new IWSRequest() {
                 @Override
@@ -125,8 +125,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
                         AppLog.log(TAG, "parentId: " + holder.data.UserId);
                         AppLog.log(TAG, "parentName: " + holder.data.UserName);
-                        UserInfo.parentId = "" + holder.data.UserId;
+                        UserInfo.userId = holder.data.UserId;
                         UserInfo.parentName = holder.data.UserName;
+                        UserInfo.parentId =  UserInfo.userId;
+                        UserInfo.currUserType = holder.data.UserType;
                         //-------------------------------------------------------------------
                         bindDataWithTableParentStudentAssociationDataModel(holder);
                         bindDataWithStudentDetailsDataModel(holder);
@@ -137,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         mButtonLogin.setText(getResources().getString(R.string.success));
                         mButtonLogin.setEnabled(false);
                         navigateToNextPage();
-                        SharePreferenceApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+                        savedDataOnSharedPrefences();
                         AppLog.log(TAG, "++++++++++ load all the data+++++++++");
                     } else {
                         Toast.makeText(LoginActivity.this, R.string.msg_invalide_credential, Toast.LENGTH_SHORT).show();
@@ -152,6 +154,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //------------------------------------------------
 
         }
+    }
+
+    private void savedDataOnSharedPrefences() {
+        SharedPreferencesApp.getInstance().saveAuthToken(UserInfo.authToken, UserInfo.userId,   UserInfo.currUserType );
+        SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
     }
 
 
@@ -186,7 +193,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 tableParentStudentList.add(obj);
                 if (parentStudentAsso.IsDefault) {
                     AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
-                    UserInfo.studentId = "" + parentStudentAsso.StudentId;
+                    UserInfo.studentId = parentStudentAsso.StudentId;
                 }
             }
             //saving into database

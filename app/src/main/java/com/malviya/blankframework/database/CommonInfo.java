@@ -31,7 +31,7 @@ public class CommonInfo {
         }
     }
 
-    public ArrayList<TableStudentDetailsDataModel> getAllChildWRTParent(String parentId) {
+    public ArrayList<TableStudentDetailsDataModel> getAllChildWRTParent(int parentId) {
         ArrayList<TableStudentDetailsDataModel> list = new ArrayList<TableStudentDetailsDataModel>();
         try {
             if (mDB != null) {

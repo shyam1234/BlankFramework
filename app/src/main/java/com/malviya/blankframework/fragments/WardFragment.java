@@ -123,7 +123,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         try {
            // mListChildInfoHolder =  table.getAllChildWRTParent(""+((LoginDataModel)ModelFactory.getInstance().getModel(ModelFactory.MODEL_LOGIN)).data.UserId);
             mListChildInfoHolder =  table.getAllChildWRTParent(UserInfo.parentId);
-            AppLog.log("getAllChildWRTParent parentId ",UserInfo.parentId);
+            AppLog.log("getAllChildWRTParent parentId ",""+UserInfo.parentId);
             AppLog.log("getAllChildWRTParent mListChildInfoHolder ",""+mListChildInfoHolder.size());
         } catch (Exception e) {
             AppLog.errLog("getAllChildWRTParent",e.getMessage());

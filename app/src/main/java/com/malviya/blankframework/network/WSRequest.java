@@ -112,7 +112,9 @@ public class WSRequest {
                     AppLog.networkLog("notModified", "" + resp.notModified);
                     Map<String, String> mapHeader = resp.headers;
                     AppLog.networkLog("headers", "" + mapHeader);
-                    UserInfo.authToken = mapHeader.get(WSContant.TAG_TOKEN);
+                    if((mapHeader.get(WSContant.TAG_TOKEN)).trim().length()> 0){
+                        UserInfo.authToken = mapHeader.get(WSContant.TAG_TOKEN);
+                    }
                     UserInfo.tokenExp = mapHeader.get(WSContant.TAG_TOKEN_EXP);
                     UserInfo.tokenIssue = mapHeader.get(WSContant.TAG_TOKEN_ISSUE);
                     //parseData(resp.data);

@@ -5,11 +5,27 @@ package com.malviya.blankframework.utils;
  */
 
 public class UserInfo {
-    public static String parentId;
+    public static int parentId;
     public static String parentName;
-    public static String studentId ;
-    public static String authToken ;
-    public static String univercityId ;
+    public static int studentId;
+    public static String authToken;
+    public static int univercityId;
     public static String tokenExp;
     public static String tokenIssue;
+    public static int userId;
+    public static String currUserType;
+
+    public static void clearUSerInfo() {
+        userId = -1;
+        parentName = null;
+        parentId = -1;
+        parentName = null;
+        studentId = -1;
+        authToken = null;
+        univercityId = -1;
+        tokenExp = null;
+        tokenIssue = null;
+        currUserType = null;
+    }
 }
+
