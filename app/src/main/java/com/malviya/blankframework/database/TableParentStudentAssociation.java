@@ -139,6 +139,7 @@ public class TableParentStudentAssociation {
             if (mDB != null) {
                 String selectQuery = "Select * from " + TABLE_NAME  + " WHERE " + COL_PARENTID + "='" + parentId+ "'";
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
+                AppLog.log(TABLE_NAME + " selectQuery: ", selectQuery);
                 if (cursor.moveToFirst()) {
                     do {
                         // get the data into array, or class variable
@@ -147,6 +148,7 @@ public class TableParentStudentAssociation {
                         model.setStudentid(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
                     } while (cursor.moveToNext());
                 }
+
                 cursor.close();
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();

@@ -57,7 +57,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
             case WSContant.TAG_USERTYPE_STUDENT:
                 UserInfo.studentId = UserInfo.userId;
                 table.openDB(DashboardActivity.this);
-                UserInfo.parentId = table.getParentIDWRTStudentId(UserInfo.parentId).getParent_id();
+                UserInfo.parentId = table.getParentIDWRTStudentId(UserInfo.studentId).getParent_id();
                 break;
         }
         table.closeDB();

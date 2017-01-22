@@ -152,7 +152,7 @@ public class TableParentStudentMenuDetails {
                         + " and " + TABLE_NAME + "." + COL_STUDENTID + "=" + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_STUDENT_ID
                         + " and " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID + "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
                         + " where " + TABLE_NAME + "." + COL_PARENTID + "='" + parentId
-                        + "' and " + TABLE_NAME + "." + COL_STUDENTID + "='" + studentId + "'";
+                        + "' or " + TABLE_NAME + "." + COL_STUDENTID + "='" + studentId + "'";
                 AppLog.log("getHomeFragmentData ++++selectQuery++++++++++++++++",selectQuery);
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 position = 0 ;
