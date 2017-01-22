@@ -5,22 +5,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableLanguage;
-import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.models.LanguageArrayDataModel;
-import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableLanguageDataModel;
-import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.CustomDialogbox;
 import com.malviya.blankframework.utils.SharePreferenceApp;
 import com.malviya.blankframework.utils.Utils;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
@@ -46,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
         Utils.animRightToLeft(SplashActivity.this);
         init();
         initView();
-        Utils.showProgressBar(100,mCircularProgressBar);
+        Utils.showProgressBar(100, mCircularProgressBar);
     }
 
     private void initView() {
@@ -80,7 +80,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //--parsing logic------------------------------------------------------------------
-                AppLog.log("onResponse", "res++ "+response);
+                AppLog.log("onResponse", "res++ " + response);
                 ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, ModelFactory.MODEL_LANG);
                 LanguageArrayDataModel holder = ((LanguageArrayDataModel) obj.getModel());
                 //storeIntoDB(obj);
@@ -90,7 +90,16 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onErrorResponse(VolleyError response) {
-
+                final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
+                dilog.setTitle(getResources().getString(R.string.msg_network_prob));
+                dilog.show();
+                dilog.getBtnOK().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dilog.dismiss();
+                        finish();
+                    }
+                });
             }
         });
     }
@@ -124,15 +133,15 @@ public class SplashActivity extends AppCompatActivity {
             //saving into database
             TableLanguage table = new TableLanguage();
             table.openDB(getApplicationContext());
-            boolean isAdded =table.insert(list);
-            AppLog.log("bindDataWithLanguageDataModel+++ 111 ",""+isAdded);
+            boolean isAdded = table.insert(list);
+            AppLog.log("bindDataWithLanguageDataModel+++ 111 ", "" + isAdded);
             if (isAdded) {
                 SharePreferenceApp.getInstance().saveLanguageUpdateHistory(SharePreferenceApp.getInstance().universityID, Utils.getCurrTime());
                 Toast.makeText(this, "Language db updated for university id: " + SharePreferenceApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
             }
             table.closeDB();
             navigateToNextPage();
-            AppLog.log("bindDataWithLanguageDataModel+++ 2222 ","");
+            AppLog.log("bindDataWithLanguageDataModel+++ 2222 ", "");
         } catch (Exception e) {
             AppLog.errLog("SplashActivity bindDataWithLanguageDataModel", e.getMessage());
         }

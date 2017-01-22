@@ -26,7 +26,8 @@ public class CustomDialogbox extends Dialog {
     private TextView mTextViewMessage;
 
     public CustomDialogbox(Context context, int pType) {
-        super(context);
+        super(context /*, R.style.CustomDialogAnimation*/);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); //before
         mType = pType;
         mContext = context;
         //for background transparency
@@ -73,8 +74,11 @@ public class CustomDialogbox extends Dialog {
         return mBtnNo;
     }
 
-    public void setMessage(String msg) {
-         mTextViewMessage.setText(msg);
+
+
+    public void setTitle(String msg){
+        super.setTitle(null);
+        mTextViewMessage.setText(msg);
     }
 
 

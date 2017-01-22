@@ -93,6 +93,6 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="0dp"
-            android:src="@drawable/bg_btn" />
+            android:src="@drawable/logo" />
     </RelativeLayout>
 </RelativeLayout>
