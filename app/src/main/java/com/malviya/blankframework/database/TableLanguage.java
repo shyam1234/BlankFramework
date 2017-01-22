@@ -69,6 +69,7 @@ public class TableLanguage {
                     contentValues.put(DATE_MODIFIED, holder.getDateModified());
                     mDB.insert(TABLE_NAME, null, contentValues);
                 }
+                return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }

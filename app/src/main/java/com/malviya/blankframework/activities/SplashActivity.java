@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -75,8 +74,8 @@ public class SplashActivity extends AppCompatActivity {
         table.read();
         //SharedPreferencesApp.getInstance().removeAll();
         Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_UNIVERSITYID, SharedPreferencesApp.getInstance().universityID);
-        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().languageLastUpdateTime);
+        header.put(WSContant.TAG_UNIVERSITYID, SharedPreferencesApp.getInstance().getLastSavedUniversityID());
+        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().getLastLangSync());
         WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LANG, new IWSRequest() {
             @Override
             public void onResponse(String response) {
@@ -137,8 +136,8 @@ public class SplashActivity extends AppCompatActivity {
             boolean isAdded = table.insert(list);
             AppLog.log("lang inserted+++ 111 ", "" + isAdded);
             if (isAdded) {
-                SharedPreferencesApp.getInstance().saveLanguageUpdateHistory(SharedPreferencesApp.getInstance().universityID, Utils.getCurrTime());
-                Toast.makeText(this, "Language db updated for university id: " + SharedPreferencesApp.getInstance().universityID, Toast.LENGTH_SHORT).show();
+                SharedPreferencesApp.getInstance().saveLastLangSync(Utils.getCurrTime());
+                Toast.makeText(this, "Lang Sync for university id: " +SharedPreferencesApp.getInstance().getLastSavedUniversityID(), Toast.LENGTH_SHORT).show();
             }
             table.closeDB();
             AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );

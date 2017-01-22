@@ -13,16 +13,10 @@ import com.malviya.blankframework.constant.WSContant;
 public class SharedPreferencesApp {
     private static final String DEFAULT_SHAREPREF = "edurp_sharepref";
     private static SharedPreferencesApp mInstance;
-    public String universityID = "1";
-    public String languageLastUpdateTime = "";
-    private String mCurrTime;
-    private String mLastLoginTime;
-    private String mLangRetrivTime;
+    private String mCurrTime="";
+    private String mLastLoginTime="";
 
-    private SharedPreferencesApp() {
-        //read all store value
-        readSavedLanguageUpdateHistory();
-    }
+
 
     public static SharedPreferencesApp getInstance() {
         synchronized (SharedPreferencesApp.class) {
@@ -36,67 +30,48 @@ public class SharedPreferencesApp {
         return mInstance;
     }
 
-    public void readSavedLanguageUpdateHistory() {
+    public String getLastLangSync() {
+        String str = "";
         try {
+
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
-                universityID = sharePref.getString(WSContant.TAG_UNIVERSITYID, "1");
-                languageLastUpdateTime = sharePref.getString(WSContant.TAG_LANGUAGE_VERSION_DATE, "");
+                str = sharePref.getString(WSContant.TAG_LANGUAGE_VERSION_DATE, "");
             } else {
-                AppLog.log("readSavedLanguageUpdateHistory", "there is not university language history");
+                AppLog.log("getLastLangSync", "there is not university language history");
             }
             sharePref = null;
         } catch (Exception e) {
-            AppLog.errLog("Exception from saveLanguageUpdateHistory", e.getMessage());
+            AppLog.errLog("Exception from getLastLangSync", e.getMessage());
         }
-    }
-
-    public String getSavedLanguageTime() {
-        SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
-        try {
-            if (sharePref != null) {
-                return languageLastUpdateTime = sharePref.getString(WSContant.TAG_LANGUAGE_VERSION_DATE, "");
-            } else {
-                AppLog.log("readSavedLanguageTime", "there is not university language history");
-            }
-        } catch (Exception e) {
-            AppLog.errLog("Exception from saveLanguageUpdateHistory", e.getMessage());
-        } finally {
-            sharePref = null;
-
-        }
-        return "";
+        return str;
     }
 
 
-    public void saveLanguageUpdateHistory(String pUniversity, String pLastUpdateDate) {
+    public void saveLastLangSync(String pLastUpdateDate) {
         try {
-            AppLog.log("saveLanguageUpdateHistory", "");
+            AppLog.log("saveLastLangSync", "");
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             SharedPreferences.Editor data = sharePref.edit();
-            data.putString(WSContant.TAG_UNIVERSITYID, pUniversity);
             data.putString(WSContant.TAG_LANGUAGE_VERSION_DATE, pLastUpdateDate);
             data.commit();
-            AppLog.log("saveLanguageUpdateHistory", "pUniversity: " + pUniversity + " : pLastUpdateDate " + pLastUpdateDate);
         } catch (Exception e) {
-            AppLog.errLog("Exception from saveLanguageUpdateHistory", e.getMessage());
+            AppLog.errLog("Exception from saveLastLangSync", e.getMessage());
         }
     }
 
 
-    public void removeLanguageUpdateHistory() {
+    public void removeLastLangSync() {
         try {
-            universityID = "1";
-            languageLastUpdateTime = "";
-            saveLanguageUpdateHistory(universityID, languageLastUpdateTime);
+            saveLastLangSync(null);
         } catch (Exception e) {
-            AppLog.errLog("Exception from removeLanguageUpdateHistory", e.getMessage());
+            AppLog.errLog("Exception from removeLastLangSync", e.getMessage());
         }
     }
 
 
     public void removeAll() {
-        removeLanguageUpdateHistory();
+        removeLastLangSync();
         removeSavedTime();
         removeAuthToken();
         UserInfo.clearUSerInfo();
@@ -121,7 +96,7 @@ public class SharedPreferencesApp {
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
-                mCurrTime = sharePref.getString(WSContant.TAG_SHAREDPREF_GET_LAST_TIME, null);
+                mCurrTime = sharePref.getString(WSContant.TAG_SHAREDPREF_GET_LAST_TIME, "");
             } else {
                 AppLog.log("getSavedTime", "there is not savedTime ");
             }
@@ -159,7 +134,7 @@ public class SharedPreferencesApp {
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
-                mLastLoginTime = sharePref.getString(WSContant.TAG_LAST_LOGIN_TIME, null);
+                mLastLoginTime = sharePref.getString(WSContant.TAG_LAST_LOGIN_TIME, "");
             } else {
                 AppLog.log("getLastLoginTime", "there is not savedTime ");
             }
@@ -236,12 +211,12 @@ public class SharedPreferencesApp {
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
-                UserInfo.userId= sharePref.getInt(WSContant.TAG_USERID, -1);
+                UserInfo.userId = sharePref.getInt(WSContant.TAG_USERID, -1);
                 UserInfo.authToken = sharePref.getString(WSContant.TAG_AUTHTOKEN, null);
                 UserInfo.currUserType = sharePref.getString(WSContant.TAG_USERTYPE, null);
-                AppLog.log("getUserInfo", " UserInfo.userId: " +  UserInfo.userId);
-                AppLog.log("getUserInfo", " UserInfo.authToken: " +  UserInfo.authToken);
-                AppLog.log("getUserInfo", " UserInfo.currUserType: " +  UserInfo.currUserType);
+                AppLog.log("getUserInfo", " UserInfo.userId: " + UserInfo.userId);
+                AppLog.log("getUserInfo", " UserInfo.authToken: " + UserInfo.authToken);
+                AppLog.log("getUserInfo", " UserInfo.currUserType: " + UserInfo.currUserType);
             } else {
                 AppLog.log("getUserInfo", "there is not getStoreData ");
             }
@@ -257,6 +232,45 @@ public class SharedPreferencesApp {
         } catch (Exception e) {
             AppLog.errLog(" removeAuthToken", e.getMessage());
         }
+    }
+
+
+    //--------------------------------------------------------------------------------------------------------
+
+    public void removeLastSavedUniversity() {
+        try {
+            saveLastSavedUniversityID("1");
+        } catch (Exception e) {
+            AppLog.errLog(" removeLastSavedUniversity", e.getMessage());
+        }
+    }
+
+
+    public void saveLastSavedUniversityID(String langID) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putString(WSContant.TAG_UNIVERSITYID, langID);
+            data.commit();
+            AppLog.log("sharePreferenceApp", "saveLastSavedUniversityID: " + langID);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp saveLastSavedUniversityID", e.getMessage());
+        }
+    }
+
+    public String getLastSavedUniversityID() {
+        String str = "";
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                str = sharePref.getString(WSContant.TAG_UNIVERSITYID, "1");
+            } else {
+                AppLog.log("getLastSavedUniversityID", "there is not getStoreData ");
+            }
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getLastSavedUniversityID", e.getMessage());
+        }
+        return str;
     }
 
     //------------------------------------------------------------------------------------------------

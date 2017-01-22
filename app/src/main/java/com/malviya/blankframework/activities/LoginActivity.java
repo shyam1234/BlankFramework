@@ -109,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_AUTHORIZATION, "Basic " + Utils.encodeToString(mEditTextUserName.getText().toString() + ":" + mEditTextPassword.getText().toString()));
-            header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().languageLastUpdateTime);
+            header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().getLastLangSync());
             header.put(WSContant.TAG_ISMOBILE, "true");
             header.put(WSContant.TAG_DATELASTRETRIEVED, SharedPreferencesApp.getInstance().getSavedTime());
 
@@ -122,13 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     AppLog.log(TAG, "holder.data.Status: " + holder.Status);
                     AppLog.log(TAG, "holder.data.UniversityName: " + holder.universityArrayList.get(0).UniversityName);
                     if (holder.Status) {
-                        AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
-                        AppLog.log(TAG, "parentId: " + holder.data.UserId);
-                        AppLog.log(TAG, "parentName: " + holder.data.UserName);
-                        UserInfo.userId = holder.data.UserId;
-                        UserInfo.parentName = holder.data.UserName;
-                        UserInfo.parentId =  UserInfo.userId;
-                        UserInfo.currUserType = holder.data.UserType;
+                        savedDataOnSharedPrefences(holder);
                         //-------------------------------------------------------------------
                         bindDataWithTableParentStudentAssociationDataModel(holder);
                         bindDataWithStudentDetailsDataModel(holder);
@@ -139,7 +133,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         mButtonLogin.setText(getResources().getString(R.string.success));
                         mButtonLogin.setEnabled(false);
                         navigateToNextPage();
-                        savedDataOnSharedPrefences();
+
                         AppLog.log(TAG, "++++++++++ load all the data+++++++++");
                     } else {
                         Toast.makeText(LoginActivity.this, R.string.msg_invalide_credential, Toast.LENGTH_SHORT).show();
@@ -156,9 +150,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void savedDataOnSharedPrefences() {
-        SharedPreferencesApp.getInstance().saveAuthToken(UserInfo.authToken, UserInfo.userId,   UserInfo.currUserType );
+    private void savedDataOnSharedPrefences(LoginDataModel holder) {
+        AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
+        AppLog.log(TAG, "parentId: " + holder.data.UserId);
+        AppLog.log(TAG, "parentName: " + holder.data.UserName);
+        UserInfo.userId = holder.data.UserId;
+        UserInfo.parentName = holder.data.UserName;
+        UserInfo.parentId = UserInfo.userId;
+        UserInfo.currUserType = holder.data.UserType;
+        SharedPreferencesApp.getInstance().saveAuthToken(UserInfo.authToken, UserInfo.userId, UserInfo.currUserType);
         SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+        SharedPreferencesApp.getInstance().saveLastSavedUniversityID("" + holder.data.UniversityId);
     }
 
 
