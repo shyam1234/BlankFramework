@@ -26,6 +26,7 @@ public class UserInfo {
         tokenExp = null;
         tokenIssue = null;
         currUserType = null;
+
     }
 }
 

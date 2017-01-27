@@ -1,6 +1,7 @@
 package com.malviya.blankframework.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.DashboardAdapter;
 import com.malviya.blankframework.constant.WSContant;
-import com.malviya.blankframework.database.DatabaseHelper;
 import com.malviya.blankframework.database.TableParentStudentAssociation;
 import com.malviya.blankframework.fragments.HomeFragment;
 import com.malviya.blankframework.utils.AppLog;
@@ -27,12 +27,12 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 public class DashboardActivity extends AppCompatActivity implements OnTabSelectListener, ViewPager.OnPageChangeListener {
     //private FrameLayout mContainer;
+    public static Handler mHandler ;
     private BottomBar mBottomBar;
     private ViewPager mViewPage;
     private DashboardAdapter mAdapterViewPager;
-    private ImageView mImgProfile;
+    public static ImageView mImgProfile;
     private TextView mTextViewTitle;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +67,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     private void initView() {
         mTextViewTitle = (TextView) findViewById(R.id.textview_title);
         mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
+
         //----------------------------------------------------------------------------
         // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -89,21 +90,27 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
 
     @Override
     public void onTabSelected(@IdRes int tabId) {
-//        FragmentTransaction lFragmentTransaction = getSupportFragmentManager().beginTransaction();
         switch (tabId) {
             case R.id.tab_home:
                 //lFragmentTransaction.replace(R.id.contentContainer, new HomeFragment());
                 mViewPage.setCurrentItem(0);
                 mTextViewTitle.setText(getResources().getString(R.string.tab_home));
+                if(mHandler!=null)
+                    mHandler.sendMessage(mHandler.obtainMessage(0,0));
                 break;
             case R.id.tab_ward:
                 mViewPage.setCurrentItem(1);
                 mTextViewTitle.setText(getResources().getString(R.string.tab_wards));
+                if(mHandler!=null)
+                    mHandler.sendMessage(mHandler.obtainMessage(0,1));
                 break;
             case R.id.tab_setting:
                 mViewPage.setCurrentItem(2);
                 mTextViewTitle.setText(getResources().getString(R.string.tab_options));
+                if(mHandler!=null)
+                    mHandler.sendMessage(mHandler.obtainMessage(0,2));
                 break;
+
         }
 
     }

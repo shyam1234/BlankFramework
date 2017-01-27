@@ -1,6 +1,8 @@
 package com.malviya.blankframework.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.DashboardActivity;
+import com.malviya.blankframework.adapters.DashboardAdapter;
 import com.malviya.blankframework.adapters.WardChildRowAdapter;
 import com.malviya.blankframework.database.CommonInfo;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
@@ -44,10 +48,23 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         init();
         getAllChildWRTParent();
+        AppLog.log("WardFragment","onCreate");
     }
 
     private void init() {
         mListChildInfoHolder = new ArrayList<TableStudentDetailsDataModel>();
+      /*  DashboardActivity.mHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                switch ((Integer) msg.obj){
+                    case 1:
+                        getAllChildWRTParent();
+                        initView();
+                        return true;
+                }
+                return false;
+            }
+        });*/
     }
 
 
@@ -56,6 +73,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
         view = inflater.inflate(R.layout.fragment_ward, null);
+        AppLog.log("WardFragment","onCreateView");
         return view;
     }
 
@@ -63,6 +81,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        AppLog.log("WardFragment","onActivityCreated");
         initView();
     }
 
@@ -81,7 +100,10 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setDefaultStudentProfileInHeader(int position) {
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
+        UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , mProfileImage);
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , DashboardActivity.mImgProfile);
+
         mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
         mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
         AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourseCode());
@@ -130,5 +152,10 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         }
         table.closeDB();
     }
+
+    public void notifyFragment() {
+        initView();
+    }
+
 }
 

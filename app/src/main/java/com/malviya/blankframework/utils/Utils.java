@@ -170,7 +170,7 @@ public class Utils {
     public static void navigateFragment(FragmentManager fragmentManager, Fragment fragment, String TAG) {
         try {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.framelayout_holder, fragment);
+            ft.add(R.id.framelayout_holder, fragment);
             ft.addToBackStack(TAG);
             ft.commit();
             ft.setCustomAnimations(R.anim.left, R.anim.right);

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.Utils;
 
 /**
@@ -17,12 +18,13 @@ import com.malviya.blankframework.utils.Utils;
 public class MainHomeFragment extends Fragment implements View.OnClickListener {
     public final static String TAG="MainHomeFragment";
     public MainHomeFragment() {
-
+        AppLog.log("MainHomeFragment", "MainHomeFragment ");
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppLog.log("MainHomeFragment", "onCreate ");
     }
 
     @Nullable
@@ -42,7 +44,6 @@ public class MainHomeFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         Utils.navigateFragment(getFragmentManager(), new HomeFragment(), HomeFragment.TAG);
-
     }
 
     @Override
@@ -53,5 +54,7 @@ public class MainHomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
+    public void notifyFragment() {
+        initView();
+    }
 }

@@ -1,6 +1,8 @@
 package com.malviya.blankframework.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.HomeAdapter;
 import com.malviya.blankframework.constant.Contant;
 import com.malviya.blankframework.constant.WSContant;
@@ -62,11 +65,23 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         init();
         fetchDataFromWS();
+        AppLog.log("HomeFragment","onCreate");
     }
 
     private void init() {
         mCellList = new ArrayList<>();
-
+        DashboardActivity.mHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                switch ((Integer) msg.obj){
+                    case 0:
+                        fetchDataFromWS();
+                        initView();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
 
@@ -74,6 +89,9 @@ public class HomeFragment extends Fragment {
 
         //need to fetch data from DB WRT to above parameters
         //on the basis of parent id and student id
+        AppLog.log(TAG, " UserInfo.studentId: " +  UserInfo.studentId);
+        AppLog.log(TAG, "UserInfo.parentId: " + UserInfo.parentId);
+
         if(UserInfo.parentId!=-1 && UserInfo.studentId!=-1){
             //--for header
             Map<String, String> header = new HashMap<>();
@@ -137,6 +155,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
         view = inflater.inflate(R.layout.fragment_home, null);
+        AppLog.log("HomeFragment","onCreateView");
         return view;
     }
 
@@ -144,8 +163,22 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        AppLog.log("HomeFragment","onActivityCreated");
         initView();
 
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AppLog.log("HomeFragment","onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppLog.log("HomeFragment","onResume");
     }
 
     private void initView() {

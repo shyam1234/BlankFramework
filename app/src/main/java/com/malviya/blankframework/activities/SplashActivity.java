@@ -137,7 +137,7 @@ public class SplashActivity extends AppCompatActivity {
             AppLog.log("lang inserted+++ 111 ", "" + isAdded);
             if (isAdded) {
                 SharedPreferencesApp.getInstance().saveLastLangSync(Utils.getCurrTime());
-                Toast.makeText(this, "Lang Sync for university id: " +SharedPreferencesApp.getInstance().getLastSavedUniversityID(), Toast.LENGTH_SHORT).show();
+                AppLog.log("splash ","Lang Sync for university id: " +SharedPreferencesApp.getInstance().getLastSavedUniversityID());
             }
             table.closeDB();
             AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );

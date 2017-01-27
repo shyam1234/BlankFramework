@@ -2,6 +2,8 @@ package com.malviya.blankframework.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.activities.ProfileActivity;
 import com.malviya.blankframework.utils.Utils;
 
@@ -41,7 +44,22 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        init();
         initView();
+    }
+
+    private void init() {
+       /* DashboardActivity.mHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                switch ((Integer) msg.obj){
+                    case 2:
+                        initView();
+                        return true;
+                }
+                return false;
+            }
+        });*/
     }
 
     private void initView() {
@@ -84,4 +102,7 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    public void notifyFragment() {
+       initView();
+    }
 }
