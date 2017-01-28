@@ -10,7 +10,7 @@ public class UserInfo {
     public static int studentId;
     public static String authToken;
     public static int univercityId;
-    public static String university_logo_url;
+
     public static String tokenExp;
     public static String tokenIssue;
     public static int userId;
@@ -19,7 +19,6 @@ public class UserInfo {
     public static void clearUSerInfo() {
         userId = -1;
         parentName = null;
-        university_logo_url = null;
         parentId = -1;
         parentName = null;
         studentId = -1;

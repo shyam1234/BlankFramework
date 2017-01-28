@@ -14,6 +14,7 @@ public class DashboardCellDataHolder {
     private int student_id;
     private int university_id;
     private String university_name;
+    private String university_url;
     private int color;
     private int isActive;
 
@@ -99,5 +100,13 @@ public class DashboardCellDataHolder {
 
     public void setIsActive(int isActive) {
         this.isActive = isActive;
+    }
+
+    public String getUniversity_url() {
+        return university_url;
+    }
+
+    public void setUniversity_url(String university_url) {
+        this.university_url = university_url;
     }
 }

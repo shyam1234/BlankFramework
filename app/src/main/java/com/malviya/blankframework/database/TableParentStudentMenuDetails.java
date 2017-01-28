@@ -27,6 +27,7 @@ public class TableParentStudentMenuDetails {
     private static final String COL_PARENTID = "ParentId";
     private static final String COL_STUDENTID = "StudentId";
     private static final String COL_ISACTIVE = "IsActive";
+    private static final String COL_UNI_URL = "UniversityLogoPath";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -173,12 +174,14 @@ public class TableParentStudentMenuDetails {
                         model.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
                         model.setMenu_code(cursor.getString(cursor.getColumnIndex(COL_SUBCRIPTIONCODE)));
                         model.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
+                        model.setUniversity_url(cursor.getString(cursor.getColumnIndex(COL_UNI_URL)));
                         model.setText(cursor.getString(cursor.getColumnIndex(TableLanguage.ENGLISH_VERSION)));
                         AppLog.log("getHomeFragmentData parentId", ""+parentId);
                         AppLog.log("getHomeFragmentData studentId ", ""+studentId);
                         AppLog.log("getHomeFragmentData getMenu_code ", model.getMenu_code());
                         AppLog.log("getHomeFragmentData getUniversity_id", ""+model.getUniversity_id());
                         AppLog.log("getHomeFragmentData getUniversity_name ", model.getUniversity_name());
+                        AppLog.log("getHomeFragmentData getUniversity_url ", model.getUniversity_url());
                         AppLog.log("getHomeFragmentData ++++++++++++++++++++","");
                         list.add(model);
                         position++;

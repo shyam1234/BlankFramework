@@ -179,7 +179,6 @@ public class HomeFragment extends Fragment {
             }
 
             for (LoginDataModel.University university : holder.universityArrayList) {
-                UserInfo.university_logo_url = university.UniversityLogoPath;
                 UserInfo.univercityId = university.UniversityId;
             }
 
@@ -231,7 +230,8 @@ public class HomeFragment extends Fragment {
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
         mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(),UserInfo.university_logo_url , mImageViewUnivercityLogo);
+        AppLog.log("UserInfo.university_logo_url: ", mCellList.get(0).getUniversity_url());
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mCellList.get(0).getUniversity_url() , mImageViewUnivercityLogo);
         //RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
         mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
         mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {

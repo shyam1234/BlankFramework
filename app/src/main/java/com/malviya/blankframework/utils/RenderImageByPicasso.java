@@ -66,6 +66,7 @@ public class RenderImageByPicasso {
      * @param imageView
      */
     public static void setCircleImageByPicasso(Context pContext, String url, ImageView imageView) {
+        AppLog.log("setCircleImageByPicasso: ", url);
         if(url!=null) {
             Picasso.with(pContext)
                     .load(url)
@@ -73,7 +74,7 @@ public class RenderImageByPicasso {
                     .transform(new ImageTransform())
                     .into(imageView);
         }else{
-            imageView.setImageResource(R.drawable.login_user);
+            imageView.setImageResource(R.drawable.logo);
         }
     }
 

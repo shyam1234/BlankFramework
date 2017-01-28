@@ -298,7 +298,6 @@ public class Utils {
             }
 
             for (LoginDataModel.University university : holder.universityArrayList) {
-                UserInfo.university_logo_url = university.UniversityLogoPath;
                 UserInfo.univercityId = university.UniversityId;
             }
 
