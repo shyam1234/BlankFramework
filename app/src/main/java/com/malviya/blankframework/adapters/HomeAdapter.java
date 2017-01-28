@@ -60,6 +60,7 @@ public class HomeAdapter extends BaseAdapter {
         holder.setTextView(mCellList.get(position).getText());
         holder.setNotificationCounter(mCellList.get(position).getNotification());
         holder.cellBgLayout.setBackgroundResource(mCellList.get(position).getColor());
+        holder.textView.setTag(mCellList.get(position).getMenu_code());
         return holder.getView();
     }
 
@@ -67,7 +68,7 @@ public class HomeAdapter extends BaseAdapter {
     private class ViewHolder {
         private View view;
         private ImageView image;
-        private TextView textView;
+        public TextView textView;
         private TextView notificationCounter;
         private RelativeLayout cellLayout;
         public RelativeLayout cellBgLayout;

@@ -195,6 +195,21 @@ public class Utils {
         }
     }
 
+
+    public static void navigateFragmentMenu(FragmentManager fragmentManager, Fragment fragment, String TAG) {
+        try {
+            AppLog.log("navigateFragmentMenu ","navigateFragmentMenu called on menu clicked "+TAG);
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.framelayout_holder, fragment);
+            ft.addToBackStack(TAG);
+            ft.commit();
+            ft.setCustomAnimations(R.anim.left, R.anim.right);
+        } catch (Exception e) {
+            AppLog.errLog("navigateFragmentMenu", e.getMessage());
+        }
+    }
+
+
     public static Bitmap getImage(String university_image_url) {
         return null;
     }

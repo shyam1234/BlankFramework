@@ -5,14 +5,14 @@ package com.malviya.blankframework.constant;
  */
 
 public interface Contant {
-    String TAG_NOTICEBOARD = "Notice Board";
-    String TAG_ATTENDANCE = "Attendance";
-    String TAG_HOMEWORK = "Homework";
-    String TAG_DIARY = "Diary";
-    String TAG_MESSAGE = "Message";
-    String TAG_EVENTS = "Events";
-    String TAG_GALLERY = "Gallery";
-    String TAG_FEEDBACK = "feedback";
-    String TAG_FEE = "Fee";
-
+    String TAG_NOTICEBOARD = "NOT";
+    String TAG_ATTENDANCE = "ATT";
+    String TAG_HOMEWORK = "HOM";
+    String TAG_DIARY = "DAI";
+    String TAG_MESSAGE = "MES";
+    String TAG_EVENTS = "EVE";
+    String TAG_GALLERY = "GAL";
+    String TAG_FEEDBACK = "FBK";
+    String TAG_FEE = "FEE";
+    String TAG_NEWS = "NEW";
 }

@@ -32,7 +32,6 @@ import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.RenderImageByPicasso;
-import com.malviya.blankframework.utils.RenderImageByUIL;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -72,7 +71,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        //AppLog.log("HomeFragment", "onCreate");
+        AppLog.log("HomeFragment", "onCreate");
     }
 
     private void init() {
@@ -227,6 +226,7 @@ public class HomeFragment extends Fragment {
         if(getView()==null){
             return;
         }
+
         mAdapter = new HomeAdapter(getContext(), mCellList);
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
@@ -238,34 +238,38 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView textView = ((TextView) view.findViewById(R.id.textview_dashboard_cell_name));
-                //AppLog.log("onItemClick name", textView.getText().toString());
-                switch (textView.getText().toString()) {
+                AppLog.log("onItemClick menu name: ", textView.getText().toString());
+                AppLog.log("onItemClick getTag", textView.getTag().toString());
+                switch (textView.getTag().toString()) {
                     case Contant.TAG_NOTICEBOARD:
-                        Utils.navigateFragment(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
                         break;
                     case Contant.TAG_ATTENDANCE:
-                        Utils.navigateFragment(getFragmentManager(), new AttendanceFragment(), AttendanceFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new AttendanceFragment(), AttendanceFragment.TAG);
                         break;
                     case Contant.TAG_DIARY:
-                        Utils.navigateFragment(getFragmentManager(), new DiaryFragment(), DiaryFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new DiaryFragment(), DiaryFragment.TAG);
                         break;
                     case Contant.TAG_EVENTS:
-                        Utils.navigateFragment(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
                         break;
                     case Contant.TAG_FEE:
-                        Utils.navigateFragment(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
                         break;
                     case Contant.TAG_GALLERY:
-                        Utils.navigateFragment(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
                         break;
                     case Contant.TAG_FEEDBACK:
-                        Utils.navigateFragment(getFragmentManager(), new FeedbackFragment(), FeedbackFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new FeedbackFragment(), FeedbackFragment.TAG);
                         break;
                     case Contant.TAG_MESSAGE:
-                        Utils.navigateFragment(getFragmentManager(), new MessageFragment(), MessageFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new MessageFragment(), MessageFragment.TAG);
                         break;
                     case Contant.TAG_HOMEWORK:
-                        Utils.navigateFragment(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
+                        break;
+                    case Contant.TAG_NEWS:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new NewsFragment(), NewsFragment.TAG);
                         break;
                 }
             }
