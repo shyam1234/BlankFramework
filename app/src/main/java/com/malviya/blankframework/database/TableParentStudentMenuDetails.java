@@ -70,7 +70,8 @@ public class TableParentStudentMenuDetails {
     public void reset() {
         try {
             if (mDB != null) {
-                mDB.execSQL(TRUNCATE_TABLE);
+                //mDB.execSQL(TRUNCATE_TABLE);
+                mDB.delete(TABLE_NAME, null, null);
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
@@ -84,11 +85,13 @@ public class TableParentStudentMenuDetails {
 
     public void insert(ArrayList<TableParentStudentMenuDetailsDataModel> list) {
         try {
+            //reset();
             if (mDB != null) {
                 for (TableParentStudentMenuDetailsDataModel holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
+
                     //----------------------------------------
                     ContentValues value = new ContentValues();
                     value.put(COL_COUNT, holder.getAlert_count());
@@ -152,7 +155,8 @@ public class TableParentStudentMenuDetails {
                         + " and " + TABLE_NAME + "." + COL_STUDENTID + "=" + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_STUDENT_ID
                         + " and " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID + "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
                         + " where " + TABLE_NAME + "." + COL_PARENTID + "='" + parentId
-                        + "' and " + TABLE_NAME + "." + COL_STUDENTID + "='" + studentId + "'";
+                        + "' and " +  TABLE_NAME + "." + COL_ISACTIVE+ "= '1'"
+                        + " and " + TABLE_NAME + "." + COL_STUDENTID + "='" + studentId + "'";
                 AppLog.log("getHomeFragmentData ++++selectQuery++++++++++++++++",selectQuery);
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 position = 0 ;

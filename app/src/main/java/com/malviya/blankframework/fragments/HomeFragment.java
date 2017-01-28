@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        AppLog.log("HomeFragment", "onCreate");
+        //AppLog.log("HomeFragment", "onCreate");
     }
 
     private void init() {
@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
         view = inflater.inflate(R.layout.fragment_home, null);
-        AppLog.log("HomeFragment", "onCreateView");
+       // AppLog.log("HomeFragment", "onCreateView");
         return view;
     }
 
@@ -88,15 +88,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        AppLog.log("HomeFragment", "onActivityCreated");
+        AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: : onActivityCreated");
         fetchDataFromWS();
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-                switch ((Integer) msg.obj) {
-                    case 0:
+                switch ((Integer) msg.what) {
+                    case 1:
                         fetchDataFromWS();
-                        initView();
+                        AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: handleMessage : onActivityCreated");
+                        DashboardActivity.mHandler.removeMessages(1);
                         return true;
                 }
                 return false;
@@ -106,10 +107,6 @@ public class HomeFragment extends Fragment {
 
 
     private void fetchDataFromWS() {
-        //need to fetch data from DB WRT to above parameters
-        //on the basis of parent id and student id
-        AppLog.log(TAG, " UserInfo.studentId: " + UserInfo.studentId);
-        AppLog.log(TAG, "UserInfo.parentId: " + UserInfo.parentId);
         if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
             //--for header
             Map<String, String> header = new HashMap<>();
@@ -124,12 +121,14 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     AppLog.log(TAG, "onResponse +++ " + response.toString());
+                    AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: : onResponse");
                     initTableAndDisplay(response);
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError response) {
                     initTableAndDisplay(null);
+                    AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: : onErrorResponse");
                 }
             });
 
@@ -148,17 +147,15 @@ public class HomeFragment extends Fragment {
             for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
                 AppLog.log(TAG, "IsDefault: " + parentStudentAsso.IsDefault);
                 if (parentStudentAsso.IsDefault) {
-                    AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
                     UserInfo.studentId = parentStudentAsso.StudentId;
                 }
             }
 
             for (LoginDataModel.University university : holder.universityArrayList) {
-                AppLog.log(TAG, "UniversityName: " + university.UniversityName);
-                AppLog.log(TAG, "UniversityLogoPath: " + university.UniversityLogoPath);
                 UserInfo.university_logo_url = university.UniversityLogoPath;
                 UserInfo.univercityId = university.UniversityId;
             }
+
             bindDataWithParentStudentMenuDetailsDataModel(holder);
         }
         //----------------------------------------------------------------------
@@ -166,13 +163,14 @@ public class HomeFragment extends Fragment {
         table.openDB(getContext());
         mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
         table.closeDB();
+        AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
         //----------------------------------------------------------------------
         initView();
-
     }
 
     private void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder) {
         try {
+            AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel");
             ArrayList<TableParentStudentMenuDetailsDataModel> list = new ArrayList<TableParentStudentMenuDetailsDataModel>();
             for (LoginDataModel.ParentStudentMenuDetails model : holder.ParentStudentMenuDetailsArrayList) {
                 //-- assign value to model
@@ -197,22 +195,17 @@ public class HomeFragment extends Fragment {
 
 
     private void initView() {
-        if (getView() == null) {
-            return;
-        }
-
         mAdapter = new HomeAdapter(getContext(), mCellList);
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
         mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
-        AppLog.log(TAG, "UniversityLogoPath: before load " + UserInfo.university_logo_url);
         RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
         mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
         mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView textView = ((TextView) view.findViewById(R.id.textview_dashboard_cell_name));
-                AppLog.log("onItemClick name", textView.getText().toString());
+                //AppLog.log("onItemClick name", textView.getText().toString());
                 switch (textView.getText().toString()) {
                     case Contant.TAG_NOTICEBOARD:
                         Utils.navigateFragment(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
@@ -242,7 +235,6 @@ public class HomeFragment extends Fragment {
                         Utils.navigateFragment(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
                         break;
                 }
-
             }
         });
 
