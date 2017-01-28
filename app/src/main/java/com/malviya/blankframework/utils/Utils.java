@@ -237,6 +237,8 @@ public class Utils {
 
 
     public static void updateHomeTableAsPerDefaultChildSelection() {
+       // UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
+        AppLog.log("Utils ","UserInfo.studentId :"+UserInfo.studentId);
         if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
             //--for header
             Map<String, String> header = new HashMap<>();

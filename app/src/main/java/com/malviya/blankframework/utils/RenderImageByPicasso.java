@@ -73,7 +73,7 @@ public class RenderImageByPicasso {
                     .transform(new ImageTransform())
                     .into(imageView);
         }else{
-            imageView.setImageResource(R.drawable.profile_logo);
+            imageView.setImageResource(R.drawable.login_user);
         }
     }
 

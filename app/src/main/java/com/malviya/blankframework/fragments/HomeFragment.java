@@ -31,6 +31,7 @@ import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.RenderImageByPicasso;
 import com.malviya.blankframework.utils.RenderImageByUIL;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
@@ -123,6 +124,7 @@ public class HomeFragment extends Fragment {
                         AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: handleMessage : onActivityCreated");
                         DashboardActivity.mHandler.removeMessages(1);
                         mLinearHolder.setVisibility(View.GONE);
+                        AppLog.log(TAG,"UserInfo.studentId :"+UserInfo.studentId);
                         initView();
                         return true;
                 }
@@ -229,7 +231,8 @@ public class HomeFragment extends Fragment {
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
         mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
-        RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(),UserInfo.university_logo_url , mImageViewUnivercityLogo);
+        //RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
         mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
         mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
