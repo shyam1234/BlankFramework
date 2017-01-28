@@ -25,17 +25,18 @@
         android:background="@color/colorMargin"></View>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/view"
-        android:orientation="horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textview_welcome_to"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="left"
             android:gravity="left"
             android:src="@drawable/logo"
             android:text="@string/welcome_to"
@@ -46,14 +47,12 @@
 
         <TextView
             android:id="@+id/textview_uni_header_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="6dp"
             android:layout_marginTop="0dp"
             android:gravity="left"
+            android:layout_gravity="left"
             android:src="@drawable/logo"
-            android:text="@string/welcome_to_rtm_university"
             android:textAlignment="gravity"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/black"

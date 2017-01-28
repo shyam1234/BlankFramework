@@ -46,7 +46,7 @@ public class TableNewsMaster {
             + COL_NEWSBODY + "  varchar(100) , "
             + COL_THUMBNAILPATH + " varchar(100), "
             + COL_PUBLISHEDON + " datetime , "
-            + COL_PUBLISHEDBY + " int , "
+            + COL_PUBLISHEDBY + " char(30) , "
             + COL_TOTALCOMMENTS + " int , "
             + COL_TOTALLIKES + " int "
             + " )";

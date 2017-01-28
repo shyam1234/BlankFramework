@@ -13,9 +13,8 @@ import com.malviya.blankframework.constant.WSContant;
 public class SharedPreferencesApp {
     private static final String DEFAULT_SHAREPREF = "edurp_sharepref";
     private static SharedPreferencesApp mInstance;
-    private String mCurrTime="";
-    private String mLastLoginTime="";
-
+    private String mCurrTime = "";
+    private String mLastLoginTime = "";
 
 
     public static SharedPreferencesApp getInstance() {
@@ -75,6 +74,7 @@ public class SharedPreferencesApp {
         removeSavedTime();
         removeAuthToken();
         UserInfo.clearUSerInfo();
+        savedDefaultChildSelection(-1);
     }
 
 
@@ -271,6 +271,37 @@ public class SharedPreferencesApp {
             AppLog.errLog("sharePreferenceApp : getLastSavedUniversityID", e.getMessage());
         }
         return str;
+    }
+
+
+    //-----------------------------------------------------------------------
+    public void savedDefaultChildSelection(int studentId) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putInt(WSContant.TAG_DEFAULT_CHILD, studentId);
+            data.commit();
+            AppLog.log("sharePreferenceApp", "savedDefaultChildSelection: " + studentId);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp savedDefaultChildSelection", e.getMessage());
+        }
+    }
+
+    public int getDefaultChildSelection() {
+        try {
+            int child_id = 0;
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                child_id = sharePref.getInt(WSContant.TAG_DEFAULT_CHILD, -1);
+                AppLog.log("getDefaultChildSelection", "default child " + child_id);
+            } else {
+                AppLog.log("getDefaultChildSelection", "there is not getStoreData ");
+            }
+            return child_id;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getDefaultChildSelection", e.getMessage());
+        }
+        return -1;
     }
 
     //------------------------------------------------------------------------------------------------

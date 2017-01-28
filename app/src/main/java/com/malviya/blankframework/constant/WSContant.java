@@ -43,4 +43,5 @@ public interface WSContant {
     String TAG_USERTYPE_PARENT = "P";
     String TAG_USERTYPE_STUDENT = "S";
     String TAG_USERTYPE = "user_type";
+    String TAG_DEFAULT_CHILD = "default_child";
 }

@@ -37,7 +37,6 @@
     <string name="setting">Setting</string>
     <string name="logout">Logout</string>
     <string name="share_this_app">Share this app</string>
-    <string name="welcome_to_rtm_university">RTM University</string>
     <string name="welcome_to">Welcome to</string>
     <string name="name">Name</string>
     <string name="user_name">User Name</string>
@@ -54,4 +53,5 @@
     <string name="msg_invalide_credential">Invalid Credential</string>
     <string name="msg_network_prob">Something went wrong with server. Please try again later.</string>
     <string name="msg_net_wrro">Something went wrong with server</string>
+    <string name="please_wait">Please wait...</string>
 </resources>

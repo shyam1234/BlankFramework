@@ -8,17 +8,31 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
+import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.database.TableParentStudentMenuDetails;
+import com.malviya.blankframework.models.GetMobileHomeDataHolder;
+import com.malviya.blankframework.models.LoginDataModel;
+import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
+import com.malviya.blankframework.network.IWSRequest;
+import com.malviya.blankframework.network.WSRequest;
+import com.malviya.blankframework.parser.ParseResponse;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,6 +42,7 @@ import java.util.regex.Pattern;
 
 public class Utils {
 
+    private static final String TAG = Utils.class.getName();
     private static Context mContext = MyApplication.getInstance().getApplicationContext();
 
 
@@ -216,6 +231,87 @@ public class Utils {
 
         } finally {
             return SharedPreferencesApp.getInstance().getSavedTime();
+        }
+    }
+
+
+
+    public static void updateHomeTableAsPerDefaultChildSelection() {
+        if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
+            //--for header
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTime());
+            header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+            //-Utils-for body
+            Map<String, String> body = new HashMap<>();
+            body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
+            body.put(WSContant.TAG_STUDENTID, "" + UserInfo.studentId);
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEHOME, header, body, WSContant.TAG_GETMOBILEHOME, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    AppLog.log(TAG, "onResponse +++ " + response.toString());
+                    AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel: : onResponse");
+                    initTableAndDisplay(response);
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError response) {
+                    initTableAndDisplay(null);
+                    AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel: : onErrorResponse");
+                }
+            });
+
+        } else {
+            AppLog.errLog("Utils", "Empty field parentId " + UserInfo.parentId);
+            AppLog.errLog("Utils", "Empty field studentId " + UserInfo.studentId);
+        }
+    }
+
+    private static void initTableAndDisplay(String response) {
+
+        if (response != null) {
+            ParseResponse obj = new ParseResponse(response, GetMobileHomeDataHolder.class, ModelFactory.MODEL_GETMOBILEHOME);
+            GetMobileHomeDataHolder holder = ((GetMobileHomeDataHolder) obj.getModel());
+            for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
+                AppLog.log(TAG, "IsDefault: " + parentStudentAsso.IsDefault);
+                if (parentStudentAsso.IsDefault) {
+                    UserInfo.studentId = parentStudentAsso.StudentId;
+                }
+            }
+
+            for (LoginDataModel.University university : holder.universityArrayList) {
+                UserInfo.university_logo_url = university.UniversityLogoPath;
+                UserInfo.univercityId = university.UniversityId;
+            }
+
+            bindDataWithParentStudentMenuDetailsDataModel(holder);
+        }
+
+    }
+
+    private static void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder) {
+        try {
+            AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel");
+            ArrayList<TableParentStudentMenuDetailsDataModel> list = new ArrayList<TableParentStudentMenuDetailsDataModel>();
+            for (LoginDataModel.ParentStudentMenuDetails model : holder.ParentStudentMenuDetailsArrayList) {
+                //-- assign value to model
+                TableParentStudentMenuDetailsDataModel obj = new TableParentStudentMenuDetailsDataModel();
+                obj.setAlert_count(model.ColumnCount);
+                obj.setIsActive(model.IsActive);
+                obj.setMenuCode(model.SubscriptionCode);
+                obj.setParentId(model.ParentId);
+                obj.setStudentId(model.StudentId);
+                obj.setUniversityId(model.UniversityId);
+                list.add(obj);
+            }
+            //saving into database
+            TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+            table.openDB(MyApplication.getInstance().getApplicationContext());
+            table.insert(list);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog(TAG+" bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
         }
     }
 

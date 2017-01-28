@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -57,6 +58,9 @@ public class HomeFragment extends Fragment {
     private ArrayList<TableStudentDetailsDataModel> mUniver;
     private ImageView mImageViewUnivercityLogo;
     private TextView mTextViewUnivercityText;
+    private LinearLayout mLinearHolder;
+
+
 
     public HomeFragment() {
 
@@ -89,15 +93,37 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: : onActivityCreated");
-        fetchDataFromWS();
+        mLinearHolder = (LinearLayout) getView().findViewById(R.id.linearlayout);
+        mLinearHolder.setVisibility(View.VISIBLE);
+
+        //----------------------------------------------------------------------
+        TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+        table.openDB(getContext());
+        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
+        table.closeDB();
+        AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
+        //----------------------------------------------------------------------
+        mLinearHolder.setVisibility(View.GONE);
+        initView();
+
+        //fetchDataFromWS();
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 switch ((Integer) msg.what) {
                     case 1:
-                        fetchDataFromWS();
+                        //----------------------------------------------------------------------
+                        TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+                        table.openDB(getContext());
+                        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
+                        table.closeDB();
+                        AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
+                        //----------------------------------------------------------------------
+                       // fetchDataFromWS();
                         AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: handleMessage : onActivityCreated");
                         DashboardActivity.mHandler.removeMessages(1);
+                        mLinearHolder.setVisibility(View.GONE);
+                        initView();
                         return true;
                 }
                 return false;
@@ -166,6 +192,7 @@ public class HomeFragment extends Fragment {
         AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
         //----------------------------------------------------------------------
         initView();
+        mLinearHolder.setVisibility(View.GONE);
     }
 
     private void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder) {
@@ -195,6 +222,9 @@ public class HomeFragment extends Fragment {
 
 
     private void initView() {
+        if(getView()==null){
+            return;
+        }
         mAdapter = new HomeAdapter(getContext(), mCellList);
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);

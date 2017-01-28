@@ -24,7 +24,9 @@ import com.malviya.blankframework.database.CommonInfo;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
+import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -96,6 +98,10 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
         AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourseCode());
         AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ",mListChildInfoHolder.get(position).getFullName());
+
+        //save user default child selection
+        SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
+        Utils.updateHomeTableAsPerDefaultChildSelection();
     }
 
     private void initRecycleAdapter() {

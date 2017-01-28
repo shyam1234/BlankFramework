@@ -1,32 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearlayout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@color/colorWhite"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/comm_padding"
-    android:paddingLeft="@dimen/comm_padding"
-    android:paddingRight="@dimen/comm_padding">
+    android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/inc_fragment_home_header"
-        layout="@layout/inc_university_header"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="visible"></include>
-
-    <com.malviya.blankframework.utils.MyGridView
-        android:id="@+id/gridview_dashboard"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:clipToPadding="true"
-        android:fitsSystemWindows="true"
+        android:background="@color/colorWhite"
         android:gravity="center"
-        android:numColumns="3"></com.malviya.blankframework.utils.MyGridView>
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/comm_padding"
+        android:paddingLeft="@dimen/comm_padding"
+        android:paddingRight="@dimen/comm_padding">
 
-</LinearLayout>
+        <include
+            android:id="@+id/inc_fragment_home_header"
+            layout="@layout/inc_university_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"></include>
+
+        <com.malviya.blankframework.utils.MyGridView
+            android:id="@+id/gridview_dashboard"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:clipToPadding="true"
+            android:fitsSystemWindows="true"
+            android:gravity="center"
+            android:numColumns="3"></com.malviya.blankframework.utils.MyGridView>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:indeterminate="true"
+            android:text="@string/please_wait"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:textColor="@color/colorPrimary" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
+
+    </LinearLayout>
+</RelativeLayout>

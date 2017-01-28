@@ -142,6 +142,7 @@ public class SplashActivity extends AppCompatActivity {
             table.closeDB();
             AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );
             if( UserInfo.authToken !=null) {
+                Utils.updateHomeTableAsPerDefaultChildSelection();
                 navigateToNextPage(DashboardActivity.class);
             }else{
                 navigateToNextPage(LoginActivity.class);
