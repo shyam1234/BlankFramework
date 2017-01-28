@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.TableParentMasterDataModel;
+import com.malviya.blankframework.models.TableNoticeBoardDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -15,29 +15,27 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 26-11-2016.
  */
-public class TableParentMaster {
+public class TableNoticeBoard {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
-    public static final String TAG = "TableParentMaster";
-    private static final String TABLE_NAME = "table_parentmaster";
-    private static final String COL_EMAILID = "emailid";
-    private static final String COL_IMAGE_URL = "imageurl";
-    private static final String COL_PARENTID = "parentid";
-    private static final String COL_PARENT_NAME = "parent_name";
-    private static final String COL_PHONE_NUMBER = "phone_number";
-    private static final String COL_LASTRETRIVEDON = "last_retrived_on";
+    public static final String TAG = "TableNoticeBoard";
+    private static final String TABLE_NAME = "table_noticeboard";
+    private static final String COL_PARENTID = "ParentId";
+    private static final String COL_STUDENTID = "StudentId";
+    private static final String COL_MENUCODE = "MenuCode";
+    private static final String COL_REFERENCEID = "RederenceId";
+
+
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
 
 
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
-            + COL_EMAILID + " varchar(255), "
-            + COL_IMAGE_URL + " varchar(255), "
-            + COL_PARENTID + " varchar(255), "
-            + COL_PARENT_NAME + " varchar(255), "
-            + COL_LASTRETRIVEDON + " datetime , "
-            + COL_PHONE_NUMBER + " varchar(255) "
+            + COL_PARENTID + " int , "
+            + COL_STUDENTID + " int , "
+            + COL_MENUCODE + " char(3), "
+            + COL_REFERENCEID + " int  "
             + " )";
 
     //For Foreign key
@@ -83,22 +81,21 @@ public class TableParentMaster {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableParentMasterDataModel> list) {
+    public void insert(ArrayList<TableNoticeBoardDataModel> list) {
         try {
             if (mDB != null) {
-                for (TableParentMasterDataModel holder : list) {
+                for (TableNoticeBoardDataModel holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
                     //----------------------------------------
                     ContentValues value = new ContentValues();
-                    value.put(COL_EMAILID, holder.getEmailid());
-                    value.put(COL_IMAGE_URL, holder.getImageurl());
-                    value.put(COL_PARENTID, holder.getParentid());
-                    value.put(COL_PARENT_NAME, holder.getParent_name());
-                    value.put(COL_PHONE_NUMBER, holder.getPhone_number());
+                    value.put(COL_PARENTID, holder.getParentId());
+                    value.put(COL_STUDENTID, holder.getStudentId());
+                    value.put(COL_MENUCODE, holder.getMenuCode());
+                    value.put(COL_REFERENCEID, holder.getRederenceId());
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TABLE_NAME + " inserted: ", holder.getParentid() + " row: " + row);
+                    AppLog.log(TABLE_NAME + " inserted: ", holder.getRederenceId() + " row: " + row);
                 }
             }
         } catch (Exception e) {
@@ -107,9 +104,13 @@ public class TableParentMaster {
     }
 
 
-    public boolean isExists(TableParentMasterDataModel model) {
+    public boolean isExists(TableNoticeBoardDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentid() + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                    + COL_MENUCODE + " = '" + model.getMenuCode() + "' , "
+                    + COL_PARENTID + " = '" + model.getParentId() + "' , "
+                    + COL_STUDENTID + " = '" + model.getStudentId() + "' , "
+                    + COL_REFERENCEID + " = '" + model.getRederenceId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -124,17 +125,17 @@ public class TableParentMaster {
         return false;
     }
 
-    public boolean deleteRecord(TableParentMasterDataModel holder) {
+    public boolean deleteRecord(TableNoticeBoardDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=?", new String[]{"" + holder.getParentid()});
+                long row = mDB.delete(TABLE_NAME, COL_MENUCODE + "=? and "+COL_PARENTID + "=? and "+COL_STUDENTID + "=? and "+COL_REFERENCEID + "=?", new String[]{"" + holder.getMenuCode(),"" + holder.getParentId(),"" + holder.getStudentId(),"" + holder.getRederenceId()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "deleteRecord from TableParentMasterDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "deleteRecord from TableNoticeBoard" + e.getMessage());
         }
         return false;
     }

@@ -20,14 +20,15 @@ public class TableStudentDetails {
     //--------------------------------------------------------------------------
     public static final String TAG = "TableStudentDetails";
     public static final String TABLE_NAME = "table_student_details";
-    public static final String COL_COURSE = "CourseCode";
+    public static final String COL_COURSE = "Course";
     public static final String COL_GENDER = "Gender";
     public static final String COL_IMAGEURL = "ImageURL";
     public static final String COL_STUDENT_ID = "StudentId";
-    public static final String COL_STUDENT_NAME = "FullName";
+    public static final String COL_STUDENT_NAME = "StudentName";
     public static final String COL_UNIVERSITY_ID = "UniversityId";
     public static final String COL_STUDENTNUMBER = "StudentNumber";
     public static final String COL_DATAOFBIRTH = "DateOfBirth";
+    public static final String COL_LASTRETRIEVEDON = "LastRetrievedOn";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -41,6 +42,7 @@ public class TableStudentDetails {
             + COL_STUDENT_NAME + " varchar(255), "
             + COL_UNIVERSITY_ID + " integer , "
             + COL_STUDENTNUMBER + " varchar(255) , "
+            + COL_LASTRETRIEVEDON + " datetime , "
             + COL_DATAOFBIRTH + " varchar(255) "
             + " ) ";
     //For Foreign key
@@ -102,6 +104,7 @@ public class TableStudentDetails {
                     value.put(COL_STUDENT_NAME, holder.getFullName());
                     value.put(COL_UNIVERSITY_ID, holder.getUniversity_id());
                     value.put(COL_STUDENTNUMBER, holder.getStudentNumber());
+                    value.put(COL_LASTRETRIEVEDON, holder.getLastRetrievedOn());
                     value.put(COL_DATAOFBIRTH, holder.getDateOfBirth());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: ", holder.getStudent_id() + " row: " + row);
@@ -166,6 +169,7 @@ public class TableStudentDetails {
                         model.setFullName(cursor.getString(cursor.getColumnIndex(COL_STUDENT_NAME)));
                         model.setUniversity_id(cursor.getInt(cursor.getColumnIndex(COL_UNIVERSITY_ID)));
                         model.setStudentNumber(cursor.getString(cursor.getColumnIndex(COL_STUDENTNUMBER)));
+                        model.setLastRetrievedOn(cursor.getString(cursor.getColumnIndex(COL_LASTRETRIEVEDON)));
                         model.setDateOfBirth(cursor.getString(cursor.getColumnIndex(COL_DATAOFBIRTH)));
                         list.add(model);
                     } while (cursor.moveToNext());

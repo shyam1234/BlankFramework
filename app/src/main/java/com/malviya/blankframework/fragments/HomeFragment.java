@@ -21,13 +21,16 @@ import com.malviya.blankframework.constant.Contant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.models.GetMobileHomeDataHolder;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.RenderImageByUIL;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -46,7 +49,7 @@ public class HomeFragment extends Fragment {
             R.color.colorLightParrot, R.color.colorDarkVal, R.color.colorLightOran};
     public static int[] mMenuImage = new int[]{R.drawable.noticeboard, R.drawable.attendance, R.drawable.homework,
             R.drawable.diary, R.drawable.messages, R.drawable.events,
-            R.drawable.gallery,R.drawable.feedback, R.drawable.fee};
+            R.drawable.gallery, R.drawable.feedback, R.drawable.fee};
 
     private GridView mGridViewCell;
     private HomeAdapter mAdapter;
@@ -64,16 +67,33 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        fetchDataFromWS();
-        AppLog.log("HomeFragment","onCreate");
+        AppLog.log("HomeFragment", "onCreate");
     }
 
     private void init() {
         mCellList = new ArrayList<>();
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = null;
+        view = inflater.inflate(R.layout.fragment_home, null);
+        AppLog.log("HomeFragment", "onCreateView");
+        return view;
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        AppLog.log("HomeFragment", "onActivityCreated");
+        fetchDataFromWS();
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-                switch ((Integer) msg.obj){
+                switch ((Integer) msg.obj) {
                     case 0:
                         fetchDataFromWS();
                         initView();
@@ -86,13 +106,11 @@ public class HomeFragment extends Fragment {
 
 
     private void fetchDataFromWS() {
-
         //need to fetch data from DB WRT to above parameters
         //on the basis of parent id and student id
-        AppLog.log(TAG, " UserInfo.studentId: " +  UserInfo.studentId);
+        AppLog.log(TAG, " UserInfo.studentId: " + UserInfo.studentId);
         AppLog.log(TAG, "UserInfo.parentId: " + UserInfo.parentId);
-
-        if(UserInfo.parentId!=-1 && UserInfo.studentId!=-1){
+        if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
             //--for header
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
@@ -100,93 +118,95 @@ public class HomeFragment extends Fragment {
             header.put(WSContant.TAG_NEW, Utils.getCurrTime());
             //--for body
             Map<String, String> body = new HashMap<>();
-            body.put(WSContant.TAG_PARENTID, ""+UserInfo.parentId);
-            body.put(WSContant.TAG_STUDENTID, ""+UserInfo.studentId);
-
+            body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
+            body.put(WSContant.TAG_STUDENTID, "" + UserInfo.studentId);
             WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEHOME, header, body, WSContant.TAG_GETMOBILEHOME, new IWSRequest() {
                 @Override
                 public void onResponse(String response) {
-                    //--parsing logic------------------------------------------------------------------
-                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_LOGIN);
-                    LoginDataModel holder = ((LoginDataModel) obj.getModel());
-                    AppLog.log(TAG, "getPhoneNumber: " + holder.data.PhoneNumber);
-//                    try {
-//                        AppLog.log(TAG, "getPhoneNumber by global model: " + ((LoginDataModel) ModelFactory.getInstance().getModel(LoginDataModel.KEY)).data.PhoneNumber);
-//                    } catch (ModelException e) {
-//                        AppLog.errLog(TAG,"Exception from "+e.getMessage());
-//                    }
-                    //--------------------------------------------------------------------
-                    AppLog.log(TAG, "parentId: " + holder.data.UserId);
-                    AppLog.log(TAG, "parentName: " + holder.data.UserName);
-                    for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
-                        AppLog.log(TAG, "parentName: " + parentStudentAsso.IsDefault);
-                        if (parentStudentAsso.IsDefault) {
-                            AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
-                            UserInfo.studentId =  parentStudentAsso.StudentId;
-                        }
-                    }
-                    UserInfo.parentId = holder.data.UserId;
-                    UserInfo.parentName = holder.data.UserName;
-                    AppLog.log(TAG, "UserId: " +holder.data.UserId);
-                    AppLog.log(TAG, "parentName: " +holder.data.UserName);
-                    //--------------------------------------------------------------------
+                    AppLog.log(TAG, "onResponse +++ " + response.toString());
+                    initTableAndDisplay(response);
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError response) {
-
+                    initTableAndDisplay(null);
                 }
             });
 
 
-        }else{
-            AppLog.errLog("HomeFragment","Empty field parentId "+UserInfo.parentId);
-            AppLog.errLog("HomeFragment","Empty field studentId "+UserInfo.studentId);
+        } else {
+            AppLog.errLog("HomeFragment", "Empty field parentId " + UserInfo.parentId);
+            AppLog.errLog("HomeFragment", "Empty field studentId " + UserInfo.studentId);
         }
-        //----------------------------------------------------------
+    }
+
+    private void initTableAndDisplay(String response) {
+
+        if (response != null) {
+            ParseResponse obj = new ParseResponse(response, GetMobileHomeDataHolder.class, ModelFactory.MODEL_GETMOBILEHOME);
+            GetMobileHomeDataHolder holder = ((GetMobileHomeDataHolder) obj.getModel());
+            for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
+                AppLog.log(TAG, "IsDefault: " + parentStudentAsso.IsDefault);
+                if (parentStudentAsso.IsDefault) {
+                    AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
+                    UserInfo.studentId = parentStudentAsso.StudentId;
+                }
+            }
+
+            for (LoginDataModel.University university : holder.universityArrayList) {
+                AppLog.log(TAG, "UniversityName: " + university.UniversityName);
+                AppLog.log(TAG, "UniversityLogoPath: " + university.UniversityLogoPath);
+                UserInfo.university_logo_url = university.UniversityLogoPath;
+                UserInfo.univercityId = university.UniversityId;
+            }
+            bindDataWithParentStudentMenuDetailsDataModel(holder);
+        }
+        //----------------------------------------------------------------------
         TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
         table.openDB(getContext());
         mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
         table.closeDB();
-
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = null;
-        view = inflater.inflate(R.layout.fragment_home, null);
-        AppLog.log("HomeFragment","onCreateView");
-        return view;
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        AppLog.log("HomeFragment","onActivityCreated");
+        //----------------------------------------------------------------------
         initView();
 
     }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        AppLog.log("HomeFragment","onStart");
+    private void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder) {
+        try {
+            ArrayList<TableParentStudentMenuDetailsDataModel> list = new ArrayList<TableParentStudentMenuDetailsDataModel>();
+            for (LoginDataModel.ParentStudentMenuDetails model : holder.ParentStudentMenuDetailsArrayList) {
+                //-- assign value to model
+                TableParentStudentMenuDetailsDataModel obj = new TableParentStudentMenuDetailsDataModel();
+                obj.setAlert_count(model.ColumnCount);
+                obj.setIsActive(model.IsActive);
+                obj.setMenuCode(model.SubscriptionCode);
+                obj.setParentId(model.ParentId);
+                obj.setStudentId(model.StudentId);
+                obj.setUniversityId(model.UniversityId);
+                list.add(obj);
+            }
+            //saving into database
+            TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+            table.openDB(getContext());
+            table.insert(list);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog("HomeFragment bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
+        }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        AppLog.log("HomeFragment","onResume");
-    }
 
     private void initView() {
+        if (getView() == null) {
+            return;
+        }
+
         mAdapter = new HomeAdapter(getContext(), mCellList);
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
         mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
+        AppLog.log(TAG, "UniversityLogoPath: before load " + UserInfo.university_logo_url);
+        RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
         mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
         mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -53,18 +53,6 @@ public class WardFragment extends Fragment implements View.OnClickListener {
 
     private void init() {
         mListChildInfoHolder = new ArrayList<TableStudentDetailsDataModel>();
-      /*  DashboardActivity.mHandler = new Handler(new Handler.Callback() {
-            @Override
-            public boolean handleMessage(Message msg) {
-                switch ((Integer) msg.obj){
-                    case 1:
-                        getAllChildWRTParent();
-                        initView();
-                        return true;
-                }
-                return false;
-            }
-        });*/
     }
 
 

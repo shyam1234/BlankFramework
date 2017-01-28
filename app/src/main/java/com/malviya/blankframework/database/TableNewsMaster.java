@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.TableParentMasterDataModel;
+import com.malviya.blankframework.models.TableNewsMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -15,29 +15,40 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 26-11-2016.
  */
-public class TableParentMaster {
+public class TableNewsMaster {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
-    public static final String TAG = "TableParentMaster";
-    private static final String TABLE_NAME = "table_parentmaster";
-    private static final String COL_EMAILID = "emailid";
-    private static final String COL_IMAGE_URL = "imageurl";
-    private static final String COL_PARENTID = "parentid";
-    private static final String COL_PARENT_NAME = "parent_name";
-    private static final String COL_PHONE_NUMBER = "phone_number";
-    private static final String COL_LASTRETRIVEDON = "last_retrived_on";
+    public static final String TAG = "TableNewsMaster";
+    private static final String TABLE_NAME = "table_newsmaster";
+    private static final String COL_PARENTID= "ParentId";
+    private static final String COL_STUDENTID = "StudentId";
+    private static final String COL_NEWSID= "NewsId";
+    private static final String COL_NEWSTITLE = "NewsTitle";
+    private static final String COL_SHORTBODY = "ShortBody";
+    private static final String COL_NEWSBODY = "NewsBody";
+    private static final String COL_THUMBNAILPATH = "ThumbNailPath";
+    private static final String COL_PUBLISHEDON = "PublishedOn";
+    private static final String COL_PUBLISHEDBY = "PublishedBy";
+    private static final String COL_TOTALCOMMENTS = "TotalComments";
+    private static final String COL_TOTALLIKES = "TotalLikes";
+
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
 
 
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
-            + COL_EMAILID + " varchar(255), "
-            + COL_IMAGE_URL + " varchar(255), "
-            + COL_PARENTID + " varchar(255), "
-            + COL_PARENT_NAME + " varchar(255), "
-            + COL_LASTRETRIVEDON + " datetime , "
-            + COL_PHONE_NUMBER + " varchar(255) "
+            + COL_PARENTID + " int , "
+            + COL_STUDENTID + " int , "
+            + COL_NEWSID + " int, "
+            + COL_NEWSTITLE + " varchar(100), "
+            + COL_SHORTBODY + "  varchar(100) , "
+            + COL_NEWSBODY + "  varchar(100) , "
+            + COL_THUMBNAILPATH + " varchar(100), "
+            + COL_PUBLISHEDON + " datetime , "
+            + COL_PUBLISHEDBY + " int , "
+            + COL_TOTALCOMMENTS + " int , "
+            + COL_TOTALLIKES + " int "
             + " )";
 
     //For Foreign key
@@ -83,22 +94,28 @@ public class TableParentMaster {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableParentMasterDataModel> list) {
+    public void insert(ArrayList<TableNewsMasterDataModel> list) {
         try {
             if (mDB != null) {
-                for (TableParentMasterDataModel holder : list) {
+                for (TableNewsMasterDataModel holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
                     //----------------------------------------
                     ContentValues value = new ContentValues();
-                    value.put(COL_EMAILID, holder.getEmailid());
-                    value.put(COL_IMAGE_URL, holder.getImageurl());
-                    value.put(COL_PARENTID, holder.getParentid());
-                    value.put(COL_PARENT_NAME, holder.getParent_name());
-                    value.put(COL_PHONE_NUMBER, holder.getPhone_number());
+                    value.put(COL_PARENTID, holder.getParentId());
+                    value.put(COL_STUDENTID, holder.getStudentId());
+                    value.put(COL_NEWSID, holder.getNewsId());
+                    value.put(COL_NEWSTITLE, holder.getNewsTitle());
+                    value.put(COL_SHORTBODY, holder.getShortBody());
+                    value.put(COL_NEWSBODY, holder.getNewsBody());
+                    value.put(COL_THUMBNAILPATH, holder.getThumbNailPath());
+                    value.put(COL_PUBLISHEDON, holder.getPublishedOn());
+                    value.put(COL_PUBLISHEDBY, holder.getPublishedBy());
+                    value.put(COL_TOTALCOMMENTS, holder.getTotalComments());
+                    value.put(COL_TOTALLIKES, holder.getTotalLikes());
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TABLE_NAME + " inserted: ", holder.getParentid() + " row: " + row);
+                    AppLog.log(TABLE_NAME + " inserted: ", holder.getNewsId() + " row: " + row);
                 }
             }
         } catch (Exception e) {
@@ -107,9 +124,9 @@ public class TableParentMaster {
     }
 
 
-    public boolean isExists(TableParentMasterDataModel model) {
+    public boolean isExists(TableNewsMasterDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentid() + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_NEWSID + " = '" + model.getNewsId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -124,17 +141,17 @@ public class TableParentMaster {
         return false;
     }
 
-    public boolean deleteRecord(TableParentMasterDataModel holder) {
+    public boolean deleteRecord(TableNewsMasterDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=?", new String[]{"" + holder.getParentid()});
+                long row = mDB.delete(TABLE_NAME, COL_NEWSID + "=?", new String[]{"" + holder.getNewsId()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "deleteRecord from TableParentMasterDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "deleteRecord from TableNewsMasterDataModel" + e.getMessage());
         }
         return false;
     }

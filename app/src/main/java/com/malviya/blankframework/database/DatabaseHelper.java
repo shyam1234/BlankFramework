@@ -34,6 +34,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(TableParentStudentAssociation.CREATE_TABLE);
         db.execSQL(TableStudentDetails.CREATE_TABLE);
         db.execSQL(TableUniversityMaster.CREATE_TABLE);
+
+        db.execSQL(TableDocumentMaster.CREATE_TABLE);
+        db.execSQL(TableNewsMaster.CREATE_TABLE);
+        db.execSQL(TableNoticeBoard.CREATE_TABLE);
+        db.execSQL(TableUserMaster.CREATE_TABLE);
     }
 
     @Override
@@ -42,11 +47,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (old_version < new_version) {
             db.execSQL(TableLanguage.DROP_TABLE_DIARY);
             db.execSQL(TableParentStudentMenuDetails.DROP_TABLE);
-            //db.execSQL(TableMenuMaster.DROP_TABLE);
             db.execSQL(TableParentMaster.DROP_TABLE);
             db.execSQL(TableParentStudentAssociation.DROP_TABLE);
             db.execSQL(TableStudentDetails.DROP_TABLE);
             db.execSQL(TableUniversityMaster.DROP_TABLE);
+            db.execSQL(TableDocumentMaster.DROP_TABLE);
+            db.execSQL(TableNewsMaster.DROP_TABLE);
+            db.execSQL(TableNoticeBoard.DROP_TABLE);
+            db.execSQL(TableUserMaster.DROP_TABLE);
+
             onCreate(db);
         }
     }

@@ -13,6 +13,7 @@ public class TableStudentDetailsDataModel {
     private int university_id;
     private String StudentNumber;
     private String DateOfBirth;
+    private String lastRetrievedOn;
 
     public String getCourseCode() {
         return CourseCode;
@@ -76,5 +77,13 @@ public class TableStudentDetailsDataModel {
 
     public void setDateOfBirth(String dateOfBirth) {
         DateOfBirth = dateOfBirth;
+    }
+
+    public String getLastRetrievedOn() {
+        return lastRetrievedOn;
+    }
+
+    public void setLastRetrievedOn(String lastRetrievedOn) {
+        this.lastRetrievedOn = lastRetrievedOn;
     }
 }

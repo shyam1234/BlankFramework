@@ -15,6 +15,7 @@ public class ModelFactory {
     private volatile static ModelFactory mInstance;
     public final static String MODEL_LOGIN = "LoginDataModel";
     public final static String MODEL_LANG="LanguageArrayDataModel";
+    public final static String MODEL_GETMOBILEHOME= "GetMobileHome";
 
     private HashMap<String, IModel> mHashMapMode;
 

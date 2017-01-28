@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.TableParentMasterDataModel;
+import com.malviya.blankframework.models.TableDocumentMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -15,29 +15,33 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 26-11-2016.
  */
-public class TableParentMaster {
+public class TableDocumentMaster {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
-    public static final String TAG = "TableParentMaster";
-    private static final String TABLE_NAME = "table_parentmaster";
-    private static final String COL_EMAILID = "emailid";
-    private static final String COL_IMAGE_URL = "imageurl";
-    private static final String COL_PARENTID = "parentid";
-    private static final String COL_PARENT_NAME = "parent_name";
-    private static final String COL_PHONE_NUMBER = "phone_number";
-    private static final String COL_LASTRETRIVEDON = "last_retrived_on";
+    public static final String TAG = "TableDocumentMaster";
+    private static final String TABLE_NAME = "table_document_master";
+    private static final String COL_REFERENCEID = "referenceid";
+    private static final String COL_MENUCODE = "menucode";
+    private static final String COL_DOCUMENT_NAME = "documentname";
+    private static final String COL_DOCUMENT_PATH = "documentpath";
+    private static final String COL_DOOCUMENT_EXTN = "documentextn";
+    private static final String COL_IS_ATTACHMENT = "isattachment";
+    private static final String COL_MEDIATYPE = "mediatype";
+    private static final String COL_SORTORDER = "sortorder";
+    private static final String COL_DOCUMENT_ID = "documentid";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
 
-
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
-            + COL_EMAILID + " varchar(255), "
-            + COL_IMAGE_URL + " varchar(255), "
-            + COL_PARENTID + " varchar(255), "
-            + COL_PARENT_NAME + " varchar(255), "
-            + COL_LASTRETRIVEDON + " datetime , "
-            + COL_PHONE_NUMBER + " varchar(255) "
+            + COL_REFERENCEID + " int, "
+            + COL_MENUCODE + " char(3), "
+            + COL_DOCUMENT_NAME + " varchar(100), "
+            + COL_DOCUMENT_PATH + " varchar(100), "
+            + COL_DOOCUMENT_EXTN + " varchar(10) , "
+            + COL_IS_ATTACHMENT + " bit , "
+            + COL_MEDIATYPE + " char(1) , "
+            + COL_SORTORDER + " int "
             + " )";
 
     //For Foreign key
@@ -83,22 +87,27 @@ public class TableParentMaster {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableParentMasterDataModel> list) {
+    public void insert(ArrayList<TableDocumentMasterDataModel> list) {
         try {
             if (mDB != null) {
-                for (TableParentMasterDataModel holder : list) {
+                for (TableDocumentMasterDataModel holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
                     //----------------------------------------
                     ContentValues value = new ContentValues();
-                    value.put(COL_EMAILID, holder.getEmailid());
-                    value.put(COL_IMAGE_URL, holder.getImageurl());
-                    value.put(COL_PARENTID, holder.getParentid());
-                    value.put(COL_PARENT_NAME, holder.getParent_name());
-                    value.put(COL_PHONE_NUMBER, holder.getPhone_number());
+                    value.put(COL_REFERENCEID, holder.getReferenceid());
+                    value.put(COL_DOCUMENT_NAME, holder.getDocumentname());
+                    value.put(COL_DOOCUMENT_EXTN, holder.getDocumentextn());
+                    value.put(COL_DOCUMENT_PATH, holder.getDocumentpath());
+                    value.put(COL_IS_ATTACHMENT, holder.getIsattachment());
+                    value.put(COL_MEDIATYPE, holder.getMediatype());
+                    value.put(COL_MENUCODE, holder.getMenucode());
+                    value.put(COL_SORTORDER, holder.getSortorder());
+
+
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TABLE_NAME + " inserted: ", holder.getParentid() + " row: " + row);
+                    AppLog.log(TABLE_NAME + " inserted: ", holder.getDocumentname() + " row: " + row);
                 }
             }
         } catch (Exception e) {
@@ -107,9 +116,9 @@ public class TableParentMaster {
     }
 
 
-    public boolean isExists(TableParentMasterDataModel model) {
+    public boolean isExists(TableDocumentMasterDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentid() + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_DOCUMENT_ID + " = '" + model.getDocumentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -124,17 +133,17 @@ public class TableParentMaster {
         return false;
     }
 
-    public boolean deleteRecord(TableParentMasterDataModel holder) {
+    public boolean deleteRecord(TableDocumentMasterDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=?", new String[]{"" + holder.getParentid()});
+                long row = mDB.delete(TABLE_NAME, COL_DOCUMENT_ID + "=?", new String[]{"" + holder.getDocumentId()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "deleteRecord from TableParentMasterDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "deleteRecord from TableDocumentMasterDataModel" + e.getMessage());
         }
         return false;
     }

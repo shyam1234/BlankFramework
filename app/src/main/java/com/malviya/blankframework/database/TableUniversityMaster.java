@@ -21,8 +21,8 @@ public class TableUniversityMaster {
     //--------------------------------------------------------------------------
     public static final String TAG = "TableUniversityMaster";
     public static final String TABLE_NAME = "table_university_master";
-    public static final String COL_UNIVERSITY_ID = "university_id";
-    public static final String COL_UNIVERSITY_NAME = "university_name";
+    public static final String COL_UNIVERSITY_ID = "UniversityId";
+    public static final String COL_UNIVERSITY_NAME = "UniversityName";
     public static final String COL_UNIVERSITY_URL = "university_url";
     public static final String COL_UNIVERSITY_CODE = "UniversityCode";
     public static final String COL_UNIVERSITY_LOGO = "UniversityLogoPath";
