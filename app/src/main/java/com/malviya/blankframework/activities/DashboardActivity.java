@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     private void init() {
         mAdapterViewPager = new DashboardAdapter(getSupportFragmentManager());
         TableParentStudentAssociation table = new TableParentStudentAssociation();
+        Log.d("ITC","UserInfo.currUserType: "+UserInfo.currUserType);
         switch (UserInfo.currUserType){
             case WSContant.TAG_USERTYPE_PARENT:
                 UserInfo.parentId = UserInfo.userId;
@@ -61,6 +63,9 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
                 break;
         }
         table.closeDB();
+
+        Log.d("ITC","UserInfo.parentId: "+UserInfo.parentId);
+        Log.d("ITC","UserInfo.studentId: "+UserInfo.studentId);
     }
 
 

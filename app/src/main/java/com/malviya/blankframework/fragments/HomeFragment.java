@@ -96,7 +96,6 @@ public class HomeFragment extends Fragment {
             //--for header
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-            header.put(WSContant.TAG_CONTENT_TYPE, "application/json");
             header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTime());
             header.put(WSContant.TAG_NEW, Utils.getCurrTime());
             //--for body
@@ -128,6 +127,8 @@ public class HomeFragment extends Fragment {
                     }
                     UserInfo.parentId = holder.data.UserId;
                     UserInfo.parentName = holder.data.UserName;
+                    AppLog.log(TAG, "UserId: " +holder.data.UserId);
+                    AppLog.log(TAG, "parentName: " +holder.data.UserName);
                     //--------------------------------------------------------------------
                 }
 

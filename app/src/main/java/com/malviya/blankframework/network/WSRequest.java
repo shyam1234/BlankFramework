@@ -8,10 +8,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.UserInfo;
+import com.malviya.blankframework.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +23,9 @@ import java.util.Map;
  */
 
 public class WSRequest {
-    public static int POST = Request.Method.POST;
-    public static int GET = Request.Method.GET;
-    public static int PUT = Request.Method.PUT;
+    public final static int POST = Request.Method.POST;
+    public final static int GET = Request.Method.GET;
+    public final static int PUT = Request.Method.PUT;
     private static WSRequest mInstance;
     private int count;
 
@@ -62,7 +64,19 @@ public class WSRequest {
     public synchronized void requestWithParam(int method, String url, final Map<String, String> pHeader, final Map<String, String> pParam, final String TAG, final IWSRequest pWSRequest) {
         AppLog.networkLog(TAG, "--------------------------------------------------------------------------------");
         AppLog.networkLog(TAG, "URL: " + url);
-        AppLog.networkLog(TAG, "method: " + method);
+        switch (method)
+        {
+            case GET:
+                AppLog.networkLog(TAG, "method: GET " + method);
+                break;
+            case POST:
+                AppLog.networkLog(TAG, "method: POST " + method);
+                break;
+            default:
+                AppLog.networkLog(TAG, "method: " + method);
+                break;
+        }
+
         final StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -78,7 +92,11 @@ public class WSRequest {
             public void onErrorResponse(VolleyError error) {
                 pWSRequest.onErrorResponse(error);
                 AppLog.networkLog(TAG, "Error: " + error.getMessage());
-                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Error Response: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                if( error.networkResponse!=null){
+                    AppLog.networkLog(TAG, "Error: statusCode: " + error.networkResponse.statusCode);
+                }
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), MyApplication.getInstance().getApplicationContext().getString(R.string.msg_net_wrro) + error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         }) {
 
@@ -112,7 +130,7 @@ public class WSRequest {
                     AppLog.networkLog("notModified", "" + resp.notModified);
                     Map<String, String> mapHeader = resp.headers;
                     AppLog.networkLog("headers", "" + mapHeader);
-                    if((mapHeader.get(WSContant.TAG_TOKEN)).trim().length()> 0){
+                    if ((mapHeader.get(WSContant.TAG_TOKEN)).trim().length() > 0) {
                         UserInfo.authToken = mapHeader.get(WSContant.TAG_TOKEN);
                     }
                     UserInfo.tokenExp = mapHeader.get(WSContant.TAG_TOKEN_EXP);
