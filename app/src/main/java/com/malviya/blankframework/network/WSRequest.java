@@ -13,7 +13,6 @@ import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.UserInfo;
-import com.malviya.blankframework.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -64,8 +63,7 @@ public class WSRequest {
     public synchronized void requestWithParam(int method, String url, final Map<String, String> pHeader, final Map<String, String> pParam, final String TAG, final IWSRequest pWSRequest) {
         AppLog.networkLog(TAG, "--------------------------------------------------------------------------------");
         AppLog.networkLog(TAG, "URL: " + url);
-        switch (method)
-        {
+        switch (method) {
             case GET:
                 AppLog.networkLog(TAG, "method: GET " + method);
                 break;
@@ -92,8 +90,16 @@ public class WSRequest {
             public void onErrorResponse(VolleyError error) {
                 pWSRequest.onErrorResponse(error);
                 AppLog.networkLog(TAG, "Error: " + error.getMessage());
-                if( error.networkResponse!=null){
+                if (error.networkResponse != null) {
                     AppLog.networkLog(TAG, "Error: statusCode: " + error.networkResponse.statusCode);
+                    switch (TAG) {
+                        case WSContant.TAG_GETMOBILEHOME:
+                            if (error.networkResponse.statusCode == WSContant.TAG_UNAUTHORIZED_CODE) {
+                                Toast.makeText(MyApplication.getInstance().getApplicationContext(), MyApplication.getInstance().getApplicationContext().getResources().getString(R.string.msg_session_exp), Toast.LENGTH_SHORT).show();
+                                UserInfo.logout();
+                            }
+                            break;
+                    }
                 }
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), MyApplication.getInstance().getApplicationContext().getString(R.string.msg_net_wrro) + error.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -124,7 +130,7 @@ public class WSRequest {
 
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse resp) {
-                if (resp.statusCode == 200) {
+                if (resp.statusCode == WSContant.TAG_SUCCESS_CODE) {
                     AppLog.networkLog("parseNetworkResponse", "" + resp.statusCode);
                     AppLog.networkLog("networkTimeMs", "" + resp.networkTimeMs);
                     AppLog.networkLog("notModified", "" + resp.notModified);
@@ -137,6 +143,7 @@ public class WSRequest {
                     UserInfo.tokenIssue = mapHeader.get(WSContant.TAG_TOKEN_ISSUE);
                     //parseData(resp.data);
                 }
+
                 return super.parseNetworkResponse(resp);
             }
         };

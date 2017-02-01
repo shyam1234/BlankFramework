@@ -1,5 +1,6 @@
 package com.malviya.blankframework.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +13,7 @@ import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableLanguage;
+import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableLanguageDataModel;
@@ -37,6 +39,7 @@ public class SplashActivity extends AppCompatActivity {
     private static final long TIME_DELAY = 3000;
     private Handler mHandler;
     private Runnable mRunnable;
+    public static Context mContext;
     CircularProgressBar mCircularProgressBar;
 
     @Override
@@ -54,6 +57,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void init() {
+        mContext = this;
         mHandler = new Handler();
         mRunnable = new Runnable() {
             @Override
@@ -142,8 +146,12 @@ public class SplashActivity extends AppCompatActivity {
             table.closeDB();
             AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );
             if( UserInfo.authToken !=null) {
-                Utils.updateHomeTableAsPerDefaultChildSelection();
-                navigateToNextPage(DashboardActivity.class);
+                Utils.updateHomeTableAsPerDefaultChildSelection(new IDatabaseCallback() {
+                    @Override
+                    public void callBack() {
+                        navigateToNextPage(DashboardActivity.class);
+                    }
+                });
             }else{
                 navigateToNextPage(LoginActivity.class);
             }

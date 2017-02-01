@@ -21,6 +21,7 @@ import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.DashboardAdapter;
 import com.malviya.blankframework.adapters.WardChildRowAdapter;
 import com.malviya.blankframework.database.CommonInfo;
+import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.RenderImageByPicasso;
@@ -101,7 +102,12 @@ public class WardFragment extends Fragment implements View.OnClickListener {
 
         //save user default child selection
         SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
-        Utils.updateHomeTableAsPerDefaultChildSelection();
+        Utils.updateHomeTableAsPerDefaultChildSelection(new IDatabaseCallback() {
+            @Override
+            public void callBack() {
+
+            }
+        });
     }
 
     private void initRecycleAdapter() {
@@ -123,7 +129,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "Coming soon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rel_ward_row_holder:
-                setDefaultStudentProfileInHeader((Integer)view.getTag());
+                setDefaultStudentProfileInHeader((Integer) view.getTag());
                 break;
         }
     }

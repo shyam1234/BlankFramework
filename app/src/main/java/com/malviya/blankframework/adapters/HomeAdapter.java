@@ -112,6 +112,9 @@ public class HomeAdapter extends BaseAdapter {
         }
 
         public void setNotificationCounter(int number) {
+            if(number>0) {
+                notificationCounter.setVisibility(View.VISIBLE);
+            }
             this.notificationCounter.setText(""+number);
         }
 

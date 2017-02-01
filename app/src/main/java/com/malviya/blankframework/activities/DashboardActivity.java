@@ -32,6 +32,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     private BottomBar mBottomBar;
     private ViewPager mViewPage;
     private DashboardAdapter mAdapterViewPager;
+    public static DashboardActivity mContext;
     public static ImageView mImgProfile;
     private TextView mTextViewTitle;
     @Override
@@ -46,6 +47,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     }
 
     private void init() {
+        mContext  = this;
         mAdapterViewPager = new DashboardAdapter(getSupportFragmentManager());
         TableParentStudentAssociation table = new TableParentStudentAssociation();
         Log.d("ITC","UserInfo.currUserType: "+UserInfo.currUserType);

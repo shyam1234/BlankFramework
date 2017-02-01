@@ -1,13 +1,17 @@
 package com.malviya.blankframework.database;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.ColorDrawable;
 import android.widget.Toast;
 
+import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.fragments.HomeFragment;
+import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
 import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
@@ -31,7 +35,7 @@ public class TableParentStudentMenuDetails {
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
-
+    private static ProgressDialog dialog;
 
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
             + COL_ISACTIVE + " integer , "
@@ -43,9 +47,26 @@ public class TableParentStudentMenuDetails {
             + " FOREIGN KEY (" + COL_SUBCRIPTIONCODE + ") REFERENCES " + TableLanguage.TABLE_NAME + "(" + TableLanguage.CONVERSION_CODE + "));";
 
 
+
     public void openDB(Context pContext) {
         DatabaseHelper helper = DatabaseHelper.getInstance(pContext);
         mDB = helper.getWritableDatabase();
+        initDialog(pContext);
+    }
+
+    private void initDialog(Context pContext) {
+        dialog = new ProgressDialog(pContext);
+        dialog.getWindow().setBackgroundDrawable(new  ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(true);
+        dialog.show();
+        dialog.setContentView(R.layout.my_progress);
+    }
+
+    private void dismissedDialog(){
+        if(dialog!=null && dialog.isShowing()){
+            dialog.dismiss();
+        }
     }
 
     public void closeDB() {
@@ -84,7 +105,7 @@ public class TableParentStudentMenuDetails {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableParentStudentMenuDetailsDataModel> list) {
+    public void insert(ArrayList<TableParentStudentMenuDetailsDataModel> list, IDatabaseCallback pCallback) {
         try {
             //reset();
             if (mDB != null) {
@@ -103,6 +124,8 @@ public class TableParentStudentMenuDetails {
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: ", "getStudentId " + holder.getStudentId() + " holder.getParent_id() " + holder.getParent_id() + " row: " + row);
                 }
+                pCallback.callBack();
+                dismissedDialog();
             }
         } catch (Exception e) {
             AppLog.errLog("insert", e.getMessage());
@@ -112,9 +135,9 @@ public class TableParentStudentMenuDetails {
 
     public boolean isExists(TableParentStudentMenuDetailsDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_SUBCRIPTIONCODE + " = '" + model.getMenu_code()+ "'"
-                    +" and "+ COL_PARENTID + " = '" + model.getParent_id()+ "'"
-                    +" and "+ COL_STUDENTID + " = '" + model.getStudentId()+ "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_SUBCRIPTIONCODE + " = '" + model.getMenu_code() + "'"
+                    + " and " + COL_PARENTID + " = '" + model.getParent_id() + "'"
+                    + " and " + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -132,8 +155,8 @@ public class TableParentStudentMenuDetails {
     public boolean deleteRecord(TableParentStudentMenuDetailsDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_SUBCRIPTIONCODE + "=? and "+ COL_PARENTID + "=? " +
-                        "and "+ COL_STUDENTID + "=?", new String[]{holder.getMenu_code(),""+holder.getParent_id(),""+holder.getStudentId()});
+                long row = mDB.delete(TABLE_NAME, COL_SUBCRIPTIONCODE + "=? and " + COL_PARENTID + "=? " +
+                        "and " + COL_STUDENTID + "=?", new String[]{holder.getMenu_code(), "" + holder.getParent_id(), "" + holder.getStudentId()});
                 AppLog.log("deleteRecord from TableParentStudentMenuDetailsDataModel ", "" + row);
                 return true;
             } else {
@@ -146,7 +169,8 @@ public class TableParentStudentMenuDetails {
     }
 
     private int position;
-    public ArrayList<DashboardCellDataHolder> getHomeFragmentData(int parentId, int studentId) {
+
+    public ArrayList<DashboardCellDataHolder> getHomeFragmentData(int parentId, int studentId, IDatabaseCallback pCallback) {
         ArrayList<DashboardCellDataHolder> list = new ArrayList<DashboardCellDataHolder>();
         try {
             if (mDB != null) {
@@ -156,11 +180,11 @@ public class TableParentStudentMenuDetails {
                         + " and " + TABLE_NAME + "." + COL_STUDENTID + "=" + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_STUDENT_ID
                         + " and " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID + "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
                         + " where " + TABLE_NAME + "." + COL_PARENTID + "='" + parentId
-                        + "' and " +  TABLE_NAME + "." + COL_ISACTIVE+ "= '1'"
+                        + "' and " + TABLE_NAME + "." + COL_ISACTIVE + "= '1'"
                         + " and " + TABLE_NAME + "." + COL_STUDENTID + "='" + studentId + "'";
-                AppLog.log("getHomeFragmentData ++++selectQuery++++++++++++++++",selectQuery);
+                AppLog.log("getHomeFragmentData ++++selectQuery++++++++++++++++", selectQuery);
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
-                position = 0 ;
+                position = 0;
                 if (cursor.moveToFirst()) {
                     do {
                         // get the data into array, or class variable
@@ -176,18 +200,20 @@ public class TableParentStudentMenuDetails {
                         model.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
                         model.setUniversity_url(cursor.getString(cursor.getColumnIndex(COL_UNI_URL)));
                         model.setText(cursor.getString(cursor.getColumnIndex(TableLanguage.ENGLISH_VERSION)));
-                        AppLog.log("getHomeFragmentData parentId", ""+parentId);
-                        AppLog.log("getHomeFragmentData studentId ", ""+studentId);
+                        AppLog.log("getHomeFragmentData parentId", "" + parentId);
+                        AppLog.log("getHomeFragmentData studentId ", "" + studentId);
                         AppLog.log("getHomeFragmentData getMenu_code ", model.getMenu_code());
-                        AppLog.log("getHomeFragmentData getUniversity_id", ""+model.getUniversity_id());
+                        AppLog.log("getHomeFragmentData getUniversity_id", "" + model.getUniversity_id());
                         AppLog.log("getHomeFragmentData getUniversity_name ", model.getUniversity_name());
                         AppLog.log("getHomeFragmentData getUniversity_url ", model.getUniversity_url());
-                        AppLog.log("getHomeFragmentData ++++++++++++++++++++","");
+                        AppLog.log("getHomeFragmentData ++++++++++++++++++++", "");
                         list.add(model);
                         position++;
                     } while (cursor.moveToNext());
                 }
                 cursor.close();
+                pCallback.callBack();
+                dismissedDialog();
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }

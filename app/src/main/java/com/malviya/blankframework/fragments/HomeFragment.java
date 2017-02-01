@@ -21,6 +21,7 @@ import com.malviya.blankframework.adapters.HomeAdapter;
 import com.malviya.blankframework.constant.Contant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
+import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
 import com.malviya.blankframework.models.GetMobileHomeDataHolder;
 import com.malviya.blankframework.models.LoginDataModel;
@@ -97,14 +98,18 @@ public class HomeFragment extends Fragment {
         mLinearHolder.setVisibility(View.VISIBLE);
 
         //----------------------------------------------------------------------
-        TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+        final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
         table.openDB(getContext());
-        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
-        table.closeDB();
-        AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
-        //----------------------------------------------------------------------
-        mLinearHolder.setVisibility(View.GONE);
-        initView();
+        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId, new IDatabaseCallback() {
+            @Override
+            public void callBack() {
+                table.closeDB();
+                AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
+                //----------------------------------------------------------------------
+                mLinearHolder.setVisibility(View.GONE);
+                initView();
+            }
+        });
 
         //fetchDataFromWS();
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
@@ -113,18 +118,22 @@ public class HomeFragment extends Fragment {
                 switch ((Integer) msg.what) {
                     case 1:
                         //----------------------------------------------------------------------
-                        TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+                        final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
                         table.openDB(getContext());
-                        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
-                        table.closeDB();
-                        AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
+                        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId, new IDatabaseCallback() {
+                            @Override
+                            public void callBack() {
+                                table.closeDB();
+                                AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
+                                AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: handleMessage : onActivityCreated");
+                                DashboardActivity.mHandler.removeMessages(1);
+                                mLinearHolder.setVisibility(View.GONE);
+                                AppLog.log(TAG,"UserInfo.studentId :"+UserInfo.studentId);
+                                initView();
+                            }
+                        });
                         //----------------------------------------------------------------------
                        // fetchDataFromWS();
-                        AppLog.log("HomeFragment ","bindDataWithParentStudentMenuDetailsDataModel: handleMessage : onActivityCreated");
-                        DashboardActivity.mHandler.removeMessages(1);
-                        mLinearHolder.setVisibility(View.GONE);
-                        AppLog.log(TAG,"UserInfo.studentId :"+UserInfo.studentId);
-                        initView();
                         return true;
                 }
                 return false;
@@ -185,13 +194,17 @@ public class HomeFragment extends Fragment {
             bindDataWithParentStudentMenuDetailsDataModel(holder);
         }
         //----------------------------------------------------------------------
-        TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+        final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
         table.openDB(getContext());
-        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
-        table.closeDB();
-        AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
-        //----------------------------------------------------------------------
-        initView();
+        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId, new IDatabaseCallback() {
+            @Override
+            public void callBack() {
+                table.closeDB();
+                AppLog.log("HomeFragment ","mCellList mCellList "+mCellList.size());
+                //----------------------------------------------------------------------
+                initView();
+            }
+        });
         mLinearHolder.setVisibility(View.GONE);
     }
 
@@ -211,10 +224,14 @@ public class HomeFragment extends Fragment {
                 list.add(obj);
             }
             //saving into database
-            TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+            final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
             table.openDB(getContext());
-            table.insert(list);
-            table.closeDB();
+            table.insert(list, new IDatabaseCallback() {
+                @Override
+                public void callBack() {
+                    table.closeDB();
+                }
+            });
         } catch (Exception e) {
             AppLog.errLog("HomeFragment bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
         }

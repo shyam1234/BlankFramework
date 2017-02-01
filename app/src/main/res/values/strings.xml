@@ -54,4 +54,5 @@
     <string name="msg_network_prob">Something went wrong with server. Please try again later.</string>
     <string name="msg_net_wrro">Something went wrong with server</string>
     <string name="please_wait">Please wait...</string>
+    <string name="msg_session_exp">Session Expired</string>
 </resources>
