@@ -57,4 +57,7 @@
     <string name="msg_class">Class</string>
     <string name="msg_class_teacher">Class Teacher</string>
     <string name="msg_class_teacher_phone">Class Teacher Phone</string>
+    <string name="download_offline_content">Download offline content</string>
+    <string name="download_only_when_wifi_connected">Download only when wifi connected</string>
+    <string name="msg_logout">Successfully Logout</string>
 </resources>

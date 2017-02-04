@@ -48,6 +48,8 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     private ImageView mProfileEye;
     private FloatingActionButton mFloatingBtn;
     private FrameLayout mFramLayout;
+    private TextView mTextViewTitle;
+    private ImageView mImgProfile;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +82,13 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
+
+        mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
+        mTextViewTitle.setText(R.string.tab_wards);
+        mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
+        mImgProfile.setVisibility(View.VISIBLE);
+        mImgProfile  = DashboardActivity.mImgProfile;
+        //------------------------------------------------------
         mFramLayout = (FrameLayout)getView().findViewById(R.id.framelayout_holder);
         mProfileImage = (ImageView) getView().findViewById(R.id.imageview_profile_logo);
         mTextViewProfileHeaderName = (TextView) getView().findViewById(R.id.textview_profile_header_name);
@@ -99,8 +108,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     private void setDefaultStudentProfileInHeader(boolean isLoadFirstTime, int position) {
         UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
         RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , mProfileImage);
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , DashboardActivity.mImgProfile);
-
+        DashboardActivity.mImgProfile = mImgProfile;
         mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
         mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
         AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourseCode());

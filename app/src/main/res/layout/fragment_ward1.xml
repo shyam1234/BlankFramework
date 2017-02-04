@@ -7,6 +7,13 @@
     android:weightSum="1">
 
     <include
+        android:id="@+id/inc_home_header"
+        layout="@layout/inc_main_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"></include>
+
+    <include
         android:id="@+id/inc_frag_ward_header"
         layout="@layout/inc_profile_header"
         android:layout_width="match_parent"

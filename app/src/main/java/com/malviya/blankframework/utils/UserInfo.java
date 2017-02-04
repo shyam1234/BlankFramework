@@ -2,10 +2,13 @@ package com.malviya.blankframework.utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.Toast;
 
+import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.activities.LoginActivity;
 import com.malviya.blankframework.activities.SplashActivity;
+import com.malviya.blankframework.application.MyApplication;
 
 /**
  * Created by Admin on 14-01-2017.
@@ -17,7 +20,6 @@ public class UserInfo {
     public static int studentId;
     public static String authToken;
     public static int univercityId;
-
     public static String tokenExp;
     public static String tokenIssue;
     public static int userId;
@@ -48,12 +50,15 @@ public class UserInfo {
         }
 
         if(activity!=null) {
+            Toast.makeText(MyApplication.getInstance().getApplicationContext(), R.string.msg_logout,Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(activity, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.startActivity(intent);
             activity.finish();
-            Utils.animRightToLeft(activity);
+            Utils.animLeftToRight(activity);
         }
+
+
     }
 }
 

@@ -34,7 +34,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     private DashboardAdapter mAdapterViewPager;
     public static DashboardActivity mContext;
     public static ImageView mImgProfile;
-    private TextView mTextViewTitle;
+    //private TextView mTextViewTitle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +70,8 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
 
 
     private void initView() {
-        mTextViewTitle = (TextView) findViewById(R.id.textview_title);
-        mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
+       // mTextViewTitle = (TextView) findViewById(R.id.textview_title);
+       // mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
         //----------------------------------------------------------------------------
         // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -98,19 +98,19 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
             case R.id.tab_home:
                 //lFragmentTransaction.replace(R.id.contentContainer, new HomeFragment());
                 mViewPage.setCurrentItem(0);
-                mTextViewTitle.setText(getResources().getString(R.string.tab_home));
+               // mTextViewTitle.setText(getResources().getString(R.string.tab_home));
                 if(mHandler!=null)
                     mHandler.sendMessage(mHandler.obtainMessage(1,0));
                 break;
             case R.id.tab_ward:
                 mViewPage.setCurrentItem(1);
-                mTextViewTitle.setText(getResources().getString(R.string.tab_wards));
+               // mTextViewTitle.setText(getResources().getString(R.string.tab_wards));
                 if(mHandler!=null)
                     mHandler.sendMessage(mHandler.obtainMessage(0,1));
                 break;
             case R.id.tab_setting:
                 mViewPage.setCurrentItem(2);
-                mTextViewTitle.setText(getResources().getString(R.string.tab_options));
+              //  mTextViewTitle.setText(getResources().getString(R.string.tab_options));
                 if(mHandler!=null)
                     mHandler.sendMessage(mHandler.obtainMessage(0,2));
                 break;

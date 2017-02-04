@@ -5,6 +5,13 @@
     android:background="@color/colorWhite"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/inc_home_header"
+        layout="@layout/inc_main_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"></include>
+
     <RelativeLayout
         android:id="@+id/rel_options_share_app"
         android:layout_width="match_parent"

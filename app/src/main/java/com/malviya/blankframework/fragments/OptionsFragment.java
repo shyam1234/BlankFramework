@@ -9,11 +9,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.activities.ProfileActivity;
+import com.malviya.blankframework.activities.SettingActivity;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 /**
@@ -26,6 +30,8 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout relSettingTab;
     private RelativeLayout relLogoutTab;
     private RelativeLayout relMyProfileTab;
+    private TextView mTextViewTitle;
+    private ImageView mImgProfile;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +69,12 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
+        mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
+        mTextViewTitle.setText(R.string.tab_options);
+        mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
+        mImgProfile.setVisibility(View.VISIBLE);
+        mImgProfile  = DashboardActivity.mImgProfile;
+        //-----------------------------------------------------------
         relShareTab = (RelativeLayout) getView().findViewById(R.id.rel_options_share_app);
         relSettingTab = (RelativeLayout) getView().findViewById(R.id.rel_options_setting);
         relLogoutTab = (RelativeLayout) getView().findViewById(R.id.rel_options_logout);
@@ -84,8 +96,10 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
             case R.id.rel_options_share_app:
                 break;
             case R.id.rel_options_setting:
+                navigateToNextPage(SettingActivity.class);
                 break;
             case R.id.rel_options_logout:
+                UserInfo.logout();
                 break;
             case R.id.rel_options_profile:
                 navigateToNextPage(ProfileActivity.class);
@@ -102,7 +116,4 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void notifyFragment() {
-       initView();
-    }
 }

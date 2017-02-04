@@ -50,6 +50,8 @@ public class HomeFragment extends Fragment {
     private ImageView mImageViewUnivercityLogo;
     private TextView mTextViewUnivercityText;
     private LinearLayout mLinearHolder;
+    private TextView mTextViewTitle;
+    private ImageView mImgProfile;
 
 
     public HomeFragment() {
@@ -82,8 +84,6 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         AppLog.log("HomeFragment ", "bindDataWithParentStudentMenuDetailsDataModel: : onActivityCreated");
         initView();
-
-        //fetchDataFromWS();
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -111,91 +111,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-//    private void fetchDataFromWS() {
-//        if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
-//            //--for header
-//            Map<String, String> header = new HashMap<>();
-//            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-//            header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTime());
-//            header.put(WSContant.TAG_NEW, Utils.getCurrTime());
-//            //--for body
-//            Map<String, String> body = new HashMap<>();
-//            body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
-//            body.put(WSContant.TAG_STUDENTID, "" + UserInfo.studentId);
-//            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEHOME, header, body, WSContant.TAG_GETMOBILEHOME, new IWSRequest() {
-//                @Override
-//                public void onResponse(String response) {
-//                    AppLog.log(TAG, "onResponse +++ " + response.toString());
-//                    AppLog.log("HomeFragment ", "bindDataWithParentStudentMenuDetailsDataModel: : onResponse");
-//                    initTableAndDisplay(response);
-//                }
-//
-//                @Override
-//                public void onErrorResponse(VolleyError response) {
-//                    initTableAndDisplay(null);
-//                    AppLog.log("HomeFragment ", "bindDataWithParentStudentMenuDetailsDataModel: : onErrorResponse");
-//                }
-//            });
-//
-//
-//        } else {
-//            AppLog.errLog("HomeFragment", "Empty field parentId " + UserInfo.parentId);
-//            AppLog.errLog("HomeFragment", "Empty field studentId " + UserInfo.studentId);
-//        }
-//    }
-//
-//    private void initTableAndDisplay(String response) {
-//
-//        if (response != null) {
-//            ParseResponse obj = new ParseResponse(response, GetMobileHomeDataHolder.class, ModelFactory.MODEL_GETMOBILEHOME);
-//            GetMobileHomeDataHolder holder = ((GetMobileHomeDataHolder) obj.getModel());
-//            for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
-//                AppLog.log(TAG, "IsDefault: " + parentStudentAsso.IsDefault);
-//                if (parentStudentAsso.IsDefault) {
-//                    UserInfo.studentId = parentStudentAsso.StudentId;
-//                }
-//            }
-//
-//            for (LoginDataModel.University university : holder.universityArrayList) {
-//                UserInfo.univercityId = university.UniversityId;
-//            }
-//
-//            bindDataWithParentStudentMenuDetailsDataModel(holder);
-//        }
-//        //----------------------------------------------------------------------
-//        final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
-//        table.openDB(getContext());
-//        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
-//        table.closeDB();
-//        AppLog.log("HomeFragment ", "mCellList mCellList " + mCellList.size());
-//        initView();
-//        mLinearHolder.setVisibility(View.VISIBLE);
-//    }
-
-//    private void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder) {
-//        try {
-//            AppLog.log("HomeFragment ", "bindDataWithParentStudentMenuDetailsDataModel");
-//            ArrayList<TableParentStudentMenuDetailsDataModel> list = new ArrayList<TableParentStudentMenuDetailsDataModel>();
-//            for (LoginDataModel.ParentStudentMenuDetails model : holder.ParentStudentMenuDetailsArrayList) {
-//                //-- assign value to model
-//                TableParentStudentMenuDetailsDataModel obj = new TableParentStudentMenuDetailsDataModel();
-//                obj.setAlert_count(model.ColumnCount);
-//                obj.setIsActive(model.IsActive);
-//                obj.setMenuCode(model.SubscriptionCode);
-//                obj.setParentId(model.ParentId);
-//                obj.setStudentId(model.StudentId);
-//                obj.setUniversityId(model.UniversityId);
-//                list.add(obj);
-//            }
-//            //saving into database
-//            final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
-//            table.openDB(getContext());
-//            table.insert(list);
-//        } catch (Exception e) {
-//            AppLog.errLog("HomeFragment bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
-//        }
-//    }
-
 
     private void initView() {
         if (getView() == null) {
@@ -204,6 +119,12 @@ public class HomeFragment extends Fragment {
 
         mLinearHolder = (LinearLayout) getView().findViewById(R.id.linearlayout);
         mLinearHolder.setVisibility(View.GONE);
+
+         mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
+         mTextViewTitle.setText(R.string.tab_home);
+         mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
+         mImgProfile.setVisibility(View.VISIBLE);
+         mImgProfile  = DashboardActivity.mImgProfile;
         //----------------------------------------------------------------------
         final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
         table.openDB(getContext());

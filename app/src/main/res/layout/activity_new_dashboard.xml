@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <include
+        android:visibility="gone"
         android:id="@+id/inc_home_header"
         layout="@layout/inc_main_header"
         android:layout_width="match_parent"

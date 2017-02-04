@@ -111,11 +111,14 @@ public class Utils {
     }
 
 
+
+    // for in
     public static void animRightToLeft(Activity pActivity) {
         if (pActivity instanceof Activity)
             pActivity.overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 
+    // for out
     public static void animLeftToRight(Activity pActivity) {
         if (pActivity instanceof Activity)
             pActivity.overridePendingTransition(R.anim.left, R.anim.right);
