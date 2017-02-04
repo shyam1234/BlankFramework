@@ -236,6 +236,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
+    /**
+     * bind data for dashboard
+     * @param holder
+     */
     private void bindDataWithParentDetailsDataModel(LoginDataModel holder) {
         try {
             ArrayList<TableParentMasterDataModel> list = new ArrayList<TableParentMasterDataModel>();

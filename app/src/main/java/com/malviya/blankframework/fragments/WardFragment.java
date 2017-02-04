@@ -18,6 +18,7 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.WardChildRowAdapter;
 import com.malviya.blankframework.database.CommonInfo;
+import com.malviya.blankframework.interfaces.ICallBack;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.RenderImageByPicasso;
@@ -83,10 +84,10 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mProfileEye.setOnClickListener(this);
         mFloatingBtn.setOnClickListener(this);
         initRecycleAdapter();
-        setDefaultStudentProfileInHeader(0);
+        setDefaultStudentProfileInHeader(false,0);
     }
 
-    private void setDefaultStudentProfileInHeader(int position) {
+    private void setDefaultStudentProfileInHeader(boolean isLoadFirstTime, int position) {
         UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
         RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , mProfileImage);
         RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , DashboardActivity.mImgProfile);
@@ -95,10 +96,19 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
         AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourseCode());
         AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ",mListChildInfoHolder.get(position).getFullName());
-
         //save user default child selection
-        SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
-        Utils.updateHomeTableAsPerDefaultChildSelection();
+
+        if(isLoadFirstTime) {
+            Utils.showProgressBar(getContext());
+            SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
+            AppLog.networkLog("WardFragment networkLog.networkLog  ", "" + UserInfo.authToken);
+            Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
+                @Override
+                public void callBack() {
+                    Utils.dismissProgressBar();
+                }
+            });
+        }
     }
 
     private void initRecycleAdapter() {
@@ -120,7 +130,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(getContext(), "Coming soon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.rel_ward_row_holder:
-                setDefaultStudentProfileInHeader((Integer) view.getTag());
+                setDefaultStudentProfileInHeader(true, (Integer) view.getTag());
                 break;
         }
     }

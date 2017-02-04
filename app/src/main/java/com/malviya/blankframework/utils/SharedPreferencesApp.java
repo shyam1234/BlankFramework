@@ -214,9 +214,12 @@ public class SharedPreferencesApp {
                 UserInfo.userId = sharePref.getInt(WSContant.TAG_USERID, -1);
                 UserInfo.authToken = sharePref.getString(WSContant.TAG_AUTHTOKEN, null);
                 UserInfo.currUserType = sharePref.getString(WSContant.TAG_USERTYPE, null);
+                UserInfo.parentId = UserInfo.userId;
                 AppLog.log("getUserInfo", " UserInfo.userId: " + UserInfo.userId);
                 AppLog.log("getUserInfo", " UserInfo.authToken: " + UserInfo.authToken);
                 AppLog.log("getUserInfo", " UserInfo.currUserType: " + UserInfo.currUserType);
+                AppLog.log("getUserInfo", " UserInfo.parentId: " + UserInfo.parentId);
+                AppLog.log("getUserInfo", " UserInfo.studentId: " + UserInfo.studentId);
             } else {
                 AppLog.log("getUserInfo", "there is not getStoreData ");
             }

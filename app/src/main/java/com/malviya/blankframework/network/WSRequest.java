@@ -61,8 +61,10 @@ public class WSRequest {
     }
 
     public synchronized void requestWithParam(int method, String url, final Map<String, String> pHeader, final Map<String, String> pParam, final String TAG, final IWSRequest pWSRequest) {
-        AppLog.networkLog(TAG, "--------------------------------------------------------------------------------");
+        AppLog.networkLog(TAG, "---------------------------------------" + TAG + "-----------------------------------------");
         AppLog.networkLog(TAG, "URL: " + url);
+        AppLog.networkLog(TAG, "Header: " + pHeader);
+        AppLog.networkLog(TAG, "Request: " + pParam);
         switch (method) {
             case GET:
                 AppLog.networkLog(TAG, "method: GET " + method);
@@ -78,18 +80,22 @@ public class WSRequest {
         final StringRequest request = new StringRequest(method, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if (response != null && response.trim().length() > 0)
-                    pWSRequest.onResponse(response);
-                else
-                    Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Response is coming blank: " + response, Toast.LENGTH_SHORT).show();
-
                 AppLog.networkLog(TAG, "Response: " + response.toString());
+                if (response != null && response.trim().length() > 0) {
+                    AppLog.networkLog(TAG, "------------------- --------------END--" + TAG + "-----------------------------------------");
+                    pWSRequest.onResponse(response);
+                } else {
+                    Toast.makeText(MyApplication.getInstance().getApplicationContext(), " WS Request: Response is coming blank: " + response, Toast.LENGTH_SHORT).show();
+                    AppLog.networkLog("WSRequest class : ", "Response is coming blank for : " + TAG + response.toString());
+                    AppLog.networkLog(TAG, "------------------- --------------END--" + TAG + "-----------------------------------------");
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pWSRequest.onErrorResponse(error);
                 AppLog.networkLog(TAG, "Error: " + error.getMessage());
+                AppLog.networkLog(TAG, "------------------- --------------END--" + TAG + "-----------------------------------------");
                 if (error.networkResponse != null) {
                     AppLog.networkLog(TAG, "Error: statusCode: " + error.networkResponse.statusCode);
                     switch (TAG) {
@@ -101,7 +107,7 @@ public class WSRequest {
                             break;
                     }
                 }
-                Toast.makeText(MyApplication.getInstance().getApplicationContext(), MyApplication.getInstance().getApplicationContext().getString(R.string.msg_net_wrro) + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), MyApplication.getInstance().getApplicationContext().getString(R.string.msg_network_prob) + error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -109,7 +115,7 @@ public class WSRequest {
             @Override
             public Map<String, String> getParams() {
                 Map<String, String> params = (pParam != null ? pParam : new HashMap<String, String>());
-                AppLog.networkLog(TAG, "getParams: " + params.toString());
+                // AppLog.networkLog(TAG, "getParams: " + params.toString());
                 return params;
 
             }
@@ -118,7 +124,7 @@ public class WSRequest {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = (pHeader != null ? pHeader : new HashMap<String, String>());
-                AppLog.networkLog(TAG, "getHeaders: " + params.toString());
+                //AppLog.networkLog(TAG, "getHeaders: " + params.toString());
                 return params;
             }
 
@@ -131,17 +137,20 @@ public class WSRequest {
             @Override
             protected Response<String> parseNetworkResponse(NetworkResponse resp) {
                 if (resp.statusCode == WSContant.TAG_SUCCESS_CODE) {
-                    AppLog.networkLog("parseNetworkResponse", "" + resp.statusCode);
-                    AppLog.networkLog("networkTimeMs", "" + resp.networkTimeMs);
-                    AppLog.networkLog("notModified", "" + resp.notModified);
                     Map<String, String> mapHeader = resp.headers;
-                    AppLog.networkLog("headers", "" + mapHeader);
                     if ((mapHeader.get(WSContant.TAG_TOKEN)).trim().length() > 0) {
                         UserInfo.authToken = mapHeader.get(WSContant.TAG_TOKEN);
                     }
                     UserInfo.tokenExp = mapHeader.get(WSContant.TAG_TOKEN_EXP);
                     UserInfo.tokenIssue = mapHeader.get(WSContant.TAG_TOKEN_ISSUE);
                     //parseData(resp.data);
+
+                    AppLog.networkLog(TAG, "--network -- response- - " + TAG + " --");
+                    AppLog.networkLog("network statusCode", "" + resp.statusCode);
+                    AppLog.networkLog("network networkTimeMs", "" + resp.networkTimeMs);
+                    AppLog.networkLog("network headers", "" + mapHeader);
+                    AppLog.networkLog("network notModified", "" + resp.notModified);
+                    AppLog.networkLog(TAG, "------");
                 }
 
                 return super.parseNetworkResponse(resp);

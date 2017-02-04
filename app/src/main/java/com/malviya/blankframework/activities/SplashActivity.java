@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableLanguage;
+import com.malviya.blankframework.interfaces.ICallBack;
 import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableLanguageDataModel;
@@ -143,9 +144,14 @@ public class SplashActivity extends AppCompatActivity {
             }
             table.closeDB();
             AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );
+            AppLog.networkLog("splash networkLog.networkLog  ", "" + UserInfo.authToken );
             if( UserInfo.authToken !=null) {
-                Utils.updateHomeTableAsPerDefaultChildSelection();
-                navigateToNextPage(DashboardActivity.class);
+                Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
+                    @Override
+                    public void callBack() {
+                        navigateToNextPage(DashboardActivity.class);
+                    }
+                });
             }else{
                 navigateToNextPage(LoginActivity.class);
             }

@@ -12,10 +12,10 @@ android:toDegrees="360">
     android:useLevel="false">
 
     <gradient
-        android:centerColor="#FFCC35"
+        android:centerColor="@color/colorPrimary"
         android:centerY="0.50"
-        android:endColor="#CE0000"
-        android:startColor="#CE0000"
+        android:endColor="@color/colorPrimaryDark"
+        android:startColor="@color/colorPrimaryDark"
         android:type="sweep"
         android:useLevel="false" />
 </shape>

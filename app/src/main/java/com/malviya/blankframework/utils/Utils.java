@@ -1,8 +1,10 @@
 package com.malviya.blankframework.utils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +19,7 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
+import com.malviya.blankframework.interfaces.ICallBack;
 import com.malviya.blankframework.models.GetMobileHomeDataHolder;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
@@ -197,7 +200,7 @@ public class Utils {
 
     public static void navigateFragmentMenu(FragmentManager fragmentManager, Fragment fragment, String TAG) {
         try {
-            AppLog.log("navigateFragmentMenu ","navigateFragmentMenu called on menu clicked "+TAG);
+            AppLog.log("navigateFragmentMenu ", "navigateFragmentMenu called on menu clicked " + TAG);
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.framelayout_holder, fragment);
             ft.addToBackStack(TAG);
@@ -249,10 +252,9 @@ public class Utils {
     }
 
 
-
-    public static void updateHomeTableAsPerDefaultChildSelection() {
-       // UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
-        AppLog.log("Utils ","UserInfo.studentId :"+UserInfo.studentId);
+    public static void updateHomeTableAsPerDefaultChildSelection(final ICallBack pCallback) {
+        // UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
+        AppLog.log("Utils ", "UserInfo.studentId :" + UserInfo.studentId);
         if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
             //--for header
             Map<String, String> header = new HashMap<>();
@@ -267,14 +269,14 @@ public class Utils {
                 @Override
                 public void onResponse(String response) {
                     AppLog.log(TAG, "onResponse +++ " + response.toString());
-                    AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel: : onResponse");
-                    initTableAndDisplay(response);
+                    AppLog.log("Utils ", "bindDataWithParentStudentMenuDetailsDataModel: : onResponse");
+                    initTableAndDisplay(response, pCallback);
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError response) {
-                    initTableAndDisplay(null);
-                    AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel: : onErrorResponse");
+                    initTableAndDisplay(null, pCallback);
+                    AppLog.log("Utils ", "bindDataWithParentStudentMenuDetailsDataModel: : onErrorResponse");
                 }
             });
 
@@ -284,7 +286,7 @@ public class Utils {
         }
     }
 
-    private static void initTableAndDisplay(String response) {
+    private static void initTableAndDisplay(String response, ICallBack pCallback) {
 
         if (response != null) {
             ParseResponse obj = new ParseResponse(response, GetMobileHomeDataHolder.class, ModelFactory.MODEL_GETMOBILEHOME);
@@ -301,13 +303,14 @@ public class Utils {
             }
 
             bindDataWithParentStudentMenuDetailsDataModel(holder);
+            pCallback.callBack();
         }
 
     }
 
     private static void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder) {
         try {
-            AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel");
+            AppLog.log("Utils ", "bindDataWithParentStudentMenuDetailsDataModel");
             ArrayList<TableParentStudentMenuDetailsDataModel> list = new ArrayList<TableParentStudentMenuDetailsDataModel>();
             for (LoginDataModel.ParentStudentMenuDetails model : holder.ParentStudentMenuDetailsArrayList) {
                 //-- assign value to model
@@ -323,11 +326,35 @@ public class Utils {
             //saving into database
             final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
             table.openDB(MyApplication.getInstance().getApplicationContext());
-            table.insert(list) ;
+            table.insert(list);
             table.closeDB();
         } catch (Exception e) {
-            AppLog.errLog(TAG+" bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
+            AppLog.errLog(TAG + " bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
         }
     }
+
+
+    private static ProgressDialog dialog;
+
+    public static void showProgressBar(Context pContext) {
+        if (dialog == null) {
+            dialog = new ProgressDialog(pContext);
+        }else{
+            dismissProgressBar();
+        }
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.show();
+        dialog.setContentView(R.layout.my_progress);
+
+    }
+
+    public static void dismissProgressBar() {
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
 
 }

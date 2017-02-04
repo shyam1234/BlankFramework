@@ -15,4 +15,7 @@ public interface Contant {
     String TAG_FEEDBACK = "FBK";
     String TAG_FEE = "FEE";
     String TAG_NEWS = "NEW";
+    String TAG_TIMETABLE = "TIMETABLE";
+    String TAG_RESULT = "RESULT";
+
 }

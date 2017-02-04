@@ -36,10 +36,12 @@ public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFramgent";
     public static int[] mMenuColor = new int[]{R.color.colorGreen, R.color.colorDarkYellow, R.color.colorLightVallet,
             R.color.colorSkyBlue, R.color.colorDarkPink, R.color.colorDarkblue,
-            R.color.colorLightParrot, R.color.colorDarkVal, R.color.colorLightOran};
+            R.color.colorLightParrot, R.color.colorDarkVal, R.color.colorLightOran,
+            R.color.colorLeaf, R.color.colorBlue, R.color.colorLighterMayrun};
     public static int[] mMenuImage = new int[]{R.drawable.noticeboard, R.drawable.attendance, R.drawable.homework,
             R.drawable.diary, R.drawable.messages, R.drawable.events,
-            R.drawable.gallery, R.drawable.feedback, R.drawable.fee};
+            R.drawable.gallery, R.drawable.feedback, R.drawable.fee,
+            R.drawable.dashboard_time_table, R.drawable.dashboard_news, R.drawable.dashboard_results};
 
     private GridView mGridViewCell;
     private HomeAdapter mAdapter;
@@ -51,7 +53,6 @@ public class HomeFragment extends Fragment {
 
 
     public HomeFragment() {
-
     }
 
 
@@ -106,6 +107,7 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+
     }
 
 
@@ -222,8 +224,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView textView = ((TextView) view.findViewById(R.id.textview_dashboard_cell_name));
-                AppLog.log("onItemClick menu name: ", textView.getText().toString());
-                AppLog.log("onItemClick getTag", textView.getTag().toString());
+                AppLog.log("HomeFragment : onItemClick menu name: ", textView.getText().toString());
+                AppLog.log("HomeFragment :  onItemClick getTag", textView.getTag().toString());
                 switch (textView.getTag().toString()) {
                     case Contant.TAG_NOTICEBOARD:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
@@ -254,6 +256,12 @@ public class HomeFragment extends Fragment {
                         break;
                     case Contant.TAG_NEWS:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NewsFragment(), NewsFragment.TAG);
+                        break;
+                    case Contant.TAG_TIMETABLE:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new TimeTableFragment(), TimeTableFragment.TAG);
+                        break;
+                    case Contant.TAG_RESULT:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);
                         break;
                 }
             }

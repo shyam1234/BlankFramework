@@ -201,6 +201,7 @@ public class TableParentStudentMenuDetails {
                         AppLog.log("getHomeFragmentData parentId", "" + parentId);
                         AppLog.log("getHomeFragmentData studentId ", "" + studentId);
                         AppLog.log("getHomeFragmentData getMenu_code ", model.getMenu_code());
+                        AppLog.log("getHomeFragmentData getImage ", ""+model.getImage());
                         AppLog.log("getHomeFragmentData getUniversity_id", "" + model.getUniversity_id());
                         AppLog.log("getHomeFragmentData getUniversity_name ", model.getUniversity_name());
                         AppLog.log("getHomeFragmentData getUniversity_url ", model.getUniversity_url());
