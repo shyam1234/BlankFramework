@@ -38,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         mImageViewBack.setVisibility(View.VISIBLE);
         mImageEdit = (ImageView)findViewById(R.id.imageView_edit);
         mImageEdit.setVisibility(View.VISIBLE);
+        mImageEdit.setOnClickListener(this);
         mImageViewBack.setOnClickListener(this);
     }
 

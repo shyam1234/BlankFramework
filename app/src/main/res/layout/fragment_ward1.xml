@@ -11,13 +11,13 @@
         layout="@layout/inc_profile_header"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"></include>
+        android:layout_weight="0.40"></include>
 
     <android.support.v7.widget.RecyclerView
-
         android:id="@+id/listview_frag_ward"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.7"
-        android:paddingBottom="50dp"></android.support.v7.widget.RecyclerView>
+        android:layout_weight="0.60"
+        android:paddingBottom="50dp">
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>
