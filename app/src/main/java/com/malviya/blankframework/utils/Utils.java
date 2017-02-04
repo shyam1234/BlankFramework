@@ -211,6 +211,19 @@ public class Utils {
         }
     }
 
+    public static void navigateWardFragment(FragmentManager fragmentManager, Fragment fragment, String TAG) {
+        try {
+            AppLog.log("navigateWardFragment ", "navigateWardFragment called on menu clicked " + TAG);
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.framelayout_ward_holder, fragment);
+            ft.addToBackStack(TAG);
+            ft.commit();
+            ft.setCustomAnimations(R.anim.left, R.anim.right);
+        } catch (Exception e) {
+            AppLog.errLog("navigateWardFragment", e.getMessage());
+        }
+    }
+
 
     public static Bitmap getImage(String university_image_url) {
         return null;
@@ -337,11 +350,7 @@ public class Utils {
     private static ProgressDialog dialog;
 
     public static void showProgressBar(Context pContext) {
-        if (dialog == null) {
-            dialog = new ProgressDialog(pContext);
-        }else{
-            dismissProgressBar();
-        }
+        dialog = new ProgressDialog(pContext);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
