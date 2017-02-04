@@ -18,7 +18,6 @@ import com.malviya.blankframework.database.TableParentStudentAssociation;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.database.TableStudentDetails;
 import com.malviya.blankframework.database.TableUniversityMaster;
-import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableParentMasterDataModel;
@@ -302,13 +301,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             //saving into database
             final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
             table.openDB(getApplicationContext());
-            table.insert(list, new IDatabaseCallback() {
-                @Override
-                public void callBack() {
-                    table.closeDB();
-                }
-            });
-
+            table.insert(list);
+            table.closeDB();
         } catch (Exception e) {
             AppLog.errLog("LoginActivity bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
         }

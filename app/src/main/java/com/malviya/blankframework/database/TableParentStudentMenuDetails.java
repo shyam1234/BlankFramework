@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.fragments.HomeFragment;
-import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
 import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
@@ -51,7 +50,7 @@ public class TableParentStudentMenuDetails {
     public void openDB(Context pContext) {
         DatabaseHelper helper = DatabaseHelper.getInstance(pContext);
         mDB = helper.getWritableDatabase();
-        initDialog(pContext);
+       // initDialog(pContext);
     }
 
     private void initDialog(Context pContext) {
@@ -105,7 +104,7 @@ public class TableParentStudentMenuDetails {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableParentStudentMenuDetailsDataModel> list, IDatabaseCallback pCallback) {
+    public void insert(ArrayList<TableParentStudentMenuDetailsDataModel> list) {
         try {
             //reset();
             if (mDB != null) {
@@ -124,7 +123,6 @@ public class TableParentStudentMenuDetails {
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: ", "getStudentId " + holder.getStudentId() + " holder.getParent_id() " + holder.getParent_id() + " row: " + row);
                 }
-                pCallback.callBack();
                 dismissedDialog();
             }
         } catch (Exception e) {
@@ -170,7 +168,7 @@ public class TableParentStudentMenuDetails {
 
     private int position;
 
-    public ArrayList<DashboardCellDataHolder> getHomeFragmentData(int parentId, int studentId, IDatabaseCallback pCallback) {
+    public ArrayList<DashboardCellDataHolder> getHomeFragmentData(int parentId, int studentId) {
         ArrayList<DashboardCellDataHolder> list = new ArrayList<DashboardCellDataHolder>();
         try {
             if (mDB != null) {
@@ -212,7 +210,6 @@ public class TableParentStudentMenuDetails {
                     } while (cursor.moveToNext());
                 }
                 cursor.close();
-                pCallback.callBack();
                 dismissedDialog();
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();

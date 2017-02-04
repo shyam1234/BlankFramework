@@ -50,31 +50,28 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         mContext  = this;
         mAdapterViewPager = new DashboardAdapter(getSupportFragmentManager());
         TableParentStudentAssociation table = new TableParentStudentAssociation();
+        table.openDB(DashboardActivity.this);
         Log.d("ITC","UserInfo.currUserType: "+UserInfo.currUserType);
         switch (UserInfo.currUserType){
             case WSContant.TAG_USERTYPE_PARENT:
                 UserInfo.parentId = UserInfo.userId;
-                table.openDB(DashboardActivity.this);
                 UserInfo.studentId = table.getStudentIDWRTParentID(UserInfo.parentId).getStudentid();
-
                 break;
             case WSContant.TAG_USERTYPE_STUDENT:
                 UserInfo.studentId = UserInfo.userId;
-                table.openDB(DashboardActivity.this);
                 UserInfo.parentId = table.getParentIDWRTStudentId(UserInfo.studentId).getParent_id();
                 break;
         }
         table.closeDB();
 
-        Log.d("ITC","UserInfo.parentId: "+UserInfo.parentId);
-        Log.d("ITC","UserInfo.studentId: "+UserInfo.studentId);
+        AppLog.log("ITC","Dashboard UserInfo.parentId: "+UserInfo.parentId);
+        AppLog.log("ITC","Dashboard UserInfo.studentId: "+UserInfo.studentId);
     }
 
 
     private void initView() {
         mTextViewTitle = (TextView) findViewById(R.id.textview_title);
         mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
-
         //----------------------------------------------------------------------------
         // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);

@@ -17,7 +17,6 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
-import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.GetMobileHomeDataHolder;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
@@ -251,7 +250,7 @@ public class Utils {
 
 
 
-    public static void updateHomeTableAsPerDefaultChildSelection(final IDatabaseCallback pCallBack) {
+    public static void updateHomeTableAsPerDefaultChildSelection() {
        // UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
         AppLog.log("Utils ","UserInfo.studentId :"+UserInfo.studentId);
         if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
@@ -269,12 +268,12 @@ public class Utils {
                 public void onResponse(String response) {
                     AppLog.log(TAG, "onResponse +++ " + response.toString());
                     AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel: : onResponse");
-                    initTableAndDisplay(response, pCallBack);
+                    initTableAndDisplay(response);
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError response) {
-                    initTableAndDisplay(null, pCallBack);
+                    initTableAndDisplay(null);
                     AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel: : onErrorResponse");
                 }
             });
@@ -285,7 +284,7 @@ public class Utils {
         }
     }
 
-    private static void initTableAndDisplay(String response, IDatabaseCallback pCallBack) {
+    private static void initTableAndDisplay(String response) {
 
         if (response != null) {
             ParseResponse obj = new ParseResponse(response, GetMobileHomeDataHolder.class, ModelFactory.MODEL_GETMOBILEHOME);
@@ -301,12 +300,12 @@ public class Utils {
                 UserInfo.univercityId = university.UniversityId;
             }
 
-            bindDataWithParentStudentMenuDetailsDataModel(holder,pCallBack);
+            bindDataWithParentStudentMenuDetailsDataModel(holder);
         }
 
     }
 
-    private static void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder, IDatabaseCallback pCallBack) {
+    private static void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder) {
         try {
             AppLog.log("Utils ","bindDataWithParentStudentMenuDetailsDataModel");
             ArrayList<TableParentStudentMenuDetailsDataModel> list = new ArrayList<TableParentStudentMenuDetailsDataModel>();
@@ -324,7 +323,7 @@ public class Utils {
             //saving into database
             final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
             table.openDB(MyApplication.getInstance().getApplicationContext());
-            table.insert(list, pCallBack) ;
+            table.insert(list) ;
             table.closeDB();
         } catch (Exception e) {
             AppLog.errLog(TAG+" bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());

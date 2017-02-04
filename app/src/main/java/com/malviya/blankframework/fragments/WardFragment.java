@@ -1,8 +1,6 @@
 package com.malviya.blankframework.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -18,10 +16,8 @@ import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
-import com.malviya.blankframework.adapters.DashboardAdapter;
 import com.malviya.blankframework.adapters.WardChildRowAdapter;
 import com.malviya.blankframework.database.CommonInfo;
-import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.RenderImageByPicasso;
@@ -102,12 +98,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
 
         //save user default child selection
         SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
-        Utils.updateHomeTableAsPerDefaultChildSelection(new IDatabaseCallback() {
-            @Override
-            public void callBack() {
-
-            }
-        });
+        Utils.updateHomeTableAsPerDefaultChildSelection();
     }
 
     private void initRecycleAdapter() {

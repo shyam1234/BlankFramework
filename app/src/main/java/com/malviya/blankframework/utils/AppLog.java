@@ -19,6 +19,12 @@ public class AppLog {
        }
     }
 
+    public static void log(String msg){
+        if(FLAG_LOG){
+            Log.d(TAG_LOG,msg);
+        }
+    }
+
     public static void networkLog(String TAG, String msg){
         if(FLAG_LOG){
             Log.d(TAG_NET_LOG,TAG+"- "+msg);

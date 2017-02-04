@@ -7,13 +7,11 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableLanguage;
-import com.malviya.blankframework.interfaces.IDatabaseCallback;
 import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableLanguageDataModel;
@@ -146,12 +144,8 @@ public class SplashActivity extends AppCompatActivity {
             table.closeDB();
             AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );
             if( UserInfo.authToken !=null) {
-                Utils.updateHomeTableAsPerDefaultChildSelection(new IDatabaseCallback() {
-                    @Override
-                    public void callBack() {
-                        navigateToNextPage(DashboardActivity.class);
-                    }
-                });
+                Utils.updateHomeTableAsPerDefaultChildSelection();
+                navigateToNextPage(DashboardActivity.class);
             }else{
                 navigateToNextPage(LoginActivity.class);
             }
