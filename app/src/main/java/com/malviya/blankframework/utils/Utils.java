@@ -211,18 +211,6 @@ public class Utils {
         }
     }
 
-    public static void navigateWardFragment(FragmentManager fragmentManager, Fragment fragment, String TAG) {
-        try {
-            AppLog.log("navigateWardFragment ", "navigateWardFragment called on menu clicked " + TAG);
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.framelayout_ward_holder, fragment);
-            ft.addToBackStack(TAG);
-            ft.commit();
-            ft.setCustomAnimations(R.anim.left, R.anim.right);
-        } catch (Exception e) {
-            AppLog.errLog("navigateWardFragment", e.getMessage());
-        }
-    }
 
 
     public static Bitmap getImage(String university_image_url) {

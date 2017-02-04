@@ -1,5 +1,6 @@
 package com.malviya.blankframework.activities;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,7 @@ import com.malviya.blankframework.utils.Utils;
  * Created by Admin on 24-12-2016.
  */
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChildProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView mImageViewBack;
     private ImageView mImageViewProfile;
@@ -25,7 +26,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_child_profile);
         initView();
     }
 
@@ -36,9 +37,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         mImageViewProfile.setVisibility(View.INVISIBLE);
         mTextViewTitle.setText(getResources().getString(R.string.tab_profile));
         mImageViewBack.setVisibility(View.VISIBLE);
+        mImageViewBack.setOnClickListener(this);
         mImageEdit = (ImageView)findViewById(R.id.imageView_edit);
         mImageEdit.setVisibility(View.VISIBLE);
-        mImageViewBack.setOnClickListener(this);
+        mImageEdit.setOnClickListener(this);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
         finish();
-        Utils.animLeftToRight(ProfileActivity.this);
+        Utils.animLeftToRight(ChildProfileActivity.this);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 onBackPressed();
                 break;
             case R.id.imageView_edit:
-                Toast.makeText(this, "profile coming soon", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "coming soon", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

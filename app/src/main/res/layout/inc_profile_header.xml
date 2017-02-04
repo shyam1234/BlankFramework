@@ -2,63 +2,78 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/profile_bg"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rel_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/profile_bg">
+
+        <ImageView
+            android:id="@+id/imageview_profile_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/profile_logo" />
+
+        <TextView
+            android:id="@+id/textview_profile_header_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageview_profile_logo"
+            android:layout_centerHorizontal="true"
+            android:text="@string/user_name"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textview_profile_header_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview_profile_header_name"
+            android:layout_centerHorizontal="true"
+            android:text="@string/location"
+            android:textColor="@color/colorWhite"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/imageview_profile_eye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textview_profile_header_location"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/profile_view"
+            android:visibility="gone" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_edit"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/textview_profile_header_name"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="0dp"
+            android:src="@drawable/edit"
+            android:tint="@color/colorPrimary"
+            android:visibility="gone"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabSize="normal"
+            app:rippleColor="@color/colorAccent"></android.support.design.widget.FloatingActionButton>
+    </RelativeLayout>
 
     <ImageView
-        android:id="@+id/imageview_profile_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/profile_logo" />
-
-    <TextView
-        android:id="@+id/textview_profile_header_name"
+        android:visibility="gone"
+        android:id="@+id/imageView_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageview_profile_logo"
-        android:layout_centerHorizontal="true"
-        android:text="@string/user_name"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textview_profile_header_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textview_profile_header_name"
-        android:layout_centerHorizontal="true"
-        android:text="@string/location"
-        android:textColor="@color/colorWhite"
-        android:textSize="16sp"
-        android:textStyle="normal" />
-
-    <ImageView
-        android:id="@+id/imageview_profile_eye"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textview_profile_header_location"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/profile_view"
-        android:visibility="gone" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_edit"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="0dp"
+        android:layout_alignBottom="@+id/rel_holder"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/textview_profile_header_name"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/edit"
-        android:tint="@color/colorPrimary"
-        app:backgroundTint="@color/colorPrimaryDark"
-        app:fabSize="normal"
-        app:rippleColor="@color/colorAccent"></android.support.design.widget.FloatingActionButton>
-
-
+        android:padding="10dp"
+        android:src="@drawable/edit_profile" />
 </RelativeLayout>

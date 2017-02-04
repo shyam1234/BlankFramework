@@ -1,5 +1,6 @@
 package com.malviya.blankframework.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -17,7 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.ChildProfileActivity;
 import com.malviya.blankframework.activities.DashboardActivity;
+import com.malviya.blankframework.activities.SplashActivity;
 import com.malviya.blankframework.adapters.WardChildRowAdapter;
 import com.malviya.blankframework.database.CommonInfo;
 import com.malviya.blankframework.interfaces.ICallBack;
@@ -34,19 +37,28 @@ import java.util.ArrayList;
  * Created by Admin on 24-12-2016.
  */
 
-public class WardFragment extends Fragment  {
-    private static final String TAG = "WardFragment";
+public class WardFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "WardFragment11";
+    private ImageView mProfileImage;//
+    private TextView mTextViewProfileHeaderName; //textview_profile_header_name
+    private TextView mProfileHeaderLocation;  //textview_profile_header_location
+    private RecyclerView mRecycleViewChildInfo;
+    private WardChildRowAdapter mChildAdapter;
+    private ArrayList<TableStudentDetailsDataModel> mListChildInfoHolder;
+    private ImageView mProfileEye;
+    private FloatingActionButton mFloatingBtn;
     private FrameLayout mFramLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        getAllChildWRTParent();
         AppLog.log("WardFragment","onCreate");
     }
 
     private void init() {
-
+        mListChildInfoHolder = new ArrayList<TableStudentDetailsDataModel>();
     }
 
 
@@ -54,7 +66,7 @@ public class WardFragment extends Fragment  {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
-        view = inflater.inflate(R.layout.fragment_ward, null);
+        view = inflater.inflate(R.layout.fragment_ward1, null);
         AppLog.log("WardFragment","onCreateView");
         return view;
     }
@@ -69,8 +81,95 @@ public class WardFragment extends Fragment  {
 
     private void initView() {
         mFramLayout = (FrameLayout)getView().findViewById(R.id.framelayout_holder);
-        Utils.navigateWardFragment(getFragmentManager(),new WardFragment1(),TAG);
+        mProfileImage = (ImageView) getView().findViewById(R.id.imageview_profile_logo);
+        mTextViewProfileHeaderName = (TextView) getView().findViewById(R.id.textview_profile_header_name);
+        mProfileHeaderLocation = (TextView) getView().findViewById(R.id.textview_profile_header_location);
+        mProfileEye = (ImageView) getView().findViewById(R.id.imageview_profile_eye);
+        mFloatingBtn = (FloatingActionButton)getView().findViewById(R.id.fab_edit);
+        mProfileEye.setVisibility(View.VISIBLE);
+        mRecycleViewChildInfo = (RecyclerView) getView().findViewById(R.id.listview_frag_ward);
+        mProfileEye.setOnClickListener(this);
+        mFloatingBtn.setOnClickListener(this);
+        initRecycleAdapter();
+        setDefaultStudentProfileInHeader(false,0);
+
+
     }
 
+    private void setDefaultStudentProfileInHeader(boolean isLoadFirstTime, int position) {
+        UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , mProfileImage);
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , DashboardActivity.mImgProfile);
+
+        mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
+        mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
+        AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourseCode());
+        AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ",mListChildInfoHolder.get(position).getFullName());
+        //save user default child selection
+
+        if(isLoadFirstTime) {
+            Utils.showProgressBar(getContext());
+            SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
+            AppLog.networkLog("WardFragment networkLog.networkLog  ", "" + UserInfo.authToken);
+            Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
+                @Override
+                public void callBack() {
+                    Utils.dismissProgressBar();
+                }
+            });
+        }
+    }
+
+    private void initRecycleAdapter() {
+        RecyclerView.LayoutManager linear = new LinearLayoutManager(getContext());
+        mRecycleViewChildInfo.setLayoutManager(linear);
+        mRecycleViewChildInfo.setItemAnimator(new DefaultItemAnimator());
+        mChildAdapter = new WardChildRowAdapter(getContext(), mListChildInfoHolder, this);
+        mRecycleViewChildInfo.setAdapter(mChildAdapter);
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.imageview_profile_eye:
+                //Toast.makeText(getContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+                navigateToNextPage(ChildProfileActivity.class);
+                break;
+            case R.id.fab_edit:
+                Toast.makeText(getContext(), "Coming soon", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rel_ward_row_holder:
+                setDefaultStudentProfileInHeader(true, (Integer) view.getTag());
+                break;
+        }
+    }
+
+
+
+    /**
+     * get all child with respect to logged parent
+     */
+    public void getAllChildWRTParent() {
+        CommonInfo table = new CommonInfo();
+        table.openDB(getContext());
+        try {
+           // mListChildInfoHolder =  table.getAllChildWRTParent(""+((LoginDataModel)ModelFactory.getInstance().getModel(ModelFactory.MODEL_LOGIN)).data.UserId);
+            mListChildInfoHolder =  table.getAllChildWRTParent(UserInfo.parentId);
+            AppLog.log("getAllChildWRTParent parentId ",""+UserInfo.parentId);
+            AppLog.log("getAllChildWRTParent mListChildInfoHolder ",""+mListChildInfoHolder.size());
+        } catch (Exception e) {
+            AppLog.errLog("getAllChildWRTParent",e.getMessage());
+        }
+        table.closeDB();
+    }
+
+
+
+    private void navigateToNextPage(Class<?> activity) {
+        Intent intent = new Intent(getContext(), activity);
+        startActivity(intent);
+        Utils.animRightToLeft(getActivity());
+    }
 }
 
