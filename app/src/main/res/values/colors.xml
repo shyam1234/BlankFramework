@@ -5,7 +5,7 @@
     <color name="colorAccent">#da2d2d</color>
     <color name="black">#000000</color>
     <color name="light_black">#88000000</color>
-    <color name="colorWhite">#fffdfe</color>
+    <color name="colorWhite">#ffffff</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGreen">#1ac594</color>
 
@@ -35,5 +35,7 @@
     <color name="colorLightOran">#F58458</color>
     <color name="colorLeaf">#7DB955</color>
     <color name="colorLighterMayrun">#67A78C</color>
+    <color name="colorTextHint">#ABAAB0</color>
+
 
 </resources>

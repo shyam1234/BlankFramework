@@ -60,4 +60,11 @@
     <string name="download_offline_content">Download offline content</string>
     <string name="download_only_when_wifi_connected">Download only when wifi connected</string>
     <string name="msg_logout">Successfully Logout</string>
+    <string name="course">Course</string>
+    <string name="term">Term</string>
+    <string name="msg_subject">Subject</string>
+    <string name="msg_absent">Absent</string>
+    <string name="msg_total">Total</string>
+    <string name="value">value</string>
+    <string name="tab_attendance">Attendance</string>
 </resources>
