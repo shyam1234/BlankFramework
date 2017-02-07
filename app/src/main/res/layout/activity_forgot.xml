@@ -61,20 +61,27 @@
                 android:textColorHint="@color/colorWhite"
                 android:visibility="visible" />
 
+            <!--    <Button
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/edittext_password"
+                    android:layout_marginTop="30dp"
+                    android:alpha="1.0"
+                    android:background="@color/colorWhite"
+                    android:text="@string/Submit"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorGreen"
+                    android:textSize="18sp" />-->
             <Button
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/edittext_password"
+                android:layout_below="@+id/edittext_email"
                 android:layout_marginTop="30dp"
-                android:alpha="1.0"
-                android:background="@color/colorWhite"
-                android:text="@string/Submit"
-                android:textAllCaps="false"
-                android:textColor="@color/colorGreen"
-                android:textSize="18sp" />
+                android:text="@string/Submit" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
