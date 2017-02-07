@@ -67,4 +67,9 @@
     <string name="msg_total">Total</string>
     <string name="value">value</string>
     <string name="tab_attendance">Attendance</string>
+    <string name="total_score">Total Score</string>
+    <string name="achievement_index">Achievement Index</string>
+    <string name="download">Download</string>
+    <string name="grade">Grade</string>
+    <string name="result">Result</string>
 </resources>
