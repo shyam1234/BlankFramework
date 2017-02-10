@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.ResultListActivity;
 import com.malviya.blankframework.adapters.AttendanceAdapter;
 import com.malviya.blankframework.adapters.ResultAdapter;
 import com.malviya.blankframework.models.AttendanceDataModel;
@@ -98,7 +99,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
 
 
     private void setListener() {
-
+        mImageViewBack.setOnClickListener(this);
     }
 
 
@@ -108,7 +109,9 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
             case R.id.imageview_back:
                 getActivity().onBackPressed();
                 break;
-
+            case R.id.imageview_results_arrow:
+                navigateToNextPage(ResultListActivity.class);
+                break;
         }
     }
 
