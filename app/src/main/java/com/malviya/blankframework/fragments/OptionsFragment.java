@@ -73,7 +73,6 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
         mTextViewTitle.setText(R.string.tab_options);
         mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
-        mImgProfile  = DashboardActivity.mImgProfile;
         //-----------------------------------------------------------
         relShareTab = (RelativeLayout) getView().findViewById(R.id.rel_options_share_app);
         relSettingTab = (RelativeLayout) getView().findViewById(R.id.rel_options_setting);

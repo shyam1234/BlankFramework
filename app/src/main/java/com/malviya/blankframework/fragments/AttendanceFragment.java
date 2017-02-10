@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.AttendanceDetails;
 import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.AttendanceAdapter;
 import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
@@ -67,7 +70,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         mTextViewTitle.setText(R.string.tab_attendance);
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
-        mImgProfile  = DashboardActivity.mImgProfile;
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
         ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
@@ -76,6 +79,8 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         mTextViewCourse = (TextView) getView().findViewById(R.id.textview_attendance_course_value);
         mTextViewTerm = (TextView) getView().findViewById(R.id.textview_attendance_term_value);
         setListener();
+
+
     }
 
     private void initRecyclerView() {
@@ -89,7 +94,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     }
 
     private void setListener() {
-
+        mTextViewTerm.setOnClickListener(this);
     }
 
 
@@ -99,13 +104,16 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             case R.id.imageview_back:
                 getActivity().onBackPressed();
                 break;
+            case R.id.textview_attendance_term_value:
+                navigateToNextPage(AttendanceDetails.class);
+                break;
         }
     }
 
 
     private void navigateToNextPage(Class mClass) {
         Intent i = new Intent(getActivity(), mClass);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(i);
         Utils.animRightToLeft(getActivity());
     }

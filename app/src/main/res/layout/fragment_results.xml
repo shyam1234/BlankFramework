@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGrayTransparent"
     android:orientation="vertical">
 
     <include
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"></include>
 
     <RelativeLayout
+        android:background="@color/colorWhite"
         android:id="@+id/rel_results"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/back" />
+            android:src="@drawable/next_screen_arrow" />
 
     </RelativeLayout>
 
@@ -52,7 +54,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_resu"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorGrayTransparent"
         android:padding="14dp">
 
         <TextView
@@ -94,7 +95,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rel_results1"
         android:layout_gravity="center_horizontal"
-        android:background="@color/colorGrayTransparent"
         android:padding="14dp">
 
         <TextView
@@ -130,23 +130,29 @@
         android:layout_below="@+id/rel_results2"
         android:background="@color/colorMargin"></View>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview_results"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/imagebtn_results_download"
         android:layout_below="@+id/view_result"
-        android:background="@color/colorGrayTransparent"
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp"
-        android:paddingTop="14dp"></android.support.v7.widget.RecyclerView>
+        android:background="@color/colorGrayTransparent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_results"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
 
     <Button
+        android:gravity="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:id="@+id/imagebtn_results_download"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="4dp"
         android:background="@drawable/filled_rect"
         android:text="@string/download"
         android:textColor="@color/colorWhite"

@@ -5,7 +5,7 @@ package com.malviya.blankframework.models;
  */
 
 public class DashboardCellDataHolder {
-    private int image;
+    private int menuImage;
     private String text;
     private int alert_count;
     private String date_updated;
@@ -14,16 +14,17 @@ public class DashboardCellDataHolder {
     private int student_id;
     private int university_id;
     private String university_name;
-    private String university_url;
+    private String university_url="";
     private int color;
     private int isActive;
+    private String studentProfileImage = "";
 
-    public int getImage() {
-        return image;
+    public int getMenuImage() {
+        return menuImage;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setMenuImage(int menuImage) {
+        this.menuImage = menuImage;
     }
 
     public String getText() {
@@ -108,5 +109,13 @@ public class DashboardCellDataHolder {
 
     public void setUniversity_url(String university_url) {
         this.university_url = university_url;
+    }
+
+    public String getStudentProfileImage() {
+        return studentProfileImage;
+    }
+
+    public void setStudentProfileImage(String studentProfileImage) {
+        this.studentProfileImage = studentProfileImage;
     }
 }

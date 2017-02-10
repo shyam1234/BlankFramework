@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +18,6 @@ import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.ChildProfileActivity;
-import com.malviya.blankframework.activities.DashboardActivity;
-import com.malviya.blankframework.activities.SplashActivity;
 import com.malviya.blankframework.adapters.WardChildRowAdapter;
 import com.malviya.blankframework.database.CommonInfo;
 import com.malviya.blankframework.interfaces.ICallBack;
@@ -49,7 +46,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     private FloatingActionButton mFloatingBtn;
     private FrameLayout mFramLayout;
     private TextView mTextViewTitle;
-    private ImageView mImgProfile;
+    public  ImageView mImageViewStudentTitleImg;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,9 +82,8 @@ public class WardFragment extends Fragment implements View.OnClickListener {
 
         mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_wards);
-        mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
-        mImgProfile.setVisibility(View.VISIBLE);
-        mImgProfile  = DashboardActivity.mImgProfile;
+        mImageViewStudentTitleImg = (ImageView) getView().findViewById(R.id.imageview_profile);
+        mImageViewStudentTitleImg.setVisibility(View.VISIBLE);
         //------------------------------------------------------
         mFramLayout = (FrameLayout)getView().findViewById(R.id.framelayout_holder);
         mProfileImage = (ImageView) getView().findViewById(R.id.imageview_profile_logo);
@@ -107,10 +103,10 @@ public class WardFragment extends Fragment implements View.OnClickListener {
 
     private void setDefaultStudentProfileInHeader(boolean isLoadFirstTime, int position) {
         UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl() , mProfileImage);
-        DashboardActivity.mImgProfile = mImgProfile;
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
         mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
         mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl(), mImageViewStudentTitleImg);
         AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourseCode());
         AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ",mListChildInfoHolder.get(position).getFullName());
         //save user default child selection

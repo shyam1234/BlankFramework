@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -56,7 +55,7 @@ public class HomeAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
 
         }
-        holder.setImage(mCellList.get(position).getImage());
+        holder.setImage(mCellList.get(position).getMenuImage());
         holder.setTextView(mCellList.get(position).getText());
         holder.setNotificationCounter(mCellList.get(position).getNotification());
         holder.cellBgLayout.setBackgroundResource(mCellList.get(position).getColor());

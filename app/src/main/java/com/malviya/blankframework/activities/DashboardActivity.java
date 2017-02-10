@@ -29,12 +29,10 @@ import com.roughike.bottombar.OnTabSelectListener;
 public class DashboardActivity extends AppCompatActivity implements OnTabSelectListener, ViewPager.OnPageChangeListener {
     //private FrameLayout mContainer;
     public static Handler mHandler ;
+    public static DashboardActivity mContext;
     private BottomBar mBottomBar;
     private ViewPager mViewPage;
     private DashboardAdapter mAdapterViewPager;
-    public static DashboardActivity mContext;
-    public static ImageView mImgProfile;
-    //private TextView mTextViewTitle;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +69,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
 
     private void initView() {
        // mTextViewTitle = (TextView) findViewById(R.id.textview_title);
-       // mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
+       // mImageViewStudentTitleImg = (ImageView) findViewById(R.id.imageview_profile);
         //----------------------------------------------------------------------------
         // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);

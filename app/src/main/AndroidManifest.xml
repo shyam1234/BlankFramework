@@ -72,6 +72,13 @@
             android:name=".activities.SettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
+        <activity
+            android:name=".activities.AttendanceDetails"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
+
         <receiver android:name=".utils.ConnectivityReceiver" />
 
     </application>

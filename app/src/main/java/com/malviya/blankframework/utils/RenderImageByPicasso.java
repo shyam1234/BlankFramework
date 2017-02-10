@@ -25,7 +25,7 @@ public class RenderImageByPicasso {
         if (resize == 0) {
             resize = 50; //default resize size
         }
-        if(imgURL!=null) {
+        if (imgURL != null) {
             Picasso.with(pContext)
                     .load(imgURL)
                     .resize(resize, resize)
@@ -33,8 +33,8 @@ public class RenderImageByPicasso {
                     .placeholder(placeHolder)
                     .error(errorHolder)
                     .into(imageView);
-        }else {
-            imageView.setImageResource(R.drawable.profile_logo);
+        } else {
+            imageView.setImageResource(R.drawable.logo);
         }
     }
 
@@ -46,14 +46,14 @@ public class RenderImageByPicasso {
      * @param imageView
      */
     public static void setImageByPicasso(Context pContext, String imgURL, ImageView imageView) {
-        if(imgURL!=null) {
+        if (imgURL != null) {
             Picasso.with(pContext)
                     .load(imgURL)
-                    .placeholder(R.mipmap.ic_launcher)
-                    .error(R.mipmap.ic_launcher)
+                    .placeholder(R.drawable.logo)
+                    .error(R.drawable.logo)
                     .into(imageView);
-        }else{
-            imageView.setImageResource(R.drawable.profile_logo);
+        } else {
+            imageView.setImageResource(R.drawable.logo);
         }
     }
 
@@ -67,33 +67,36 @@ public class RenderImageByPicasso {
      */
     public static void setCircleImageByPicasso(Context pContext, String url, ImageView imageView) {
         AppLog.log("setCircleImageByPicasso: ", url);
-        if(url!=null) {
+        if (url != null) {
             Picasso.with(pContext)
                     .load(url)
                     .fit()
+                    .error(R.drawable.avater)
+                    .placeholder(R.drawable.avater)
                     .transform(new ImageTransform())
                     .into(imageView);
-        }else{
-            imageView.setImageResource(R.drawable.logo);
+        } else {
+            imageView.setImageResource(R.drawable.avater);
         }
     }
 
     /**
      * this method renders square image by Picasso
+     *
      * @param pContext
      * @param url
      * @param imageView
      */
     public static void setSquareImageByPicasso(Context pContext, String url, ImageView imageView) {
-        if(url!=null) {
+        if (url != null) {
 
             Picasso.with(pContext)
                     .load(url)
                     .fit()
                     .transform(new SquareImageTransform())
                     .into(imageView);
-        }else{
-            imageView.setImageResource(R.drawable.profile_logo);
+        } else {
+            imageView.setImageResource(R.drawable.logo);
         }
     }
 

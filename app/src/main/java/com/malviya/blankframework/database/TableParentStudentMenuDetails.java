@@ -188,7 +188,7 @@ public class TableParentStudentMenuDetails {
                         // get the data into array, or class variable
                         DashboardCellDataHolder model = new DashboardCellDataHolder();
                         model.setColor(HomeFragment.mMenuColor[position]);
-                        model.setImage(HomeFragment.mMenuImage[position]);
+                        model.setMenuImage(HomeFragment.mMenuImage[position]);
                         model.setUniversity_id(cursor.getInt(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_ID)));
                         model.setUniversity_name(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_NAME)));
                         model.setNotification(cursor.getInt(cursor.getColumnIndex(COL_COUNT)));
@@ -197,14 +197,16 @@ public class TableParentStudentMenuDetails {
                         model.setMenu_code(cursor.getString(cursor.getColumnIndex(COL_SUBCRIPTIONCODE)));
                         model.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
                         model.setUniversity_url(cursor.getString(cursor.getColumnIndex(COL_UNI_URL)));
+                        model.setStudentProfileImage(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_IMAGEURL)));
                         model.setText(cursor.getString(cursor.getColumnIndex(TableLanguage.ENGLISH_VERSION)));
                         AppLog.log("getHomeFragmentData parentId", "" + parentId);
                         AppLog.log("getHomeFragmentData studentId ", "" + studentId);
                         AppLog.log("getHomeFragmentData getMenu_code ", model.getMenu_code());
-                        AppLog.log("getHomeFragmentData getImage ", ""+model.getImage());
+                        AppLog.log("getHomeFragmentData getMenuImage ", ""+model.getMenuImage());
                         AppLog.log("getHomeFragmentData getUniversity_id", "" + model.getUniversity_id());
                         AppLog.log("getHomeFragmentData getUniversity_name ", model.getUniversity_name());
                         AppLog.log("getHomeFragmentData getUniversity_url ", model.getUniversity_url());
+                        AppLog.log("getHomeFragmentData getStudentProfileImage ", model.getStudentProfileImage());
                         AppLog.log("getHomeFragmentData ++++++++++++++++++++", "");
                         list.add(model);
                         position++;

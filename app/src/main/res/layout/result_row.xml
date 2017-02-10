@@ -8,12 +8,16 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:background="@color/colorGrayTransparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:weightSum="1">
 
 
@@ -22,14 +26,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="0.33"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textview_result_row_subject"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="left"
                 android:text="@string/msg_subject"
                 android:textColor="@color/colorTextHint"
                 android:textSize="16sp"
@@ -40,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:gravity="center"
+                android:gravity="left"
                 android:text="Major"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -59,7 +63,7 @@
                 android:id="@+id/textview_result_row_grade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="right"
                 android:text="@string/grade"
                 android:textColor="@color/colorTextHint"
                 android:textSize="16sp"
@@ -70,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:gravity="center"
+                android:gravity="right"
                 android:text="A"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -102,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="20 days"
+                android:text="Pass"
                 android:textColor="@color/colorSkyBlue"
                 android:textSize="20sp"
                 android:textStyle="normal" />

@@ -24,6 +24,7 @@ public class UserInfo {
     public static String tokenIssue;
     public static int userId;
     public static String currUserType;
+    public static String selectedStudentImageURL="";
 
     public static void clearUSerInfo() {
         userId = -1;
@@ -36,6 +37,7 @@ public class UserInfo {
         tokenExp = null;
         tokenIssue = null;
         currUserType = null;
+        selectedStudentImageURL = "";
 
     }
 

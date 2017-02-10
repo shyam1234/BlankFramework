@@ -77,14 +77,14 @@ public class MyApplication extends Application {
 //    private void initParentMaster() {
 //        TableParentMasterDataModel holder = new TableParentMasterDataModel();
 //        holder.setEmailid("malviya.software@gmail.com");
-//        holder.setImageurl("");
+//        holder.setStudentProfileImage("");
 //        holder.setParent_name("Prafulla");
 //        holder.setParentid("parent1");
 //        holder.setPhone_number("8904188389");
 //        tableParentMasterList.add(holder);
 //        holder = new TableParentMasterDataModel();
 //        holder.setEmailid("mridul.malviya@gmail.com");
-//        holder.setImageurl("");
+//        holder.setStudentProfileImage("");
 //        holder.setParent_name("Mridul");
 //        holder.setParentid("parent2");
 //        holder.setPhone_number("9885647589");
@@ -233,7 +233,7 @@ public class MyApplication extends Application {
 //    private void initStudentMaster() {
 //        TableStudentDetailsDataModel holder = new TableStudentDetailsDataModel();
 //        holder.setCourseCode("math");
-//        holder.setImageurl("http://whatsappdp.net/wp-content/uploads/2016/03/funny-profile-pictures.jpg");
+//        holder.setStudentProfileImage("http://whatsappdp.net/wp-content/uploads/2016/03/funny-profile-pictures.jpg");
 //        holder.setGender("male");
 //        holder.setStudentId("student1");
 //        holder.setFullName("David");
@@ -242,7 +242,7 @@ public class MyApplication extends Application {
 //
 //        holder = new TableStudentDetailsDataModel();
 //        holder.setCourseCode("english");
-//        holder.setImageurl("https://cdn2.iconfinder.com/data/icons/professions/512/student_graduate_boy_profile-512.png");
+//        holder.setStudentProfileImage("https://cdn2.iconfinder.com/data/icons/professions/512/student_graduate_boy_profile-512.png");
 //        holder.setGender("female");
 //        holder.setStudentId("student3");
 //        holder.setFullName("Juli");
@@ -251,7 +251,7 @@ public class MyApplication extends Application {
 //
 //        holder = new TableStudentDetailsDataModel();
 //        holder.setCourseCode("science");
-//        holder.setImageurl("https://cdn2.iconfinder.com/data/icons/professions/512/student_graduate_boy_profile-512.png");
+//        holder.setStudentProfileImage("https://cdn2.iconfinder.com/data/icons/professions/512/student_graduate_boy_profile-512.png");
 //        holder.setGender("female");
 //        holder.setStudentId("student2");
 //        holder.setFullName("Shyli");

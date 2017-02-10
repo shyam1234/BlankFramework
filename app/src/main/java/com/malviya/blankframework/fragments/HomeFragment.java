@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     private GridView mGridViewCell;
     private HomeAdapter mAdapter;
     private ArrayList<DashboardCellDataHolder> mCellList;
-    private ArrayList<TableStudentDetailsDataModel> mUniver;
+   // private ArrayList<TableStudentDetailsDataModel> mUniver;
     private ImageView mImageViewUnivercityLogo;
     private TextView mTextViewUnivercityText;
     private LinearLayout mLinearHolder;
@@ -111,7 +111,6 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     private void initView() {
         if (getView() == null) {
             return;
@@ -119,12 +118,11 @@ public class HomeFragment extends Fragment {
 
         mLinearHolder = (LinearLayout) getView().findViewById(R.id.linearlayout);
         mLinearHolder.setVisibility(View.GONE);
+        mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
+        mTextViewTitle.setText(R.string.tab_home);
+        mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
+        mImgProfile.setVisibility(View.VISIBLE);
 
-         mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
-         mTextViewTitle.setText(R.string.tab_home);
-         mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
-         mImgProfile.setVisibility(View.VISIBLE);
-         mImgProfile  = DashboardActivity.mImgProfile;
         //----------------------------------------------------------------------
         final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
         table.openDB(getContext());
@@ -137,8 +135,12 @@ public class HomeFragment extends Fragment {
         mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
         mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
-        if (mCellList.size() > 0)
+        if (mCellList.size() > 0) {
+            UserInfo.selectedStudentImageURL = mCellList.get(0).getStudentProfileImage();
             RenderImageByPicasso.setCircleImageByPicasso(getContext(), mCellList.get(0).getUniversity_url(), mImageViewUnivercityLogo);
+            RenderImageByPicasso.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
+
+        }
         //RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
         mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
         mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -173,7 +175,8 @@ public class HomeFragment extends Fragment {
                         Utils.navigateFragmentMenu(getFragmentManager(), new MessageFragment(), MessageFragment.TAG);
                         break;
                     case Contant.TAG_HOMEWORK:
-                        Utils.navigateFragmentMenu(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
+                        Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);
+                        //Utils.navigateFragmentMenu(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
                         break;
                     case Contant.TAG_NEWS:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NewsFragment(), NewsFragment.TAG);

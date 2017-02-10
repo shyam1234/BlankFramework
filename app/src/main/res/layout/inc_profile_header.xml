@@ -17,7 +17,7 @@
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:src="@drawable/profile_logo" />
+            android:src="@drawable/avater" />
 
         <TextView
             android:id="@+id/textview_profile_header_name"
