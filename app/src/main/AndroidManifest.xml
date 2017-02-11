@@ -56,35 +56,30 @@
             android:name=".activities.ForgotActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".activities.ProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".activities.ChildProfileActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
-
         <activity
             android:name=".activities.SettingActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".activities.AttendanceDetails"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
-
         <activity
             android:name=".activities.ResultListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
-
+        <activity
+            android:name=".activities.TimeTableDetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <receiver android:name=".utils.ConnectivityReceiver" />
 
