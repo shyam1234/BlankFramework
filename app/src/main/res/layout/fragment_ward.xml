@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lin_wardfragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/inc_home_header"
+        layout="@layout/inc_main_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"></include>
 
     <RelativeLayout
-        android:padding="8dp"
         android:id="@+id/rel_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/profile_bg">
+        android:background="@drawable/profile_bg"
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/imageview_profile_logo"
@@ -50,31 +58,11 @@
             android:layout_marginTop="10dp"
             android:src="@drawable/profile_view"
             android:visibility="visible" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_edit"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/textview_profile_header_name"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/edit"
-            android:tint="@color/colorPrimary"
-            android:visibility="gone"
-            app:backgroundTint="@color/colorPrimaryDark"
-            app:fabSize="normal"
-            app:rippleColor="@color/colorAccent"></android.support.design.widget.FloatingActionButton>
     </RelativeLayout>
 
-    <ImageView
-        android:visibility="gone"
-        android:id="@+id/imageView_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/rel_holder"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:padding="10dp"
-        android:src="@drawable/edit_profile" />
-</RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listview_frag_ward"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="50dp"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

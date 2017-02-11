@@ -43,7 +43,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     private WardChildRowAdapter mChildAdapter;
     private ArrayList<TableStudentDetailsDataModel> mListChildInfoHolder;
     private ImageView mProfileEye;
-    private FloatingActionButton mFloatingBtn;
+   // private FloatingActionButton mFloatingBtn;
     private FrameLayout mFramLayout;
     private TextView mTextViewTitle;
     public  ImageView mImageViewStudentTitleImg;
@@ -65,7 +65,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
-        view = inflater.inflate(R.layout.fragment_ward1, null);
+        view = inflater.inflate(R.layout.fragment_ward, null);
         AppLog.log("WardFragment","onCreateView");
         return view;
     }
@@ -90,11 +90,11 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mTextViewProfileHeaderName = (TextView) getView().findViewById(R.id.textview_profile_header_name);
         mProfileHeaderLocation = (TextView) getView().findViewById(R.id.textview_profile_header_location);
         mProfileEye = (ImageView) getView().findViewById(R.id.imageview_profile_eye);
-        mFloatingBtn = (FloatingActionButton)getView().findViewById(R.id.fab_edit);
+        //mFloatingBtn = (FloatingActionButton)getView().findViewById(R.id.fab_edit);
         mProfileEye.setVisibility(View.VISIBLE);
         mRecycleViewChildInfo = (RecyclerView) getView().findViewById(R.id.listview_frag_ward);
         mProfileEye.setOnClickListener(this);
-        mFloatingBtn.setOnClickListener(this);
+      //  mFloatingBtn.setOnClickListener(this);
         initRecycleAdapter();
         setDefaultStudentProfileInHeader(false,0);
 
