@@ -4,12 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.ResultListActivity;
+import com.malviya.blankframework.adapters.FeeAdapter;
+import com.malviya.blankframework.adapters.ResultAdapter;
+import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
+
+import java.util.ArrayList;
 
 /**
  * Created by Admin on 24-12-2016.
@@ -17,6 +29,10 @@ import com.malviya.blankframework.utils.Utils;
 
 public class FeeFragment extends Fragment implements View.OnClickListener {
     public final static String TAG="FeeFragment";
+    private RecyclerView mRecycleViewFee;
+    private ArrayList<AttendanceDataModel> mAttendanceList;
+    private FeeAdapter mAttendanceAdapter;
+
     public FeeFragment() {
 
     }
@@ -24,6 +40,11 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+    private void init() {
+        mAttendanceList = new ArrayList<>();
     }
 
     @Nullable
@@ -42,7 +63,17 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-
+        //------------------------------------
+        TextView mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
+        mTextViewTitle.setText(R.string.tab_fee);
+        ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
+        mImgProfile.setVisibility(View.VISIBLE);
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
+        ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
+        mImgBack.setVisibility(View.VISIBLE);
+        mImgBack.setOnClickListener(this);
+        //------------------------------------
+        initRecyclerView();
         setListener();
     }
 
@@ -51,13 +82,25 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    private void initRecyclerView() {
+        mRecycleViewFee = (RecyclerView) getView().findViewById(R.id.recyclerview_fee);
+        mRecycleViewFee.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager.setSmoothScrollbarEnabled(true);
+        mRecycleViewFee.setLayoutManager(manager);
+        mAttendanceAdapter = new FeeAdapter(getContext(), mAttendanceList);
+        mRecycleViewFee.setAdapter(mAttendanceAdapter);
+    }
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.imageview_back:
+                getActivity().onBackPressed();
+                break;
         }
     }
-
 
     private void navigateToNextPage(Class mClass) {
         Intent i = new Intent(getActivity(), mClass);

@@ -37,8 +37,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        //holder.textViewSubject.setText("" + mList.get(position).getSubjectValue() + "%");
-       // holder.textViewGrade.setText("" + mList.get(position).getTotalDays());
+        //holder.textViewDate.setText("" + mList.get(position).getSubjectValue() + "%");
+       // holder.textViewPaymentValue.setText("" + mList.get(position).getTotalDays());
        // holder.textViewResult.setText("" + mList.get(position).getAbsentDays());
     }
 

@@ -73,4 +73,11 @@
     <string name="grade">Grade</string>
     <string name="result">Result</string>
     <string name="tab_result">Result</string>
+    <string name="tab_fee">Fee</string>
+    <string name="msg_rp">Rp</string>
+    <string name="due_date">Due Date : </string>
+    <string name="msg_view_details">View Details</string>
+    <string name="msg_pay_now">Pay Now</string>
+    <string name="part_payment">Part Payment</string>
+    <string name="download_receipt">Download Receipt</string>
 </resources>
