@@ -198,8 +198,8 @@ public class SharedPreferencesApp {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             SharedPreferences.Editor data = sharePref.edit();
             data.putString(WSContant.TAG_AUTHTOKEN, authToken);
-            data.putInt(WSContant.TAG_USERID, id);
-            data.putString(WSContant.TAG_USERTYPE, currUserType);
+            data.putInt(WSContant.TAG_SAVED_USERID, id);
+            data.putString(WSContant.TAG_USER_TYPE, currUserType);
             data.commit();
             AppLog.log("sharePreferenceApp", "saveAuthToken: " + authToken);
         } catch (Exception e) {
@@ -211,9 +211,9 @@ public class SharedPreferencesApp {
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
-                UserInfo.userId = sharePref.getInt(WSContant.TAG_USERID, -1);
+                UserInfo.userId = sharePref.getInt(WSContant.TAG_SAVED_USERID, -1);
                 UserInfo.authToken = sharePref.getString(WSContant.TAG_AUTHTOKEN, null);
-                UserInfo.currUserType = sharePref.getString(WSContant.TAG_USERTYPE, null);
+                UserInfo.currUserType = sharePref.getString(WSContant.TAG_USER_TYPE, null);
                 UserInfo.parentId = UserInfo.userId;
                 AppLog.log("getUserInfo", " UserInfo.userId: " + UserInfo.userId);
                 AppLog.log("getUserInfo", " UserInfo.authToken: " + UserInfo.authToken);

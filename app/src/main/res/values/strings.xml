@@ -81,4 +81,5 @@
     <string name="part_payment">Part Payment</string>
     <string name="download_receipt">Download Receipt</string>
     <string name="tab_time_table">Time Table</string>
+    <string name="tab_noticeboard">Noticeboard</string>
 </resources>

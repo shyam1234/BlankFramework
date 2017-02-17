@@ -12,7 +12,8 @@ public interface WSContant {
     String URL_CHANGEPASSWORD = URL_BASE + "/Account/ChangePassword?";
     String URL_REGISTRATION = URL_BASE + "/Account/Register";
     String URL_GETMOBILEHOME = URL_BASE + "/mobile/GetMobileHome";
-
+    String URL_GETMOBILEMENU= URL_BASE + "/mobile/GetMobileMenu";
+    String URL_SAVELIKENCOMMENT= URL_BASE + "/mobile/SaveLikeNComment";
     //-------------------------------------------------------------------------------------
     String TAG_LOGIN = "login";
     String TAG_LANG = "lang";
@@ -33,17 +34,26 @@ public interface WSContant {
     String TAG_NEW = "NEW";
     String TAG_SHAREDPREF_NAME = "edurp_sharepref";
     String TAG_SHAREDPREF_GET_LAST_TIME = "get_last_time";
-    String TAG_PARENTID= "ParentId";
     String TAG_STUDENTID= "StudentId";
     String TAG_ISMOBILE = "isMobile";
     String TAG_LANG_RETRIVE_TIME= "lan_retriev_time";
     String TAG_LAST_LOGIN_TIME= "last_login_time";
     String TAG_AUTHTOKEN = "auth_token";
-    String TAG_USERID = "saved_userid";
+    String TAG_SAVED_USERID = "saved_userid";
     String TAG_USERTYPE_PARENT = "P";
     String TAG_USERTYPE_STUDENT = "S";
-    String TAG_USERTYPE = "user_type";
+    String TAG_USER_TYPE = "user_type";
     String TAG_DEFAULT_CHILD = "default_child";
+    String TAG_MENUCODE="MenuCode";
+    String TAG_USERID="UserId";
+    String TAG_PARENTID="ParentId";
+    String TAG_USERTYPE="UserType";
+    String TAG_LASTRETRIEVED="LastRetrieved";
     int TAG_UNAUTHORIZED_CODE = 401;
     int TAG_SUCCESS_CODE = 200;
+    String TAG_COMMENT = "Comment";
+    String TAG_ISLIKE = "IsLike";
+    String TAG_ISDELETE = "IsDelete";
+    String TAG_REFERENCEID = "ReferenceId";
 }
+
