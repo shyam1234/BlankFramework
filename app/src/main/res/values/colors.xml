@@ -23,7 +23,7 @@
     <color name="colorBlue">#4D8CFE</color>
     <color name="colorSignIn">#4990E2</color>
     <color name="colorLightBlue">#B1B1B1</color>
-    <color name="colorGrayTransparent">#22000000</color>
+    <color name="colorGrayTransparent">#11000000</color>
     <color name="dashboardTextColor">#686868</color>
 
     <color name="progressBarColor">#3fa5b5</color>

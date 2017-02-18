@@ -4,5 +4,5 @@
         android:drawable="@drawable/rectangle_border_hightlighted_black" />
     <item android:state_focused="false" android:state_pressed="true"
         android:drawable="@drawable/rectangle_border_hightlighted_black" />
-    <item android:drawable="@drawable/rectangle_border_black" />
+    <item android:drawable="@drawable/rectangle_border_black_with_corners" />
 </selector>

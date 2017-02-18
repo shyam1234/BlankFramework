@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.activities.AttendanceDetails;
 import com.malviya.blankframework.adapters.AttendanceAdapter;
 import com.malviya.blankframework.models.AttendanceDataModel;
 import com.malviya.blankframework.utils.RenderImageByPicasso;
@@ -82,8 +81,8 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
         mRecycleViewNoticeboard.setLayoutManager(manager);
-        mAttendanceAdapter = new AttendanceAdapter(getContext(), mAttendanceList);
-        mRecycleViewNoticeboard.setAdapter(mAttendanceAdapter);
+       // mAttendanceAdapter = new AttendanceAdapter(getContext(), mAttendanceList);
+       // mRecycleViewNoticeboard.setAdapter(mAttendanceAdapter);
     }
 
 

@@ -82,4 +82,9 @@
     <string name="download_receipt">Download Receipt</string>
     <string name="tab_time_table">Time Table</string>
     <string name="tab_noticeboard">Noticeboard</string>
+    <string name="tab_news">News</string>
+    <string name="like">Like</string>
+    <string name="comment">Comment</string>
+    <string name="type_comment">Type Comment</string>
+    <string name="send">Send</string>
 </resources>
