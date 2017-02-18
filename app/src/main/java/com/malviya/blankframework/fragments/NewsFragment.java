@@ -11,15 +11,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.adapters.AttendanceAdapter;
-import com.malviya.blankframework.models.AttendanceDataModel;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.adapters.NewsAdapter;
+import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.models.GetMobileMenuDataHolder;
+import com.malviya.blankframework.models.LoginDataModel;
+import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.TableNewsMasterDataModel;
+import com.malviya.blankframework.network.IWSRequest;
+import com.malviya.blankframework.network.WSRequest;
+import com.malviya.blankframework.parser.ParseResponse;
+import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.GetPicassoImage;
+import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Admin on 24-12-2016.
@@ -27,9 +40,9 @@ import java.util.ArrayList;
 
 public class NewsFragment extends Fragment implements View.OnClickListener {
     public final static String TAG="NewsFragment";
-    private RecyclerView mRecycleViewAttendance;
-    private ArrayList<AttendanceDataModel> mAttendanceList;
-    private AttendanceAdapter mAttendanceAdapter;
+    private RecyclerView mRecycleViewNews;
+    private ArrayList<TableNewsMasterDataModel> mNewsList;
+    private NewsAdapter mNewsAdapter;
 
 
     public NewsFragment() {
@@ -42,8 +55,9 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         init();
     }
 
+
     private void init() {
-        mAttendanceList = new ArrayList<AttendanceDataModel>();
+        mNewsList = new ArrayList<TableNewsMasterDataModel>();
     }
 
     @Nullable
@@ -59,30 +73,31 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+        fetchDataFromServer();
     }
 
     private void initView() {
-//------------------------------------
         TextView mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_news);
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
+        GetPicassoImage.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
         ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
+
         initRecyclerView();
     }
 
     private void initRecyclerView() {
-        mRecycleViewAttendance = (RecyclerView) getView().findViewById(R.id.recyclerview_news);
-        mRecycleViewAttendance.setHasFixedSize(true);
+        mRecycleViewNews = (RecyclerView) getView().findViewById(R.id.recyclerview_news);
+        mRecycleViewNews.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
-        mRecycleViewAttendance.setLayoutManager(manager);
-        mAttendanceAdapter = new AttendanceAdapter(getContext(), mAttendanceList);
-        mRecycleViewAttendance.setAdapter(mAttendanceAdapter);
+        mRecycleViewNews.setLayoutManager(manager);
+        mNewsAdapter = new NewsAdapter(getContext(), mNewsList);
+        mRecycleViewNews.setAdapter(mNewsAdapter);
     }
 
 
@@ -97,12 +112,61 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    private void fetchDataFromServer() {
+            //call to WS and validate given credential----
+        Map<String, String> header = new HashMap<>();
+        header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+       // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
+        //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+        //-Utils-for body
+        Map<String, String> body = new HashMap<>();
+        body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
+        body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
+        body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
+        body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
+        body.put(WSContant.TAG_LASTRETRIEVED, "" + Utils.getLastRetrivedTimeForNews());
+        WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
+            @Override
+                public void onResponse(String response) {
+                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS);
+                    GetMobileMenuDataHolder holder = ((GetMobileMenuDataHolder) obj.getModel());
+                    AppLog.log(TAG, "holder.data.Status: " + holder.getMessageResult());
+                    if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
+                        //update UI and save data to table ---------------------
+                        saveDataIntoTable(holder);
+                        bindDataWithUI(holder);
+                        SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+                        //-------------------------------------------------------
+                        //navigateToNextPage();
+                    } else {
+                        Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError response) {
+
+                }
+            });
+            //------------------------------------------------
+
+
+    }
+
+    private void saveDataIntoTable(GetMobileMenuDataHolder holder) {
+
+    }
+
+    private void bindDataWithUI(GetMobileMenuDataHolder holder) {
+
+    }
+
+
     private void navigateToNextPage(Class mClass) {
         Intent i = new Intent(getActivity(), mClass);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         Utils.animRightToLeft(getActivity());
     }
-
 
 }

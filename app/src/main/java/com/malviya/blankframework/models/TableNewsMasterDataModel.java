@@ -1,22 +1,48 @@
 package com.malviya.blankframework.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Admin on 28-01-2017.
  */
 
 public class TableNewsMasterDataModel {
 
-    private  String ParentId;
-    private  String StudentId;
-    private  String NewsId= "";
-    private  String NewsTitle;
-    private  String ShortBody;
-    private  String NewsBody;
-    private  String ThumbNailPath;
-    private  String PublishedOn;
-    private  String PublishedBy;
-    private  String TotalComments;
-    private  String TotalLikes;
+    @SerializedName("ParentId")
+    private String ParentId;
+    @SerializedName("StudentId")
+    private String StudentId;
+    @SerializedName("NewsId")
+    private String NewsId = "";
+    @SerializedName("NewsTitle")
+    private String NewsTitle;
+    @SerializedName("ShortBody")
+    private String ShortBody;
+    @SerializedName("NewsBody")
+    private String NewsBody;
+    @SerializedName("ThumbNailPath")
+    private String ThumbNailPath;
+    @SerializedName("PublishedOn")
+    private String PublishedOn;
+    @SerializedName("PublishedBy")
+    private String PublishedBy;
+    @SerializedName("TotalComments")
+    private String TotalComments;
+    @SerializedName("TotalLikes")
+    private String TotalLikes;
+    @SerializedName("MenuCode")
+    private String MenuCode;
+    @SerializedName("ReferenceId")
+    private int ReferenceId;
+    @SerializedName("DocumentMasterId")
+    private int DocumentMasterId;
+    @SerializedName("ReferenceTitle")
+    private String ReferenceTitle;
+    @SerializedName("ExpiryDate")
+    private String ExpiryDate;
+    @SerializedName("DocumentId")
+    private int DocumentId;
+
 
     public String getParentId() {
         return ParentId;
@@ -104,5 +130,53 @@ public class TableNewsMasterDataModel {
 
     public void setTotalLikes(String totalLikes) {
         TotalLikes = totalLikes;
+    }
+
+    public String getMenuCode() {
+        return MenuCode;
+    }
+
+    public void setMenuCode(String menuCode) {
+        MenuCode = menuCode;
+    }
+
+    public int getReferenceId() {
+        return ReferenceId;
+    }
+
+    public void setReferenceId(int referenceId) {
+        ReferenceId = referenceId;
+    }
+
+    public int getDocumentMasterId() {
+        return DocumentMasterId;
+    }
+
+    public void setDocumentMasterId(int documentMasterId) {
+        DocumentMasterId = documentMasterId;
+    }
+
+    public String getReferenceTitle() {
+        return ReferenceTitle;
+    }
+
+    public void setReferenceTitle(String referenceTitle) {
+        ReferenceTitle = referenceTitle;
+    }
+
+    public String getExpiryDate() {
+        return ExpiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        ExpiryDate = expiryDate;
+    }
+
+    public int getDocumentId() {
+        return DocumentId;
+    }
+
+    public void setDocumentId(int documentId) {
+        DocumentId = documentId;
     }
 }

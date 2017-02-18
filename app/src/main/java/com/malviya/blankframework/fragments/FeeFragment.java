@@ -13,11 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.activities.ResultListActivity;
 import com.malviya.blankframework.adapters.FeeAdapter;
-import com.malviya.blankframework.adapters.ResultAdapter;
 import com.malviya.blankframework.models.AttendanceDataModel;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -68,7 +66,7 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
         mTextViewTitle.setText(R.string.tab_fee);
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
+        GetPicassoImage.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
         ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);

@@ -1,13 +1,13 @@
 package com.malviya.blankframework.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.RenderImageByUIL;
 
 public class TestImageLoad extends AppCompatActivity implements View.OnClickListener{
@@ -41,13 +41,13 @@ public class TestImageLoad extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
          switch (view.getId()){
              case R.id.btn_show1:
-                 RenderImageByPicasso.setImageByPicasso(TestImageLoad.this,url, imageHolder);
+                 GetPicassoImage.getImage(TestImageLoad.this,url, imageHolder);
                  break;
              case R.id.btn_show2:
-                 RenderImageByPicasso.setCircleImageByPicasso(TestImageLoad.this,url, imageHolder);
+                 GetPicassoImage.setCircleImageByPicasso(TestImageLoad.this,url, imageHolder);
                  break;
              case R.id.btn_show3:
-                 RenderImageByPicasso.setSquareImageByPicasso(TestImageLoad.this,url, imageHolder);
+                 GetPicassoImage.setSquareImageByPicasso(TestImageLoad.this,url, imageHolder);
                  break;
              case R.id.btn_show4:
                  RenderImageByUIL.getInstance(TestImageLoad.this).setImageByURL(url,imageHolder,R.mipmap.ic_launcher,R.drawable.loader);

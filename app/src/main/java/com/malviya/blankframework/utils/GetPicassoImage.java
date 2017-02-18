@@ -10,7 +10,7 @@ import com.squareup.picasso.Picasso;
  * Created by Admin on 26-11-2016.
  */
 
-public class RenderImageByPicasso {
+public class GetPicassoImage {
     /**
      * this method uses to render image by Picasso
      *
@@ -21,22 +21,22 @@ public class RenderImageByPicasso {
      * @param errorHolder
      * @param resize
      */
-    public static void setImageByPicasso(Context pContext, String imgURL, ImageView imageView, int placeHolder, int errorHolder, int resize) {
-        if (resize == 0) {
-            resize = 50; //default resize size
-        }
-        if (imgURL != null) {
-            Picasso.with(pContext)
-                    .load(imgURL)
-                    .resize(resize, resize)
-                    .centerCrop()
-                    .placeholder(placeHolder)
-                    .error(errorHolder)
-                    .into(imageView);
-        } else {
-            imageView.setImageResource(R.drawable.logo);
-        }
-    }
+//    public static void getImage(Context pContext, String imgURL, ImageView imageView, int placeHolder, int errorHolder, int resize) {
+//        if (resize == 0) {
+//            resize = 50; //default resize size
+//        }
+//        if (imgURL != null) {
+//            Picasso.with(pContext)
+//                    .load(imgURL)
+//                    .resize(resize, resize)
+//                    .centerCrop()
+//                    .placeholder(placeHolder)
+//                    .error(errorHolder)
+//                    .into(imageView);
+//        } else {
+//            imageView.setImageResource(R.drawable.logo);
+//        }
+//    }
 
     /**
      * this method uses to render image by Picasso
@@ -45,7 +45,7 @@ public class RenderImageByPicasso {
      * @param imgURL
      * @param imageView
      */
-    public static void setImageByPicasso(Context pContext, String imgURL, ImageView imageView) {
+    public static void getImage(Context pContext, String imgURL, ImageView imageView) {
         if (imgURL != null) {
             Picasso.with(pContext)
                     .load(imgURL)

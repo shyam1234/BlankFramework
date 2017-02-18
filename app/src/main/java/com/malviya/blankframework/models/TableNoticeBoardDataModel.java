@@ -1,13 +1,19 @@
 package com.malviya.blankframework.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Admin on 28-01-2017.
  */
 
 public class TableNoticeBoardDataModel {
+    @SerializedName("ParentId")
     private  String ParentId;
+    @SerializedName("StudentId")
     private  String StudentId ;
+    @SerializedName("MenuCode")
     private  String MenuCode;
+    @SerializedName("RederenceId")
     private  String RederenceId ;
 
     public String getParentId() {

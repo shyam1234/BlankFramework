@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -50,7 +50,7 @@ public class ChildProfileActivity extends AppCompatActivity implements View.OnCl
         mImageEdit = (ImageView) findViewById(R.id.imageView_edit);
         mImageEdit.setVisibility(View.VISIBLE);
         mImageEdit.setOnClickListener(this);
-        RenderImageByPicasso.setCircleImageByPicasso(this, UserInfo.selectedStudentImageURL, mImageViewProfile);
+        GetPicassoImage.setCircleImageByPicasso(this, UserInfo.selectedStudentImageURL, mImageViewProfile);
         setDefaultStudentProfileInHeader();
     }
 
@@ -61,7 +61,7 @@ public class ChildProfileActivity extends AppCompatActivity implements View.OnCl
             ((ImageView) findViewById(R.id.imageview_profile_eye)).setVisibility(View.GONE);
             TextView childname = (TextView) findViewById(R.id.textview_profile_header_name);
             TextView childlocation = (TextView) findViewById(R.id.textview_profile_header_location);
-            RenderImageByPicasso.setCircleImageByPicasso(this, mModelTableStudentDetailsDataModel.getImageurl(), childImage);
+            GetPicassoImage.setCircleImageByPicasso(this, mModelTableStudentDetailsDataModel.getImageurl(), childImage);
             childname.setText(mModelTableStudentDetailsDataModel.getFullName());
             childlocation.setText(mModelTableStudentDetailsDataModel.getCourseCode());
         }

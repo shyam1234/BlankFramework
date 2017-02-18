@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.AttendanceAdapter;
 import com.malviya.blankframework.models.AttendanceDataModel;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -66,7 +66,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         mTextViewTitle.setText(R.string.tab_noticeboard);
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
+        GetPicassoImage.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
         ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);

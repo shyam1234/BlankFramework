@@ -55,5 +55,9 @@ public interface WSContant {
     String TAG_ISLIKE = "IsLike";
     String TAG_ISDELETE = "IsDelete";
     String TAG_REFERENCEID = "ReferenceId";
+
+    String TAG_NEWS_GET_LAST_TIME = "get_news_last_time";
+    String TAG_NEWS = "news";
+    String TAG_OK = "OK";
 }
 

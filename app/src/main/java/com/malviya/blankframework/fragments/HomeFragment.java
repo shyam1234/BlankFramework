@@ -20,9 +20,8 @@ import com.malviya.blankframework.adapters.HomeAdapter;
 import com.malviya.blankframework.constant.Contant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
-import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -137,8 +136,8 @@ public class HomeFragment extends Fragment {
         mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
         if (mCellList.size() > 0) {
             UserInfo.selectedStudentImageURL = mCellList.get(0).getStudentProfileImage();
-            RenderImageByPicasso.setCircleImageByPicasso(getContext(), mCellList.get(0).getUniversity_url(), mImageViewUnivercityLogo);
-            RenderImageByPicasso.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
+            GetPicassoImage.setCircleImageByPicasso(getContext(), mCellList.get(0).getUniversity_url(), mImageViewUnivercityLogo);
+            GetPicassoImage.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
 
         }
         //RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
@@ -149,6 +148,7 @@ public class HomeFragment extends Fragment {
                 TextView textView = ((TextView) view.findViewById(R.id.textview_dashboard_cell_name));
                 AppLog.log("HomeFragment : onItemClick menu name: ", textView.getText().toString());
                 AppLog.log("HomeFragment :  onItemClick getTag", textView.getTag().toString());
+                UserInfo.menuCode  = textView.getTag().toString().trim();
                 switch (textView.getTag().toString()) {
                     case Contant.TAG_NOTICEBOARD:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);

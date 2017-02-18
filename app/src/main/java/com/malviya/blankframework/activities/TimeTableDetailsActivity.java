@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.TimeTableDetailAdapter;
 import com.malviya.blankframework.models.AttendanceDataModel;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -42,7 +42,7 @@ public class TimeTableDetailsActivity extends AppCompatActivity implements View.
         mTextViewTitle.setText(R.string.tab_time_table);
         ImageView mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
-        RenderImageByPicasso.setCircleImageByPicasso(this, UserInfo.selectedStudentImageURL, mImgProfile);
+        GetPicassoImage.setCircleImageByPicasso(this, UserInfo.selectedStudentImageURL, mImgProfile);
         ImageView mImgBack = (ImageView) findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);

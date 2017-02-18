@@ -25,6 +25,7 @@ public class UserInfo {
     public static int userId;
     public static String currUserType;
     public static String selectedStudentImageURL="";
+    public static String menuCode;
 
     public static void clearUSerInfo() {
         userId = -1;
@@ -38,6 +39,7 @@ public class UserInfo {
         tokenIssue = null;
         currUserType = null;
         selectedStudentImageURL = "";
+        menuCode = null;
 
     }
 

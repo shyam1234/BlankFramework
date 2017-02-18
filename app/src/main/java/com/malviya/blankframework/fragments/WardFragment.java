@@ -22,7 +22,7 @@ import com.malviya.blankframework.database.CommonInfo;
 import com.malviya.blankframework.interfaces.ICallBack;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
@@ -104,10 +104,10 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     private void setDefaultStudentProfileInHeader(boolean isLoadFirstTime, int position) {
         mPosition = position;
         UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
+        GetPicassoImage.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
         mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
         mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mImageViewStudentTitleImg);
+        GetPicassoImage.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mImageViewStudentTitleImg);
         AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ", mListChildInfoHolder.get(position).getCourseCode());
         AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ", mListChildInfoHolder.get(position).getFullName());
         //save user default child selection

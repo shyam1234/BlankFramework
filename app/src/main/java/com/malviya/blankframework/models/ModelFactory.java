@@ -1,8 +1,8 @@
 package com.malviya.blankframework.models;
 
-import com.malviya.blankframework.exceptions.ModelException;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.exceptions.ModelException;
 import com.malviya.blankframework.interfaces.IModel;
 
 import java.util.HashMap;
@@ -14,11 +14,11 @@ import java.util.HashMap;
 public class ModelFactory {
     private volatile static ModelFactory mInstance;
     public final static String MODEL_LOGIN = "LoginDataModel";
-    public final static String MODEL_LANG="LanguageArrayDataModel";
-    public final static String MODEL_GETMOBILEHOME= "GetMobileHome";
+    public static final String MODEL_NEWS = "NewsDataModel";
+    public final static String MODEL_LANG = "LanguageArrayDataModel";
+    public final static String MODEL_GETMOBILEHOME = "GetMobileHome";
 
     private HashMap<String, IModel> mHashMapMode;
-
     private ModelFactory() {
         mHashMapMode = new HashMap<>();
     }

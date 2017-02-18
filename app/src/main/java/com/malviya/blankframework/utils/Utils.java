@@ -3,7 +3,6 @@ package com.malviya.blankframework.utils;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -216,9 +215,6 @@ public class Utils {
 
 
 
-    public static Bitmap getImage(String university_image_url) {
-        return null;
-    }
 
 
 //    public static String getLastRetrivedTime() {
@@ -356,5 +352,21 @@ public class Utils {
         }
     }
 
+
+
+    public static String getLastRetrivedTimeForNews() {
+        try {
+            if (SharedPreferencesApp.getInstance().getSavedTime() != null) {
+                return SharedPreferencesApp.getInstance().getSavedTime();
+            } else {
+                SharedPreferencesApp.getInstance().saveTime("");
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getLastRetrivedTimeForNews", e.getMessage());
+
+        } finally {
+            return SharedPreferencesApp.getInstance().getSavedTime();
+        }
+    }
 
 }

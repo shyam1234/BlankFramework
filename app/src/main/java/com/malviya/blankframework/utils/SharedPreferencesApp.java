@@ -13,7 +13,6 @@ import com.malviya.blankframework.constant.WSContant;
 public class SharedPreferencesApp {
     private static final String DEFAULT_SHAREPREF = "edurp_sharepref";
     private static SharedPreferencesApp mInstance;
-    private String mCurrTime = "";
     private String mLastLoginTime = "";
 
 
@@ -93,6 +92,7 @@ public class SharedPreferencesApp {
     }
 
     public String getSavedTime() {
+        String mCurrTime = "";
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
@@ -110,8 +110,7 @@ public class SharedPreferencesApp {
 
     public void removeSavedTime() {
         try {
-            mCurrTime = null;
-            saveTime(mCurrTime);
+            saveTime(null);
         } catch (Exception e) {
             AppLog.errLog(" removeSavedTime", e.getMessage());
         }
@@ -306,6 +305,46 @@ public class SharedPreferencesApp {
         }
         return -1;
     }
+
+    //-----------------------------------------------------------
+
+    public void saveTimeForNews(String currTime) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putString(WSContant.TAG_NEWS_GET_LAST_TIME, currTime);
+            data.commit();
+            AppLog.log("sharePreferenceApp", "saveTimeForNews: " + currTime);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp saveTimeForNews", e.getMessage());
+        }
+    }
+
+    public String getSavedTimeForNews() {
+        String mCurrTime = "";
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                mCurrTime = sharePref.getString(WSContant.TAG_NEWS_GET_LAST_TIME, "");
+            } else {
+                AppLog.log("getSavedTime", "there is not getSavedTimeForNews ");
+            }
+            sharePref = null;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getSavedTimeForNews", e.getMessage());
+        } finally {
+            return mCurrTime;
+        }
+    }
+
+    public void removeSavedTimeForNews() {
+        try {
+            saveTime(null);
+        } catch (Exception e) {
+            AppLog.errLog(" removeSavedTimeForNews", e.getMessage());
+        }
+    }
+
 
     //------------------------------------------------------------------------------------------------
 

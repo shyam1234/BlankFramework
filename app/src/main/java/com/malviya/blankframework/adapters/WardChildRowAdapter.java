@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.models.TableStudentDetailsDataModel;
-import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.GetPicassoImage;
 
 import java.util.ArrayList;
 
@@ -43,7 +43,7 @@ public class WardChildRowAdapter extends RecyclerView.Adapter<WardChildRowAdapte
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.mTextViewName.setText(mListHolder.get(position).getFullName());
         holder.mTextViewAddress.setText(mListHolder.get(position).getCourseCode());
-        RenderImageByPicasso.setCircleImageByPicasso(mContext,mListHolder.get(position).getImageurl(), holder.mImageViewChildIcon);
+        GetPicassoImage.setCircleImageByPicasso(mContext,mListHolder.get(position).getImageurl(), holder.mImageViewChildIcon);
         holder.mRelHolder.setOnClickListener(mListener);
         holder.mRelHolder.setTag(position);
     }

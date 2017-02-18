@@ -20,9 +20,9 @@ public class TableNewsMaster {
     //--------------------------------------------------------------------------
     public static final String TAG = "TableNewsMaster";
     private static final String TABLE_NAME = "table_newsmaster";
-    private static final String COL_PARENTID= "ParentId";
+    private static final String COL_PARENTID = "ParentId";
     private static final String COL_STUDENTID = "StudentId";
-    private static final String COL_NEWSID= "NewsId";
+    private static final String COL_NEWSID = "NewsId";
     private static final String COL_NEWSTITLE = "NewsTitle";
     private static final String COL_SHORTBODY = "ShortBody";
     private static final String COL_NEWSBODY = "NewsBody";
@@ -31,6 +31,14 @@ public class TableNewsMaster {
     private static final String COL_PUBLISHEDBY = "PublishedBy";
     private static final String COL_TOTALCOMMENTS = "TotalComments";
     private static final String COL_TOTALLIKES = "TotalLikes";
+    //added new field
+    private static final String COL_MENUCODE = "MenuCode";
+    private static final String COL_REFERENCEID = "ReferenceId";
+    private static final String COL_DOCUMENTMASTERID = "DocumentMasterId";
+    private static final String COL_DOCUMENTID = "DocumentId";
+    private static final String COL_REFERENCETITLE = "ReferenceTitle";
+    private static final String COL_EXPIRYDATE = "ExpiryDate";
+
 
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
@@ -48,7 +56,14 @@ public class TableNewsMaster {
             + COL_PUBLISHEDON + " datetime , "
             + COL_PUBLISHEDBY + " char(30) , "
             + COL_TOTALCOMMENTS + " int , "
-            + COL_TOTALLIKES + " int "
+            + COL_TOTALLIKES + " int , "
+
+            + COL_MENUCODE + " int , "
+            + COL_REFERENCEID + " int , "
+            + COL_DOCUMENTMASTERID + " int ,"
+            + COL_DOCUMENTID + " int , "
+            + COL_REFERENCETITLE + " char(30) , "
+            + COL_EXPIRYDATE + " varchar(100) "
             + " )";
 
     //For Foreign key
@@ -114,6 +129,14 @@ public class TableNewsMaster {
                     value.put(COL_PUBLISHEDBY, holder.getPublishedBy());
                     value.put(COL_TOTALCOMMENTS, holder.getTotalComments());
                     value.put(COL_TOTALLIKES, holder.getTotalLikes());
+
+                    value.put(COL_MENUCODE, holder.getMenuCode());
+                    value.put(COL_REFERENCEID, holder.getReferenceId());
+                    value.put(COL_DOCUMENTMASTERID, holder.getDocumentMasterId());
+                    value.put(COL_DOCUMENTID, holder.getDocumentId());
+                    value.put(COL_REFERENCETITLE, holder.getReferenceTitle());
+                    value.put(COL_EXPIRYDATE, holder.getExpiryDate());
+
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: ", holder.getNewsId() + " row: " + row);
                 }
