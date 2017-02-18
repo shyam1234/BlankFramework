@@ -1,6 +1,5 @@
 package com.malviya.blankframework.activities;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +9,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.models.TableStudentDetailsDataModel;
+import com.malviya.blankframework.utils.RenderImageByPicasso;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 /**
@@ -22,11 +24,18 @@ public class ChildProfileActivity extends AppCompatActivity implements View.OnCl
     private ImageView mImageViewProfile;
     private TextView mTextViewTitle;
     private ImageView mImageEdit;
+    private TableStudentDetailsDataModel mModelTableStudentDetailsDataModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_profile);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            if (bundle.getSerializable("list") != null) {
+                mModelTableStudentDetailsDataModel = (TableStudentDetailsDataModel) bundle.getSerializable("list");
+            }
+        }
         initView();
     }
 
@@ -38,10 +47,26 @@ public class ChildProfileActivity extends AppCompatActivity implements View.OnCl
         mTextViewTitle.setText(getResources().getString(R.string.tab_profile));
         mImageViewBack.setVisibility(View.VISIBLE);
         mImageViewBack.setOnClickListener(this);
-        mImageEdit = (ImageView)findViewById(R.id.imageView_edit);
+        mImageEdit = (ImageView) findViewById(R.id.imageView_edit);
         mImageEdit.setVisibility(View.VISIBLE);
         mImageEdit.setOnClickListener(this);
+        RenderImageByPicasso.setCircleImageByPicasso(this, UserInfo.selectedStudentImageURL, mImageViewProfile);
+        setDefaultStudentProfileInHeader();
     }
+
+
+    private void setDefaultStudentProfileInHeader() {
+        if (mModelTableStudentDetailsDataModel != null) {
+            ImageView childImage = (ImageView) findViewById(R.id.imageview_profile_logo);
+            ((ImageView) findViewById(R.id.imageview_profile_eye)).setVisibility(View.GONE);
+            TextView childname = (TextView) findViewById(R.id.textview_profile_header_name);
+            TextView childlocation = (TextView) findViewById(R.id.textview_profile_header_location);
+            RenderImageByPicasso.setCircleImageByPicasso(this, mModelTableStudentDetailsDataModel.getImageurl(), childImage);
+            childname.setText(mModelTableStudentDetailsDataModel.getFullName());
+            childlocation.setText(mModelTableStudentDetailsDataModel.getCourseCode());
+        }
+    }
+
 
     @Override
     protected void onDestroy() {

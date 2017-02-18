@@ -1,10 +1,12 @@
 package com.malviya.blankframework.models;
 
+import java.io.Serializable;
+
 /**
  * Created by Admin on 14-01-2017.
  */
 
-public class TableStudentDetailsDataModel {
+public class TableStudentDetailsDataModel implements Serializable {
     private String CourseCode = "";
     private String gender = "";
     private String imageurl = "";

@@ -3,7 +3,6 @@ package com.malviya.blankframework.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,17 +42,18 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     private WardChildRowAdapter mChildAdapter;
     private ArrayList<TableStudentDetailsDataModel> mListChildInfoHolder;
     private ImageView mProfileEye;
-   // private FloatingActionButton mFloatingBtn;
+    // private FloatingActionButton mFloatingBtn;
     private FrameLayout mFramLayout;
     private TextView mTextViewTitle;
-    public  ImageView mImageViewStudentTitleImg;
+    public ImageView mImageViewStudentTitleImg;
+    private int mPosition;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
         getAllChildWRTParent();
-        AppLog.log("WardFragment","onCreate");
+        AppLog.log("WardFragment", "onCreate");
     }
 
     private void init() {
@@ -66,7 +66,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
         view = inflater.inflate(R.layout.fragment_ward, null);
-        AppLog.log("WardFragment","onCreateView");
+        AppLog.log("WardFragment", "onCreateView");
         return view;
     }
 
@@ -74,7 +74,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        AppLog.log("WardFragment","onActivityCreated");
+        AppLog.log("WardFragment", "onActivityCreated");
         initView();
     }
 
@@ -85,7 +85,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mImageViewStudentTitleImg = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImageViewStudentTitleImg.setVisibility(View.VISIBLE);
         //------------------------------------------------------
-        mFramLayout = (FrameLayout)getView().findViewById(R.id.framelayout_holder);
+        mFramLayout = (FrameLayout) getView().findViewById(R.id.framelayout_holder);
         mProfileImage = (ImageView) getView().findViewById(R.id.imageview_profile_logo);
         mTextViewProfileHeaderName = (TextView) getView().findViewById(R.id.textview_profile_header_name);
         mProfileHeaderLocation = (TextView) getView().findViewById(R.id.textview_profile_header_location);
@@ -94,24 +94,25 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mProfileEye.setVisibility(View.VISIBLE);
         mRecycleViewChildInfo = (RecyclerView) getView().findViewById(R.id.listview_frag_ward);
         mProfileEye.setOnClickListener(this);
-      //  mFloatingBtn.setOnClickListener(this);
+        //  mFloatingBtn.setOnClickListener(this);
         initRecycleAdapter();
-        setDefaultStudentProfileInHeader(false,0);
+        setDefaultStudentProfileInHeader(false, 0);
 
 
     }
 
     private void setDefaultStudentProfileInHeader(boolean isLoadFirstTime, int position) {
+        mPosition = position;
         UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
         mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
         mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
-        RenderImageByPicasso.setCircleImageByPicasso(getContext(),mListChildInfoHolder.get(position).getImageurl(), mImageViewStudentTitleImg);
-        AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ",mListChildInfoHolder.get(position).getCourseCode());
-        AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ",mListChildInfoHolder.get(position).getFullName());
+        RenderImageByPicasso.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mImageViewStudentTitleImg);
+        AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ", mListChildInfoHolder.get(position).getCourseCode());
+        AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ", mListChildInfoHolder.get(position).getFullName());
         //save user default child selection
 
-        if(isLoadFirstTime) {
+        if (isLoadFirstTime) {
             Utils.showProgressBar(getContext());
             SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
             AppLog.networkLog("WardFragment networkLog.networkLog  ", "" + UserInfo.authToken);
@@ -150,7 +151,6 @@ public class WardFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     /**
      * get all child with respect to logged parent
      */
@@ -158,20 +158,24 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         CommonInfo table = new CommonInfo();
         table.openDB(getContext());
         try {
-           // mListChildInfoHolder =  table.getAllChildWRTParent(""+((LoginDataModel)ModelFactory.getInstance().getModel(ModelFactory.MODEL_LOGIN)).data.UserId);
-            mListChildInfoHolder =  table.getAllChildWRTParent(UserInfo.parentId);
-            AppLog.log("getAllChildWRTParent parentId ",""+UserInfo.parentId);
-            AppLog.log("getAllChildWRTParent mListChildInfoHolder ",""+mListChildInfoHolder.size());
+            // mListChildInfoHolder =  table.getAllChildWRTParent(""+((LoginDataModel)ModelFactory.getInstance().getModel(ModelFactory.MODEL_LOGIN)).data.UserId);
+            mListChildInfoHolder = table.getAllChildWRTParent(UserInfo.parentId);
+            AppLog.log("getAllChildWRTParent parentId ", "" + UserInfo.parentId);
+            AppLog.log("getAllChildWRTParent mListChildInfoHolder ", "" + mListChildInfoHolder.size());
         } catch (Exception e) {
-            AppLog.errLog("getAllChildWRTParent",e.getMessage());
+            AppLog.errLog("getAllChildWRTParent", e.getMessage());
         }
         table.closeDB();
     }
 
 
-
     private void navigateToNextPage(Class<?> activity) {
         Intent intent = new Intent(getContext(), activity);
+        if(activity == ChildProfileActivity.class ) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("list", mListChildInfoHolder.get(mPosition));
+            intent.putExtras(bundle);
+        }
         startActivity(intent);
         Utils.animRightToLeft(getActivity());
     }
