@@ -169,4 +169,6 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         Utils.animRightToLeft(getActivity());
     }
 
+
+
 }
