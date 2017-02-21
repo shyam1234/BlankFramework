@@ -179,7 +179,8 @@ public class TableParentStudentMenuDetails {
                         + " and " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID + "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
                         + " where " + TABLE_NAME + "." + COL_PARENTID + "='" + parentId
                         + "' and " + TABLE_NAME + "." + COL_ISACTIVE + "= '1'"
-                        + " and " + TABLE_NAME + "." + COL_STUDENTID + "='" + studentId + "'";
+                        + " and " + TABLE_NAME + "." + COL_STUDENTID + "='" + studentId + "'"
+                        + " and " + TableLanguage.TABLE_NAME + "." + TableLanguage.UNIVERSITY_ID + "!='" + 0 + "'";
                 AppLog.log("getHomeFragmentData ++++selectQuery++++++++++++++++", selectQuery);
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 position = 0;
@@ -218,7 +219,7 @@ public class TableParentStudentMenuDetails {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog("getHomeFragmentData", e.getMessage());
+            AppLog.errLog("getHomeFragmentData from TableParentStudentMenuDetails class ", e.getMessage());
         } finally {
             return list;
         }

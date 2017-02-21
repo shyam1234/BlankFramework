@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class SplashActivity extends AppCompatActivity {
     private final String TAG = SplashActivity.class.getName();
-    private static final long TIME_DELAY = 3000;
+    private static final long TIME_DELAY = 2000;
     private Handler mHandler;
     private Runnable mRunnable;
     public static Context mContext;
@@ -51,9 +51,7 @@ public class SplashActivity extends AppCompatActivity {
         Utils.showProgressBar(100, mCircularProgressBar);
     }
 
-    private void initView() {
-        mCircularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
-    }
+
 
     private void init() {
         mContext = this;
@@ -70,10 +68,15 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
+    private void initView() {
+        mCircularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
+    }
+
+
     private void checkForLanguage() {
         TableLanguage table = new TableLanguage();
         table.openDB(SplashActivity.this);
-        //AppLog.log("table: ",((LanguageArrayDataModel) obj.getModel()).LanguageArray.get(3).EnglishVersion);
+        AppLog.log("splashActivity++", "checkForLanguage");
         table.read();
         //SharedPreferencesApp.getInstance().removeAll();
         Map<String, String> header = new HashMap<>();
@@ -82,17 +85,15 @@ public class SplashActivity extends AppCompatActivity {
         WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LANG, new IWSRequest() {
             @Override
             public void onResponse(String response) {
-                //--parsing logic------------------------------------------------------------------
                 AppLog.log("onResponse", "res++ " + response);
                 ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, ModelFactory.MODEL_LANG);
                 LanguageArrayDataModel holder = ((LanguageArrayDataModel) obj.getModel());
-                //storeIntoDB(obj);
                 bindDataWithLanguageDataModel(holder);
-                //--parsing logic------------------------------------------------------------------
             }
 
             @Override
             public void onErrorResponse(VolleyError response) {
+                AppLog.log("splashActivity++", "onErrorResponse");
                 final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
                 dilog.setTitle(getResources().getString(R.string.msg_network_prob));
                 dilog.show();
