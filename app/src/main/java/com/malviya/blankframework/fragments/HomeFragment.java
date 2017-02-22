@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.HomeAdapter;
-import com.malviya.blankframework.constant.Contant;
+import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.models.DashboardCellDataHolder;
 import com.malviya.blankframework.utils.AppLog;
@@ -150,43 +150,43 @@ public class HomeFragment extends Fragment {
                 AppLog.log("HomeFragment :  onItemClick getTag", textView.getTag().toString());
                 UserInfo.menuCode  = textView.getTag().toString().trim();
                 switch (textView.getTag().toString()) {
-                    case Contant.TAG_NOTICEBOARD:
+                    case Constant.TAG_NOTICEBOARD:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
                         break;
-                    case Contant.TAG_ATTENDANCE:
+                    case Constant.TAG_ATTENDANCE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new AttendanceFragment(), AttendanceFragment.TAG);
                         break;
-                    case Contant.TAG_DIARY:
+                    case Constant.TAG_DIARY:
                         //Utils.navigateFragmentMenu(getFragmentManager(), new DiaryFragment(), DiaryFragment.TAG);
                         Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
                         break;
-                    case Contant.TAG_EVENTS:
+                    case Constant.TAG_EVENTS:
                         Utils.navigateFragmentMenu(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
                         break;
-                    case Contant.TAG_FEE:
+                    case Constant.TAG_FEE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
                         break;
-                    case Contant.TAG_GALLERY:
+                    case Constant.TAG_GALLERY:
                         Utils.navigateFragmentMenu(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
                         break;
-                    case Contant.TAG_FEEDBACK:
+                    case Constant.TAG_FEEDBACK:
                         Utils.navigateFragmentMenu(getFragmentManager(), new FeedbackFragment(), FeedbackFragment.TAG);
                         break;
-                    case Contant.TAG_MESSAGE:
+                    case Constant.TAG_MESSAGE:
                         //Utils.navigateFragmentMenu(getFragmentManager(), new MessageFragment(), MessageFragment.TAG);
                         Utils.navigateFragmentMenu(getFragmentManager(), new TimeTableFragment(), TimeTableFragment.TAG);
                         break;
-                    case Contant.TAG_HOMEWORK:
+                    case Constant.TAG_HOMEWORK:
                         Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);
                         //Utils.navigateFragmentMenu(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
                         break;
-                    case Contant.TAG_NEWS:
+                    case Constant.TAG_NEWS:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NewsFragment(), NewsFragment.TAG);
                         break;
-                    case Contant.TAG_TIMETABLE:
+                    case Constant.TAG_TIMETABLE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new TimeTableFragment(), TimeTableFragment.TAG);
                         break;
-                    case Contant.TAG_RESULT:
+                    case Constant.TAG_RESULT:
                         Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);
                         break;
                 }

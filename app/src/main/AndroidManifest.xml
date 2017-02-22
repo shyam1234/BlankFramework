@@ -80,6 +80,11 @@
             android:name=".activities.TimeTableDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activities.NewsDetails"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
 
         <receiver android:name=".utils.ConnectivityReceiver" />
 

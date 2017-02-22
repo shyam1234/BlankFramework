@@ -4,7 +4,7 @@ package com.malviya.blankframework.constant;
  * Created by Admin on 26-11-2016.
  */
 
-public interface Contant {
+public interface Constant {
     String TAG_NOTICEBOARD = "NOT";
     String TAG_ATTENDANCE = "ATT";
     String TAG_HOMEWORK = "HOM";
@@ -18,4 +18,5 @@ public interface Contant {
     String TAG_TIMETABLE = "TIMETABLE";
     String TAG_RESULT = "RESULT";
 
+    String TAG_HOLDER = "holder";
 }

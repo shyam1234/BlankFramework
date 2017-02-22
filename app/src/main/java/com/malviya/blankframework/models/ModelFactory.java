@@ -15,6 +15,7 @@ public class ModelFactory {
     private volatile static ModelFactory mInstance;
     public final static String MODEL_LOGIN = "LoginDataModel";
     public static final String MODEL_NEWS = "NewsDataModel";
+    public static final String MODEL_NEWS_DETAILS = "NewsDataModelDetails";
     public final static String MODEL_LANG = "LanguageArrayDataModel";
     public final static String MODEL_GETMOBILEHOME = "GetMobileHome";
 

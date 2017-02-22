@@ -40,16 +40,16 @@ public class GetMobileMenuDataHolder extends IModel {
     @SerializedName("MessageResult")
     private String MessageResult;
 
-    public GetMobileMenuDataHolder.MessageBody getMessageBody() {
-        return MessageBody;
-    }
 
     @SerializedName("MessageBody")
     private MessageBody MessageBody;
 
-    public GetMobileMenuDataHolder() {
-        MessageBody = new MessageBody();
+
+
+    public GetMobileMenuDataHolder.MessageBody getMessageBody() {
+        return MessageBody;
     }
+
 
     public String getMessageResult() {
         return MessageResult;
@@ -59,7 +59,7 @@ public class GetMobileMenuDataHolder extends IModel {
         MessageResult = messageResult;
     }
 
-    private static class MessageBody {
+    public static class MessageBody {
         /*  "NoticeBoardMenuList": [],
             "NewsMasterMenuList": [
               {

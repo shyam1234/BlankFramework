@@ -22,10 +22,12 @@ import java.util.ArrayList;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
     private Context mContext;
     private ArrayList<TableNewsMasterDataModel> mList;
+    private View.OnClickListener mListener;
 
-    public NewsAdapter(Context context, ArrayList<TableNewsMasterDataModel> pList) {
+    public NewsAdapter(Context context, ArrayList<TableNewsMasterDataModel> pList, View.OnClickListener pListener) {
         mContext = context;
         mList = pList;
+        mListener = pListener;
     }
 
     @Override
@@ -37,7 +39,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        GetPicassoImage.getImage(mContext,mList.get(position).getThumbNailPath(),holder.textViewRhumbnil);
+        GetPicassoImage.getImage(mContext,mList.get(position).getThumbNailPath(),holder.imageViewRhumbnil);
         holder.textViewPublishBy.setText(mList.get(position).getPublishedBy());
         holder.textViewRefTitle.setText(mList.get(position).getReferenceTitle());
         holder.textViewPublishedTime.setText(mList.get(position).getPublishedOn());
@@ -45,6 +47,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.textViewTag.setText(mList.get(position).getMenuCode());
         holder.textViewLike.setText(mList.get(position).getTotalLikes());
         holder.textViewComment.setText(mList.get(position).getTotalComments());
+        //--------------------------------------------------------------
+        holder.imageViewRhumbnil.setOnClickListener(mListener);
+        holder.imageViewRhumbnil.setTag(position);
     }
 
 
@@ -58,7 +63,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         public TextView textViewRefTitle;
         public TextView textViewPublishBy;
         public TextView textViewPublishedTime;
-        public ImageView textViewRhumbnil;
+        public ImageView imageViewRhumbnil;
         public WebView webviewShortBody;
         public ImageView imageViewTag;
         public ImageView imageViewLike;
@@ -70,7 +75,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textViewRhumbnil = (ImageView) itemView.findViewById(R.id.imageview_news_row_thumbnil);
+            imageViewRhumbnil = (ImageView) itemView.findViewById(R.id.imageview_news_row_thumbnil);
             textViewRefTitle = (TextView) itemView.findViewById(R.id.textview_news_row_reference_title);
             textViewPublishBy = (TextView) itemView.findViewById(R.id.textview_news_row_published_by);
             textViewPublishedTime = (TextView) itemView.findViewById(R.id.textview_news_row_published_time);

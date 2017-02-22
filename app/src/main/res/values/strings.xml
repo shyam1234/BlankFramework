@@ -87,4 +87,5 @@
     <string name="comment">Comment</string>
     <string name="type_comment">Type Comment</string>
     <string name="send">Send</string>
+    <string name="title_news_details">News Details</string>
 </resources>

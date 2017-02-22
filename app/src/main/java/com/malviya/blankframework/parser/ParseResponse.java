@@ -51,6 +51,10 @@ public class ParseResponse {
                 mModel = mGson.fromJson(mRespose, GetMobileMenuDataHolder.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
+            case ModelFactory.MODEL_NEWS_DETAILS:
+                mModel = mGson.fromJson(mRespose, GetMobileMenuDataHolder.class);
+                ModelFactory.getInstance().register(mKey, mModel);
+                break;
             default:
                 break;
         }

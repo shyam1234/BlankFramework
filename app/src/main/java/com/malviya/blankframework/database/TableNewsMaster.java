@@ -129,7 +129,6 @@ public class TableNewsMaster {
                     value.put(COL_PUBLISHEDBY, holder.getPublishedBy());
                     value.put(COL_TOTALCOMMENTS, holder.getTotalComments());
                     value.put(COL_TOTALLIKES, holder.getTotalLikes());
-
                     value.put(COL_MENUCODE, holder.getMenuCode());
                     value.put(COL_REFERENCEID, holder.getReferenceId());
                     value.put(COL_DOCUMENTMASTERID, holder.getDocumentMasterId());

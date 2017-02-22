@@ -15,7 +15,7 @@ public class AppLog {
 
     public static void log(String TAG, String msg){
        if(FLAG_LOG){
-           Log.d(TAG_LOG,TAG+"- "+msg);
+           Log.d(TAG_LOG,TAG+" : "+msg);
        }
     }
 
@@ -27,12 +27,12 @@ public class AppLog {
 
     public static void networkLog(String TAG, String msg){
         if(FLAG_LOG){
-            Log.d(TAG_NET_LOG,TAG+"- "+msg);
+            Log.d(TAG_NET_LOG,TAG+" : "+msg);
         }
     }
     public static void errLog(String TAG, String msg){
         if(FLAG_ERR_LOG){
-            Log.e(TAG_ERR_LOG,"Exception from: "+TAG+"- "+msg);
+            Log.e(TAG_ERR_LOG,"Exception from: "+TAG+" : "+msg);
         }
     }
 }

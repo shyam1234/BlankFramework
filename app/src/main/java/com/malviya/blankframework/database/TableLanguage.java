@@ -59,7 +59,10 @@ public class TableLanguage {
         try {
             if (mDB != null) {
                 for (TableLanguageDataModel holder : list) {
+                    AppLog.log(TAG, "TableLanguageDataModel insert()getUniversityId: " + holder.getUniversityId());
+                    AppLog.log(TAG, "TableLanguageDataModel insert()getConversionId:" + holder.getUniversityId());
                     deleteDataIfExist(holder.getUniversityId(), holder.getConversionId());
+                    AppLog.log(TAG, "TableLanguageDataModel +++insert():" + holder.getUniversityId());
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(UNIVERSITY_ID, holder.getUniversityId());
                     contentValues.put(CONVERSION_ID, holder.getConversionId());
@@ -83,6 +86,7 @@ public class TableLanguage {
     private void deleteDataIfExist(int pUniversityId, int pConversionId) {
         try {
             String selectQuery = "DELETE FROM " + TABLE_NAME + " WHERE " + UNIVERSITY_ID + "=" + pUniversityId + " AND " + CONVERSION_ID + "=" + pConversionId;
+            AppLog.log(TAG, "deleteDataIfExist +++selectQuery():" + selectQuery.toString());
             mDB.execSQL(selectQuery);
         } catch (Exception e) {
             AppLog.errLog(TAG, "Exception from deleteDataIfExist " + e.getMessage());

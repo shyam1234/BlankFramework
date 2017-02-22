@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.NewsDetails;
 import com.malviya.blankframework.adapters.NewsAdapter;
+import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.database.TableNewsMaster;
 import com.malviya.blankframework.models.GetMobileMenuDataHolder;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
@@ -39,7 +42,7 @@ import java.util.Map;
  */
 
 public class NewsFragment extends Fragment implements View.OnClickListener {
-    public final static String TAG="NewsFragment";
+    public final static String TAG = "NewsFragment";
     private RecyclerView mRecycleViewNews;
     private ArrayList<TableNewsMasterDataModel> mNewsList;
     private NewsAdapter mNewsAdapter;
@@ -86,8 +89,8 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
-
         initRecyclerView();
+
     }
 
     private void initRecyclerView() {
@@ -96,10 +99,9 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
         mRecycleViewNews.setLayoutManager(manager);
-        mNewsAdapter = new NewsAdapter(getContext(), mNewsList);
+        mNewsAdapter = new NewsAdapter(getContext(), mNewsList, this);
         mRecycleViewNews.setAdapter(mNewsAdapter);
     }
-
 
 
     @Override
@@ -108,15 +110,20 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
             case R.id.imageview_back:
                 getActivity().onBackPressed();
                 break;
+            case R.id.imageview_news_row_thumbnil:
+                int position = (Integer) view.getTag();
+                //on banner click redirect to detail page
+                navigateToNextPage(position);
+                break;
         }
     }
 
 
     private void fetchDataFromServer() {
-            //call to WS and validate given credential----
+        //call to WS and validate given credential----
         Map<String, String> header = new HashMap<>();
         header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-       // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
+        // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
         //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
         //-Utils-for body
         Map<String, String> body = new HashMap<>();
@@ -127,48 +134,52 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         body.put(WSContant.TAG_LASTRETRIEVED, "" + Utils.getLastRetrivedTimeForNews());
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
             @Override
-                public void onResponse(String response) {
-                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS);
-                    GetMobileMenuDataHolder holder = ((GetMobileMenuDataHolder) obj.getModel());
-                    AppLog.log(TAG, "holder.data.Status: " + holder.getMessageResult());
-                    if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
-                        //update UI and save data to table ---------------------
-                        saveDataIntoTable(holder);
-                        bindDataWithUI(holder);
-                        SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
-                        //-------------------------------------------------------
-                        //navigateToNextPage();
-                    } else {
-                        Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
-                    }
+            public void onResponse(String response) {
+                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS);
+                GetMobileMenuDataHolder holder = ((GetMobileMenuDataHolder) obj.getModel());
+                if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
+                    //update UI and save data to table ---------------------
+                    mNewsList = holder.getMessageBody().getNewsMasterMenuList();
+                    saveDataIntoTable(holder);
+                    SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+                    mNewsAdapter.notifyDataSetChanged();
+                    //-------------------------------------------------------
+                    //navigateToNextPage();
+                } else {
+                    Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
                 }
+            }
 
-                @Override
-                public void onErrorResponse(VolleyError response) {
+            @Override
+            public void onErrorResponse(VolleyError response) {
 
-                }
-            });
-            //------------------------------------------------
+            }
+        });
+        //------------------------------------------------
 
 
     }
+
 
     private void saveDataIntoTable(GetMobileMenuDataHolder holder) {
-
+        try {
+            TableNewsMaster table = new TableNewsMaster();
+            table.insert(holder.getMessageBody().getNewsMasterMenuList());
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "Exception from saveDataIntoTable");
+        }
     }
 
-    private void bindDataWithUI(GetMobileMenuDataHolder holder) {
 
-    }
-
-
-    private void navigateToNextPage(Class mClass) {
-        Intent i = new Intent(getActivity(), mClass);
+    private void navigateToNextPage(int position) {
+        Intent i = new Intent(getActivity(), NewsDetails.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constant.TAG_HOLDER, mNewsList.get(position));
         startActivity(i);
         Utils.animRightToLeft(getActivity());
     }
-
 
 
 }

@@ -171,7 +171,7 @@ public class Utils {
 //      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = df.format(c.getTime());
-        AppLog.log("formattedDate", formattedDate);
+        AppLog.log("getCurrTime ", formattedDate);
         return formattedDate;
 
     }

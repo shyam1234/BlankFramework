@@ -14,6 +14,7 @@ public interface WSContant {
     String URL_GETMOBILEHOME = URL_BASE + "/mobile/GetMobileHome";
     String URL_GETMOBILEMENU= URL_BASE + "/mobile/GetMobileMenu";
     String URL_SAVELIKENCOMMENT= URL_BASE + "/mobile/SaveLikeNComment";
+    String URL_GETMOBILEDETAILS= URL_BASE + "/mobile/GetMobileDetails";
     //-------------------------------------------------------------------------------------
     String TAG_LOGIN = "login";
     String TAG_LANG = "lang";
@@ -59,5 +60,6 @@ public interface WSContant {
     String TAG_NEWS_GET_LAST_TIME = "get_news_last_time";
     String TAG_NEWS = "news";
     String TAG_OK = "OK";
+    String TAG_GETMOBILEDETAILS = "getmobiledetails_ws";
 }
 
