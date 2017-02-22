@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
-import com.malviya.blankframework.models.GetMobileMenuDataHolder;
+import com.malviya.blankframework.database.TableDocumentMaster;
+import com.malviya.blankframework.models.GetMobileDetailsDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
@@ -20,10 +20,10 @@ import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.GetPicassoImage;
-import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,17 +34,23 @@ import java.util.Map;
 public class NewsDetails extends AppCompatActivity implements View.OnClickListener {
 
     private TableNewsMasterDataModel mNewsMasterDataModel;
+    private ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> mNewsDetailsList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_attendance_details);
+        setContentView(R.layout.activity_news_details);
+        init();
+        initView();
+        fetchDataFromServer();
+    }
+
+    private void init() {
+        mNewsDetailsList = new ArrayList<>();
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
             mNewsMasterDataModel = (TableNewsMasterDataModel) bundle.getSerializable(Constant.TAG_HOLDER);
         }
-        initView();
-        fetchDataFromServer();
     }
 
     private void initView() {
@@ -77,18 +83,10 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onResponse(String response) {
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS);
-                GetMobileMenuDataHolder holder = ((GetMobileMenuDataHolder) obj.getModel());
-                if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
-                    //update UI and save data to table ---------------------
-                    //mNewsList = holder.getMessageBody().getNewsMasterMenuList();
-                    //saveDataIntoTable(holder);
-                    SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
-                    //mNewsAdapter.notifyDataSetChanged();
-                    //-------------------------------------------------------
-                    //navigateToNextPage();
-                } else {
-                    Toast.makeText(NewsDetails.this, R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
-                }
+                GetMobileDetailsDataModel holder = ((GetMobileDetailsDataModel) obj.getModel());
+                holder.getMessageBody().get(0).getMessageBodyHTML();
+                saveDataIntoTable(holder);
+                mNewsDetailsList = holder.getMessageBody();
             }
 
             @Override
@@ -98,6 +96,11 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+    private void saveDataIntoTable(GetMobileDetailsDataModel holder) {
+        TableDocumentMaster table = new TableDocumentMaster();
+        table.insert(holder.getDocuments());
+        table.closeDB();
+    }
 
 
     @Override

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Admin on 30-12-2016.
  */
 
-public class GetMobileMenuDataHolder extends IModel {
+public class GetMobileMenuDataModel extends IModel {
     /*{
           "MessageResult": "OK",
           "MessageBody": {
@@ -46,7 +46,7 @@ public class GetMobileMenuDataHolder extends IModel {
 
 
 
-    public GetMobileMenuDataHolder.MessageBody getMessageBody() {
+    public GetMobileMenuDataModel.MessageBody getMessageBody() {
         return MessageBody;
     }
 

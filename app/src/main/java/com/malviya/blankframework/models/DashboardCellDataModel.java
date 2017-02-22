@@ -4,7 +4,7 @@ package com.malviya.blankframework.models;
  * Created by Admin on 11-12-2016.
  */
 
-public class DashboardCellDataHolder {
+public class DashboardCellDataModel {
     private int menuImage;
     private String text;
     private int alert_count;

@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.fragments.HomeFragment;
-import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.models.DashboardCellDataModel;
 import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
@@ -168,8 +168,8 @@ public class TableParentStudentMenuDetails {
 
     private int position;
 
-    public ArrayList<DashboardCellDataHolder> getHomeFragmentData(int parentId, int studentId) {
-        ArrayList<DashboardCellDataHolder> list = new ArrayList<DashboardCellDataHolder>();
+    public ArrayList<DashboardCellDataModel> getHomeFragmentData(int parentId, int studentId) {
+        ArrayList<DashboardCellDataModel> list = new ArrayList<DashboardCellDataModel>();
         try {
             if (mDB != null) {
                 String selectQuery = "Select * from " + TABLE_NAME
@@ -187,7 +187,7 @@ public class TableParentStudentMenuDetails {
                 if (cursor.moveToFirst()) {
                     do {
                         // get the data into array, or class variable
-                        DashboardCellDataHolder model = new DashboardCellDataHolder();
+                        DashboardCellDataModel model = new DashboardCellDataModel();
                         model.setColor(HomeFragment.mMenuColor[position]);
                         model.setMenuImage(HomeFragment.mMenuImage[position]);
                         model.setUniversity_id(cursor.getInt(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_ID)));

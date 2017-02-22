@@ -20,7 +20,7 @@ import com.malviya.blankframework.adapters.NewsAdapter;
 import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableNewsMaster;
-import com.malviya.blankframework.models.GetMobileMenuDataHolder;
+import com.malviya.blankframework.models.GetMobileMenuDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
@@ -136,7 +136,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(String response) {
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS);
-                GetMobileMenuDataHolder holder = ((GetMobileMenuDataHolder) obj.getModel());
+                GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
                 if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
                     //update UI and save data to table ---------------------
                     mNewsList = holder.getMessageBody().getNewsMasterMenuList();
@@ -161,7 +161,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void saveDataIntoTable(GetMobileMenuDataHolder holder) {
+    private void saveDataIntoTable(GetMobileMenuDataModel holder) {
         try {
             TableNewsMaster table = new TableNewsMaster();
             table.insert(holder.getMessageBody().getNewsMasterMenuList());

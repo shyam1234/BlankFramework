@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Admin on 30-12-2016.
  */
 
-public class GetMobileHomeDataHolder extends IModel {
+public class GetMobileHomeDataModel extends IModel {
 
     @SerializedName("University")
     public ArrayList<LoginDataModel.University> universityArrayList;
@@ -23,7 +23,7 @@ public class GetMobileHomeDataHolder extends IModel {
     public ArrayList<LoginDataModel.ParentStudentMenuDetails> ParentStudentMenuDetailsArrayList;
 
 
-    public GetMobileHomeDataHolder() {
+    public GetMobileHomeDataModel() {
         universityArrayList = new ArrayList<LoginDataModel.University>();
         parentProfileArrayList = new ArrayList<LoginDataModel.ParentProfile>();
         studentProfilesArrayList = new ArrayList<LoginDataModel.StudentProfiles>();

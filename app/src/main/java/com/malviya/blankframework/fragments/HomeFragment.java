@@ -19,7 +19,7 @@ import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.HomeAdapter;
 import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
-import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.models.DashboardCellDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
 
     private GridView mGridViewCell;
     private HomeAdapter mAdapter;
-    private ArrayList<DashboardCellDataHolder> mCellList;
+    private ArrayList<DashboardCellDataModel> mCellList;
    // private ArrayList<TableStudentDetailsDataModel> mUniver;
     private ImageView mImageViewUnivercityLogo;
     private TextView mTextViewUnivercityText;

@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.models.DashboardCellDataHolder;
+import com.malviya.blankframework.models.DashboardCellDataModel;
 
 import java.util.ArrayList;
 
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 public class HomeAdapter extends BaseAdapter {
 
     private final Context mContext;
-    private final ArrayList<DashboardCellDataHolder> mCellList;
+    private final ArrayList<DashboardCellDataModel> mCellList;
 
-    public HomeAdapter(Context pContext, ArrayList<DashboardCellDataHolder> pCellList) {
+    public HomeAdapter(Context pContext, ArrayList<DashboardCellDataModel> pCellList) {
         mContext = pContext;
         mCellList = pCellList;
     }
@@ -34,7 +34,7 @@ public class HomeAdapter extends BaseAdapter {
     }
 
     @Override
-    public DashboardCellDataHolder getItem(int i) {
+    public DashboardCellDataModel getItem(int i) {
         return mCellList.get(i);
     }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Admin on 22-02-2017.
  */
 
-public class GetMobileDetailsDataHolder extends IModel
+public class GetMobileDetailsDataModel extends IModel
 {
  /*{
   "MessageBody": [

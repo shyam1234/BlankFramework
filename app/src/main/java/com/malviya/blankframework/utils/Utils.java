@@ -19,7 +19,7 @@ import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.interfaces.ICallBack;
-import com.malviya.blankframework.models.GetMobileHomeDataHolder;
+import com.malviya.blankframework.models.GetMobileHomeDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableParentStudentMenuDetailsDataModel;
@@ -289,8 +289,8 @@ public class Utils {
     private static void initTableAndDisplay(String response, ICallBack pCallback) {
 
         if (response != null) {
-            ParseResponse obj = new ParseResponse(response, GetMobileHomeDataHolder.class, ModelFactory.MODEL_GETMOBILEHOME);
-            GetMobileHomeDataHolder holder = ((GetMobileHomeDataHolder) obj.getModel());
+            ParseResponse obj = new ParseResponse(response, GetMobileHomeDataModel.class, ModelFactory.MODEL_GETMOBILEHOME);
+            GetMobileHomeDataModel holder = ((GetMobileHomeDataModel) obj.getModel());
             for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
                 AppLog.log(TAG, "IsDefault: " + parentStudentAsso.IsDefault);
                 if (parentStudentAsso.IsDefault) {
@@ -308,7 +308,7 @@ public class Utils {
 
     }
 
-    private static void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataHolder holder) {
+    private static void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataModel holder) {
         try {
             AppLog.log("Utils ", "bindDataWithParentStudentMenuDetailsDataModel");
             ArrayList<TableParentStudentMenuDetailsDataModel> list = new ArrayList<TableParentStudentMenuDetailsDataModel>();
