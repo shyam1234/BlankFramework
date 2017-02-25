@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
+import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.GetPicassoImage;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
  */
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
+    private static final java.lang.String TAG = "NewsAdapter";
     private Context mContext;
     private ArrayList<TableNewsMasterDataModel> mList;
     private View.OnClickListener mListener;
@@ -28,6 +30,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         mContext = context;
         mList = pList;
         mListener = pListener;
+        AppLog.log(TAG," +++ NewsAdapter ++++ ");
     }
 
     @Override
@@ -39,6 +42,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        AppLog.log(TAG," +++ onBindViewHolder ++++ ");
         GetPicassoImage.getImage(mContext,mList.get(position).getThumbNailPath(),holder.imageViewRhumbnil);
         holder.textViewPublishBy.setText(mList.get(position).getPublishedBy());
         holder.textViewRefTitle.setText(mList.get(position).getReferenceTitle());

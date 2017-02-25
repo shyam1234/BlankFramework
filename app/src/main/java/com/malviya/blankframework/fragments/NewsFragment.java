@@ -49,7 +49,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
 
 
     public NewsFragment() {
-
+          AppLog.log(TAG,"NewsFragment");
     }
 
     @Override
@@ -75,21 +75,27 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        AppLog.log(TAG,"onActivityCreated");
         initView();
         fetchDataFromServer();
     }
 
     private void initView() {
+        AppLog.log(TAG,"initView 111 ");
         TextView mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_news);
+        AppLog.log(TAG,"initView 222 ");
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
+        AppLog.log(TAG,"initView 333 ");
         GetPicassoImage.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
+        AppLog.log(TAG,"initView 444 ");
         ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
         initRecyclerView();
+        AppLog.log(TAG,"initView 555 ");
 
     }
 
@@ -135,12 +141,17 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
             @Override
             public void onResponse(String response) {
+                mNewsList.clear();
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS);
                 GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
+                AppLog.log(TAG,"fetchDataFromServe1r3333 "+mNewsList.size());
                 if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
                     //update UI and save data to table ---------------------
+                    AppLog.log(TAG,"fetchDataFromServe1r "+mNewsList.size());
                     mNewsList = holder.getMessageBody().getNewsMasterMenuList();
+                    AppLog.log(TAG,"fetchDataFromServe2r "+mNewsList.size());
                     saveDataIntoTable(holder);
+                    AppLog.log(TAG,"fetchDataFromServe3r "+mNewsList.size());
                     SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
                     mNewsAdapter.notifyDataSetChanged();
                     //-------------------------------------------------------
