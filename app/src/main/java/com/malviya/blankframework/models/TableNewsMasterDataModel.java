@@ -22,7 +22,7 @@ public class TableNewsMasterDataModel implements Serializable{
     private String ShortBody;
     @SerializedName("NewsBody")
     private String NewsBody;
-    @SerializedName("ThumbNailPath")
+    @SerializedName("ThumbnailPath")
     private String ThumbNailPath;
     @SerializedName("PublishedOn")
     private String PublishedOn;

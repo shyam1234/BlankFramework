@@ -46,6 +46,7 @@ public class GetPicassoImage {
      * @param imageView
      */
     public static void getImage(Context pContext, String imgURL, ImageView imageView) {
+        AppLog.log(" getImage Picasso: ", imgURL);
         if (imgURL != null) {
             Picasso.with(pContext)
                     .load(imgURL)
@@ -84,14 +85,14 @@ public class GetPicassoImage {
      * this method renders square image by Picasso
      *
      * @param pContext
-     * @param url
+     * @param imgURL
      * @param imageView
      */
-    public static void setSquareImageByPicasso(Context pContext, String url, ImageView imageView) {
-        if (url != null) {
-
+    public static void setSquareImageByPicasso(Context pContext, String imgURL, ImageView imageView) {
+        if (imgURL != null) {
+            AppLog.log(" setSquareImageByPicasso Picasso: ", imgURL);
             Picasso.with(pContext)
-                    .load(url)
+                    .load(imgURL)
                     .fit()
                     .transform(new SquareImageTransform())
                     .into(imageView);

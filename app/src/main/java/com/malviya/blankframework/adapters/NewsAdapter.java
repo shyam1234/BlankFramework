@@ -30,7 +30,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         mContext = context;
         mList = pList;
         mListener = pListener;
-        AppLog.log(TAG," +++ NewsAdapter ++++ ");
+        AppLog.log(TAG," +++ NewsAdapter +pList.size()+++ "+pList.size());
     }
 
     @Override

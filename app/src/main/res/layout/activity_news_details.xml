@@ -3,88 +3,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="12dp">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/lin_news_details_holder"
+        <include
+            android:id="@+id/inc_home_header"
+            layout="@layout/inc_main_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_border_black_with_corners"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textview_news_details_reference_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lin_news_details_holder"
-            android:layout_marginTop="5dp"
-            android:text="Ref Title"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-            android:textColor="@color/colorGreen" />
+            android:visibility="visible"></include>
 
         <RelativeLayout
-
-            android:id="@+id/rel_news_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textview_news_details_reference_title">
+            android:background="@color/colorWhite"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:id="@+id/lin_news_details_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rectangle_border_black_with_corners"
+                android:orientation="vertical">
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/textview_news_details_published_by"
-                android:layout_width="wrap_content"
+                android:id="@+id/textview_news_details_reference_title"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Published By : "
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-                android:textColor="@color/colorLightGray" />
+                android:layout_below="@+id/lin_news_details_holder"
+                android:layout_marginTop="5dp"
+                android:text="Ref Title"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                android:textColor="@color/colorGreen" />
 
-            <TextView
-                android:id="@+id/textview_news_details_published_time"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+
+                android:id="@+id/rel_news_details"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/textview_news_details_published_by"
-                android:text="Time"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-                android:textColor="@color/colorLightGray" />
+                android:layout_below="@+id/textview_news_details_reference_title">
+
+                <TextView
+                    android:id="@+id/textview_news_details_published_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Published By : "
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                    android:textColor="@color/colorLightGray" />
+
+                <TextView
+                    android:id="@+id/textview_news_details_published_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/textview_news_details_published_by"
+                    android:text="Time"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                    android:textColor="@color/colorLightGray" />
+            </RelativeLayout>
+
+
+            <WebView
+                android:id="@+id/webview_news_row_shortbody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/lin_news_details_like_comment"
+                android:layout_below="@+id/rel_news_details"
+                android:layout_marginTop="5dp"
+                tools:ignore="WebViewLayout"></WebView>
+
+            <LinearLayout
+                android:id="@+id/lin_news_details_like_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="12dp">
+
+                <include layout="@layout/inc_like_comment" />
+            </LinearLayout>
+
         </RelativeLayout>
 
-
-        <WebView
-            android:id="@+id/webview_news_row_shortbody"
+        <!--bottom sheet layout-->
+        <FrameLayout
+            android:id="@+id/news_details_design_bottom_sheet"
+            style="?attr/bottomSheetStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/lin_news_details_like_comment"
-            android:layout_below="@+id/rel_news_details"
-            android:layout_marginTop="5dp"
-            tools:ignore="WebViewLayout"></WebView>
-
-        <LinearLayout
-            android:id="@+id/lin_news_details_like_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="12dp">
-
-            <include layout="@layout/inc_like_comment" />
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <!--bottom sheet layout-->
-    <FrameLayout
-        android:id="@+id/news_details_design_bottom_sheet"
-        style="?attr/bottomSheetStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        app:layout_behavior="@string/bottom_sheet_behavior" />
+            android:layout_gravity="center_horizontal"
+            app:layout_behavior="@string/bottom_sheet_behavior" />
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

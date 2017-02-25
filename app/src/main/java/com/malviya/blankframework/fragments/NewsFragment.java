@@ -94,7 +94,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
-        initRecyclerView();
+        //initRecyclerView();
         AppLog.log(TAG,"initView 555 ");
 
     }
@@ -152,8 +152,9 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
                     AppLog.log(TAG,"fetchDataFromServe2r "+mNewsList.size());
                     saveDataIntoTable(holder);
                     AppLog.log(TAG,"fetchDataFromServe3r "+mNewsList.size());
+                    //mNewsAdapter.notifyDataSetChanged();
                     SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
-                    mNewsAdapter.notifyDataSetChanged();
+                    initRecyclerView();
                     //-------------------------------------------------------
                     //navigateToNextPage();
                 } else {

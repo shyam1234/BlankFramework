@@ -56,7 +56,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private void initView() {
         //------------------------------------
         TextView mTextViewTitle = (TextView) findViewById(R.id.textview_title);
-        mTextViewTitle.setText(R.string.title_news_details);
+         mTextViewTitle.setText(R.string.title_news_details);
         ImageView mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
         GetPicassoImage.setCircleImageByPicasso(this, UserInfo.selectedStudentImageURL, mImgProfile);
