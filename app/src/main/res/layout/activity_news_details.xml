@@ -23,27 +23,35 @@
             android:background="@color/colorWhite"
             android:padding="12dp">
 
-            <LinearLayout
-                android:id="@+id/lin_news_details_holder"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager_news_details"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rectangle_border_black_with_corners"
+                android:layout_height="150dp"
                 android:orientation="vertical">
 
-            </LinearLayout>
+            </android.support.v4.view.ViewPager>
+
+            <LinearLayout
+                android:id="@+id/viewPagerCountDots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewpager_news_details"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="4dp"
+                android:gravity="center"
+                android:orientation="horizontal" />
 
             <TextView
                 android:id="@+id/textview_news_details_reference_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lin_news_details_holder"
+                android:layout_below="@+id/viewPagerCountDots"
                 android:layout_marginTop="5dp"
-                android:text="Ref Title"
+                android:text=""
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                 android:textColor="@color/colorGreen" />
 
             <RelativeLayout
-
                 android:id="@+id/rel_news_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -54,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="Published By : "
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                     android:textColor="@color/colorLightGray" />
 
@@ -63,21 +71,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/textview_news_details_published_by"
-                    android:text="Time"
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                     android:textColor="@color/colorLightGray" />
             </RelativeLayout>
 
-
-            <WebView
-                android:id="@+id/webview_news_row_shortbody"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/lin_news_details_like_comment"
                 android:layout_below="@+id/rel_news_details"
-                android:layout_marginTop="5dp"
-                tools:ignore="WebViewLayout"></WebView>
+                android:layout_marginTop="5dp">
+
+                <WebView
+                    android:id="@+id/webview_news_row_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="WebViewLayout"></WebView>
+            </ScrollView>
 
             <LinearLayout
                 android:id="@+id/lin_news_details_like_comment"
@@ -88,10 +101,8 @@
 
                 <include layout="@layout/inc_like_comment" />
             </LinearLayout>
-
         </RelativeLayout>
-
-        <!--bottom sheet layout-->
+        <!--bottom sheet layo<ut-->
         <FrameLayout
             android:id="@+id/news_details_design_bottom_sheet"
             style="?attr/bottomSheetStyle"

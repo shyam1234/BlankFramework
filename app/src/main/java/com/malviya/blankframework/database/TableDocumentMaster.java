@@ -41,7 +41,8 @@ public class TableDocumentMaster {
             + COL_DOOCUMENT_EXTN + " varchar(10) , "
             + COL_IS_ATTACHMENT + " bit , "
             + COL_MEDIATYPE + " char(1) , "
-            + COL_SORTORDER + " int "
+            + COL_SORTORDER + " int , "
+            + COL_DOCUMENT_ID + " varchar(100) "
             + " )";
 
     //For Foreign key
@@ -104,10 +105,11 @@ public class TableDocumentMaster {
                     value.put(COL_MEDIATYPE, holder.getMediatype());
                     value.put(COL_MENUCODE, holder.getMenucode());
                     value.put(COL_SORTORDER, holder.getSortorder());
+                    value.put(COL_DOCUMENT_ID, holder.getDocumentId());
 
 
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TABLE_NAME + " inserted: ", holder.getDocumentname() + " row: " + row);
+                    AppLog.log(TAG, TABLE_NAME + " inserted: "+ holder.getDocumentname() + " row: " + row);
                 }
             }
         } catch (Exception e) {
@@ -122,13 +124,13 @@ public class TableDocumentMaster {
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
-                    AppLog.log("isExists ", "" + true);
+                    AppLog.log(TAG, "isExists "+ true);
                     return true;
                 } while (cursor.moveToNext());
             }
             cursor.close();
         } catch (Exception e) {
-            AppLog.errLog("isIDExists", e.getMessage());
+            AppLog.errLog(TAG, "isExists "+ e.getMessage());
         }
         return false;
     }

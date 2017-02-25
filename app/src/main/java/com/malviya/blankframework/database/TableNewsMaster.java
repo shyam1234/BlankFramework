@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.models.GetMobileDetailsDataModel;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
@@ -51,8 +53,8 @@ public class TableNewsMaster {
             + COL_NEWSID + " int, "
             + COL_NEWSTITLE + " varchar(100), "
             + COL_SHORTBODY + "  varchar(100) , "
-            + COL_NEWSBODY + "  varchar(100) , "
-            + COL_THUMBNAILPATH + " varchar(100), "
+            + COL_NEWSBODY + "  varchar(1000) , "
+            + COL_THUMBNAILPATH + " varchar(255), "
             + COL_PUBLISHEDON + " datetime , "
             + COL_PUBLISHEDBY + " char(30) , "
             + COL_TOTALCOMMENTS + " int , "
@@ -137,7 +139,7 @@ public class TableNewsMaster {
                     value.put(COL_EXPIRYDATE, holder.getExpiryDate());
 
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TABLE_NAME + " inserted: ", holder.getNewsId() + " row: " + row);
+                    AppLog.log(TAG, TABLE_NAME + " inserted: "+ holder.getNewsId() + " row: " + row);
                 }
             }
         } catch (Exception e) {
@@ -167,7 +169,7 @@ public class TableNewsMaster {
         try {
             if (mDB != null) {
                 long row = mDB.delete(TABLE_NAME, COL_NEWSID + "=?", new String[]{"" + holder.getNewsId()});
-                AppLog.log("deleteRecord ", "" + row);
+                AppLog.log(TAG,"deleteRecord row: " + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
@@ -179,4 +181,23 @@ public class TableNewsMaster {
     }
 
 
+    public boolean insertMessageBody(String pRefId, ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> pMessageBody) {
+        try {
+            if (mDB != null) {
+                for(GetMobileDetailsDataModel.MessageBodyDataModel obj : pMessageBody) {
+                    ContentValues value = new ContentValues();
+                    value.put(WSContant.TAG_NEWSBODY, obj.getMessageBodyHTML());
+                    long row = mDB.update(TABLE_NAME,value, COL_REFERENCEID + "=?", new String[]{pRefId});
+                    AppLog.log(TAG,"insertMessageBody row " + row);
+                }
+                return true;
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "insertMessageBody from TableNewsMaster" + e.getMessage());
+        }
+        return false;
+
+    }
 }

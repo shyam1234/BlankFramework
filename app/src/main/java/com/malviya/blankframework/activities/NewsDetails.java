@@ -2,23 +2,30 @@ package com.malviya.blankframework.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.adapters.CustomPagerAdapter;
 import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableDocumentMaster;
+import com.malviya.blankframework.database.TableNewsMaster;
 import com.malviya.blankframework.models.GetMobileDetailsDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.TableDocumentMasterDataModel;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
+import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
@@ -31,10 +38,20 @@ import java.util.Map;
  * Created by 23508 on 2/7/2017.
  */
 
-public class NewsDetails extends AppCompatActivity implements View.OnClickListener {
+public class NewsDetails extends AppCompatActivity implements View.OnClickListener, ViewPager.OnPageChangeListener {
 
+    private static final java.lang.String TAG = "NewsDetails";
     private TableNewsMasterDataModel mNewsMasterDataModel;
-    private ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> mNewsDetailsList;
+    private TextView mTextViewRefTitle;
+    private TextView mTextViewPublishedBy;
+    private TextView mTextViewTime;
+    private WebView mWebViewNewsBody;
+    private GetMobileDetailsDataModel mMobileDetailsHolder;
+    private ViewPager mViewPagerNewsImages;
+    private CustomPagerAdapter mAdapter;
+    private int dotsCount;
+    private ImageView[] dots;
+    private LinearLayout pager_indicator;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,20 +60,23 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         init();
         initView();
         fetchDataFromServer();
+
     }
 
     private void init() {
-        mNewsDetailsList = new ArrayList<>();
+        //mNewsDetailsMessageBodyList = new ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel>();
+        // mDocumentList = new ArrayList<TableDocumentMasterDataModel>();
         Bundle bundle = getIntent().getExtras();
-        if(bundle!=null){
+        if (bundle != null) {
             mNewsMasterDataModel = (TableNewsMasterDataModel) bundle.getSerializable(Constant.TAG_HOLDER);
+            AppLog.log(TAG, "ref id: " + mNewsMasterDataModel.getReferenceId());
         }
     }
 
     private void initView() {
         //------------------------------------
         TextView mTextViewTitle = (TextView) findViewById(R.id.textview_title);
-         mTextViewTitle.setText(R.string.title_news_details);
+        mTextViewTitle.setText(R.string.title_news_details);
         ImageView mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
         GetPicassoImage.setCircleImageByPicasso(this, UserInfo.selectedStudentImageURL, mImgProfile);
@@ -64,9 +84,16 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
+        mTextViewRefTitle = (TextView) findViewById(R.id.textview_news_details_reference_title);
+        mTextViewPublishedBy = (TextView) findViewById(R.id.textview_news_details_published_by);
+        mTextViewTime = (TextView) findViewById(R.id.textview_news_details_published_time);
+        //--------------------------------
+        mViewPagerNewsImages = (ViewPager) findViewById(R.id.viewpager_news_details);
+        mWebViewNewsBody = (WebView) findViewById(R.id.webview_news_row_body);
+        pager_indicator = (LinearLayout) findViewById(R.id.viewPagerCountDots);
+        mViewPagerNewsImages.setOnPageChangeListener(this);
+
     }
-
-
 
 
     private void fetchDataFromServer() {
@@ -78,15 +105,17 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         //-Utils-for body
         Map<String, String> body = new HashMap<>();
         body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
-        body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel!=null?mNewsMasterDataModel.getReferenceId():""));
+        body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEDETAILS, header, body, WSContant.TAG_GETMOBILEDETAILS, new IWSRequest() {
             @Override
             public void onResponse(String response) {
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS);
-                GetMobileDetailsDataModel holder = ((GetMobileDetailsDataModel) obj.getModel());
-                holder.getMessageBody().get(0).getMessageBodyHTML();
-                saveDataIntoTable(holder);
-                mNewsDetailsList = holder.getMessageBody();
+                mMobileDetailsHolder = ((GetMobileDetailsDataModel) obj.getModel());
+                mMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML();
+                //mNewsDetailsMessageBodyList = mMobileDetailsHolder.getMessageBody();
+                //mDocumentList = mMobileDetailsHolder.getDocuments();
+                saveDataIntoTable("" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""), mMobileDetailsHolder.getMessageBody(), mMobileDetailsHolder.getDocuments());
+                bindDataWithUI();
             }
 
             @Override
@@ -96,9 +125,41 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         });
     }
 
-    private void saveDataIntoTable(GetMobileDetailsDataModel holder) {
+    private void bindDataWithUI() {
+        if (mMobileDetailsHolder != null) {
+            mTextViewRefTitle.setText(mNewsMasterDataModel.getReferenceTitle());
+            mTextViewPublishedBy.setText(mNewsMasterDataModel.getPublishedBy());
+            mTextViewTime.setText(mNewsMasterDataModel.getPublishedOn());
+            mWebViewNewsBody.loadData(mMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML(), "text/html; charset=utf-8", "utf-8");
+            //--------------------------------------------
+            String[] temp = new String[mMobileDetailsHolder.getDocuments().size()];
+            for (int index = 0; index < mMobileDetailsHolder.getDocuments().size(); index++) {
+                TableDocumentMasterDataModel obj = mMobileDetailsHolder.getDocuments().get(index);
+                if (obj.getMediatype().equalsIgnoreCase(WSContant.TAG_IMAGE)) {
+                    temp[index] = obj.getDocumentpath();
+                } else {
+                    temp = null;
+                }
+                if (temp != null) {
+                    mAdapter = new CustomPagerAdapter(this, temp);
+                    mViewPagerNewsImages.setAdapter(mAdapter);
+                    mViewPagerNewsImages.setCurrentItem(0);
+                    setUiPageViewController();
+                }
+            }
+        }
+
+    }
+
+    private void saveDataIntoTable(String pRefId, ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> pMessageBodyList, ArrayList<TableDocumentMasterDataModel> pDocumentList) {
+        TableNewsMaster newsTable = new TableNewsMaster();
+        newsTable.openDB(this);
+        newsTable.insertMessageBody(pRefId, pMessageBodyList);
+        newsTable.closeDB();
+
         TableDocumentMaster table = new TableDocumentMaster();
-        table.insert(holder.getDocuments());
+        table.openDB(this);
+        table.insert(pDocumentList);
         table.closeDB();
     }
 
@@ -117,10 +178,58 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imageview_back:
                 onBackPressed();
                 break;
         }
+    }
+
+
+    private void setUiPageViewController() {
+        dotsCount = mAdapter.getCount();
+        dots = new ImageView[dotsCount];
+
+        for (int i = 0; i < dotsCount; i++) {
+            dots[i] = new ImageView(this);
+            dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(4, 0, 4, 0);
+            pager_indicator.addView(dots[i], params);
+        }
+
+        dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
+    }
+
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        for (int i = 0; i < dotsCount; i++) {
+            dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
+        }
+
+        dots[position].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
+
+        if (position + 1 == dotsCount) {
+           // btnNext.setVisibility(View.GONE);
+           // btnFinish.setVisibility(View.VISIBLE);
+        } else {
+           // btnNext.setVisibility(View.VISIBLE);
+           // btnFinish.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }

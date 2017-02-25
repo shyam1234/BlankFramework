@@ -47,7 +47,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.textViewPublishBy.setText(mList.get(position).getPublishedBy());
         holder.textViewRefTitle.setText(mList.get(position).getReferenceTitle());
         holder.textViewPublishedTime.setText(mList.get(position).getPublishedOn());
-        holder.webviewShortBody.loadData(mList.get(position).getShortBody(), "text/html", "UTF-8");
+        holder.webviewShortBody.loadData(mList.get(position).getShortBody(),"text/html; charset=utf-8", "utf-8");
         holder.textViewTag.setText(mList.get(position).getMenuCode());
         holder.textViewLike.setText(mList.get(position).getTotalLikes());
         holder.textViewComment.setText(mList.get(position).getTotalComments());

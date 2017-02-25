@@ -47,7 +47,6 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     private ArrayList<TableNewsMasterDataModel> mNewsList;
     private NewsAdapter mNewsAdapter;
 
-
     public NewsFragment() {
           AppLog.log(TAG,"NewsFragment");
     }
@@ -189,9 +188,11 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constant.TAG_HOLDER, mNewsList.get(position));
+        i.putExtras(bundle);
         startActivity(i);
         Utils.animRightToLeft(getActivity());
     }
+
 
 
 }
