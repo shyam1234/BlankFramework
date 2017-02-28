@@ -110,6 +110,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         Map<String, String> body = new HashMap<>();
         body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
         body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
+        Utils.showProgressBar(this);
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEDETAILS, header, body, WSContant.TAG_GETMOBILEDETAILS, new IWSRequest() {
             @Override
             public void onResponse(String response) {
@@ -120,11 +121,12 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 //mDocumentList = mMobileDetailsHolder.getDocuments();
                 saveDataIntoTable("" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""), mMobileDetailsHolder.getMessageBody(), mMobileDetailsHolder.getDocuments());
                 bindDataWithUI();
+                Utils.dismissProgressBar();
             }
 
             @Override
             public void onErrorResponse(VolleyError response) {
-
+                  Utils.dismissProgressBar();
             }
         });
     }
@@ -136,8 +138,6 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             mTextViewTime.setText(mNewsMasterDataModel.getPublishedOn());
             mWebViewNewsBody.loadData(mMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML(), "text/html; charset=utf-8", "utf-8");
             //--------------------------------------------
-
-
             if (mMobileDetailsHolder.getDocuments() != null) {
                 mCustomPagerAdapter = new CustomPagerAdapter(this, mMobileDetailsHolder.getDocuments(), this);
                 mViewPagerNewsImages.setAdapter(mCustomPagerAdapter);

@@ -137,6 +137,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
         body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
         body.put(WSContant.TAG_LASTRETRIEVED, "" + Utils.getLastRetrivedTimeForNews());
+        Utils.showProgressBar(getContext());
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
             @Override
             public void onResponse(String response) {
@@ -154,16 +155,18 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
                     //mNewsAdapter.notifyDataSetChanged();
                     SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
                     initRecyclerView();
+
                     //-------------------------------------------------------
                     //navigateToNextPage();
                 } else {
                     Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
                 }
+                Utils.dismissProgressBar();
             }
 
             @Override
             public void onErrorResponse(VolleyError response) {
-
+                Utils.dismissProgressBar();
             }
         });
         //------------------------------------------------
