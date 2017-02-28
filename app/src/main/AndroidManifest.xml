@@ -85,6 +85,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <activity
+            android:name=".activities.NewsScreenSlidePagerActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <receiver android:name=".utils.ConnectivityReceiver" />
 

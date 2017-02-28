@@ -1,5 +1,6 @@
 package com.malviya.blankframework.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -29,6 +30,7 @@ import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
+import com.malviya.blankframework.utils.ZoomOutPageTransformer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +54,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private int dotsCount;
     private ImageView[] dots;
     private LinearLayout pager_indicator;
+    //private  String[] mImagesList = new String[1];
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,7 +96,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         mWebViewNewsBody = (WebView) findViewById(R.id.webview_news_row_body);
         pager_indicator = (LinearLayout) findViewById(R.id.viewPagerCountDots);
         mViewPagerNewsImages.addOnPageChangeListener(this);
-
+        mViewPagerNewsImages.setPageTransformer(true, new ZoomOutPageTransformer());
     }
 
 
@@ -132,24 +136,33 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             mTextViewTime.setText(mNewsMasterDataModel.getPublishedOn());
             mWebViewNewsBody.loadData(mMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML(), "text/html; charset=utf-8", "utf-8");
             //--------------------------------------------
-            String[] temp = new String[mMobileDetailsHolder.getDocuments().size()];
-            for (int index = 0; index < mMobileDetailsHolder.getDocuments().size(); index++) {
-                TableDocumentMasterDataModel obj = mMobileDetailsHolder.getDocuments().get(index);
-                if (obj.getMediatype().equalsIgnoreCase(WSContant.TAG_IMAGE)) {
-                    temp[index] = obj.getDocumentpath();
-                } else {
-                    temp = null;
-                }
-                if (temp != null) {
-                    mCustomPagerAdapter = new CustomPagerAdapter(this, temp);
-                    mViewPagerNewsImages.setAdapter(mCustomPagerAdapter);
-                    mViewPagerNewsImages.setCurrentItem(0);
-                }
+
+
+            if (mMobileDetailsHolder.getDocuments() != null) {
+                mCustomPagerAdapter = new CustomPagerAdapter(this, mMobileDetailsHolder.getDocuments(), this);
+                mViewPagerNewsImages.setAdapter(mCustomPagerAdapter);
+                mViewPagerNewsImages.setCurrentItem(0);
             }
+
+//            for (int index = 0; index < mMobileDetailsHolder.getDocuments().size(); index++) {
+//                TableDocumentMasterDataModel obj = mMobileDetailsHolder.getDocuments().get(index);
+//                if (obj.getMediatype().equalsIgnoreCase(WSContant.TAG_IMAGE)) {
+//                    mImagesList[index] = obj.getDocumentpath();
+//                } else  if (obj.getMediatype().equalsIgnoreCase(WSContant.TAG_VIDEO)) {
+//                    mImagesList[index] = obj.getDocumentpath();
+//                } else {
+//                    mImagesList = null;
+//                }
+//                if (mImagesList != null) {
+//                    mCustomPagerAdapter = new CustomPagerAdapter(this, mImagesList, this);
+//                    mViewPagerNewsImages.setAdapter(mCustomPagerAdapter);
+//                    mViewPagerNewsImages.setCurrentItem(0);
+//                }
+//            }
             setUiPageViewController();
         }
-
     }
+
 
     private void saveDataIntoTable(String pRefId, ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> pMessageBodyList, ArrayList<TableDocumentMasterDataModel> pDocumentList) {
         TableNewsMaster newsTable = new TableNewsMaster();
@@ -182,6 +195,12 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             case R.id.imageview_back:
                 onBackPressed();
                 break;
+            case R.id.imageView:
+                int posi = (Integer)v.getTag();
+                //AppLog.log(TAG,"viewpager_news_details "+ posi);
+                //AppLog.log(TAG,"viewpager_news mImagesList size "+ mImagesList.length);
+                navigateToNextPage(posi);
+                break;
         }
     }
 
@@ -189,11 +208,9 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private void setUiPageViewController() {
         dotsCount = mCustomPagerAdapter.getCount();
         dots = new ImageView[dotsCount];
-
         for (int i = 0; i < dotsCount; i++) {
             dots[i] = new ImageView(this);
             dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
-
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
@@ -203,7 +220,9 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         }
 
         dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
+
     }
+
 
 
     @Override
@@ -231,5 +250,18 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    private void navigateToNextPage(int posi) {
+        Intent i = new Intent(this, NewsScreenSlidePagerActivity.class);
+        //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Bundle bundle = new Bundle();
+        if (mMobileDetailsHolder.getDocuments() != null) {
+            bundle.putSerializable(Constant.TAG_HOLDER, mMobileDetailsHolder.getDocuments());
+        }
+        bundle.putInt(Constant.TAG_POSITION, posi);
+        i.putExtras(bundle);
+        startActivity(i);
+        Utils.animRightToLeft(this);
     }
 }

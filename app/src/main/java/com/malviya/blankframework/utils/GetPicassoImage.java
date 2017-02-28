@@ -11,6 +11,7 @@ import com.squareup.picasso.Picasso;
  */
 
 public class GetPicassoImage {
+    private static final String TAG = "GetPicassoImage";
     /**
      * this method uses to render image by Picasso
      *
@@ -67,17 +68,21 @@ public class GetPicassoImage {
      * @param imageView
      */
     public static void setCircleImageByPicasso(Context pContext, String url, ImageView imageView) {
-        AppLog.log("setCircleImageByPicasso: ", url);
-        if (url != null) {
-            Picasso.with(pContext)
-                    .load(url)
-                    .fit()
-                    .error(R.drawable.avater)
-                    .placeholder(R.drawable.avater)
-                    .transform(new ImageTransform())
-                    .into(imageView);
-        } else {
-            imageView.setImageResource(R.drawable.avater);
+        try {
+            AppLog.log("setCircleImageByPicasso: ", url);
+            if (url != null) {
+                Picasso.with(pContext)
+                        .load(url)
+                        .fit()
+                        .error(R.drawable.avater)
+                        .placeholder(R.drawable.avater)
+                        .transform(new ImageTransform())
+                        .into(imageView);
+            } else {
+                imageView.setImageResource(R.drawable.avater);
+            }
+        }catch (Exception e){
+            AppLog.errLog(TAG,"setCircleImageByPicasso : "+e.getMessage());
         }
     }
 

@@ -63,5 +63,7 @@ public interface WSContant {
     String TAG_GETMOBILEDETAILS = "getmobiledetails_ws";
     String TAG_NEWSBODY = "NewsBody";
     String TAG_IMAGE = "I";
+    String TAG_VIDEO = "V";
+
 }
 
