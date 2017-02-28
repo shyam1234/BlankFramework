@@ -215,18 +215,20 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onPageSelected(int position) {
-        for (int i = 0; i < dotsCount; i++) {
-            dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
-        }
+        if(dots!=null) {
+            for (int i = 0; i < dotsCount; i++) {
+                dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
+            }
 
-        dots[position].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
+            dots[position].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
 
-        if (position + 1 == dotsCount) {
-           // btnNext.setVisibility(View.GONE);
-           // btnFinish.setVisibility(View.VISIBLE);
-        } else {
-           // btnNext.setVisibility(View.VISIBLE);
-           // btnFinish.setVisibility(View.GONE);
+            if (position + 1 == dotsCount) {
+                // btnNext.setVisibility(View.GONE);
+                // btnFinish.setVisibility(View.VISIBLE);
+            } else {
+                // btnNext.setVisibility(View.VISIBLE);
+                // btnFinish.setVisibility(View.GONE);
+            }
         }
     }
 

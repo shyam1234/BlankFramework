@@ -60,7 +60,7 @@ public class CustomPagerAdapter extends PagerAdapter {
         if(mResources.get(position).getMediatype().equalsIgnoreCase(WSContant.TAG_VIDEO)) {
             GetPicassoImage.getImage(mContext, "", imageView);
             video.setVisibility(View.VISIBLE);
-            video.setUp(TEST_URL, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,null);
+            video.setUp(TEST_URL, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,mResources.get(position).getDocumentname());
             GetPicassoImage.getImage(mContext,"http://steveladdmusic.com/wp-content/themes/americanaura/assets/images/default-video-thumbnail.jpg", video.thumbImageView);
         }else if(mResources.get(position).getMediatype().equalsIgnoreCase(WSContant.TAG_IMAGE)) {
             GetPicassoImage.getImage(mContext, mResources.get(position).getDocumentpath(), imageView);
