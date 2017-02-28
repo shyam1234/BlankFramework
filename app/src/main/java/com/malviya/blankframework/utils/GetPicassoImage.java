@@ -47,15 +47,19 @@ public class GetPicassoImage {
      * @param imageView
      */
     public static void getImage(Context pContext, String imgURL, ImageView imageView) {
-        AppLog.log(" getImage Picasso: ", imgURL);
-        if (imgURL != null) {
-            Picasso.with(pContext)
-                    .load(imgURL)
-                    .placeholder(R.drawable.logo)
-                    .error(R.drawable.logo)
-                    .into(imageView);
-        } else {
-            imageView.setImageResource(R.drawable.logo);
+        try {
+            AppLog.log(" getImage Picasso: ", imgURL);
+            if (imgURL != null) {
+                Picasso.with(pContext)
+                        .load(imgURL)
+                        .placeholder(R.drawable.logo)
+                        .error(R.drawable.logo)
+                        .into(imageView);
+            } else {
+                imageView.setImageResource(R.drawable.logo);
+            }
+        }catch (Exception e){
+            AppLog.errLog(TAG,"getImage : "+e.getMessage());
         }
     }
 
@@ -94,15 +98,19 @@ public class GetPicassoImage {
      * @param imageView
      */
     public static void setSquareImageByPicasso(Context pContext, String imgURL, ImageView imageView) {
-        if (imgURL != null) {
+        try {
             AppLog.log(" setSquareImageByPicasso Picasso: ", imgURL);
-            Picasso.with(pContext)
-                    .load(imgURL)
-                    .fit()
-                    .transform(new SquareImageTransform())
-                    .into(imageView);
-        } else {
-            imageView.setImageResource(R.drawable.logo);
+            if (imgURL != null) {
+                Picasso.with(pContext)
+                        .load(imgURL)
+                        .fit()
+                        .transform(new SquareImageTransform())
+                        .into(imageView);
+            } else {
+                imageView.setImageResource(R.drawable.logo);
+            }
+        }catch (Exception e){
+            AppLog.errLog(TAG,"setSquareImageByPicasso : "+e.getMessage());
         }
     }
 
