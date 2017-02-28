@@ -206,6 +206,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             pager_indicator.addView(dots[i], params);
         }
 
+        if(dots.length>0)
         dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
 
     }
@@ -223,7 +224,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             for (int i = 0; i < dotsCount; i++) {
                 dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
             }
-
+            if(dots.length>0)
             dots[position].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
 
             if (position + 1 == dotsCount) {
