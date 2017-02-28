@@ -197,8 +197,6 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.imageView:
                 int posi = (Integer)v.getTag();
-                //AppLog.log(TAG,"viewpager_news_details "+ posi);
-                //AppLog.log(TAG,"viewpager_news mImagesList size "+ mImagesList.length);
                 navigateToNextPage(posi);
                 break;
         }

@@ -15,6 +15,7 @@ import com.malviya.blankframework.models.TableDocumentMasterDataModel;
 import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
+import com.malviya.blankframework.utils.ZoomOutPageTransformer;
 
 import java.util.ArrayList;
 
@@ -64,6 +65,7 @@ public class NewsScreenSlidePagerActivity extends AppCompatActivity implements V
         mPagerAdapter = new CustomPagerAdapter(this, mDocument,this);
         mPager.setAdapter(mPagerAdapter);
         mPager.setCurrentItem(mSelectedImagePosition);
+        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
         //------------------------------------
     }
 
@@ -72,6 +74,9 @@ public class NewsScreenSlidePagerActivity extends AppCompatActivity implements V
         switch (v.getId()) {
             case R.id.imageview_back:
                 onBackPressed();
+                break;
+            case R.id.imageView:
+                int posi = (Integer)v.getTag();
                 break;
         }
     }
