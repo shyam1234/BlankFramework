@@ -144,21 +144,6 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 mViewPagerNewsImages.setCurrentItem(0);
             }
 
-//            for (int index = 0; index < mMobileDetailsHolder.getDocuments().size(); index++) {
-//                TableDocumentMasterDataModel obj = mMobileDetailsHolder.getDocuments().get(index);
-//                if (obj.getMediatype().equalsIgnoreCase(WSContant.TAG_IMAGE)) {
-//                    mImagesList[index] = obj.getDocumentpath();
-//                } else  if (obj.getMediatype().equalsIgnoreCase(WSContant.TAG_VIDEO)) {
-//                    mImagesList[index] = obj.getDocumentpath();
-//                } else {
-//                    mImagesList = null;
-//                }
-//                if (mImagesList != null) {
-//                    mCustomPagerAdapter = new CustomPagerAdapter(this, mImagesList, this);
-//                    mViewPagerNewsImages.setAdapter(mCustomPagerAdapter);
-//                    mViewPagerNewsImages.setCurrentItem(0);
-//                }
-//            }
             setUiPageViewController();
         }
     }

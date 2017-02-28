@@ -16,6 +16,8 @@ import com.malviya.blankframework.utils.GetPicassoImage;
 
 import java.util.ArrayList;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 /**
  * Created by Admin on 25-02-2017.
  */
@@ -26,7 +28,7 @@ public class CustomPagerAdapter extends PagerAdapter {
     private LayoutInflater mLayoutInflater;
     private ArrayList<TableDocumentMasterDataModel> mResources;
     private View.OnClickListener mListerner;
-
+    private static final String TEST_URL = "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4";
 
 
     public CustomPagerAdapter(Context context, ArrayList<TableDocumentMasterDataModel> documents, View.OnClickListener pListner) {
@@ -43,7 +45,7 @@ public class CustomPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((LinearLayout) object);
+        return true ;//== ((LinearLayout) object);
     }
 
 
@@ -51,10 +53,17 @@ public class CustomPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View itemView = mLayoutInflater.inflate(R.layout.pager_item, container, false);
         ImageView imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        JCVideoPlayerStandard video = (JCVideoPlayerStandard) itemView.findViewById(R.id.videoplayer);
+        imageView.setVisibility(View.GONE);
+        video.setVisibility(View.GONE);
         if(mResources.get(position).getMediatype().equalsIgnoreCase(WSContant.TAG_VIDEO)) {
-            GetPicassoImage.getImage(mContext, "http://steveladdmusic.com/wp-content/themes/americanaura/assets/images/default-video-thumbnail.jpg", imageView);
+            GetPicassoImage.getImage(mContext, "", imageView);
+            video.setVisibility(View.VISIBLE);
+            video.setUp(TEST_URL, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,null);
+            GetPicassoImage.getImage(mContext,"http://steveladdmusic.com/wp-content/themes/americanaura/assets/images/default-video-thumbnail.jpg", video.thumbImageView);
         }else if(mResources.get(position).getMediatype().equalsIgnoreCase(WSContant.TAG_IMAGE)) {
             GetPicassoImage.getImage(mContext, mResources.get(position).getDocumentpath(), imageView);
+            imageView.setVisibility(View.VISIBLE);
         }
         container.addView(itemView);
         imageView.setOnClickListener(mListerner);
@@ -69,7 +78,4 @@ public class CustomPagerAdapter extends PagerAdapter {
     }
 
 
-    public static class NewsCutomPagerHolder{
-
-    }
 }
