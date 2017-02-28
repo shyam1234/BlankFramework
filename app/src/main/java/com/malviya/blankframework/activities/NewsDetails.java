@@ -48,7 +48,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private WebView mWebViewNewsBody;
     private GetMobileDetailsDataModel mMobileDetailsHolder;
     private ViewPager mViewPagerNewsImages;
-    private CustomPagerAdapter mAdapter;
+    private CustomPagerAdapter mCustomPagerAdapter;
     private int dotsCount;
     private ImageView[] dots;
     private LinearLayout pager_indicator;
@@ -91,7 +91,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         mViewPagerNewsImages = (ViewPager) findViewById(R.id.viewpager_news_details);
         mWebViewNewsBody = (WebView) findViewById(R.id.webview_news_row_body);
         pager_indicator = (LinearLayout) findViewById(R.id.viewPagerCountDots);
-        mViewPagerNewsImages.setOnPageChangeListener(this);
+        mViewPagerNewsImages.addOnPageChangeListener(this);
 
     }
 
@@ -141,12 +141,12 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                     temp = null;
                 }
                 if (temp != null) {
-                    mAdapter = new CustomPagerAdapter(this, temp);
-                    mViewPagerNewsImages.setAdapter(mAdapter);
+                    mCustomPagerAdapter = new CustomPagerAdapter(this, temp);
+                    mViewPagerNewsImages.setAdapter(mCustomPagerAdapter);
                     mViewPagerNewsImages.setCurrentItem(0);
-                    setUiPageViewController();
                 }
             }
+            setUiPageViewController();
         }
 
     }
@@ -187,7 +187,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
 
     private void setUiPageViewController() {
-        dotsCount = mAdapter.getCount();
+        dotsCount = mCustomPagerAdapter.getCount();
         dots = new ImageView[dotsCount];
 
         for (int i = 0; i < dotsCount; i++) {
