@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 /**
  * Created by 23508 on 2/7/2017.
  */
@@ -169,7 +171,9 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
         finish();
         Utils.animLeftToRight(NewsDetails.this);
     }
@@ -248,5 +252,11 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         i.putExtras(bundle);
         startActivity(i);
         Utils.animRightToLeft(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        JCVideoPlayer.releaseAllVideos();
     }
 }
