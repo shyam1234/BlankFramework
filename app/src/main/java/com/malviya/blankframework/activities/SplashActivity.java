@@ -94,16 +94,20 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError response) {
                 AppLog.log("splashActivity++", "onErrorResponse");
-                final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
-                dilog.setTitle(getResources().getString(R.string.msg_network_prob));
-                dilog.show();
-                dilog.getBtnOK().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dilog.dismiss();
-                        finish();
-                    }
-                });
+                try {
+                    final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
+                    dilog.setTitle(getResources().getString(R.string.msg_network_prob));
+                    dilog.show();
+                    dilog.getBtnOK().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dilog.dismiss();
+                            finish();
+                        }
+                    });
+                }catch (Exception e){
+                    AppLog.errLog("SplashActivity onErrorResponse", e.getMessage());
+                }
             }
         });
     }
