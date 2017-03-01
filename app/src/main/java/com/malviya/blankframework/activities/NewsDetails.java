@@ -1,15 +1,22 @@
 package com.malviya.blankframework.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -56,8 +63,10 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private int dotsCount;
     private ImageView[] dots;
     private LinearLayout pager_indicator;
+    private BottomSheetBehavior<View> behavior;
     //private  String[] mImagesList = new String[1];
-
+    private View bottomSheet;
+    private BottomSheetDialog mBottomSheetDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,7 +108,15 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         pager_indicator = (LinearLayout) findViewById(R.id.viewPagerCountDots);
         mViewPagerNewsImages.addOnPageChangeListener(this);
         mViewPagerNewsImages.setPageTransformer(true, new ZoomOutPageTransformer());
+
+        RelativeLayout rel_like = (RelativeLayout) findViewById(R.id.rel_inc_like_comment_like_holder);
+        rel_like.setOnClickListener(this);
+        RelativeLayout rel_comment = (RelativeLayout) findViewById(R.id.rel_inc_like_comment_comment_holder);
+        rel_comment.setOnClickListener(this);
+        initBottomSheetLayout();
     }
+
+
 
 
     private void fetchDataFromServer() {
@@ -128,7 +145,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
             @Override
             public void onErrorResponse(VolleyError response) {
-                  Utils.dismissProgressBar();
+                Utils.dismissProgressBar();
             }
         });
     }
@@ -172,10 +189,12 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         if (JCVideoPlayer.backPress()) {
-            return;
+        }else if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }else{
+            finish();
+            Utils.animLeftToRight(NewsDetails.this);
         }
-        finish();
-        Utils.animLeftToRight(NewsDetails.this);
     }
 
     @Override
@@ -185,12 +204,17 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 onBackPressed();
                 break;
             case R.id.imageView:
-                int posi = (Integer)v.getTag();
+                int posi = (Integer) v.getTag();
                 navigateToNextPage(posi);
+                break;
+            case R.id.rel_inc_like_comment_like_holder:
+                doLike();
+                break;
+            case R.id.rel_inc_like_comment_comment_holder:
+                doComment();
                 break;
         }
     }
-
 
     private void setUiPageViewController() {
         dotsCount = mCustomPagerAdapter.getCount();
@@ -206,11 +230,10 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             pager_indicator.addView(dots[i], params);
         }
 
-        if(dots.length>0)
-        dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
+        if (dots.length > 0)
+            dots[0].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
 
     }
-
 
 
     @Override
@@ -220,12 +243,12 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onPageSelected(int position) {
-        if(dots!=null) {
+        if (dots != null) {
             for (int i = 0; i < dotsCount; i++) {
                 dots[i].setImageDrawable(getResources().getDrawable(R.drawable.nonselecteditem_dot));
             }
-            if(dots.length>0)
-            dots[position].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
+            if (dots.length > 0)
+                dots[position].setImageDrawable(getResources().getDrawable(R.drawable.selecteditem_dot));
 
             if (position + 1 == dotsCount) {
                 // btnNext.setVisibility(View.GONE);
@@ -260,4 +283,51 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         super.onStop();
         JCVideoPlayer.releaseAllVideos();
     }
+
+
+    private void doComment() {
+        onShareClick();
+    }
+
+    private void doLike() {
+        Toast.makeText(this, "like", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void initBottomSheetLayout() {
+        // The View with the BottomSheetBehavior
+        bottomSheet = findViewById(R.id.bottom_sheet);
+        bottomSheet.setVisibility(View.VISIBLE);
+        behavior = BottomSheetBehavior.from(bottomSheet);
+        behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                // React to state change
+                if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                    ((LinearLayout)findViewById(R.id.lin_main_content)).setEnabled(false);
+                    ((LinearLayout)findViewById(R.id.lin_main_content)).setVisibility(View.GONE);
+                } else {
+                    ((LinearLayout)findViewById(R.id.lin_main_content)).setEnabled(true);
+                    ((LinearLayout)findViewById(R.id.lin_main_content)).setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+            }
+        });
+        //decide the initial height
+        behavior.setPeekHeight(0);
+    }
+
+    public void onShareClick() {
+        if (behavior.getState() == BottomSheetBehavior.STATE_HIDDEN || behavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
+            behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        } else {
+            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+    }
+
 }

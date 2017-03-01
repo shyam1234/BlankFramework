@@ -2,10 +2,12 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/lin_main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -102,13 +104,16 @@
                 <include layout="@layout/inc_like_comment" />
             </LinearLayout>
         </RelativeLayout>
-        <!--bottom sheet layo<ut-->
-        <FrameLayout
-            android:id="@+id/news_details_design_bottom_sheet"
-            style="?attr/bottomSheetStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            app:layout_behavior="@string/bottom_sheet_behavior" />
+
     </LinearLayout>
+    <!--bottom sheet layo<ut-->
+    <FrameLayout
+        android:visibility="gone"
+        android:background="@color/colorWhite"
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+        <include layout="@layout/inc_comment_sheet"/>
+    </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

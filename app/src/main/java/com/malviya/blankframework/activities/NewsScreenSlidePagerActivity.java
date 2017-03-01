@@ -19,6 +19,8 @@ import com.malviya.blankframework.utils.ZoomOutPageTransformer;
 
 import java.util.ArrayList;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 /**
  * Created by 23508 on 2/28/2017.
  */
@@ -86,6 +88,13 @@ public class NewsScreenSlidePagerActivity extends AppCompatActivity implements V
         super.onBackPressed();
         finish();
         Utils.animLeftToRight(this);
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        JCVideoPlayer.releaseAllVideos();
     }
 
 }
