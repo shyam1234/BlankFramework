@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.CustomPagerAdapter;
+import com.malviya.blankframework.adapters.NewsDetailsCommentLikeAdapter;
 import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableDocumentMaster;
@@ -30,6 +31,7 @@ import com.malviya.blankframework.database.TableNewsMaster;
 import com.malviya.blankframework.models.GetMobileDetailsDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.NewsDetailsCommentLikeDataModel;
 import com.malviya.blankframework.models.TableDocumentMasterDataModel;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
 import com.malviya.blankframework.network.IWSRequest;
@@ -74,6 +76,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private RecyclerView mRecycleViewCommentLike;
     private EditText mEditTextComment;
     private TextView mTextViewSend;
+    private NewsDetailsCommentLikeAdapter mNewsDetailsCommentLikeAdapter;
+    private ArrayList<NewsDetailsCommentLikeDataModel> mCommentLikeList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +97,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             mNewsMasterDataModel = (TableNewsMasterDataModel) bundle.getSerializable(Constant.TAG_HOLDER);
             AppLog.log(TAG, "ref id: " + mNewsMasterDataModel.getReferenceId());
         }
+        mCommentLikeList = new ArrayList<>();
     }
 
     private void initView() {
@@ -327,8 +332,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setSmoothScrollbarEnabled(true);
         mRecycleViewCommentLike.setLayoutManager(manager);
-        //mAttendanceAdapter = new AttendanceAdapter(this, mAttendanceList);
-        //mRecycleViewAttendance.setAdapter(mAttendanceAdapter);
+        mNewsDetailsCommentLikeAdapter = new NewsDetailsCommentLikeAdapter(this, mCommentLikeList);
+        mRecycleViewCommentLike.setAdapter(mNewsDetailsCommentLikeAdapter);
     }
 
 
@@ -361,12 +366,22 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 mTextViewLikeTab.setBackgroundColor(Color.TRANSPARENT);
                 mTextViewCommentTab.setTextColor(getResources().getColor(R.color.colorGreen));
                 mTextViewLikeTab.setTextColor(getResources().getColor(R.color.colorWhite));
+                NewsDetailsCommentLikeDataModel model = new NewsDetailsCommentLikeDataModel();
+                model.setTag(WSContant.TAG_COMMENT);
+                mCommentLikeList.clear();
+                mCommentLikeList.add(model);
+                mNewsDetailsCommentLikeAdapter.notifyDataSetChanged();
                 break;
             case R.id.textview_comment_like_page_like:
                 mTextViewLikeTab.setBackgroundColor(getResources().getColor(R.color.colorWhite));
                 mTextViewCommentTab.setBackgroundColor(Color.TRANSPARENT);
                 mTextViewLikeTab.setTextColor(getResources().getColor(R.color.colorGreen));
                 mTextViewCommentTab.setTextColor(getResources().getColor(R.color.colorWhite));
+                NewsDetailsCommentLikeDataModel model1 = new NewsDetailsCommentLikeDataModel();
+                model1.setTag(WSContant.TAG_ISLIKE);
+                mCommentLikeList.clear();
+                mCommentLikeList.add(model1);
+                mNewsDetailsCommentLikeAdapter.notifyDataSetChanged();
                 break;
         }
     }
