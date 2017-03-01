@@ -114,6 +114,6 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         app:layout_behavior="@string/bottom_sheet_behavior">
-        <include layout="@layout/inc_comment_sheet"/>
+        <include layout="@layout/comment_like_page"/>
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

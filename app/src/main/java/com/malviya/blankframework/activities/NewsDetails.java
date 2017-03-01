@@ -1,17 +1,19 @@
 package com.malviya.blankframework.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -67,6 +69,11 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     //private  String[] mImagesList = new String[1];
     private View bottomSheet;
     private BottomSheetDialog mBottomSheetDialog;
+    private TextView mTextViewCommentTab;
+    private TextView mTextViewLikeTab;
+    private RecyclerView mRecycleViewCommentLike;
+    private EditText mEditTextComment;
+    private TextView mTextViewSend;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -189,32 +196,14 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         if (JCVideoPlayer.backPress()) {
-        }else if (behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
-            behavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        }else if (behavior!=null && behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         }else{
             finish();
             Utils.animLeftToRight(NewsDetails.this);
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.imageview_back:
-                onBackPressed();
-                break;
-            case R.id.imageView:
-                int posi = (Integer) v.getTag();
-                navigateToNextPage(posi);
-                break;
-            case R.id.rel_inc_like_comment_like_holder:
-                doLike();
-                break;
-            case R.id.rel_inc_like_comment_comment_holder:
-                doComment();
-                break;
-        }
-    }
 
     private void setUiPageViewController() {
         dotsCount = mCustomPagerAdapter.getCount();
@@ -320,13 +309,65 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         });
         //decide the initial height
         behavior.setPeekHeight(0);
+        //-----------------------------------------------
+        mTextViewCommentTab = (TextView)findViewById(R.id.textview_comment_like_page_comment);
+        mTextViewLikeTab = (TextView)findViewById(R.id.textview_comment_like_page_like);
+        mEditTextComment = (EditText) findViewById(R.id.edittext_send_comment_comment);
+        mTextViewSend = (TextView)findViewById(R.id.textview_send_comment_send);
+        //------------------------------------------------
+        mTextViewCommentTab.setOnClickListener(this);
+        mTextViewLikeTab.setOnClickListener(this);
+        initRecyclerView();
+
     }
+
+    private void initRecyclerView() {
+        mRecycleViewCommentLike = (RecyclerView) findViewById(R.id.recyclerview_comment_like_page);
+        mRecycleViewCommentLike.setHasFixedSize(true);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setSmoothScrollbarEnabled(true);
+        mRecycleViewCommentLike.setLayoutManager(manager);
+        //mAttendanceAdapter = new AttendanceAdapter(this, mAttendanceList);
+        //mRecycleViewAttendance.setAdapter(mAttendanceAdapter);
+    }
+
 
     public void onShareClick() {
         if (behavior.getState() == BottomSheetBehavior.STATE_HIDDEN || behavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else {
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.imageview_back:
+                onBackPressed();
+                break;
+            case R.id.imageView:
+                int posi = (Integer) v.getTag();
+                navigateToNextPage(posi);
+                break;
+            case R.id.rel_inc_like_comment_like_holder:
+                doLike();
+                break;
+            case R.id.rel_inc_like_comment_comment_holder:
+                doComment();
+                break;
+            case R.id.textview_comment_like_page_comment:
+                mTextViewCommentTab.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                mTextViewLikeTab.setBackgroundColor(Color.TRANSPARENT);
+                mTextViewCommentTab.setTextColor(getResources().getColor(R.color.colorGreen));
+                mTextViewLikeTab.setTextColor(getResources().getColor(R.color.colorWhite));
+                break;
+            case R.id.textview_comment_like_page_like:
+                mTextViewLikeTab.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+                mTextViewCommentTab.setBackgroundColor(Color.TRANSPARENT);
+                mTextViewLikeTab.setTextColor(getResources().getColor(R.color.colorGreen));
+                mTextViewCommentTab.setTextColor(getResources().getColor(R.color.colorWhite));
+                break;
         }
     }
 
