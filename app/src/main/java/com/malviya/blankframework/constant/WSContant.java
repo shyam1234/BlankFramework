@@ -15,6 +15,8 @@ public interface WSContant {
     String URL_GETMOBILEMENU= URL_BASE + "/mobile/GetMobileMenu";
     String URL_SAVELIKENCOMMENT= URL_BASE + "/mobile/SaveLikeNComment";
     String URL_GETMOBILEDETAILS= URL_BASE + "/mobile/GetMobileDetails";
+    String URL_GETMOBILECOMMENTSNLIKES= URL_BASE + "/mobile/GetMobileCommentsnLikes";
+    String URL_GETMOBILENOTICEBAORD= URL_BASE + "/mobile/GetMobileNoticeBoard";
     //-------------------------------------------------------------------------------------
     String TAG_LOGIN = "login";
     String TAG_LANG = "lang";
