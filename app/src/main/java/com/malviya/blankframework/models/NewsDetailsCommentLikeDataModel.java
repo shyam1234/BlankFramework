@@ -1,15 +1,45 @@
 package com.malviya.blankframework.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Admin on 02-03-2017.
  */
 
 public class NewsDetailsCommentLikeDataModel {
+
+        /*{
+    "LikedOn":"29-Jan-2017",
+    "LikedBy":"Parent 1",
+    "UserType":"P"
+    }*/
+
+        /*{
+    "Comment":"sdfasdfasdf",
+    "CommentedOn":"04-Feb-2017",
+    "CommentedBy":"Admin2",
+    "UserType":"P",
+    "CommentId":15
+    },*/
+
+
+
     private String imageURL;
-    private String name;
-    private String date;
-    private String comment;
-    private String tag;
+    @SerializedName("LikedBy")
+    private String LikedBy;
+    @SerializedName("CommentedBy")
+    private String CommentedBy;
+    @SerializedName("LikedOn")
+    private String LikedOn;
+    @SerializedName("CommentedOn")
+    private String CommentedOn;
+    @SerializedName("Comment")
+    private String Comment;
+    @SerializedName("UserType")
+    private String UserType;
+    @SerializedName("CommentId")
+    private int CommentId;
+    private String tag;      //for compare btn like and comment
 
 
     public String getImageURL() {
@@ -20,28 +50,20 @@ public class NewsDetailsCommentLikeDataModel {
         this.imageURL = imageURL;
     }
 
-    public String getName() {
-        return name;
+    public String getLikedBy() {
+        return LikedBy;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setLikedBy(String likedBy) {
+        this.LikedBy = likedBy;
     }
 
     public String getComment() {
-        return comment;
+        return Comment;
     }
 
     public void setComment(String comment) {
-        this.comment = comment;
+        this.Comment = comment;
     }
 
     public String getTag() {
@@ -50,5 +72,45 @@ public class NewsDetailsCommentLikeDataModel {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getUserType() {
+        return UserType;
+    }
+
+    public void setUserType(String userType) {
+        UserType = userType;
+    }
+
+    public int getCommentId() {
+        return CommentId;
+    }
+
+    public void setCommentId(int commentId) {
+        CommentId = commentId;
+    }
+
+    public String getCommentedOn() {
+        return CommentedOn;
+    }
+
+    public void setCommentedOn(String commentedOn) {
+        CommentedOn = commentedOn;
+    }
+
+    public String getLikedOn() {
+        return LikedOn;
+    }
+
+    public void setLikedOn(String likedOn) {
+        LikedOn = likedOn;
+    }
+
+    public String getCommentedBy() {
+        return CommentedBy;
+    }
+
+    public void setCommentedBy(String commentedBy) {
+        CommentedBy = commentedBy;
     }
 }
