@@ -8,6 +8,7 @@ import com.malviya.blankframework.models.GetMobileMenuDataModel;
 import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.NewsDetailsCommentLikeDataModel;
 
 /**
  * Created by Admin on 30-12-2016.
@@ -54,6 +55,10 @@ public class ParseResponse {
                 break;
             case ModelFactory.MODEL_NEWS_DETAILS:
                 mModel = mGson.fromJson(mRespose, GetMobileDetailsDataModel.class);
+                ModelFactory.getInstance().register(mKey, mModel);
+                break;
+            case ModelFactory.MODEL_NEWS_DETAILS_COMMENTS_LIKE:
+                mModel = mGson.fromJson(mRespose, NewsDetailsCommentLikeDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
             default:

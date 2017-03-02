@@ -12,6 +12,7 @@ import java.util.HashMap;
  */
 
 public class ModelFactory {
+    public static final String MODEL_NEWS_DETAILS_COMMENTS_LIKE = "commentlike";
     private volatile static ModelFactory mInstance;
     public final static String MODEL_LOGIN = "LoginDataModel";
     public static final String MODEL_NEWS = "NewsDataModel";

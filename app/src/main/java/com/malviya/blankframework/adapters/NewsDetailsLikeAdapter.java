@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.activities.NewsDetails;
 import com.malviya.blankframework.models.NewsDetailsCommentLikeDataModel;
 
 import java.util.ArrayList;
@@ -18,13 +18,15 @@ import java.util.ArrayList;
  * Created by Admin on 05-02-2017.
  */
 
-public class NewsDetailsCommentLikeAdapter extends RecyclerView.Adapter<NewsDetailsCommentLikeAdapter.MyViewHolder> {
+public class NewsDetailsLikeAdapter extends RecyclerView.Adapter<NewsDetailsLikeAdapter.MyViewHolder> {
     private Context mContext;
-    private ArrayList<NewsDetailsCommentLikeDataModel> mList;
+    private ArrayList<NewsDetailsCommentLikeDataModel.LikeMasterDataModel> mList;
 
-    public NewsDetailsCommentLikeAdapter(Context context, ArrayList<NewsDetailsCommentLikeDataModel> pList) {
-        mContext = context;
-        mList = pList;
+
+
+    public NewsDetailsLikeAdapter(NewsDetails newsDetails, ArrayList<NewsDetailsCommentLikeDataModel.LikeMasterDataModel> likeMaster) {
+        mContext = newsDetails;
+        mList =likeMaster;
     }
 
     @Override
@@ -39,14 +41,11 @@ public class NewsDetailsCommentLikeAdapter extends RecyclerView.Adapter<NewsDeta
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        //holder.textViewDate.setText("" + mList.get(position).getSubjectValue() + "%");
+        holder.textViewDate.setText("" + mList.get(position).getLikedOn());
+        holder.textViewName.setText("" + mList.get(position).getLikedBy());
         // holder.textViewPaymentValue.setText("" + mList.get(position).getTotalDays());
         // holder.textViewResult.setText("" + mList.get(position).getAbsentDays());
-        if(mList.get(position).getTag().equalsIgnoreCase(WSContant.TAG_ISLIKE)){
-            holder.textviewComment.setVisibility(View.GONE);
-        }else{
-            holder.textviewComment.setVisibility(View.VISIBLE);
-        }
+        holder.textviewComment.setVisibility(View.GONE);
     }
 
 

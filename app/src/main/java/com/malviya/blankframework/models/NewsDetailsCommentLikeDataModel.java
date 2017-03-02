@@ -1,116 +1,117 @@
 package com.malviya.blankframework.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.malviya.blankframework.interfaces.IModel;
+
+import java.util.ArrayList;
 
 /**
  * Created by Admin on 02-03-2017.
  */
 
-public class NewsDetailsCommentLikeDataModel {
+public class NewsDetailsCommentLikeDataModel extends IModel {
 
+    @SerializedName("LikeMaster")
+    private ArrayList<LikeMasterDataModel> LikeMaster = new ArrayList<LikeMasterDataModel>();
+    @SerializedName("CommentMaster")
+    private ArrayList<CommentMasterDataModel> CommentMaster = new ArrayList<CommentMasterDataModel>();
+
+    public ArrayList<LikeMasterDataModel> getLikeMaster() {
+        return LikeMaster;
+    }
+
+    public ArrayList<CommentMasterDataModel> getCommentMaster() {
+        return CommentMaster;
+    }
+
+    public class LikeMasterDataModel {
+        /*"LikedOn":"28-Jan-2017",
+           "LikedBy":"Admin1",
+           "UserType":"O"*/
+        @SerializedName("LikedOn")
+        private String LikedOn;
+        @SerializedName("LikedBy")
+        private String LikedBy;
+        @SerializedName("UserType")
+        private String UserType;
+
+        public String getLikedOn() {
+            return LikedOn;
+        }
+
+        public void setLikedOn(String likedOn) {
+            LikedOn = likedOn;
+        }
+
+        public String getLikedBy() {
+            return LikedBy;
+        }
+
+        public void setLikedBy(String likedBy) {
+            LikedBy = likedBy;
+        }
+
+        public String getUserType() {
+            return UserType;
+        }
+
+        public void setUserType(String userType) {
+            UserType = userType;
+        }
+    }
+
+    public class CommentMasterDataModel {
         /*{
-    "LikedOn":"29-Jan-2017",
-    "LikedBy":"Parent 1",
-    "UserType":"P"
-    }*/
+        "Comment":"HelloNowYes",
+        "CommentedOn":"05-Feb-2017",
+        "CommentedBy":"Parent 1",
+        "UserType":"P",
+        "CommentId":16
+        },*/
+        private String Comment;
+        private String CommentedOn;
+        private String CommentedBy;
+        private String UserType;
+        private int CommentId;
 
-        /*{
-    "Comment":"sdfasdfasdf",
-    "CommentedOn":"04-Feb-2017",
-    "CommentedBy":"Admin2",
-    "UserType":"P",
-    "CommentId":15
-    },*/
+        public String getComment() {
+            return Comment;
+        }
 
+        public void setComment(String comment) {
+            Comment = comment;
+        }
 
+        public String getCommentedOn() {
+            return CommentedOn;
+        }
 
-    private String imageURL;
-    @SerializedName("LikedBy")
-    private String LikedBy;
-    @SerializedName("CommentedBy")
-    private String CommentedBy;
-    @SerializedName("LikedOn")
-    private String LikedOn;
-    @SerializedName("CommentedOn")
-    private String CommentedOn;
-    @SerializedName("Comment")
-    private String Comment;
-    @SerializedName("UserType")
-    private String UserType;
-    @SerializedName("CommentId")
-    private int CommentId;
-    private String tag;      //for compare btn like and comment
+        public void setCommentedOn(String commentedOn) {
+            CommentedOn = commentedOn;
+        }
 
+        public String getCommentedBy() {
+            return CommentedBy;
+        }
 
-    public String getImageURL() {
-        return imageURL;
-    }
+        public void setCommentedBy(String commentedBy) {
+            CommentedBy = commentedBy;
+        }
 
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
-    }
+        public String getUserType() {
+            return UserType;
+        }
 
-    public String getLikedBy() {
-        return LikedBy;
-    }
+        public void setUserType(String userType) {
+            UserType = userType;
+        }
 
-    public void setLikedBy(String likedBy) {
-        this.LikedBy = likedBy;
-    }
+        public int getCommentId() {
+            return CommentId;
+        }
 
-    public String getComment() {
-        return Comment;
-    }
-
-    public void setComment(String comment) {
-        this.Comment = comment;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public String getUserType() {
-        return UserType;
-    }
-
-    public void setUserType(String userType) {
-        UserType = userType;
-    }
-
-    public int getCommentId() {
-        return CommentId;
-    }
-
-    public void setCommentId(int commentId) {
-        CommentId = commentId;
-    }
-
-    public String getCommentedOn() {
-        return CommentedOn;
-    }
-
-    public void setCommentedOn(String commentedOn) {
-        CommentedOn = commentedOn;
-    }
-
-    public String getLikedOn() {
-        return LikedOn;
-    }
-
-    public void setLikedOn(String likedOn) {
-        LikedOn = likedOn;
-    }
-
-    public String getCommentedBy() {
-        return CommentedBy;
-    }
-
-    public void setCommentedBy(String commentedBy) {
-        CommentedBy = commentedBy;
+        public void setCommentId(int commentId) {
+            CommentId = commentId;
+        }
     }
 }

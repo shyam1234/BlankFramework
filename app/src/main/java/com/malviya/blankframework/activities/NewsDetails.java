@@ -23,7 +23,8 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.CustomPagerAdapter;
-import com.malviya.blankframework.adapters.NewsDetailsCommentLikeAdapter;
+import com.malviya.blankframework.adapters.NewsDetailsCommentAdapter;
+import com.malviya.blankframework.adapters.NewsDetailsLikeAdapter;
 import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableDocumentMaster;
@@ -76,8 +77,10 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private RecyclerView mRecycleViewCommentLike;
     private EditText mEditTextComment;
     private TextView mTextViewSend;
-    private NewsDetailsCommentLikeAdapter mNewsDetailsCommentLikeAdapter;
-    private ArrayList<NewsDetailsCommentLikeDataModel> mCommentLikeList;
+    private NewsDetailsLikeAdapter mNewsDetailsLikeAdapter;
+    private NewsDetailsCommentLikeDataModel mNewsDetailsCommentLikeDataModel;
+    private NewsDetailsCommentAdapter mNewsDetailsCommentAdapter;
+    private RelativeLayout mRelComment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,7 +100,6 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             mNewsMasterDataModel = (TableNewsMasterDataModel) bundle.getSerializable(Constant.TAG_HOLDER);
             AppLog.log(TAG, "ref id: " + mNewsMasterDataModel.getReferenceId());
         }
-        mCommentLikeList = new ArrayList<>();
     }
 
     private void initView() {
@@ -152,7 +154,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 //mDocumentList = mMobileDetailsHolder.getDocuments();
                 saveDataIntoTable("" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""), mMobileDetailsHolder.getMessageBody(), mMobileDetailsHolder.getDocuments());
                 bindDataWithUI();
-                Utils.dismissProgressBar();
+//                Utils.dismissProgressBar();
+                fetchCommentDataFromServer();
             }
 
             @Override
@@ -319,6 +322,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         mTextViewLikeTab = (TextView)findViewById(R.id.textview_comment_like_page_like);
         mEditTextComment = (EditText) findViewById(R.id.edittext_send_comment_comment);
         mTextViewSend = (TextView)findViewById(R.id.textview_send_comment_send);
+        mRelComment = (RelativeLayout)findViewById(R.id.rel_comment);
         //------------------------------------------------
         mTextViewCommentTab.setOnClickListener(this);
         mTextViewLikeTab.setOnClickListener(this);
@@ -332,16 +336,17 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setSmoothScrollbarEnabled(true);
         mRecycleViewCommentLike.setLayoutManager(manager);
-        mNewsDetailsCommentLikeAdapter = new NewsDetailsCommentLikeAdapter(this, mCommentLikeList);
-        mRecycleViewCommentLike.setAdapter(mNewsDetailsCommentLikeAdapter);
+
     }
 
 
     public void onShareClick() {
         if (behavior.getState() == BottomSheetBehavior.STATE_HIDDEN || behavior.getState() == BottomSheetBehavior.STATE_COLLAPSED) {
             behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            getComments();
         } else {
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
         }
     }
 
@@ -362,28 +367,66 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 doComment();
                 break;
             case R.id.textview_comment_like_page_comment:
-                mTextViewCommentTab.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                mTextViewLikeTab.setBackgroundColor(Color.TRANSPARENT);
-                mTextViewCommentTab.setTextColor(getResources().getColor(R.color.colorGreen));
-                mTextViewLikeTab.setTextColor(getResources().getColor(R.color.colorWhite));
-                NewsDetailsCommentLikeDataModel model = new NewsDetailsCommentLikeDataModel();
-                model.setTag(WSContant.TAG_COMMENT);
-                mCommentLikeList.clear();
-                mCommentLikeList.add(model);
-                mNewsDetailsCommentLikeAdapter.notifyDataSetChanged();
+                getComments();
                 break;
             case R.id.textview_comment_like_page_like:
-                mTextViewLikeTab.setBackgroundColor(getResources().getColor(R.color.colorWhite));
-                mTextViewCommentTab.setBackgroundColor(Color.TRANSPARENT);
-                mTextViewLikeTab.setTextColor(getResources().getColor(R.color.colorGreen));
-                mTextViewCommentTab.setTextColor(getResources().getColor(R.color.colorWhite));
-                NewsDetailsCommentLikeDataModel model1 = new NewsDetailsCommentLikeDataModel();
-                model1.setTag(WSContant.TAG_ISLIKE);
-                mCommentLikeList.clear();
-                mCommentLikeList.add(model1);
-                mNewsDetailsCommentLikeAdapter.notifyDataSetChanged();
+                 getLikes();
                 break;
         }
     }
+
+    private void getLikes() {
+        mRelComment.setVisibility(View.GONE);
+        mTextViewLikeTab.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        mTextViewCommentTab.setBackgroundColor(Color.TRANSPARENT);
+        mTextViewLikeTab.setTextColor(getResources().getColor(R.color.colorGreen));
+        mTextViewCommentTab.setTextColor(getResources().getColor(R.color.colorWhite));
+        mNewsDetailsLikeAdapter = new NewsDetailsLikeAdapter(NewsDetails.this, mNewsDetailsCommentLikeDataModel.getLikeMaster());
+        mRecycleViewCommentLike.setAdapter(mNewsDetailsLikeAdapter);
+        mNewsDetailsLikeAdapter.notifyDataSetChanged();
+
+    }
+
+    private void getComments() {
+        mRelComment.setVisibility(View.VISIBLE);
+        mTextViewCommentTab.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+        mTextViewLikeTab.setBackgroundColor(Color.TRANSPARENT);
+        mTextViewCommentTab.setTextColor(getResources().getColor(R.color.colorGreen));
+        mTextViewLikeTab.setTextColor(getResources().getColor(R.color.colorWhite));
+        mNewsDetailsCommentAdapter = new NewsDetailsCommentAdapter(NewsDetails.this, mNewsDetailsCommentLikeDataModel.getCommentMaster());
+        mRecycleViewCommentLike.setAdapter(mNewsDetailsCommentAdapter);
+        mNewsDetailsCommentAdapter.notifyDataSetChanged();
+    }
+
+    private void fetchCommentDataFromServer() {
+
+        //call to WS and validate given credential----
+        Map<String, String> header = new HashMap<>();
+        header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+        header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
+        header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+        header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+        //-Utils-for body
+        Map<String, String> body = new HashMap<>();
+        body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
+        body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
+       // Utils.showProgressBar(this);
+        WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILECOMMENTSNLIKES, header, body, WSContant.TAG_COMMENT, new IWSRequest() {
+            @Override
+            public void onResponse(String response) {
+                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS_COMMENTS_LIKE);
+                mNewsDetailsCommentLikeDataModel = ((NewsDetailsCommentLikeDataModel) obj.getModel());
+
+                Utils.dismissProgressBar();
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError response) {
+                Utils.dismissProgressBar();
+            }
+        });
+    }
+
+
 
 }
