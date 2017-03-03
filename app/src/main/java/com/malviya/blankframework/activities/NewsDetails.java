@@ -155,7 +155,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 saveDataIntoTable("" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""), mMobileDetailsHolder.getMessageBody(), mMobileDetailsHolder.getDocuments());
                 bindDataWithUI();
 //                Utils.dismissProgressBar();
-                fetchCommentDataFromServer();
+                fetchCommentDataFromServer(0);
             }
 
             @Override
@@ -399,7 +399,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         mNewsDetailsCommentAdapter.notifyDataSetChanged();
     }
 
-    private void fetchCommentDataFromServer() {
+    private void fetchCommentDataFromServer(final int type) {
 
         //call to WS and validate given credential----
         Map<String, String> header = new HashMap<>();
@@ -417,12 +417,12 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             public void onResponse(String response) {
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS_COMMENTS_LIKE);
                 mNewsDetailsCommentLikeDataModel = ((NewsDetailsCommentLikeDataModel) obj.getModel());
-                if(mNewsDetailsCommentAdapter!=null){
-                    mNewsDetailsCommentAdapter.notifyDataSetChanged();
+                mRecycleViewCommentLike.setAdapter(mNewsDetailsCommentAdapter);
+                if((type==2) && mNewsDetailsCommentAdapter!=null){
+                    getComments();
                     mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getCommentMaster().size()-1);
-                }
-                if(mNewsDetailsLikeAdapter!=null){
-                    mNewsDetailsLikeAdapter.notifyDataSetChanged();
+                }else if((type==1) &&  mNewsDetailsLikeAdapter!=null){
+                    getLikes();
                     mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getLikeMaster().size()-1);
                 }
                 Utils.dismissProgressBar();
@@ -474,7 +474,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                             } else {
                                 textView.setText(getResources().getString(R.string.like));
                             }
-                            fetchCommentDataFromServer();
+                            fetchCommentDataFromServer(1);
                         } else {
                             Toast.makeText(NewsDetails.this, R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
                         }
@@ -522,7 +522,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                             if (resp.equalsIgnoreCase(WSContant.TAG_OK)) {
                                 editText.setText("");
                                 Toast.makeText(NewsDetails.this, R.string.msg_success_msg_post, Toast.LENGTH_SHORT).show();
-                                fetchCommentDataFromServer();
+                                fetchCommentDataFromServer(2);
                             } else {
                                 Toast.makeText(NewsDetails.this, R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
                             }
