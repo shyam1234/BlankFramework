@@ -44,6 +44,8 @@ import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 import com.malviya.blankframework.utils.ZoomOutPageTransformer;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -131,8 +133,6 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
-
     private void fetchDataFromServer() {
         //call to WS and validate given credential----
         Map<String, String> header = new HashMap<>();
@@ -204,9 +204,9 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onBackPressed() {
         if (JCVideoPlayer.backPress()) {
-        }else if (behavior!=null && behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+        } else if (behavior != null && behavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             behavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        }else{
+        } else {
             finish();
             Utils.animLeftToRight(NewsDetails.this);
         }
@@ -263,7 +263,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void navigateToNextPage(int posi) {
-        Intent i = new Intent(this, NewsScreenSlidePagerActivity.class);
+        Intent i = new Intent(this, NewsScreenSliderPagerActivity.class);
         //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Bundle bundle = new Bundle();
         if (mMobileDetailsHolder.getDocuments() != null) {
@@ -282,12 +282,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    private void doComment() {
+    private void viewComment() {
         onShareClick();
-    }
-
-    private void doLike() {
-        Toast.makeText(this, "like", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -302,11 +298,11 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 // React to state change
                 if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-                    ((LinearLayout)findViewById(R.id.lin_main_content)).setEnabled(false);
-                    ((LinearLayout)findViewById(R.id.lin_main_content)).setVisibility(View.GONE);
+                    ((LinearLayout) findViewById(R.id.lin_main_content)).setEnabled(false);
+                    ((LinearLayout) findViewById(R.id.lin_main_content)).setVisibility(View.GONE);
                 } else {
-                    ((LinearLayout)findViewById(R.id.lin_main_content)).setEnabled(true);
-                    ((LinearLayout)findViewById(R.id.lin_main_content)).setVisibility(View.VISIBLE);
+                    ((LinearLayout) findViewById(R.id.lin_main_content)).setEnabled(true);
+                    ((LinearLayout) findViewById(R.id.lin_main_content)).setVisibility(View.VISIBLE);
                 }
             }
 
@@ -318,12 +314,13 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         //decide the initial height
         behavior.setPeekHeight(0);
         //-----------------------------------------------
-        mTextViewCommentTab = (TextView)findViewById(R.id.textview_comment_like_page_comment);
-        mTextViewLikeTab = (TextView)findViewById(R.id.textview_comment_like_page_like);
+        mTextViewCommentTab = (TextView) findViewById(R.id.textview_comment_like_page_comment);
+        mTextViewLikeTab = (TextView) findViewById(R.id.textview_comment_like_page_like);
         mEditTextComment = (EditText) findViewById(R.id.edittext_send_comment_comment);
-        mTextViewSend = (TextView)findViewById(R.id.textview_send_comment_send);
-        mRelComment = (RelativeLayout)findViewById(R.id.rel_comment);
+        mTextViewSend = (TextView) findViewById(R.id.textview_send_comment_send);
+        mRelComment = (RelativeLayout) findViewById(R.id.rel_comment);
         //------------------------------------------------
+        mTextViewSend.setOnClickListener(this);
         mTextViewCommentTab.setOnClickListener(this);
         mTextViewLikeTab.setOnClickListener(this);
         initRecyclerView();
@@ -361,19 +358,23 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 navigateToNextPage(posi);
                 break;
             case R.id.rel_inc_like_comment_like_holder:
-                doLike();
+                doLike(((TextView) v.findViewById(R.id.textview_inc_bottom_like)));
                 break;
             case R.id.rel_inc_like_comment_comment_holder:
-                doComment();
+                viewComment();
                 break;
             case R.id.textview_comment_like_page_comment:
                 getComments();
                 break;
             case R.id.textview_comment_like_page_like:
-                 getLikes();
+                getLikes();
+                break;
+            case R.id.textview_send_comment_send:
+                doComment(((EditText)findViewById(R.id.edittext_send_comment_comment)));
                 break;
         }
     }
+
 
     private void getLikes() {
         mRelComment.setVisibility(View.GONE);
@@ -405,18 +406,25 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
         header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
         header.put(WSContant.TAG_NEW, Utils.getCurrTime());
-        header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+        header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
         //-Utils-for body
         Map<String, String> body = new HashMap<>();
         body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
         body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
-       // Utils.showProgressBar(this);
+        // Utils.showProgressBar(this);
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILECOMMENTSNLIKES, header, body, WSContant.TAG_COMMENT, new IWSRequest() {
             @Override
             public void onResponse(String response) {
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS_COMMENTS_LIKE);
                 mNewsDetailsCommentLikeDataModel = ((NewsDetailsCommentLikeDataModel) obj.getModel());
-
+                if(mNewsDetailsCommentAdapter!=null){
+                    mNewsDetailsCommentAdapter.notifyDataSetChanged();
+                    mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getCommentMaster().size()-1);
+                }
+                if(mNewsDetailsLikeAdapter!=null){
+                    mNewsDetailsLikeAdapter.notifyDataSetChanged();
+                    mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getLikeMaster().size()-1);
+                }
                 Utils.dismissProgressBar();
             }
 
@@ -427,6 +435,112 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+
+    private void doLike(final TextView textView) {
+        final String pStr = textView.getText().toString().trim();
+        Map<String, String> header = new HashMap<>();
+        header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+        header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
+        header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
+        header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+
+        //-Utils-for body
+        final Map<String, String> body = new HashMap<>();
+        body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
+        body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
+        body.put(WSContant.TAG_USERID, "" + UserInfo.userId);
+        body.put(WSContant.TAG_COMMENT, "");
+        if (pStr.equalsIgnoreCase(getResources().getString(R.string.like))) {
+            body.put(WSContant.TAG_ISLIKE, "1");
+            body.put(WSContant.TAG_ISDELETE, "0");
+            // textView.setText(getResources().getString(R.string.unlike));
+        } else {
+            // textView.setText(getResources().getString(R.string.like));
+            body.put(WSContant.TAG_ISLIKE, "0");
+            body.put(WSContant.TAG_ISDELETE, "1");
+        }
+        Utils.showProgressBar(this);
+        WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_SAVELIKENCOMMENT, header, body, WSContant.TAG_SAVELIKECOMMENT, new IWSRequest() {
+            @Override
+            public void onResponse(String response) {
+                Utils.dismissProgressBar();
+                if (response != null && response.length() > 0) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        String resp = jsonObject.getString(WSContant.TAG_MESSAGERESULT);
+                        if (resp.equalsIgnoreCase(WSContant.TAG_OK)) {
+                            if (pStr.equalsIgnoreCase(getResources().getString(R.string.like))) {
+                                textView.setText(getResources().getString(R.string.unlike));
+                            } else {
+                                textView.setText(getResources().getString(R.string.like));
+                            }
+                            fetchCommentDataFromServer();
+                        } else {
+                            Toast.makeText(NewsDetails.this, R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        AppLog.errLog(TAG, e.getMessage());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError response) {
+                Utils.dismissProgressBar();
+            }
+        });
+    }
+
+
+    private void doComment(final EditText editText) {
+        if(editText.getText().toString().trim().length()>0) {
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
+            header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
+            header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+
+            //-Utils-for body
+            final Map<String, String> body = new HashMap<>();
+            body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
+            body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
+            body.put(WSContant.TAG_USERID, "" + UserInfo.userId);
+            body.put(WSContant.TAG_COMMENT, editText.getText().toString().trim());
+            body.put(WSContant.TAG_ISLIKE, "0");
+            body.put(WSContant.TAG_ISDELETE, "0");
+            Utils.showProgressBar(this);
+            Utils.hideNativeKeyboard(this);
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_SAVELIKENCOMMENT, header, body, WSContant.TAG_SAVELIKECOMMENT, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    Utils.dismissProgressBar();
+                    if (response != null && response.length() > 0) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String resp = jsonObject.getString(WSContant.TAG_MESSAGERESULT);
+                            if (resp.equalsIgnoreCase(WSContant.TAG_OK)) {
+                                editText.setText("");
+                                Toast.makeText(NewsDetails.this, R.string.msg_success_msg_post, Toast.LENGTH_SHORT).show();
+                                fetchCommentDataFromServer();
+                            } else {
+                                Toast.makeText(NewsDetails.this, R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            AppLog.errLog(TAG, e.getMessage());
+                        }
+                    }
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError response) {
+                    Utils.dismissProgressBar();
+                }
+            });
+        }else{
+            Toast.makeText(NewsDetails.this, R.string.msg_validate_comment, Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
 }

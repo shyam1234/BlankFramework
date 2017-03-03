@@ -88,4 +88,7 @@
     <string name="type_comment">Type Comment</string>
     <string name="send">Send</string>
     <string name="title_news_details">News Details</string>
+    <string name="unlike">Unlike</string>
+    <string name="msg_success_msg_post">"Successfully Post Comment"</string>
+    <string name="msg_validate_comment">Comment can not be empty</string>
 </resources>

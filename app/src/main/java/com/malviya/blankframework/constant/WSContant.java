@@ -67,5 +67,7 @@ public interface WSContant {
     String TAG_IMAGE = "I";
     String TAG_VIDEO = "V";
 
+    String TAG_SAVELIKECOMMENT = "SaveLikeNComment";
+    String TAG_MESSAGERESULT="MessageResult";
 }
 

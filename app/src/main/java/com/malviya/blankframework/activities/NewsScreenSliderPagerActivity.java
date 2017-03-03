@@ -25,7 +25,7 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
  * Created by 23508 on 2/28/2017.
  */
 
-public class NewsScreenSlidePagerActivity extends AppCompatActivity implements View.OnClickListener {
+public class NewsScreenSliderPagerActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private ViewPager mPager;

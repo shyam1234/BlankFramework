@@ -9,8 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.android.volley.VolleyError;
@@ -108,7 +110,6 @@ public class Utils {
         Animation shake = AnimationUtils.loadAnimation(mContext, R.anim.vibrate);
         pEditText.startAnimation(shake);
     }
-
 
 
     // for in
@@ -212,9 +213,6 @@ public class Utils {
             AppLog.errLog("navigateFragmentMenu", e.getMessage());
         }
     }
-
-
-
 
 
 //    public static String getLastRetrivedTime() {
@@ -353,7 +351,6 @@ public class Utils {
     }
 
 
-
     public static String getLastRetrivedTimeForNews() {
         try {
             if (SharedPreferencesApp.getInstance().getSavedTime() != null) {
@@ -369,4 +366,12 @@ public class Utils {
         }
     }
 
+    public static void hideNativeKeyboard(Activity context) {
+// Check if no view has focus:
+        View view = context.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 }
