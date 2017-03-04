@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.DashboardAdapter;
@@ -28,11 +26,12 @@ import com.roughike.bottombar.OnTabSelectListener;
 
 public class DashboardActivity extends AppCompatActivity implements OnTabSelectListener, ViewPager.OnPageChangeListener {
     //private FrameLayout mContainer;
-    public static Handler mHandler ;
+    public static Handler mHandler;
     public static DashboardActivity mContext;
     private BottomBar mBottomBar;
     private ViewPager mViewPage;
     private DashboardAdapter mAdapterViewPager;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +44,12 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     }
 
     private void init() {
-        mContext  = this;
+        mContext = this;
         mAdapterViewPager = new DashboardAdapter(getSupportFragmentManager());
         TableParentStudentAssociation table = new TableParentStudentAssociation();
         table.openDB(DashboardActivity.this);
-        Log.d("ITC","UserInfo.currUserType: "+UserInfo.currUserType);
-        switch (UserInfo.currUserType){
+        Log.d("ITC", "UserInfo.currUserType: " + UserInfo.currUserType);
+        switch (UserInfo.currUserType) {
             case WSContant.TAG_USERTYPE_PARENT:
                 UserInfo.parentId = UserInfo.userId;
                 UserInfo.studentId = table.getStudentIDWRTParentID(UserInfo.parentId).getStudentid();
@@ -62,14 +61,14 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         }
         table.closeDB();
 
-        AppLog.log("ITC","Dashboard UserInfo.parentId: "+UserInfo.parentId);
-        AppLog.log("ITC","Dashboard UserInfo.studentId: "+UserInfo.studentId);
+        AppLog.log("ITC", "Dashboard UserInfo.parentId: " + UserInfo.parentId);
+        AppLog.log("ITC", "Dashboard UserInfo.studentId: " + UserInfo.studentId);
     }
 
 
     private void initView() {
-       // mTextViewTitle = (TextView) findViewById(R.id.textview_title);
-       // mImageViewStudentTitleImg = (ImageView) findViewById(R.id.imageview_profile);
+        // mTextViewTitle = (TextView) findViewById(R.id.textview_title);
+        // mImageViewStudentTitleImg = (ImageView) findViewById(R.id.imageview_profile);
         //----------------------------------------------------------------------------
         // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -96,21 +95,21 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
             case R.id.tab_home:
                 //lFragmentTransaction.replace(R.id.contentContainer, new HomeFragment());
                 mViewPage.setCurrentItem(0);
-               // mTextViewTitle.setText(getResources().getString(R.string.tab_home));
-                if(mHandler!=null)
-                    mHandler.sendMessage(mHandler.obtainMessage(1,0));
+                // mTextViewTitle.setText(getResources().getString(R.string.tab_home));
+                if (mHandler != null)
+                    mHandler.sendMessage(mHandler.obtainMessage(1, 0));
                 break;
             case R.id.tab_ward:
                 mViewPage.setCurrentItem(1);
-               // mTextViewTitle.setText(getResources().getString(R.string.tab_wards));
-                if(mHandler!=null)
-                    mHandler.sendMessage(mHandler.obtainMessage(0,1));
+                // mTextViewTitle.setText(getResources().getString(R.string.tab_wards));
+                if (mHandler != null)
+                    mHandler.sendMessage(mHandler.obtainMessage(0, 1));
                 break;
             case R.id.tab_setting:
                 mViewPage.setCurrentItem(2);
-              //  mTextViewTitle.setText(getResources().getString(R.string.tab_options));
-                if(mHandler!=null)
-                    mHandler.sendMessage(mHandler.obtainMessage(0,2));
+                //  mTextViewTitle.setText(getResources().getString(R.string.tab_options));
+                if (mHandler != null)
+                    mHandler.sendMessage(mHandler.obtainMessage(0, 2));
                 break;
 
         }
@@ -170,4 +169,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
             AppLog.errLog("onBackPressed", e.getMessage());
         }
     }
+
+
+
 }

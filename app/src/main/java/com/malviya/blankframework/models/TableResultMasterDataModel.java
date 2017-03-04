@@ -6,6 +6,26 @@ package com.malviya.blankframework.models;
 
 public class TableResultMasterDataModel {
 
+
+    /*{
+    "MenuCode":"RES",
+    "ParentId":239,
+    "StudentId":328,
+    "ReferenceId":2369,
+    "StudentNumber":"17.ADNA.000325",
+    "StudentName":"varma",
+    "AcademicYear":"BAT201718ENGG",
+    "CourseName":"Administrasi Negara -A Section",
+    "SemesterName":"Semester 1",
+    "AchivementIndex":"1.46",
+    "Result":"Fail",
+    "PublishedOn":"20170304093851",
+    "PublishedBy":"Admin",
+    "ExpiryDate":"20170314075353"
+    },
+  */
+
+
     private String MenuCode;
     private int ParentId;
     private int StudentId;

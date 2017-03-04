@@ -24,6 +24,8 @@ public class TableNoticeBoard {
     private static final String COL_STUDENTID = "StudentId";
     private static final String COL_MENUCODE = "MenuCode";
     private static final String COL_REFERENCEID = "RederenceId";
+    private static final String COL_PUBLISHEDON = "PublishedOn";
+    private static final String COL_EXPIRYDATE = "ExpiryDate";
 
 
     //-------------------------------------------------------------------------
@@ -35,7 +37,9 @@ public class TableNoticeBoard {
             + COL_PARENTID + " int , "
             + COL_STUDENTID + " int , "
             + COL_MENUCODE + " char(3), "
-            + COL_REFERENCEID + " int  "
+            + COL_REFERENCEID + " int , "
+            + COL_PUBLISHEDON + " varchar(255) , "
+            + COL_EXPIRYDATE + " varchar(255)  "
             + " )";
 
     //For Foreign key
@@ -94,6 +98,8 @@ public class TableNoticeBoard {
                     value.put(COL_STUDENTID, holder.getStudentId());
                     value.put(COL_MENUCODE, holder.getMenuCode());
                     value.put(COL_REFERENCEID, holder.getRederenceId());
+                    value.put(COL_PUBLISHEDON, holder.getPublishedOn());
+                    value.put(COL_EXPIRYDATE, holder.getExpiryDate());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: ", holder.getRederenceId() + " row: " + row);
                 }
@@ -110,6 +116,7 @@ public class TableNoticeBoard {
                     + COL_MENUCODE + " = '" + model.getMenuCode() + "' , "
                     + COL_PARENTID + " = '" + model.getParentId() + "' , "
                     + COL_STUDENTID + " = '" + model.getStudentId() + "' , "
+                    + COL_PUBLISHEDON + " = '" + model.getPublishedOn() + "' , "
                     + COL_REFERENCEID + " = '" + model.getRederenceId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
@@ -128,7 +135,7 @@ public class TableNoticeBoard {
     public boolean deleteRecord(TableNoticeBoardDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_MENUCODE + "=? and "+COL_PARENTID + "=? and "+COL_STUDENTID + "=? and "+COL_REFERENCEID + "=?", new String[]{"" + holder.getMenuCode(),"" + holder.getParentId(),"" + holder.getStudentId(),"" + holder.getRederenceId()});
+                long row = mDB.delete(TABLE_NAME, COL_PUBLISHEDON + "=? and "+ COL_MENUCODE + "=? and "+COL_PARENTID + "=? and "+COL_STUDENTID + "=? and "+COL_REFERENCEID + "=?", new String[]{"" + holder.getPublishedOn(),"" + holder.getMenuCode(),"" + holder.getParentId(),"" + holder.getStudentId(),"" + holder.getRederenceId()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {

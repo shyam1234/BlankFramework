@@ -10,6 +10,26 @@ import java.io.Serializable;
 
 public class TableNewsMasterDataModel implements Serializable{
 
+
+    /*{
+        "MenuCode":"NEW",
+        "ParentId":239,
+        "StudentId":328,
+        "ReferenceId":2,
+        "DocumentMasterId":51,
+        "DocumentId":52,
+        "FilePath":"test.jpg",
+        "ReferenceTitle":"test1",
+        "ShortBody":"Republic Day honors the date on which th",
+        "ThumbnailPath":"https://edurpstorage.blob.core.windows.net/edurpcontainer/DEV/1/51/52?sv=2015-12-11&sr=b&sig=e0UsUhIsBUzvBVo5X%2F6XU4tkYsYdm3kyPA4Gz8jaGCM%3D&se=2017-03-05T07%3A53%3A51Z&sp=rwl&rscd=attachment%3B%20filename%3Dtest.jpg",
+        "PublishedOn":null,
+        "PublishedBy":"Admin",
+        "ExpiryDate":"20170309000000",
+        "TotalComments":55,
+        "TotalLikes":6
+        },*/
+
+
     @SerializedName("ParentId")
     private String ParentId;
     @SerializedName("StudentId")

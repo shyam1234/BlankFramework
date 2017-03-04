@@ -32,7 +32,8 @@ public class GetMobileMenuDataModel extends IModel {
                 "TotalLikes": 0
               }
             ],
-            "StudentOverallSummary": []
+            "StudentOverallResultSummary": [],
+            "StudentOverallFeeSummary": []
           }
     }*/
     //-------------------------------------------------------------------------------------------
@@ -43,7 +44,6 @@ public class GetMobileMenuDataModel extends IModel {
 
     @SerializedName("MessageBody")
     private MessageBody MessageBody;
-
 
 
     public GetMobileMenuDataModel.MessageBody getMessageBody() {
@@ -79,17 +79,20 @@ public class GetMobileMenuDataModel extends IModel {
                 "TotalLikes": 0
               }
             ],
-            "StudentOverallSummary": []*/
+            "StudentOverallResultSummary": []*/
         //-------------------------------------------------------------------------------------------
 
         @SerializedName("NoticeBoardMenuList")
-        private ArrayList<TableNoticeBoardDataModel> NoticeBoardMenuList;
+        private ArrayList<TableNoticeBoardDataModel> NoticeBoardMenuList = new ArrayList<TableNoticeBoardDataModel>();
 
         @SerializedName("NewsMasterMenuList")
-        private ArrayList<TableNewsMasterDataModel> NewsMasterMenuList;
+        private ArrayList<TableNewsMasterDataModel> NewsMasterMenuList = new ArrayList<TableNewsMasterDataModel>();
 
-        @SerializedName("StudentOverallSummary")
-        private ArrayList<StudentOverallSummaryDataModel> StudentOverallSummary;
+        @SerializedName("StudentOverallResultSummary")
+        private ArrayList<TableResultMasterDataModel> StudentOverallResultSummary = new ArrayList<TableResultMasterDataModel>();
+
+        @SerializedName("StudentOverallFeeSummary")
+        private ArrayList<TableFeeMasterDataModel> StudentOverallFeeSummary = new ArrayList<TableFeeMasterDataModel>();
 
 
         public ArrayList<TableNoticeBoardDataModel> getNoticeBoardMenuList() {
@@ -101,8 +104,12 @@ public class GetMobileMenuDataModel extends IModel {
             return NewsMasterMenuList;
         }
 
-        public ArrayList<StudentOverallSummaryDataModel> getStudentOverallSummary() {
-            return StudentOverallSummary;
+        public ArrayList<TableResultMasterDataModel> getStudentOverallResultSummary() {
+            return StudentOverallResultSummary;
+        }
+
+        public ArrayList<TableFeeMasterDataModel> getStudentOverallFeeSummary() {
+            return StudentOverallFeeSummary;
         }
     }
 

@@ -142,7 +142,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onResponse(String response) {
                 mNewsList.clear();
-                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS);
+                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEMENU);
                 GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
                 AppLog.log(TAG,"fetchDataFromServe1r3333 "+mNewsList.size());
                 if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {

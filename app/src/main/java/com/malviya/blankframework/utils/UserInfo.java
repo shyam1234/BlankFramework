@@ -26,6 +26,7 @@ public class UserInfo {
     public static String currUserType;
     public static String selectedStudentImageURL="";
     public static String menuCode;
+    public static String timeTableRefDate="";
 
     public static void clearUSerInfo() {
         userId = -1;

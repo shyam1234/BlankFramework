@@ -348,5 +348,44 @@ public class SharedPreferencesApp {
 
     //------------------------------------------------------------------------------------------------
 
+    public void saveGetMobileMenuTime(String currTime) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putString(WSContant.TAG_LAST_LOGIN_TIME, currTime);
+            data.commit();
+            AppLog.log("sharePreferenceApp", "saveGetMobileMenuTime: " + currTime);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp saveGetMobileMenuTime", e.getMessage());
+        }
+    }
+
+    public static String getLastGetMobileMenuTime() {
+        String mLastLoginTime="";
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                mLastLoginTime = sharePref.getString(WSContant.TAG_LAST_LOGIN_TIME, "");
+            } else {
+                AppLog.log("getLastGetMobileMenuTime", "there is not savedTime ");
+            }
+            sharePref = null;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getLastLoginTime", e.getMessage());
+        } finally {
+            return mLastLoginTime;
+        }
+    }
+
+    public void removeLastGetMobileMenuTime() {
+        try {
+            mLastLoginTime = null;
+            saveTime(mLastLoginTime);
+        } catch (Exception e) {
+            AppLog.errLog(" removeLastGetMobileMenuTime", e.getMessage());
+        }
+    }
+
+    //-----------------------------------------------------------
 
 }

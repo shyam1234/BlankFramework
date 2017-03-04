@@ -13,14 +13,15 @@ import java.util.HashMap;
 
 public class ModelFactory {
     public static final String MODEL_NEWS_DETAILS_COMMENTS_LIKE = "commentlike";
-    private volatile static ModelFactory mInstance;
+    public static final String MODEL_NOTICEBOARD = "noticeboard";
     public final static String MODEL_LOGIN = "LoginDataModel";
-    public static final String MODEL_NEWS = "NewsDataModel";
-    public static final String MODEL_NEWS_DETAILS = "NewsDataModelDetails";
+    public static final String MODEL_GETMOBILEMENU = "NewsDataModel";
+    public static final String MODEL_GETMOBILEDETAILS = "NewsDataModelDetails";
     public final static String MODEL_LANG = "LanguageArrayDataModel";
     public final static String MODEL_GETMOBILEHOME = "GetMobileHome";
-
+    private volatile static ModelFactory mInstance;
     private HashMap<String, IModel> mHashMapMode;
+
     private ModelFactory() {
         mHashMapMode = new HashMap<>();
     }

@@ -21,13 +21,13 @@ public class ParseResponse {
     private String mRespose;
     private Gson mGson;
     private IModel mModel;
-    private Class<? extends IModel> mModelClass;
+   // private Class<? extends IModel> mModelClass;
 
     public ParseResponse(String response, Class<? extends IModel> pModelClass, String key) {
         mRespose = response;
         mGson = new Gson();
         mKey = key;
-        mModelClass = pModelClass;
+       // mModelClass = pModelClass;
         doParse();
     }
 
@@ -49,11 +49,11 @@ public class ParseResponse {
                 mModel = mGson.fromJson(mRespose, GetMobileHomeDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
-            case ModelFactory.MODEL_NEWS:
+            case ModelFactory.MODEL_GETMOBILEMENU:
                 mModel = mGson.fromJson(mRespose, GetMobileMenuDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
-            case ModelFactory.MODEL_NEWS_DETAILS:
+            case ModelFactory.MODEL_GETMOBILEDETAILS:
                 mModel = mGson.fromJson(mRespose, GetMobileDetailsDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;

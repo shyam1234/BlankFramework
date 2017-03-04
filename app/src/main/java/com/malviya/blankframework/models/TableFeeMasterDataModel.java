@@ -4,7 +4,25 @@ package com.malviya.blankframework.models;
  * Created by Admin on 05-02-2017.
  */
 
-public class TableFeeMasterDataModel {
+public class TableFeeMasterDataModel
+{
+        /*{
+           "MenuCode":"FEE",
+           "ParentId":239,
+           "StudentId":328,
+           "ReferenceId":411,
+           "StudentNumber":"16.72.017385",
+           "StudentName":"NOOR IDHA",
+           "CourseName":"Administrasi Negara -A Section",
+           "SemesterName":"Semester 1",
+           "TotalDue":"Rp 1842400.00",
+           "DueDate":"20170220000000",
+           "PublishedOn":"20170304093851",
+           "PublishedBy":"Admin",
+           "ExpiryDate":"20170314075353",
+           "Status":"Not Paid"
+         },*/
+
     private String MenuCode;
     private int ParentId;
     private int StudentId;

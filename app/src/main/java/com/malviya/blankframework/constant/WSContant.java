@@ -69,5 +69,7 @@ public interface WSContant {
 
     String TAG_SAVELIKECOMMENT = "SaveLikeNComment";
     String TAG_MESSAGERESULT="MessageResult";
+    String TAG_MOBILENOTICEBOARD = "GetMobileNoticeBoard";
+    String TAG_REFERENCEDATE = "ReferenceDate";
 }
 

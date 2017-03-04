@@ -143,11 +143,12 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         Map<String, String> body = new HashMap<>();
         body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
         body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
+        body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
         Utils.showProgressBar(this);
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEDETAILS, header, body, WSContant.TAG_GETMOBILEDETAILS, new IWSRequest() {
             @Override
             public void onResponse(String response) {
-                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS);
+                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEDETAILS);
                 mMobileDetailsHolder = ((GetMobileDetailsDataModel) obj.getModel());
                 mMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML();
                 //mNewsDetailsMessageBodyList = mMobileDetailsHolder.getMessageBody();

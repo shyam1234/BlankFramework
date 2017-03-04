@@ -7,14 +7,29 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class TableNoticeBoardDataModel {
+
+    /*{
+        "ParentId":239,
+        "StudentId":328,
+        "MenuCode":"FEE",
+        "ReferenceId":411,
+        "PublishedOn":"20170304093851",
+        "ExpiryDate":"20170314075352"
+        },
+    */
+
     @SerializedName("ParentId")
     private  String ParentId;
     @SerializedName("StudentId")
     private  String StudentId ;
     @SerializedName("MenuCode")
     private  String MenuCode;
-    @SerializedName("RederenceId")
+    @SerializedName("ReferenceId")
     private  String RederenceId ;
+    @SerializedName("PublishedOn")
+    private  String PublishedOn ;
+    @SerializedName("ExpiryDate")
+    private  String ExpiryDate ;
 
     public String getParentId() {
         return ParentId;
@@ -46,5 +61,21 @@ public class TableNoticeBoardDataModel {
 
     public void setRederenceId(String rederenceId) {
         RederenceId = rederenceId;
+    }
+
+    public String getPublishedOn() {
+        return PublishedOn;
+    }
+
+    public void setPublishedOn(String publishedOn) {
+        PublishedOn = publishedOn;
+    }
+
+    public String getExpiryDate() {
+        return ExpiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        ExpiryDate = expiryDate;
     }
 }

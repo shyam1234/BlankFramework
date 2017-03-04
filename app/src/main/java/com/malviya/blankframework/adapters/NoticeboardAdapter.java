@@ -10,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.models.TableNewsMasterDataModel;
+import com.malviya.blankframework.models.TableNoticeBoardDataModel;
 import com.malviya.blankframework.utils.AppLog;
-import com.malviya.blankframework.utils.GetPicassoImage;
 
 import java.util.ArrayList;
 
@@ -20,17 +19,17 @@ import java.util.ArrayList;
  * Created by Admin on 05-02-2017.
  */
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> {
-    private static final java.lang.String TAG = "NewsAdapter";
+public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.MyViewHolder> {
+    private static final String TAG = "NoticeboardAdapter";
     private Context mContext;
-    private ArrayList<TableNewsMasterDataModel> mList;
+    private ArrayList<TableNoticeBoardDataModel> mList;
     private View.OnClickListener mListener;
 
-    public NewsAdapter(Context context, ArrayList<TableNewsMasterDataModel> pList, View.OnClickListener pListener) {
+    public NoticeboardAdapter(Context context, ArrayList<TableNoticeBoardDataModel> pList, View.OnClickListener pListener) {
         mContext = context;
         mList = pList;
         mListener = pListener;
-        AppLog.log(TAG," +++ NewsAdapter +pList.size()+++ "+pList.size());
+        AppLog.log(TAG," +++ NoticeboardAdapter +pList.size()+++ "+pList.size());
     }
 
     @Override
@@ -43,16 +42,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         AppLog.log(TAG," +++ onBindViewHolder ++++ ");
-        //String url ="https://edurpstorage.blob.core.windows.net/edurpcontainer/DEV/1/61/103?sv=2015-12-11&sr=b&sig=kPNs9zkQw0v1bqiNnvBkpjRY40ve6qm0%2BDak3zl26Xk%3D&se=2017-03-04T14%3A27%3A34Z&sp=rwl&rscd=attachment%3B%20filename%3Dimages.jpg";
-       // GetPicassoImage.getImage(mContext,url,holder.imageViewRhumbnil);
-        GetPicassoImage.getImage(mContext,mList.get(position).getThumbNailPath(),holder.imageViewRhumbnil);
-        holder.textViewPublishBy.setText(mList.get(position).getPublishedBy());
-        holder.textViewRefTitle.setText(mList.get(position).getReferenceTitle());
-        holder.textViewPublishedTime.setText(mList.get(position).getPublishedOn());
-        holder.webviewShortBody.loadData(mList.get(position).getShortBody(),"text/html; charset=utf-8", "utf-8");
-        holder.textViewTag.setText(mList.get(position).getMenuCode());
-        holder.textViewLike.setText(mList.get(position).getTotalLikes());
-        holder.textViewComment.setText(mList.get(position).getTotalComments());
+//        GetPicassoImage.getImage(mContext,mList.get(position).getThumbNailPath(),holder.imageViewRhumbnil);
+//        holder.textViewPublishBy.setText(mList.get(position).getPublishedBy());
+//        holder.textViewRefTitle.setText(mList.get(position).getReferenceTitle());
+          holder.textViewPublishedTime.setText(mList.get(position).getPublishedOn());
+//        holder.webviewShortBody.loadData(mList.get(position).getShortBody(),"text/html; charset=utf-8", "utf-8");
+//        holder.textViewTag.setText(mList.get(position).getMenuCode());
+//        holder.textViewLike.setText(mList.get(position).getTotalLikes());
+//        holder.textViewComment.setText(mList.get(position).getTotalComments());
         //--------------------------------------------------------------
         holder.imageViewRhumbnil.setOnClickListener(mListener);
         holder.imageViewRhumbnil.setTag(position);
