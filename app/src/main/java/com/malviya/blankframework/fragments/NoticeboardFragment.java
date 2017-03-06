@@ -133,7 +133,8 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
         body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
         body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
-        body.put(WSContant.TAG_LASTRETRIEVED, "" + Utils.getLastRetrivedTimeForNews());
+        body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
+        body.put(WSContant.TAG_LASTRETRIEVED, "" + UserInfo.timeTableRefDate);//SharedPreferencesApp.getLastGetMobileMenuTime());
         Utils.showProgressBar(getContext());
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
             @Override
@@ -141,9 +142,9 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
                 mNoticeboardList.clear();
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEMENU);
                 GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
-                AppLog.log(TAG, "fetchDataFromServe1r3333 " + mNoticeboardList.size());
                 bindData(holder);
                 Utils.dismissProgressBar();
+                AppLog.log(TAG, "fetchDataFromServe1r3333 " + mNoticeboardList.size());
             }
 
 
@@ -159,7 +160,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
             mNoticeboardList  = holder.getMessageBody().getNoticeBoardMenuList();
             saveDataIntoTable(holder);
-            SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+            SharedPreferencesApp.getInstance().saveGetMobileMenuTime(Utils.getCurrTime());
             initRecyclerView();
         } else {
             Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();

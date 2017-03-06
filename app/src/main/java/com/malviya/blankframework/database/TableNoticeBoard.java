@@ -26,7 +26,7 @@ public class TableNoticeBoard {
     private static final String COL_REFERENCEID = "RederenceId";
     private static final String COL_PUBLISHEDON = "PublishedOn";
     private static final String COL_EXPIRYDATE = "ExpiryDate";
-
+    private static final String COL_REFERENCEDATE = "ReferenceDate";
 
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
@@ -39,6 +39,7 @@ public class TableNoticeBoard {
             + COL_MENUCODE + " char(3), "
             + COL_REFERENCEID + " int , "
             + COL_PUBLISHEDON + " varchar(255) , "
+            + COL_REFERENCEDATE + " varchar(255) , "
             + COL_EXPIRYDATE + " varchar(255)  "
             + " )";
 
@@ -100,6 +101,7 @@ public class TableNoticeBoard {
                     value.put(COL_REFERENCEID, holder.getRederenceId());
                     value.put(COL_PUBLISHEDON, holder.getPublishedOn());
                     value.put(COL_EXPIRYDATE, holder.getExpiryDate());
+                    value.put(COL_REFERENCEDATE, holder.getReferenceDate());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: ", holder.getRederenceId() + " row: " + row);
                 }

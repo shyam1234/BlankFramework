@@ -17,7 +17,7 @@ import com.malviya.blankframework.application.MyApplication;
 public class UserInfo {
     public static int parentId;
     public static String parentName;
-    public static int studentId;
+    public static int studentId=328;
     public static String authToken;
     public static int univercityId;
     public static String tokenExp;
@@ -26,7 +26,7 @@ public class UserInfo {
     public static String currUserType;
     public static String selectedStudentImageURL="";
     public static String menuCode;
-    public static String timeTableRefDate="";
+    public static String timeTableRefDate="2016-02-04 09:54:14";
 
     public static void clearUSerInfo() {
         userId = -1;

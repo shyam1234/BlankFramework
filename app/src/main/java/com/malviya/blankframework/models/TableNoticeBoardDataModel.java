@@ -30,6 +30,8 @@ public class TableNoticeBoardDataModel {
     private  String PublishedOn ;
     @SerializedName("ExpiryDate")
     private  String ExpiryDate ;
+    @SerializedName("ReferenceDate")
+    private  String ReferenceDate ;
 
     public String getParentId() {
         return ParentId;
@@ -77,5 +79,13 @@ public class TableNoticeBoardDataModel {
 
     public void setExpiryDate(String expiryDate) {
         ExpiryDate = expiryDate;
+    }
+
+    public String getReferenceDate() {
+        return ReferenceDate;
+    }
+
+    public void setReferenceDate(String referenceDate) {
+        ReferenceDate = referenceDate;
     }
 }

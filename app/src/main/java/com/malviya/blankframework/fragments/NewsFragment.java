@@ -136,6 +136,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
         body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
         body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
+        body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
         body.put(WSContant.TAG_LASTRETRIEVED, "" + Utils.getLastRetrivedTimeForNews());
         Utils.showProgressBar(getContext());
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {

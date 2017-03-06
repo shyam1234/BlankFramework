@@ -33,6 +33,7 @@ public class TableFeeMasterMaster {
     private static final String COL_PUBLISHEDON = "publishedon";
     private static final String COL_PUBLISHEDBY = "publishedby";
     private static final String COL_EXPIRYDATE = "expirydate";
+    private static final String COL_FEETITLE = "feetitle";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -51,6 +52,7 @@ public class TableFeeMasterMaster {
             + COL_TOTALDUE + " varchar(255), "
             + COL_PUBLISHEDON + " varchar(255), "
             + COL_PUBLISHEDBY + " varchar(255), "
+            + COL_FEETITLE + " varchar(255), "
             + COL_EXPIRYDATE + " varchar(255) "
             + " )";
 
@@ -118,6 +120,7 @@ public class TableFeeMasterMaster {
                     value.put(COL_TOTALDUE, holder.getTotalDue());
                     value.put(COL_PUBLISHEDON, holder.getPublishedOn());
                     value.put(COL_PUBLISHEDBY, holder.getPublishedBy());
+                    value.put(COL_FEETITLE, holder.getFeeTitle());
                     value.put(COL_EXPIRYDATE, holder.getExpiryDate());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: getParentId ", "" + holder.getParentId());
@@ -163,4 +166,33 @@ public class TableFeeMasterMaster {
     }
 
 
+    public TableFeeMasterDataModel getInfo(String menuCode, String rederenceId) {
+        TableFeeMasterDataModel holder = new TableFeeMasterDataModel();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "' and " + COL_REFERENCEID + " = '" + rederenceId + "'";
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    holder.setCourseName(cursor.getString(cursor.getColumnIndex(COL_COURSENAME)));
+                    holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                    holder.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
+                    holder.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
+                    holder.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
+                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNUMBER)));
+                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNAME)));
+                    holder.setSemsterName(cursor.getString(cursor.getColumnIndex(COL_SEMESTERNAME)));
+                    holder.setTotalDue(cursor.getString(cursor.getColumnIndex(COL_TOTALDUE)));
+                    holder.setDueDate(cursor.getString(cursor.getColumnIndex(COL_DUEDATE)));
+                    holder.setPublishedOn(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON)));
+                    holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
+                    holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
+                    holder.setFeeTitle(cursor.getString(cursor.getColumnIndex(COL_FEETITLE)));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("getInfo", e.getMessage());
+        }
+        return holder;
+    }
 }

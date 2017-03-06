@@ -1,5 +1,7 @@
 package com.malviya.blankframework.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Admin on 05-02-2017.
  */
@@ -23,19 +25,37 @@ public class TableFeeMasterDataModel
            "Status":"Not Paid"
          },*/
 
+    @SerializedName("MenuCode")
     private String MenuCode;
+    @SerializedName("ParentId")
     private int ParentId;
+    @SerializedName("StudentId")
     private int StudentId;
+    @SerializedName("ReferenceId")
     private int ReferenceId;
+    @SerializedName("StudentNumber")
     private String StudentNumber;
+    @SerializedName("StudentName")
     private String StudentName;
+    @SerializedName("CourseName")
     private String CourseName;
+    @SerializedName("SemesterName")
     private String SemsterName;
+    @SerializedName("TotalDue")
     private String TotalDue;
+    @SerializedName("DueDate")
     private String DueDate;
+    @SerializedName("PublishedOn")
     private String PublishedOn;
+    @SerializedName("PublishedBy")
     private String PublishedBy;
+    @SerializedName("ExpiryDate")
     private String ExpiryDate;
+    @SerializedName("Status")
+    private String Status;
+    @SerializedName("FeeTitle")
+    private String FeeTitle;
+
 
 
     public String getMenuCode() {
@@ -140,5 +160,13 @@ public class TableFeeMasterDataModel
 
     public void setExpiryDate(String expiryDate) {
         ExpiryDate = expiryDate;
+    }
+
+    public String getFeeTitle() {
+        return FeeTitle;
+    }
+
+    public void setFeeTitle(String feeTitle) {
+        this.FeeTitle = feeTitle;
     }
 }

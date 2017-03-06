@@ -1,11 +1,12 @@
 package com.malviya.blankframework.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Admin on 25-02-2017.
  */
 
 public class TableResultMasterDataModel {
-
 
     /*{
     "MenuCode":"RES",
@@ -26,28 +27,35 @@ public class TableResultMasterDataModel {
   */
 
 
+    @SerializedName("MenuCode")
     private String MenuCode;
+    @SerializedName("ParentId")
     private int ParentId;
+    @SerializedName("StudentId")
     private int StudentId;
+    @SerializedName("ReferenceId")
     private int ReferenceId;
+    @SerializedName("StudentNumber")
     private String StudentNumber;
+    @SerializedName("StudentName")
     private String StudentName;
+    @SerializedName("AcademicYear")
     private String AcademicYear;
+    @SerializedName("CourseName")
     private String CourseName;
+    @SerializedName("SemesterName")
     private String SemesterName;
+    @SerializedName("AchivementIndex")
     private String AchievementIndex;
+    @SerializedName("Result")
     private String Result;
+    @SerializedName("PublishedOn")
     private String PublishedOn;
+    @SerializedName("PublishedBy")
     private String PublishedBy;
+    @SerializedName("ExpiryDate")
     private String ExpiryDate;
 
-    public String getMenuCode() {
-        return MenuCode;
-    }
-
-    public void setMenuCode(String menuCode) {
-        MenuCode = menuCode;
-    }
 
     public int getParentId() {
         return ParentId;
@@ -151,6 +159,14 @@ public class TableResultMasterDataModel {
 
     public void setExpiryDate(String expiryDate) {
         ExpiryDate = expiryDate;
+    }
+
+    public String getMenuCode() {
+        return MenuCode;
+    }
+
+    public void setMenuCode(String menuCode) {
+        MenuCode = menuCode;
     }
 }
 

@@ -17,7 +17,6 @@ public interface Constant {
     String TAG_NEWS = "NEW";
     String TAG_TIMETABLE = "TIMETABLE";
     String TAG_RESULT = "RESULT";
-
     String TAG_HOLDER = "holder";
     String TAG_POSITION = "position";
 }
