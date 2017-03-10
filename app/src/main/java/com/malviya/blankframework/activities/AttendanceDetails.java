@@ -18,6 +18,7 @@ import com.malviya.blankframework.utils.Utils;
 
 public class AttendanceDetails extends AppCompatActivity implements View.OnClickListener {
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
