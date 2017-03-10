@@ -1,11 +1,13 @@
 package com.malviya.blankframework.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.android.volley.VolleyError;
@@ -98,6 +100,18 @@ public class SplashActivity extends AppCompatActivity {
                     final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
                     dilog.setTitle(getResources().getString(R.string.msg_network_prob));
                     dilog.show();
+                    //dilog.onBackPressed();
+                    dilog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                        @Override
+                        public boolean onKey(DialogInterface arg0, int keyCode,  KeyEvent event) {
+                            // TODO Auto-generated method stub
+                            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                arg0.dismiss();
+                                finish();
+                            }
+                            return true;
+                        }
+                    });
                     dilog.getBtnOK().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
