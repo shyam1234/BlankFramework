@@ -3,6 +3,7 @@ package com.malviya.blankframework.application;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -17,6 +18,7 @@ import com.malviya.blankframework.utils.SharedPreferencesApp;
  */
 public class MyApplication extends Application {
     static final String TAG = MyApplication.class.getSimpleName();
+    private static final int MY_SOCKET_TIMEOUT_MS = 20000;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static MyApplication mInstance;
@@ -53,6 +55,10 @@ public class MyApplication extends Application {
     public <T> void addToRequestQueue(Request<T> req, String tag) {
         //set default tag if tag is empty
         req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+        req.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         getRequestQueue().add(req);
     }
 
