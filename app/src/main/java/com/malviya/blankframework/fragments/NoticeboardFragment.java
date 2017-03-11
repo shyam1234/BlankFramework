@@ -34,6 +34,7 @@ import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,7 +122,10 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
                 int position = (Integer) view.getTag();
                 //on banner click redirect to detail page
                 //navigateToNextPage(position);
-                Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.lin_news_row_holder:
+                int position1 = (Integer) view.getTag();
+                Toast.makeText(getContext(), "coming "+position1, Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -131,6 +135,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         TableNoticeBoard noticeBoard = new TableNoticeBoard();
         noticeBoard.openDB(getContext());
         mNoticeboardList = noticeBoard.getData(UserInfo.parentId,UserInfo.studentId);
+        Collections.sort(mNoticeboardList,Collections.<TableNoticeBoardDataModel>reverseOrder());
         noticeBoard.closeDB();
 
         if(Utils.isInternetConnected(getContext())){
@@ -175,6 +180,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     private void bindData(GetMobileMenuDataModel holder) {
         if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
             mNoticeboardList  = holder.getMessageBody().getNoticeBoardMenuList();
+            Collections.sort(mNoticeboardList,Collections.<TableNoticeBoardDataModel>reverseOrder());
             saveDataIntoTable(holder);
             SharedPreferencesApp.getInstance().saveGetMobileMenuTime(Utils.getCurrTime());
             initRecyclerView();

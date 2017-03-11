@@ -10,6 +10,7 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:id="@+id/lin_news_row_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
@@ -39,15 +40,6 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textview_news_row_published_by"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Published By : "
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
-                android:textColor="@color/colorLightGray" />
-
-            <TextView
                 android:layout_marginLeft="5dp"
                 android:id="@+id/textview_news_row_published_time"
                 android:layout_width="wrap_content"
@@ -57,6 +49,17 @@
                 android:text="Time"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
                 android:textColor="@color/colorLightGray" />
+
+            <TextView
+                android:id="@+id/textview_news_row_published_by"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Published By : "
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                android:textColor="@color/colorLightGray"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
         </RelativeLayout>
 
         <WebView

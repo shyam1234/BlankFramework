@@ -41,7 +41,7 @@ import java.util.Map;
  */
 
 public class ResultFragment extends Fragment implements View.OnClickListener {
-    public final static String TAG="ResultFragment";
+    public final static String TAG = "ResultFragment";
     public static String selected_sem = "";
     private TextView mTextViewSubjectSemster;
     private ImageView mImageViewBack;
@@ -94,10 +94,10 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
-         mTextViewSubjectSemster = (TextView) getView().findViewById(R.id.textview_results_subject_sem);
+        mTextViewSubjectSemster = (TextView) getView().findViewById(R.id.textview_results_subject_sem);
         mImageViewBack = (ImageView) getView().findViewById(R.id.imageview_results_arrow);
-        mTextViewTotalScore = (TextView)getView().findViewById(R.id.textview_results_total_score_value);
-        mTextViewAchievementIndex = (TextView)getView().findViewById(R.id.textview_results_achivement_index_value);
+        mTextViewTotalScore = (TextView) getView().findViewById(R.id.textview_results_total_score_value);
+        mTextViewAchievementIndex = (TextView) getView().findViewById(R.id.textview_results_achivement_index_value);
         initRecyclerView();
         setListener();
     }
@@ -122,9 +122,9 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        AppLog.log(TAG,"onResume");
-        if(selected_sem.trim().length()>0)
-        mTextViewSubjectSemster.setText(selected_sem);
+        AppLog.log(TAG, "onResume");
+        if (selected_sem.trim().length() > 0)
+            mTextViewSubjectSemster.setText(selected_sem);
     }
 
 
@@ -141,14 +141,13 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
     private void fetchDataFromServer() {
         TableStudentOverallResultSummary table = new TableStudentOverallResultSummary();
         table.openDB(getContext());
         mResultSummaryList = table.getData(UserInfo.menuCode);
         table.closeDB();
         //----------------------------------------------------------
-        if(Utils.isInternetConnected(getContext())){
+        if (Utils.isInternetConnected(getContext())) {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
@@ -184,7 +183,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
                 }
             });
 
-        }else{
+        } else {
             initRecyclerView();
         }
     }
@@ -207,7 +206,6 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         startActivity(i);
         Utils.animRightToLeft(getActivity());
     }
-
 
 
 }

@@ -174,6 +174,7 @@ public class TableNoticeBoard {
         }catch (Exception e) {
             AppLog.errLog(TAG, "getData from TableNoticeBoard " + e.getMessage());
         } finally {
+
             return list;
         }
     }

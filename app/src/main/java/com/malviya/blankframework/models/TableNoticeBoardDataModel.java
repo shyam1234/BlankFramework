@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Admin on 28-01-2017.
  */
 
-public class TableNoticeBoardDataModel {
+public class TableNoticeBoardDataModel implements Comparable<TableNoticeBoardDataModel>{
 
     /*{
         "ParentId":239,
@@ -87,5 +87,14 @@ public class TableNoticeBoardDataModel {
 
     public void setReferenceDate(String referenceDate) {
         ReferenceDate = referenceDate;
+    }
+
+
+
+
+
+    @Override
+    public int compareTo(TableNoticeBoardDataModel o2) {
+        return getPublishedOn().compareTo(o2.getPublishedOn());
     }
 }
