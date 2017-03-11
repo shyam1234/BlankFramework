@@ -196,6 +196,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (parentStudentAsso.IsDefault) {
                     AppLog.log(TAG, "default student: " + parentStudentAsso.StudentId);
                     UserInfo.studentId = parentStudentAsso.StudentId;
+                    SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
                 }
             }
             //saving into database

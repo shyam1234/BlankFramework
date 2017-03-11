@@ -136,6 +136,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
             // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
             //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
             //-Utils-for body

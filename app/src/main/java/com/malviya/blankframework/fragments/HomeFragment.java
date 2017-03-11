@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment {
                         mLinearHolder.setVisibility(View.GONE);
                         AppLog.log(TAG, "UserInfo.studentId :" + UserInfo.studentId);
                         initView();
+
                         //----------------------------------------------------------------------
                         // fetchDataFromWS();
                         return true;

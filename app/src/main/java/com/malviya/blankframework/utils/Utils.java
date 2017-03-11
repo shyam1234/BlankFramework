@@ -271,11 +271,13 @@ public class Utils {
                     AppLog.log(TAG, "onResponse +++ " + response.toString());
                     AppLog.log("Utils ", "bindDataWithParentStudentMenuDetailsDataModel: : onResponse");
                     initTableAndDisplay(response, pCallback);
+                    Utils.dismissProgressBar();
                 }
 
                 @Override
                 public void onErrorResponse(VolleyError response) {
                     initTableAndDisplay(null, pCallback);
+                    Utils.dismissProgressBar();
                     AppLog.log("Utils ", "bindDataWithParentStudentMenuDetailsDataModel: : onErrorResponse");
                 }
             });
@@ -283,6 +285,7 @@ public class Utils {
         } else {
             AppLog.errLog("Utils", "Empty field parentId " + UserInfo.parentId);
             AppLog.errLog("Utils", "Empty field studentId " + UserInfo.studentId);
+            Utils.dismissProgressBar();
         }
     }
 
@@ -294,7 +297,8 @@ public class Utils {
             for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
                 AppLog.log(TAG, "IsDefault: " + parentStudentAsso.IsDefault);
                 if (parentStudentAsso.IsDefault) {
-                    UserInfo.studentId = parentStudentAsso.StudentId;
+                    //UserInfo.studentId = parentStudentAsso.StudentId;
+                    //SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
                 }
             }
 

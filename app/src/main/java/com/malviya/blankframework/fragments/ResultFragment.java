@@ -151,6 +151,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
             //-Utils-for body
             Map<String, String> body = new HashMap<>();
             body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);

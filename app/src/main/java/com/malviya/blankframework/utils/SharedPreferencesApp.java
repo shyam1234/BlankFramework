@@ -21,8 +21,9 @@ public class SharedPreferencesApp {
             if (mInstance == null) {
                 mInstance = new SharedPreferencesApp();
                 //retrieve value from store
-                getStoreData();
+                getAllStoreData();
             }
+
         }
 
         return mInstance;
@@ -206,24 +207,25 @@ public class SharedPreferencesApp {
         }
     }
 
-    private static void getStoreData() {
+    private static void getAllStoreData() {
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
                 UserInfo.userId = sharePref.getInt(WSContant.TAG_SAVED_USERID, -1);
+                //UserInfo.studentId = sharePref.getInt(WSContant.TAG_DEFAULT_CHILD, -1);
                 UserInfo.authToken = sharePref.getString(WSContant.TAG_AUTHTOKEN, null);
                 UserInfo.currUserType = sharePref.getString(WSContant.TAG_USER_TYPE, null);
                 UserInfo.parentId = UserInfo.userId;
-                AppLog.log("getUserInfo", " UserInfo.userId: " + UserInfo.userId);
-                AppLog.log("getUserInfo", " UserInfo.authToken: " + UserInfo.authToken);
-                AppLog.log("getUserInfo", " UserInfo.currUserType: " + UserInfo.currUserType);
-                AppLog.log("getUserInfo", " UserInfo.parentId: " + UserInfo.parentId);
-                AppLog.log("getUserInfo", " UserInfo.studentId: " + UserInfo.studentId);
+                AppLog.log("getAllStoreData", " UserInfo.userId: " + UserInfo.userId);
+                AppLog.log("getAllStoreData", " UserInfo.authToken: " + UserInfo.authToken);
+                AppLog.log("getAllStoreData", " UserInfo.currUserType: " + UserInfo.currUserType);
+                AppLog.log("getAllStoreData", " UserInfo.parentId: " + UserInfo.parentId);
+                AppLog.log("getAllStoreData", " UserInfo.studentId: " + UserInfo.studentId);
             } else {
-                AppLog.log("getUserInfo", "there is not getStoreData ");
+                AppLog.log("getUserInfo", "there is not getAllStoreData ");
             }
         } catch (Exception e) {
-            AppLog.errLog("sharePreferenceApp : getStoreData", e.getMessage());
+            AppLog.errLog("sharePreferenceApp : getAllStoreData", e.getMessage());
         }
     }
 
@@ -267,7 +269,7 @@ public class SharedPreferencesApp {
             if (sharePref != null) {
                 str = sharePref.getString(WSContant.TAG_UNIVERSITYID, "1");
             } else {
-                AppLog.log("getLastSavedUniversityID", "there is not getStoreData ");
+                AppLog.log("getLastSavedUniversityID", "there is not getAllStoreData ");
             }
         } catch (Exception e) {
             AppLog.errLog("sharePreferenceApp : getLastSavedUniversityID", e.getMessage());
@@ -282,6 +284,7 @@ public class SharedPreferencesApp {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             SharedPreferences.Editor data = sharePref.edit();
             data.putInt(WSContant.TAG_DEFAULT_CHILD, studentId);
+            UserInfo.studentId = studentId;
             data.commit();
             AppLog.log("sharePreferenceApp", "savedDefaultChildSelection: " + studentId);
         } catch (Exception e) {
@@ -291,13 +294,13 @@ public class SharedPreferencesApp {
 
     public int getDefaultChildSelection() {
         try {
-            int child_id = 0;
+            int child_id = -1;
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
                 child_id = sharePref.getInt(WSContant.TAG_DEFAULT_CHILD, -1);
                 AppLog.log("getDefaultChildSelection", "default child " + child_id);
             } else {
-                AppLog.log("getDefaultChildSelection", "there is not getStoreData ");
+                AppLog.log("getDefaultChildSelection", "there is not getAllStoreData ");
             }
             return child_id;
         } catch (Exception e) {

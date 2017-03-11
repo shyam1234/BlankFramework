@@ -93,4 +93,12 @@ public class TableDocumentMasterDataModel implements Serializable{
     public void setDocumentMasterId(String documentMasterId) {
         DocumentMasterId = documentMasterId;
     }
+
+    public String getFileURL() {
+        return FileURL;
+    }
+
+    public void setFileURL(String fileURL) {
+        FileURL = fileURL;
+    }
 }

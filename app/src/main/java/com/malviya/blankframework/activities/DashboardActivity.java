@@ -14,6 +14,7 @@ import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentAssociation;
 import com.malviya.blankframework.fragments.HomeFragment;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 import com.roughike.bottombar.BottomBar;
@@ -25,6 +26,7 @@ import com.roughike.bottombar.OnTabSelectListener;
  */
 
 public class DashboardActivity extends AppCompatActivity implements OnTabSelectListener, ViewPager.OnPageChangeListener {
+    private static final java.lang.String TAG = "DashboardActivity";
     //private FrameLayout mContainer;
     public static Handler mHandler;
     public static DashboardActivity mContext;
@@ -52,7 +54,14 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         switch (UserInfo.currUserType) {
             case WSContant.TAG_USERTYPE_PARENT:
                 UserInfo.parentId = UserInfo.userId;
-                UserInfo.studentId = table.getStudentIDWRTParentID(UserInfo.parentId).getStudentid();
+                //UserInfo.studentId = table.getStudentIDWRTParentID(UserInfo.parentId).getStudentid();
+                if (SharedPreferencesApp.getInstance().getDefaultChildSelection() != -1) {
+                    UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
+                    AppLog.log(TAG,"default studentId 11 "+UserInfo.studentId);
+                }else{
+                    UserInfo.studentId = table.getStudentIDWRTParentID(UserInfo.parentId).getStudentid();
+                    AppLog.log(TAG,"default studentId 22 "+UserInfo.studentId);
+                }
                 break;
             case WSContant.TAG_USERTYPE_STUDENT:
                 UserInfo.studentId = UserInfo.userId;
@@ -60,7 +69,6 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
                 break;
         }
         table.closeDB();
-
         AppLog.log("ITC", "Dashboard UserInfo.parentId: " + UserInfo.parentId);
         AppLog.log("ITC", "Dashboard UserInfo.studentId: " + UserInfo.studentId);
     }
@@ -169,7 +177,6 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
             AppLog.errLog("onBackPressed", e.getMessage());
         }
     }
-
 
 
 }

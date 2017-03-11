@@ -96,33 +96,44 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mProfileEye.setOnClickListener(this);
         //  mFloatingBtn.setOnClickListener(this);
         initRecycleAdapter();
-        setDefaultStudentProfileInHeader(false, 0);
-
-
+        setDefaultStudent();
     }
 
-    private void setDefaultStudentProfileInHeader(boolean isLoadFirstTime, int position) {
+    private void setDefaultStudent() {
+        for(int index = 0 ; index < mListChildInfoHolder.size() ;index++){
+            if(UserInfo.studentId==mListChildInfoHolder.get(index).getStudent_id()){
+                AppLog.log(TAG, "default match studentid "+UserInfo.studentId);
+                setDefaultStudentProfileInHeader(false, index);
+                break;
+            }
+        }
+    }
+
+    private void setDefaultStudentProfileInHeader(boolean isClicked, final int position) {
         mPosition = position;
-        UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
         GetPicassoImage.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
         mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
         mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
         GetPicassoImage.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mImageViewStudentTitleImg);
-        AppLog.log("setDefaultStudentProfileInHeader mTextViewProfileHeaderName ", mListChildInfoHolder.get(position).getCourseCode());
-        AppLog.log("setDefaultStudentProfileInHeader mProfileHeaderLocation ", mListChildInfoHolder.get(position).getFullName());
+
+        AppLog.log("setDefaultStudentProfileInHeader getFullName ", mListChildInfoHolder.get(position).getFullName());
         //save user default child selection
 
-        if (isLoadFirstTime) {
+        if (isClicked) {
             Utils.showProgressBar(getContext());
-            SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
-            AppLog.networkLog("WardFragment networkLog.networkLog  ", "" + UserInfo.authToken);
+            UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
             Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
                 @Override
                 public void callBack() {
                     Utils.dismissProgressBar();
                 }
             });
+        }else{
+            UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
+            AppLog.log("setDefaultStudentProfileInHeader   UserInfo.studentId222 ", ""+mListChildInfoHolder.get(position).getStudent_id());
         }
+        SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
+
     }
 
     private void initRecycleAdapter() {

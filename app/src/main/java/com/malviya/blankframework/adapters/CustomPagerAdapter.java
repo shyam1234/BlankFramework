@@ -6,11 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.activities.NewsDetails;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.TableDocumentMasterDataModel;
 import com.malviya.blankframework.utils.GetPicassoImage;
@@ -60,7 +58,8 @@ public class CustomPagerAdapter extends PagerAdapter {
         if(mResources.get(position).getMediatype().equalsIgnoreCase(WSContant.TAG_VIDEO)) {
             GetPicassoImage.getImage(mContext, "", imageView);
             video.setVisibility(View.VISIBLE);
-            video.setUp(TEST_URL, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,mResources.get(position).getDocumentname());
+            video.setUp(mResources.get(position).getFileURL(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,mResources.get(position).getDocumentname());
+            //video.setUp(TEST_URL, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,mResources.get(position).getDocumentname());
             GetPicassoImage.getImage(mContext,"http://steveladdmusic.com/wp-content/themes/americanaura/assets/images/default-video-thumbnail.jpg", video.thumbImageView);
         }else if(mResources.get(position).getMediatype().equalsIgnoreCase(WSContant.TAG_IMAGE)) {
             GetPicassoImage.getImage(mContext, mResources.get(position).getDocumentpath(), imageView);

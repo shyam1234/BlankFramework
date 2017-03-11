@@ -15,14 +15,14 @@ import com.malviya.blankframework.application.MyApplication;
  */
 
 public class UserInfo {
-    public static int parentId;
+    public static int parentId=-1;
     public static String parentName;
-    public static int studentId=328;
+    public static int studentId=-1;
     public static String authToken;
     public static int univercityId;
     public static String tokenExp;
     public static String tokenIssue;
-    public static int userId;
+    public static int userId=-1;
     public static String currUserType;
     public static String selectedStudentImageURL="";
     public static String menuCode="";
@@ -35,7 +35,7 @@ public class UserInfo {
         parentName = null;
         studentId = -1;
         authToken = null;
-        univercityId = -1;
+        univercityId = 0;
         tokenExp = null;
         tokenIssue = null;
         currUserType = null;
