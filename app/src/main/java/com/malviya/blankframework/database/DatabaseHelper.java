@@ -6,6 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Admin on 26-11-2016.
+ * a. Create table in database package
+ * b. Create tableDataModel in model package
+ * c. Parse table in ParseResponse *
+ * We can access same parse model by ModelFactory
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "db_edurp";
