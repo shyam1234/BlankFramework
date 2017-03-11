@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.models.TableFeeMasterDataModel;
 
 import java.util.ArrayList;
 
@@ -19,9 +19,9 @@ import java.util.ArrayList;
 
     public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.MyViewHolder> {
     private Context mContext;
-    private ArrayList<AttendanceDataModel> mList;
+    private ArrayList<TableFeeMasterDataModel> mList;
 
-    public FeeAdapter(Context context, ArrayList<AttendanceDataModel> pList) {
+    public FeeAdapter(Context context, ArrayList<TableFeeMasterDataModel> pList) {
         mContext = context;
         mList = pList;
     }

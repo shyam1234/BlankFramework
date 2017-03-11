@@ -1,6 +1,7 @@
 package com.malviya.blankframework.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.malviya.blankframework.utils.AppLog;
 
 import java.io.Serializable;
 
@@ -8,7 +9,7 @@ import java.io.Serializable;
  * Created by Admin on 28-01-2017.
  */
 
-public class TableNewsMasterDataModel implements Serializable{
+public class TableNewsMasterDataModel implements Serializable, Comparable<TableNewsMasterDataModel>{
 
 
     /*{
@@ -200,5 +201,15 @@ public class TableNewsMasterDataModel implements Serializable{
 
     public void setFilePath(String filePath) {
         FilePath = filePath;
+    }
+
+    @Override
+    public int compareTo(TableNewsMasterDataModel o) {
+        try {
+            return getPublishedOn().compareTo(o.getPublishedOn());
+        }catch (Exception e){
+            AppLog.errLog("TableNewsMasterDataModel",e.getMessage());
+        }
+        return 0;
     }
 }

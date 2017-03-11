@@ -1,6 +1,7 @@
 package com.malviya.blankframework.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.malviya.blankframework.utils.AppLog;
 
 /**
  * Created by Admin on 28-01-2017.
@@ -94,7 +95,12 @@ public class TableNoticeBoardDataModel implements Comparable<TableNoticeBoardDat
 
 
     @Override
-    public int compareTo(TableNoticeBoardDataModel o2) {
-        return getPublishedOn().compareTo(o2.getPublishedOn());
+    public int compareTo(TableNoticeBoardDataModel o) {
+        try {
+            return getPublishedOn().compareTo(o.getPublishedOn());
+        }catch (Exception e){
+            AppLog.errLog("TableNoticeBoardDataModel",e.getMessage());
+        }
+        return 0;
     }
 }

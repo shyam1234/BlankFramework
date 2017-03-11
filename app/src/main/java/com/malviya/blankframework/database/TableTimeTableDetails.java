@@ -15,10 +15,10 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 26-11-2016.
  */
-public class TimeTableDetails {
+public class TableTimeTableDetails {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
-    public static final String TAG = "TimeTableDetails";
+    public static final String TAG = "TableTimeTableDetails";
     private static final String TABLE_NAME = "table_timetabledetails";
     private static final String COL_MENUCODE = "menucode";
     private static final String COL_STUDENTID = "studentid";
@@ -147,4 +147,28 @@ public class TimeTableDetails {
     }
 
 
+    public ArrayList<TableTimeTableDetailsDataModel> getData(String menuCode) {
+        ArrayList<TableTimeTableDetailsDataModel> list = new ArrayList<>();
+        TableTimeTableDetailsDataModel holder = new TableTimeTableDetailsDataModel();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode  + "'";
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    holder.setReferenceDate(cursor.getString(cursor.getColumnIndex(COL_REFERENCEDATE)));
+                    holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                    holder.setFaculty(cursor.getString(cursor.getColumnIndex(COL_FACULTY)));
+                    holder.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
+                    holder.setRoomName(cursor.getString(cursor.getColumnIndex(COL_ROOMNAME)));
+                    holder.setSubjectName(cursor.getString(cursor.getColumnIndex(COL_SUBJECTNAME)));
+                    holder.setTTime(cursor.getString(cursor.getColumnIndex(COL_TTIME)));
+                    list.add(holder);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("getData", e.getMessage());
+        }
+        return list;
+    }
 }

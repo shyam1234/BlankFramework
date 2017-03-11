@@ -1,12 +1,13 @@
 package com.malviya.blankframework.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.malviya.blankframework.utils.AppLog;
 
 /**
  * Created by Admin on 05-02-2017.
  */
 
-public class TableFeeMasterDataModel
+public class TableFeeMasterDataModel implements Comparable<TableFeeMasterDataModel>
 {
         /*{
            "MenuCode":"FEE",
@@ -168,5 +169,16 @@ public class TableFeeMasterDataModel
 
     public void setFeeTitle(String feeTitle) {
         this.FeeTitle = feeTitle;
+    }
+
+
+    @Override
+    public int compareTo(TableFeeMasterDataModel o) {
+        try {
+            return getPublishedOn().compareTo(o.getPublishedOn());
+        }catch (Exception e){
+            AppLog.errLog("TableFeeMasterDataModel",e.getMessage());
+        }
+        return 0;
     }
 }

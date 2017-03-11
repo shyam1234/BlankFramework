@@ -81,6 +81,11 @@ public class GetMobileMenuDataModel extends IModel {
             ],
             "StudentOverallResultSummary": []*/
         //-------------------------------------------------------------------------------------------
+        // news, fee , results,
+        // noticeboard, homework, daily,
+        // message, gallery, events,
+        // feedback, attendance , timetable
+        //-------------------------------------------------------------------------------------------
 
         @SerializedName("NoticeBoardMenuList")
         private ArrayList<TableNoticeBoardDataModel> NoticeBoardMenuList = new ArrayList<TableNoticeBoardDataModel>();

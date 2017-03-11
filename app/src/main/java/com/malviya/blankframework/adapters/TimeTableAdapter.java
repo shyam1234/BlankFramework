@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.models.TableTimeTableDetailsDataModel;
 
 import java.util.ArrayList;
 
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.MyViewHolder> {
     private Context mContext;
-    private ArrayList<AttendanceDataModel> mList;
+    private ArrayList<TableTimeTableDetailsDataModel> mList;
 
-    public TimeTableAdapter(Context context, ArrayList<AttendanceDataModel> pList) {
+    public TimeTableAdapter(Context context, ArrayList<TableTimeTableDetailsDataModel> pList) {
         mContext = context;
         mList = pList;
     }

@@ -110,6 +110,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     }
 
 
+
     private void navigateToNextPage(Class mClass) {
         Intent i = new Intent(getActivity(), mClass);
         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
