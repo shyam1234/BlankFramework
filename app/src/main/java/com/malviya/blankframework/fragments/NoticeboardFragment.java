@@ -1,5 +1,6 @@
 package com.malviya.blankframework.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.NoticeboardAdapter;
+import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableNewsMaster;
 import com.malviya.blankframework.database.TableNoticeBoard;
@@ -119,13 +121,43 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
                 getActivity().onBackPressed();
                 break;
             case R.id.imageview_news_row_thumbnil:
-                int position = (Integer) view.getTag();
-                //on banner click redirect to detail page
-                //navigateToNextPage(position);
-                break;
             case R.id.lin_news_row_holder:
-                int position1 = (Integer) view.getTag();
-                Toast.makeText(getContext(), "coming "+position1, Toast.LENGTH_SHORT).show();
+                int position = (Integer) view.getTag();
+                switch (mNoticeboardList.get(position).getMenuCode()) {
+                    case Constant.TAG_FEE:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
+                        break;
+                    case Constant.TAG_ATTENDANCE:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new AttendanceFragment(), AttendanceFragment.TAG);
+                        break;
+                    case Constant.TAG_HOMEWORK:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
+                        break;
+                    case Constant.TAG_DIARY:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new DiaryFragment(), DiaryFragment.TAG);
+                        break;
+                    case Constant.TAG_MESSAGE:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new MessageFragment(), MessageFragment.TAG);
+                        break;
+                    case Constant.TAG_EVENTS:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
+                        break;
+                    case Constant.TAG_GALLERY:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
+                        break;
+                    case Constant.TAG_FEEDBACK:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new FeedbackFragment(), FeedbackFragment.TAG);
+                        break;
+                    case Constant.TAG_NEWS:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new NewsFragment(), NewsFragment.TAG);
+                        break;
+                    case Constant.TAG_TIMETABLE:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new TimeTableFragment(), TimeTableFragment.TAG);
+                        break;
+                    case Constant.TAG_RESULT:
+                        Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);
+                        break;
+                }
                 break;
         }
     }
@@ -217,14 +249,14 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     }
 
 
-    private void navigateToNextPage(int position) {
-//        Intent i = new Intent(getActivity(), NewsDetails.class);
-//        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable(Constant.TAG_HOLDER, mNoticeboardList.get(position));
-//        i.putExtras(bundle);
-//        startActivity(i);
-//        Utils.animRightToLeft(getActivity());
+    private void navigateToNextPage(Class<?> page) {
+        Intent i = new Intent(getActivity(), page);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Bundle bundle = new Bundle();
+        //bundle.putSerializable(Constant.TAG_HOLDER, mNoticeboardList.get(position));
+        i.putExtras(bundle);
+        startActivity(i);
+        Utils.animRightToLeft(getActivity());
     }
 
 
