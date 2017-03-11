@@ -78,53 +78,58 @@ public class SplashActivity extends AppCompatActivity {
     private void checkForLanguage() {
         TableLanguage table = new TableLanguage();
         table.openDB(SplashActivity.this);
-        AppLog.log("splashActivity++", "checkForLanguage");
         table.read();
-        //SharedPreferencesApp.getInstance().removeAll();
-        Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_UNIVERSITYID, SharedPreferencesApp.getInstance().getLastSavedUniversityID());
-        header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().getLastLangSync());
-        WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LANG, new IWSRequest() {
-            @Override
-            public void onResponse(String response) {
-                AppLog.log("onResponse", "res++ " + response);
-                ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, ModelFactory.MODEL_LANG);
-                LanguageArrayDataModel holder = ((LanguageArrayDataModel) obj.getModel());
-                bindDataWithLanguageDataModel(holder);
-            }
+        table.closeDB();
+        //---------------------------------------------------------------------------------------
+        if(Utils.isInternetConnected(this)) {
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_UNIVERSITYID, SharedPreferencesApp.getInstance().getLastSavedUniversityID());
+            header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().getLastLangSync());
+            WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LANG, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    AppLog.log("onResponse", "res++ " + response);
+                    ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, ModelFactory.MODEL_LANG);
+                    LanguageArrayDataModel holder = ((LanguageArrayDataModel) obj.getModel());
+                    bindDataWithLanguageDataModel(holder);
+                }
 
-            @Override
-            public void onErrorResponse(VolleyError response) {
-                AppLog.log("splashActivity++", "onErrorResponse");
-                try {
-                    final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
-                    dilog.setTitle(getResources().getString(R.string.msg_network_prob));
-                    dilog.show();
-                    //dilog.onBackPressed();
-                    dilog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                        @Override
-                        public boolean onKey(DialogInterface arg0, int keyCode,  KeyEvent event) {
-                            // TODO Auto-generated method stub
-                            if (keyCode == KeyEvent.KEYCODE_BACK) {
-                                arg0.dismiss();
+                @Override
+                public void onErrorResponse(VolleyError response) {
+                    AppLog.log("splashActivity++", "onErrorResponse");
+                    try {
+                        final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
+                        dilog.setTitle(getResources().getString(R.string.msg_network_prob));
+                        dilog.show();
+                        dilog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                            @Override
+                            public boolean onKey(DialogInterface arg0, int keyCode,  KeyEvent event) {
+                                // TODO Auto-generated method stub
+                                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                                    arg0.dismiss();
+                                    finish();
+                                }
+                                return true;
+                            }
+                        });
+                        dilog.getBtnOK().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dilog.dismiss();
                                 finish();
                             }
-                            return true;
-                        }
-                    });
-                    dilog.getBtnOK().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dilog.dismiss();
-                            finish();
-                        }
-                    });
-                }catch (Exception e){
-                    AppLog.errLog("SplashActivity onErrorResponse", e.getMessage());
+                        });
+                    }catch (Exception e){
+                        AppLog.errLog("SplashActivity onErrorResponse", e.getMessage());
+                    }
                 }
-            }
-        });
+            });
+        }else{
+
+        }
     }
+
+
 
    /* private void storeIntoDB(ParseResponse obj) {
         TableLanguage table = new TableLanguage();
@@ -156,14 +161,14 @@ public class SplashActivity extends AppCompatActivity {
             TableLanguage table = new TableLanguage();
             table.openDB(getApplicationContext());
             boolean isAdded = table.insert(list);
+            table.closeDB();
             AppLog.log("lang inserted+++ 111 ", "" + isAdded);
             if (isAdded) {
                 SharedPreferencesApp.getInstance().saveLastLangSync(Utils.getCurrTime());
-                AppLog.log("splash ","Lang Sync for university id: " +SharedPreferencesApp.getInstance().getLastSavedUniversityID());
+                AppLog.log("splash","Lang Sync for university id: " +SharedPreferencesApp.getInstance().getLastSavedUniversityID());
             }
-            table.closeDB();
+
             AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );
-            AppLog.networkLog("splash networkLog.networkLog  ", "" + UserInfo.authToken );
             if( UserInfo.authToken !=null) {
                 Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
                     @Override

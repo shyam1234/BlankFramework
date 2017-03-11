@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.TableFeeMasterDataModel;
+import com.malviya.blankframework.models.TableResultMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -15,25 +15,25 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 26-11-2016.
  */
-public class TableFeeMasterMaster {
+public class TableStudentOverallResultSummary {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
-    public static final String TAG = "TableFeeMasterMaster";
-    private static final String TABLE_NAME = "table_feemaster";
+    public static final String TAG = "TableStudentOverallResultSummary";
+    private static final String TABLE_NAME = "table_resultmaster";
     private static final String COL_MENUCODE = "menucode";
     private static final String COL_PARENTID = "parentid";
     private static final String COL_STUDENTID = "studentId";
     private static final String COL_REFERENCEID = "referenceid";
     private static final String COL_STUDENTNUMBER = "studentnumber";
     private static final String COL_STUDENTNAME = "studentname";
+    private static final String COL_ACADEMICYEAR = "academicyear";
     private static final String COL_COURSENAME = "coursename";
     private static final String COL_SEMESTERNAME = "semestername";
-    private static final String COL_TOTALDUE = "totaldue";
-    private static final String COL_DUEDATE = "duedate";
+    private static final String COL_ACHIEVEMENTINDEX = "achivementIndex";
+    private static final String COL_RESULT = "result";
     private static final String COL_PUBLISHEDON = "publishedon";
     private static final String COL_PUBLISHEDBY = "publishedby";
     private static final String COL_EXPIRYDATE = "expirydate";
-    private static final String COL_FEETITLE = "feetitle";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -46,13 +46,13 @@ public class TableFeeMasterMaster {
             + COL_REFERENCEID + " int, "
             + COL_STUDENTNAME + " varchar(255), "
             + COL_STUDENTNUMBER + " varchar(255), "
-            + COL_DUEDATE + " varchar(255), "
+            + COL_ACADEMICYEAR + " varchar(255), "
             + COL_COURSENAME + " varchar(255), "
             + COL_SEMESTERNAME + " varchar(255), "
-            + COL_TOTALDUE + " varchar(255), "
+            + COL_ACHIEVEMENTINDEX + " varchar(255), "
+            + COL_RESULT + " varchar(255), "
             + COL_PUBLISHEDON + " varchar(255), "
             + COL_PUBLISHEDBY + " varchar(255), "
-            + COL_FEETITLE + " varchar(255), "
             + COL_EXPIRYDATE + " varchar(255) "
             + " )";
 
@@ -99,10 +99,10 @@ public class TableFeeMasterMaster {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableFeeMasterDataModel> list) {
+    public void insert(ArrayList<TableResultMasterDataModel> list) {
         try {
             if (mDB != null) {
-                for (TableFeeMasterDataModel holder : list) {
+                for (TableResultMasterDataModel holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
@@ -114,13 +114,13 @@ public class TableFeeMasterMaster {
                     value.put(COL_REFERENCEID, holder.getReferenceId());
                     value.put(COL_STUDENTNUMBER, holder.getStudentNumber());
                     value.put(COL_STUDENTNAME, holder.getStudentName());
-                    value.put(COL_DUEDATE, holder.getDueDate());
+                    value.put(COL_ACADEMICYEAR, holder.getAcademicYear());
                     value.put(COL_COURSENAME, holder.getCourseName());
-                    value.put(COL_SEMESTERNAME, holder.getSemsterName());
-                    value.put(COL_TOTALDUE, holder.getTotalDue());
+                    value.put(COL_SEMESTERNAME, holder.getSemesterName());
+                    value.put(COL_ACHIEVEMENTINDEX, holder.getAchievementIndex());
+                    value.put(COL_RESULT, holder.getResult());
                     value.put(COL_PUBLISHEDON, holder.getPublishedOn());
                     value.put(COL_PUBLISHEDBY, holder.getPublishedBy());
-                    value.put(COL_FEETITLE, holder.getFeeTitle());
                     value.put(COL_EXPIRYDATE, holder.getExpiryDate());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: getParentId ", "" + holder.getParentId());
@@ -133,9 +133,13 @@ public class TableFeeMasterMaster {
     }
 
 
-    public boolean isExists(TableFeeMasterDataModel model) {
+    public boolean isExists(TableResultMasterDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentId() + "' and " + COL_STUDENTID + " = '" + model.getStudentId() + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                    + COL_MENUCODE + " = '" + model.getMenuCode() + "' and "
+                    + COL_MENUCODE + " = '" + model.getReferenceId() + "' and "
+                    + COL_PARENTID + " = '" + model.getParentId() + "' and "
+                    + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -150,48 +154,50 @@ public class TableFeeMasterMaster {
         return false;
     }
 
-    public boolean deleteRecord(TableFeeMasterDataModel holder) {
+    public boolean deleteRecord(TableResultMasterDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PARENTID + "=? && " + COL_STUDENTID + "=? ", new String[]{"" + holder.getParentId(), "" + holder.getStudentId()});
+                long row = mDB.delete(TABLE_NAME, COL_PUBLISHEDON + "=? and " + COL_MENUCODE + "=? and " + COL_PARENTID + "=? and " + COL_STUDENTID + "=? and " + COL_REFERENCEID + "=?", new String[]{"" + holder.getPublishedOn(), "" + holder.getMenuCode(), "" + holder.getParentId(), "" + holder.getStudentId(), "" + holder.getReferenceId()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "deleteRecord from TableFeeMasterDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "deleteRecord from TableResultMasterDataModel" + e.getMessage());
         }
         return false;
     }
 
 
-    public TableFeeMasterDataModel getInfo(String menuCode, String rederenceId) {
-        TableFeeMasterDataModel holder = new TableFeeMasterDataModel();
+    public TableResultMasterDataModel getInfo(String menuCode, String rederenceId) {
+        TableResultMasterDataModel holder = new TableResultMasterDataModel();
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "' and " + COL_REFERENCEID + " = '" + rederenceId + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
-                    holder.setCourseName(cursor.getString(cursor.getColumnIndex(COL_COURSENAME)));
+
                     holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
                     holder.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
                     holder.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
                     holder.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
-                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNUMBER)));
-                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNAME)));
-                    holder.setSemsterName(cursor.getString(cursor.getColumnIndex(COL_SEMESTERNAME)));
-                    holder.setTotalDue(cursor.getString(cursor.getColumnIndex(COL_TOTALDUE)));
-                    holder.setDueDate(cursor.getString(cursor.getColumnIndex(COL_DUEDATE)));
                     holder.setPublishedOn(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON)));
                     holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
                     holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
-                    holder.setFeeTitle(cursor.getString(cursor.getColumnIndex(COL_FEETITLE)));
+                    holder.setStudentNumber(cursor.getString(cursor.getColumnIndex(COL_STUDENTNUMBER)));
+                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNAME)));
+                    holder.setAcademicYear(cursor.getString(cursor.getColumnIndex(COL_ACADEMICYEAR)));
+                    holder.setCourseName(cursor.getString(cursor.getColumnIndex(COL_COURSENAME)));
+                    holder.setSemesterName(cursor.getString(cursor.getColumnIndex(COL_SEMESTERNAME)));
+                    holder.setAchievementIndex(cursor.getString(cursor.getColumnIndex(COL_ACHIEVEMENTINDEX)));
+                    holder.setResult(cursor.getString(cursor.getColumnIndex(COL_RESULT)));
+
                 } while (cursor.moveToNext());
             }
             cursor.close();
         } catch (Exception e) {
-            AppLog.errLog("getInfo", e.getMessage());
+            AppLog.errLog("getData", e.getMessage());
         }
         return holder;
     }

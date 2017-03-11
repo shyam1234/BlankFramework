@@ -34,8 +34,6 @@ public class TableNewsMasterDataModel implements Serializable{
     private String ParentId;
     @SerializedName("StudentId")
     private String StudentId;
-    @SerializedName("NewsId")
-    private String NewsId = "";
     @SerializedName("NewsTitle")
     private String NewsTitle;
     @SerializedName("ShortBody")
@@ -64,7 +62,8 @@ public class TableNewsMasterDataModel implements Serializable{
     private String ExpiryDate;
     @SerializedName("DocumentId")
     private int DocumentId;
-
+    @SerializedName("FilePath")
+    private String FilePath;
 
     public String getParentId() {
         return ParentId;
@@ -81,14 +80,7 @@ public class TableNewsMasterDataModel implements Serializable{
     public void setStudentId(String studentId) {
         StudentId = studentId;
     }
-
-    public String getNewsId() {
-        return NewsId;
-    }
-
-    public void setNewsId(String newsId) {
-        NewsId = newsId;
-    }
+    
 
     public String getNewsTitle() {
         return NewsTitle;
@@ -200,5 +192,13 @@ public class TableNewsMasterDataModel implements Serializable{
 
     public void setDocumentId(int documentId) {
         DocumentId = documentId;
+    }
+
+    public String getFilePath() {
+        return FilePath;
+    }
+
+    public void setFilePath(String filePath) {
+        FilePath = filePath;
     }
 }

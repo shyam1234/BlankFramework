@@ -61,7 +61,7 @@ public class TableLanguage {
                 for (TableLanguageDataModel holder : list) {
                     AppLog.log(TAG, "TableLanguageDataModel insert()getUniversityId: " + holder.getUniversityId());
                     AppLog.log(TAG, "TableLanguageDataModel insert()getConversionId:" + holder.getConversionId());
-                    //deleteDataIfExist(holder.getUniversityId(), holder.getConversionId());
+                    deleteDataIfExist(holder.getUniversityId(), holder.getConversionId());
                     AppLog.log(TAG, "TableLanguageDataModel +++insert():" + holder.getUniversityId());
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(UNIVERSITY_ID, holder.getUniversityId());

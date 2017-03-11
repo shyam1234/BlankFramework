@@ -24,7 +24,6 @@ public class TableNewsMaster {
     private static final String TABLE_NAME = "table_newsmaster";
     private static final String COL_PARENTID = "ParentId";
     private static final String COL_STUDENTID = "StudentId";
-    private static final String COL_NEWSID = "NewsId";
     private static final String COL_NEWSTITLE = "NewsTitle";
     private static final String COL_SHORTBODY = "ShortBody";
     private static final String COL_NEWSBODY = "NewsBody";
@@ -41,7 +40,7 @@ public class TableNewsMaster {
     private static final String COL_REFERENCETITLE = "ReferenceTitle";
     private static final String COL_EXPIRYDATE = "ExpiryDate";
 
-
+    private static final String COL_FILEPATH = "FilePath";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -50,7 +49,6 @@ public class TableNewsMaster {
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
             + COL_PARENTID + " int , "
             + COL_STUDENTID + " int , "
-            + COL_NEWSID + " int, "
             + COL_NEWSTITLE + " varchar(100), "
             + COL_SHORTBODY + "  varchar(100) , "
             + COL_NEWSBODY + "  varchar(1000) , "
@@ -65,6 +63,7 @@ public class TableNewsMaster {
             + COL_DOCUMENTMASTERID + " int ,"
             + COL_DOCUMENTID + " int , "
             + COL_REFERENCETITLE + " char(30) , "
+            + COL_FILEPATH + " varchar(255), "
             + COL_EXPIRYDATE + " varchar(100) "
             + " )";
 
@@ -122,7 +121,6 @@ public class TableNewsMaster {
                     ContentValues value = new ContentValues();
                     value.put(COL_PARENTID, holder.getParentId());
                     value.put(COL_STUDENTID, holder.getStudentId());
-                    value.put(COL_NEWSID, holder.getNewsId());
                     value.put(COL_NEWSTITLE, holder.getNewsTitle());
                     value.put(COL_SHORTBODY, holder.getShortBody());
                     value.put(COL_NEWSBODY, holder.getNewsBody());
@@ -132,6 +130,7 @@ public class TableNewsMaster {
                     value.put(COL_TOTALCOMMENTS, holder.getTotalComments());
                     value.put(COL_TOTALLIKES, holder.getTotalLikes());
                     value.put(COL_MENUCODE, holder.getMenuCode());
+                    value.put(COL_FILEPATH, holder.getFilePath());
                     value.put(COL_REFERENCEID, holder.getReferenceId());
                     value.put(COL_DOCUMENTMASTERID, holder.getDocumentMasterId());
                     value.put(COL_DOCUMENTID, holder.getDocumentId());
@@ -139,7 +138,7 @@ public class TableNewsMaster {
                     value.put(COL_EXPIRYDATE, holder.getExpiryDate());
 
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TAG, TABLE_NAME + " inserted: "+ holder.getNewsId() + " row: " + row);
+                    AppLog.log(TAG, TABLE_NAME + " inserted: "+ holder.getReferenceId() + " row: " + row);
                 }
             }
         } catch (Exception e) {
@@ -150,7 +149,11 @@ public class TableNewsMaster {
 
     public boolean isExists(TableNewsMasterDataModel model) {
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_NEWSID + " = '" + model.getNewsId() + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                    + COL_MENUCODE + " = '" + model.getMenuCode() + "' and "
+                    + COL_MENUCODE + " = '" + model.getReferenceId() + "' and "
+                    + COL_PARENTID + " = '" + model.getParentId() + "' and "
+                    + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -168,7 +171,7 @@ public class TableNewsMaster {
     public boolean deleteRecord(TableNewsMasterDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_NEWSID + "=?", new String[]{"" + holder.getNewsId()});
+                long row = mDB.delete(TABLE_NAME, COL_PUBLISHEDON + "=? and " + COL_MENUCODE + "=? and " + COL_PARENTID + "=? and " + COL_STUDENTID + "=? and " + COL_REFERENCEID + "=?", new String[]{"" + holder.getPublishedOn(), "" + holder.getMenuCode(), "" + holder.getParentId(), "" + holder.getStudentId(), "" + holder.getReferenceId()});
                 AppLog.log(TAG,"deleteRecord row: " + row);
                 return true;
             } else {
@@ -202,7 +205,7 @@ public class TableNewsMaster {
     }
 
 
-    public TableNewsMasterDataModel getInfo(String menuCode, String rederenceId) {
+    public TableNewsMasterDataModel getData(String menuCode, String rederenceId) {
         TableNewsMasterDataModel holder = new TableNewsMasterDataModel();
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "' and " + COL_REFERENCEID + " = '" + rederenceId + "'";
@@ -214,7 +217,6 @@ public class TableNewsMaster {
                     holder.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENTID)));
                     holder.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENTID)));
                     holder.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
-                    holder.setNewsId(cursor.getString(cursor.getColumnIndex(COL_NEWSID)));
                     holder.setNewsTitle(cursor.getString(cursor.getColumnIndex(COL_NEWSTITLE)));
                     holder.setShortBody(cursor.getString(cursor.getColumnIndex(COL_SHORTBODY)));
                     holder.setNewsBody(cursor.getString(cursor.getColumnIndex(COL_NEWSBODY)));
@@ -224,15 +226,16 @@ public class TableNewsMaster {
                     holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
                     holder.setTotalComments(cursor.getString(cursor.getColumnIndex(COL_TOTALCOMMENTS)));
                     holder.setTotalLikes(cursor.getString(cursor.getColumnIndex(COL_TOTALLIKES)));
+                    holder.setFilePath(cursor.getString(cursor.getColumnIndex(COL_FILEPATH)));
                     holder.setDocumentId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTID)));
                     holder.setDocumentMasterId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTMASTERID)));
                     holder.setReferenceTitle(cursor.getString(cursor.getColumnIndex(COL_REFERENCETITLE)));
-
+                    AppLog.log("getData", "COL_REFERENCEID ++ "+holder.getReferenceId());
                 } while (cursor.moveToNext());
             }
             cursor.close();
         } catch (Exception e) {
-            AppLog.errLog("getInfo", e.getMessage());
+            AppLog.errLog("getData", e.getMessage());
         }
         return holder;
     }

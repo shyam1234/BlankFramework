@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -34,6 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -367,11 +369,32 @@ public class Utils {
     }
 
     public static void hideNativeKeyboard(Activity context) {
-// Check if no view has focus:
+        // Check if no view has focus:
         View view = context.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+
+    public static boolean isInternetConnected(Context pContext) {
+        ConnectivityManager cm = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
+    }
+
+    public static String getTimeInYYYYMMDD(String yyyyMMddHHmmss) {
+        String time = "";
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+            SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = formatter.parse(yyyyMMddHHmmss);
+            time = formatter1.format(date);
+        } catch (Exception e) {
+            AppLog.errLog("Timestamp from Utils", e.getMessage());
+        } finally {
+            return time;
+        }
+
     }
 }

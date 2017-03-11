@@ -23,7 +23,7 @@ public class TableNoticeBoard {
     private static final String COL_PARENTID = "ParentId";
     private static final String COL_STUDENTID = "StudentId";
     private static final String COL_MENUCODE = "MenuCode";
-    private static final String COL_REFERENCEID = "RederenceId";
+    private static final String COL_REFERENCEID = "ReferenceId";
     private static final String COL_PUBLISHEDON = "PublishedOn";
     private static final String COL_EXPIRYDATE = "ExpiryDate";
     private static final String COL_REFERENCEDATE = "ReferenceDate";
@@ -34,10 +34,10 @@ public class TableNoticeBoard {
 
 
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
-            + COL_PARENTID + " int , "
-            + COL_STUDENTID + " int , "
-            + COL_MENUCODE + " char(3), "
-            + COL_REFERENCEID + " int , "
+            + COL_PARENTID + " varchar(255) , "
+            + COL_STUDENTID + " varchar(255) , "
+            + COL_MENUCODE + " varchar(255), "
+            + COL_REFERENCEID + " varchar(255) , "
             + COL_PUBLISHEDON + " varchar(255) , "
             + COL_REFERENCEDATE + " varchar(255) , "
             + COL_EXPIRYDATE + " varchar(255)  "
@@ -115,11 +115,10 @@ public class TableNoticeBoard {
     public boolean isExists(TableNoticeBoardDataModel model) {
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
-                    + COL_MENUCODE + " = '" + model.getMenuCode() + "' , "
-                    + COL_PARENTID + " = '" + model.getParentId() + "' , "
-                    + COL_STUDENTID + " = '" + model.getStudentId() + "' , "
-                    + COL_PUBLISHEDON + " = '" + model.getPublishedOn() + "' , "
-                    + COL_REFERENCEID + " = '" + model.getRederenceId() + "'";
+                    + COL_MENUCODE + " = '" + model.getMenuCode() + "' and "
+                    + COL_MENUCODE + " = '" + model.getRederenceId() + "' and "
+                    + COL_PARENTID + " = '" + model.getParentId() + "' and "
+                    + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -137,7 +136,7 @@ public class TableNoticeBoard {
     public boolean deleteRecord(TableNoticeBoardDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_PUBLISHEDON + "=? and "+ COL_MENUCODE + "=? and "+COL_PARENTID + "=? and "+COL_STUDENTID + "=? and "+COL_REFERENCEID + "=?", new String[]{"" + holder.getPublishedOn(),"" + holder.getMenuCode(),"" + holder.getParentId(),"" + holder.getStudentId(),"" + holder.getRederenceId()});
+                long row = mDB.delete(TABLE_NAME, COL_PUBLISHEDON + "=? and " + COL_MENUCODE + "=? and " + COL_PARENTID + "=? and " + COL_STUDENTID + "=? and " + COL_REFERENCEID + "=?", new String[]{"" + holder.getPublishedOn(), "" + holder.getMenuCode(), "" + holder.getParentId(), "" + holder.getStudentId(), "" + holder.getRederenceId()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
@@ -149,5 +148,34 @@ public class TableNoticeBoard {
         return false;
     }
 
+
+
+    public ArrayList<TableNoticeBoardDataModel> getData(int parentId, int studentId) {
+        ArrayList<TableNoticeBoardDataModel> list = new ArrayList<>();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                    + COL_PARENTID + " = '" + parentId + "' and "
+                    + COL_STUDENTID + " = '" + studentId + "'";
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    TableNoticeBoardDataModel model = new TableNoticeBoardDataModel();
+                    model.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENTID)));
+                    model.setExpiryDate((cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE))));
+                    model.setMenuCode((cursor.getString(cursor.getColumnIndex(COL_MENUCODE))));
+                    model.setPublishedOn((cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON))));
+                    model.setReferenceId((cursor.getString(cursor.getColumnIndex(COL_REFERENCEID))));
+                    model.setReferenceDate((cursor.getString(cursor.getColumnIndex(COL_REFERENCEDATE))));
+                    model.setStudentId((cursor.getString(cursor.getColumnIndex(COL_STUDENTID))));
+                    list.add(model);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }catch (Exception e) {
+            AppLog.errLog(TAG, "getData from TableNoticeBoard " + e.getMessage());
+        } finally {
+            return list;
+        }
+    }
 
 }

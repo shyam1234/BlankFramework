@@ -16,10 +16,10 @@ import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.NoticeboardAdapter;
 import com.malviya.blankframework.constant.WSContant;
-import com.malviya.blankframework.database.TableFeeMasterMaster;
 import com.malviya.blankframework.database.TableNewsMaster;
 import com.malviya.blankframework.database.TableNoticeBoard;
-import com.malviya.blankframework.database.TableResultMaster;
+import com.malviya.blankframework.database.TableStudentOverallFeeSummary;
+import com.malviya.blankframework.database.TableStudentOverallResultSummary;
 import com.malviya.blankframework.models.GetMobileMenuDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
@@ -40,22 +40,28 @@ import java.util.Map;
 /**
  * Created by Admin on 24-12-2016.
  */
-
 public class NoticeboardFragment extends Fragment implements View.OnClickListener {
     public final static String TAG = "NoticeboardFragment";
     private RecyclerView mRecycleViewNews;
     private ArrayList<TableNoticeBoardDataModel> mNoticeboardList;
     private NoticeboardAdapter mNoticeboardAdapter;
-
     public NoticeboardFragment() {
         AppLog.log(TAG, "NoticeboardFragment");
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AppLog.log(TAG, "onStart");
+    }
+
 
 
     private void init() {
@@ -90,7 +96,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         mImgBack.setOnClickListener(this);
         mRecycleViewNews = (RecyclerView) getView().findViewById(R.id.recyclerview_news);
         //------------------------------------
-        initRecyclerView();
+        //initRecyclerView();
 
     }
 
@@ -122,37 +128,47 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
 
 
     private void fetchDataFromServer() {
-        //call to WS and validate given credential----
-        Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-        // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
-        //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
-        //-Utils-for body
-        Map<String, String> body = new HashMap<>();
-        body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
-        body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
-        body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
-        body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
-        body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
-        body.put(WSContant.TAG_LASTRETRIEVED, "" + UserInfo.timeTableRefDate);//SharedPreferencesApp.getLastGetMobileMenuTime());
-        Utils.showProgressBar(getContext());
-        WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
-            @Override
-            public void onResponse(String response) {
-                mNoticeboardList.clear();
-                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEMENU);
-                GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
-                bindData(holder);
-                Utils.dismissProgressBar();
-                AppLog.log(TAG, "fetchDataFromServe1r3333 " + mNoticeboardList.size());
-            }
+        TableNoticeBoard noticeBoard = new TableNoticeBoard();
+        noticeBoard.openDB(getContext());
+        mNoticeboardList = noticeBoard.getData(UserInfo.parentId,UserInfo.studentId);
+        noticeBoard.closeDB();
+
+        if(Utils.isInternetConnected(getContext())){
+            //call to WS and validate given credential----
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
+            //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+            //-Utils-for body
+            Map<String, String> body = new HashMap<>();
+            body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
+            body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
+            body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
+            body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
+            body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
+            body.put(WSContant.TAG_LASTRETRIEVED, "" + UserInfo.timeTableRefDate);//SharedPreferencesApp.getLastGetMobileMenuTime());
+            Utils.showProgressBar(getContext());
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    mNoticeboardList.clear();
+                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEMENU);
+                    GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
+                    bindData(holder);
+                    Utils.dismissProgressBar();
+                    AppLog.log(TAG, "fetchDataFromServe1r3333 " + mNoticeboardList.size());
+                }
 
 
-            @Override
-            public void onErrorResponse(VolleyError response) {
-                Utils.dismissProgressBar();
-            }
-        });
+                @Override
+                public void onErrorResponse(VolleyError response) {
+                    Utils.dismissProgressBar();
+                }
+            });
+        }else{
+            initRecyclerView();
+        }
+
     }
 
 
@@ -171,15 +187,21 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         try {
             //---------------------------------
             TableNoticeBoard table = new TableNoticeBoard();
+            table.openDB(getContext());
             table.insert(holder.getMessageBody().getNoticeBoardMenuList());
             table.closeDB();
+
             TableNewsMaster table1 = new TableNewsMaster();
+            table1.openDB(getContext());
             table1.insert(holder.getMessageBody().getNewsMasterMenuList());
             table1.closeDB();
-            TableResultMaster table2 = new TableResultMaster();
+
+            TableStudentOverallResultSummary table2 = new TableStudentOverallResultSummary();
+            table2.openDB(getContext());
             table2.insert(holder.getMessageBody().getStudentOverallResultSummary());
             table2.closeDB();
-            TableFeeMasterMaster table3 = new TableFeeMasterMaster();
+            TableStudentOverallFeeSummary table3 = new TableStudentOverallFeeSummary();
+            table3.openDB(getContext());
             table3.insert(holder.getMessageBody().getStudentOverallFeeSummary());
             table3.closeDB();
             //---------------------------------------------

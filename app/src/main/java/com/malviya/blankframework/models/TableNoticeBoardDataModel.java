@@ -61,7 +61,7 @@ public class TableNoticeBoardDataModel {
         return RederenceId;
     }
 
-    public void setRederenceId(String rederenceId) {
+    public void setReferenceId(String rederenceId) {
         RederenceId = rederenceId;
     }
 

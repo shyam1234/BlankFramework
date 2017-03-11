@@ -69,8 +69,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mButtonLogin = (Button) findViewById(R.id.btnSignIn);
         setListner();
         //cheat code
-        mEditTextUserName.setText("p9@p.com");
-        mEditTextPassword.setText("login@123");
+        mEditTextUserName.setText("m1@gmail.com");
+        mEditTextPassword.setText("1234");
     }
 
 
