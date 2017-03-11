@@ -41,14 +41,29 @@ public class ResultListActivity extends AppCompatActivity implements View.OnClic
     private void init() {
         mResultList = new ArrayList<ResultListDataModel>();
         ResultListDataModel model = new ResultListDataModel();
-        model.setSemester("semester 1");
+        model.setSemester("Semester 1");
         mResultList.add(model);
-        ResultListDataModel model1 = new ResultListDataModel();
-        model1.setSemester("semester 2");
-        mResultList.add(model1);
-        ResultListDataModel model3 = new ResultListDataModel();
-        model3.setSemester("semester 3");
-        mResultList.add(model3);
+        model = new ResultListDataModel();
+        model.setSemester("Semester 2");
+        mResultList.add(model);
+        model = new ResultListDataModel();
+        model.setSemester("Semester 3");
+        mResultList.add(model);
+        model = new ResultListDataModel();
+        model.setSemester("Semester 4");
+        mResultList.add(model);
+        model = new ResultListDataModel();
+        model.setSemester("Semester 5");
+        mResultList.add(model);
+        model = new ResultListDataModel();
+        model.setSemester("Semester 6");
+        mResultList.add(model);
+        model = new ResultListDataModel();
+        model.setSemester("Semester 7");
+        mResultList.add(model);
+        model = new ResultListDataModel();
+        model.setSemester("Semester 8");
+        mResultList.add(model);
     }
 
     private void initView() {
