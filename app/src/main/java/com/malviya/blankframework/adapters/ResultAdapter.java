@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.models.TableResultMasterDataModel;
 
 import java.util.ArrayList;
 
@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHolder> {
     private Context mContext;
-    private ArrayList<AttendanceDataModel> mList;
+    private ArrayList<TableResultMasterDataModel> mList;
 
-    public ResultAdapter(Context context, ArrayList<AttendanceDataModel> pList) {
+    public ResultAdapter(Context context, ArrayList<TableResultMasterDataModel> pList) {
         mContext = context;
         mList = pList;
     }

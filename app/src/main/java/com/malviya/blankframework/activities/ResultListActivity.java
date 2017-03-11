@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.ResultListAdapter;
-import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.fragments.ResultFragment;
+import com.malviya.blankframework.models.ResultListDataModel;
 import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
@@ -25,15 +26,29 @@ import java.util.ArrayList;
 public class ResultListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView mRecycleViewResultList;
-    private ArrayList<AttendanceDataModel> mResultList;
+    private ArrayList<ResultListDataModel> mResultList;
     private ResultListAdapter mResultListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_list);
-        mResultList = new ArrayList<>();
+
+        init();
         initView();
+    }
+
+    private void init() {
+        mResultList = new ArrayList<ResultListDataModel>();
+        ResultListDataModel model = new ResultListDataModel();
+        model.setSemester("semester 1");
+        mResultList.add(model);
+        ResultListDataModel model1 = new ResultListDataModel();
+        model1.setSemester("semester 2");
+        mResultList.add(model1);
+        ResultListDataModel model3 = new ResultListDataModel();
+        model3.setSemester("semester 3");
+        mResultList.add(model3);
     }
 
     private void initView() {
@@ -82,6 +97,8 @@ public class ResultListActivity extends AppCompatActivity implements View.OnClic
             case R.id.imageview_resultlist_row_selection:
                 int position = (Integer) v.getTag();
                 ((ImageView) (v.findViewById(R.id.imageview_resultlist_row_selection))).setImageResource(R.drawable.selected);
+                ResultFragment.selected_sem = mResultList.get(position).getSemester();
+                finish();
                 break;
         }
     }

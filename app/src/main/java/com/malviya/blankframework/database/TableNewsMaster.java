@@ -239,6 +239,43 @@ public class TableNewsMaster {
         }
         return holder;
     }
+
+    public ArrayList<TableNewsMasterDataModel> getData(String menuCode) {
+        ArrayList<TableNewsMasterDataModel> mNewsList = new ArrayList<>();
+        TableNewsMasterDataModel holder = new TableNewsMasterDataModel();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode  + "'";
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+
+                    holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                    holder.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENTID)));
+                    holder.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENTID)));
+                    holder.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
+                    holder.setNewsTitle(cursor.getString(cursor.getColumnIndex(COL_NEWSTITLE)));
+                    holder.setShortBody(cursor.getString(cursor.getColumnIndex(COL_SHORTBODY)));
+                    holder.setNewsBody(cursor.getString(cursor.getColumnIndex(COL_NEWSBODY)));
+                    holder.setThumbNailPath(cursor.getString(cursor.getColumnIndex(COL_THUMBNAILPATH)));
+                    holder.setPublishedOn(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON)));
+                    holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
+                    holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
+                    holder.setTotalComments(cursor.getString(cursor.getColumnIndex(COL_TOTALCOMMENTS)));
+                    holder.setTotalLikes(cursor.getString(cursor.getColumnIndex(COL_TOTALLIKES)));
+                    holder.setFilePath(cursor.getString(cursor.getColumnIndex(COL_FILEPATH)));
+                    holder.setDocumentId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTID)));
+                    holder.setDocumentMasterId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTMASTERID)));
+                    holder.setReferenceTitle(cursor.getString(cursor.getColumnIndex(COL_REFERENCETITLE)));
+                    mNewsList.add(holder);
+                    AppLog.log("getData", "COL_REFERENCEID ++ "+holder.getReferenceId());
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("getData", e.getMessage());
+        }
+        return mNewsList;
+    }
 }
 
 

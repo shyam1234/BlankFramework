@@ -19,7 +19,7 @@ public class TableStudentOverallResultSummary {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
     public static final String TAG = "TableStudentOverallResultSummary";
-    private static final String TABLE_NAME = "table_resultmaster";
+    private static final String TABLE_NAME = "table_studentoverallresultsummary";
     private static final String COL_MENUCODE = "menucode";
     private static final String COL_PARENTID = "parentid";
     private static final String COL_STUDENTID = "studentId";
@@ -170,7 +170,7 @@ public class TableStudentOverallResultSummary {
     }
 
 
-    public TableResultMasterDataModel getInfo(String menuCode, String rederenceId) {
+    public TableResultMasterDataModel getData(String menuCode, String rederenceId) {
         TableResultMasterDataModel holder = new TableResultMasterDataModel();
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "' and " + COL_REFERENCEID + " = '" + rederenceId + "'";
@@ -201,4 +201,39 @@ public class TableStudentOverallResultSummary {
         }
         return holder;
     }
+
+
+    public ArrayList<TableResultMasterDataModel> getData(String menuCode) {
+        ArrayList<TableResultMasterDataModel> list = new ArrayList<>();
+        TableResultMasterDataModel holder = new TableResultMasterDataModel();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "'";
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+
+                    holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                    holder.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
+                    holder.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
+                    holder.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
+                    holder.setPublishedOn(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON)));
+                    holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
+                    holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
+                    holder.setStudentNumber(cursor.getString(cursor.getColumnIndex(COL_STUDENTNUMBER)));
+                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNAME)));
+                    holder.setAcademicYear(cursor.getString(cursor.getColumnIndex(COL_ACADEMICYEAR)));
+                    holder.setCourseName(cursor.getString(cursor.getColumnIndex(COL_COURSENAME)));
+                    holder.setSemesterName(cursor.getString(cursor.getColumnIndex(COL_SEMESTERNAME)));
+                    holder.setAchievementIndex(cursor.getString(cursor.getColumnIndex(COL_ACHIEVEMENTINDEX)));
+                    holder.setResult(cursor.getString(cursor.getColumnIndex(COL_RESULT)));
+                    list.add(holder);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("getData", e.getMessage());
+        }
+        return list;
+    }
+
 }

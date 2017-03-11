@@ -125,54 +125,61 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
 
 
     private void fetchDataFromServer() {
-        //call to WS and validate given credential----
-        Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-        // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
-        //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
-        //-Utils-for body
-        Map<String, String> body = new HashMap<>();
-        body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
-        body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
-        body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
-        body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
-        body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
-        body.put(WSContant.TAG_LASTRETRIEVED, "" + Utils.getLastRetrivedTimeForNews());
-        Utils.showProgressBar(getContext());
-        WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
-            @Override
-            public void onResponse(String response) {
-                mNewsList.clear();
-                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEMENU);
-                GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
-                AppLog.log(TAG,"fetchDataFromServe1r3333 "+mNewsList.size());
-                if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
-                    //update UI and save data to table ---------------------
-                    AppLog.log(TAG,"fetchDataFromServe1r "+mNewsList.size());
-                    mNewsList = holder.getMessageBody().getNewsMasterMenuList();
-                    AppLog.log(TAG,"fetchDataFromServe2r "+mNewsList.size());
-                    saveDataIntoTable(holder);
-                    AppLog.log(TAG,"fetchDataFromServe3r "+mNewsList.size());
-                    //mNewsAdapter.notifyDataSetChanged();
-                    SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
-                    initRecyclerView();
+        TableNewsMaster table = new TableNewsMaster();
+        table.openDB(getContext());
+        mNewsList = table.getData(UserInfo.menuCode);
+        table.closeDB();
+        //----------------------------------------------------------
+        if(Utils.isInternetConnected(getContext())){
+            //call to WS and validate given credential----
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
+            //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+            //-Utils-for body
+            Map<String, String> body = new HashMap<>();
+            body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
+            body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
+            body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
+            body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
+            body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
+            body.put(WSContant.TAG_LASTRETRIEVED, "" + Utils.getLastRetrivedTimeForNews());
+            Utils.showProgressBar(getContext());
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    mNewsList.clear();
+                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEMENU);
+                    GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
+                    AppLog.log(TAG,"fetchDataFromServe1r3333 "+mNewsList.size());
+                    if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
+                        //update UI and save data to table ---------------------
+                        AppLog.log(TAG,"fetchDataFromServe1r "+mNewsList.size());
+                        mNewsList = holder.getMessageBody().getNewsMasterMenuList();
+                        AppLog.log(TAG,"fetchDataFromServe2r "+mNewsList.size());
+                        saveDataIntoTable(holder);
+                        AppLog.log(TAG,"fetchDataFromServe3r "+mNewsList.size());
+                        //mNewsAdapter.notifyDataSetChanged();
+                        SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+                        initRecyclerView();
 
-                    //-------------------------------------------------------
-                    //navigateToNextPage();
-                } else {
-                    Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
+                        //-------------------------------------------------------
+                        //navigateToNextPage();
+                    } else {
+                        Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
+                    }
+                    Utils.dismissProgressBar();
                 }
-                Utils.dismissProgressBar();
-            }
 
-            @Override
-            public void onErrorResponse(VolleyError response) {
-                Utils.dismissProgressBar();
-            }
-        });
-        //------------------------------------------------
+                @Override
+                public void onErrorResponse(VolleyError response) {
+                    Utils.dismissProgressBar();
+                }
+            });
 
-
+        }else{
+            initRecyclerView();
+        }
     }
 
 

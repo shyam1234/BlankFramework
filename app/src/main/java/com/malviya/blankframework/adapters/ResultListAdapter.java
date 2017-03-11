@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.activities.ResultListActivity;
-import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.fragments.ResultFragment;
+import com.malviya.blankframework.models.ResultListDataModel;
 
 import java.util.ArrayList;
 
@@ -20,10 +20,10 @@ import java.util.ArrayList;
 
 public class ResultListAdapter extends RecyclerView.Adapter<ResultListAdapter.MyViewHolder> {
     private Context mContext;
-    private ArrayList<AttendanceDataModel> mList;
+    private ArrayList<ResultListDataModel> mList;
     private View.OnClickListener mClickListener;
 
-    public ResultListAdapter(Context context, ArrayList<AttendanceDataModel> pList, View.OnClickListener pClickListener) {
+    public ResultListAdapter(Context context, ArrayList<ResultListDataModel> pList, View.OnClickListener pClickListener) {
         mContext = context;
         mList = pList;
         mClickListener = pClickListener;
@@ -32,10 +32,7 @@ public class ResultListAdapter extends RecyclerView.Adapter<ResultListAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        //View view = inflater.inflate(R.layout.attendance_row, null);
-        //if use null then recyclerview not take match_parent as width
         View viewHolder = inflater.inflate(R.layout.resultlist_row, parent, false);
-        //viewHolder.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
         return new MyViewHolder(viewHolder);
     }
 
@@ -43,12 +40,19 @@ public class ResultListAdapter extends RecyclerView.Adapter<ResultListAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.imageviewSelection.setTag(position);
         holder.imageviewSelection.setOnClickListener(mClickListener);
+        holder.textViewSem.setText(mList.get(position).getSemester());
+        if(ResultFragment.selected_sem.trim().length()>0){
+            if(mList.get(position).getSemester().equalsIgnoreCase(ResultFragment.selected_sem))
+             holder.imageviewSelection.setImageResource(R.drawable.selected);
+            else
+                holder.imageviewSelection.setImageResource(R.drawable.select);
+        }
     }
 
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mList.size();
         // return mList.size();
     }
 

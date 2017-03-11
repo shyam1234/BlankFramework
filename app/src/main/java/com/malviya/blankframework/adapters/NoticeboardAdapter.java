@@ -65,7 +65,7 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
             case Constant.TAG_FEE:
                 TableStudentOverallFeeSummary feeTable = new TableStudentOverallFeeSummary();
                 feeTable.openDB(mContext);
-                TableFeeMasterDataModel feeHolder = feeTable.getInfo(mList.get(position).getMenuCode(), mList.get(position).getRederenceId());
+                TableFeeMasterDataModel feeHolder = feeTable.getData(mList.get(position).getMenuCode(), mList.get(position).getRederenceId());
                 //GetPicassoImage.getImage(mContext, feeHolder.getThumbNailPath(), holder.imageViewRhumbnil);
                 holder.textViewPublishBy.setText(feeHolder.getPublishedBy());
                 holder.textViewRefTitle.setText(feeHolder.getFeeTitle());
@@ -118,7 +118,7 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
             case Constant.TAG_RESULT:
                 TableStudentOverallResultSummary resultTable = new TableStudentOverallResultSummary();
                 resultTable.openDB(mContext);
-                TableResultMasterDataModel resultHolder = resultTable.getInfo(mList.get(position).getMenuCode(), mList.get(position).getRederenceId());
+                TableResultMasterDataModel resultHolder = resultTable.getData(mList.get(position).getMenuCode(), mList.get(position).getRederenceId());
                 //GetPicassoImage.getImage(mContext, resultHolder.getThumbNailPath(), holder.imageViewRhumbnil);
                 holder.textViewPublishBy.setText(resultHolder.getPublishedBy());
                 holder.textViewRefTitle.setText(resultHolder.getCourseName());

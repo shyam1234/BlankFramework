@@ -10,13 +10,16 @@ public interface WSContant {
     String URL_LOGIN = URL_BASE + "/authenticate";
     String URL_FORGET = URL_BASE + "/Account/ForgetPassword?";
     String URL_CHANGEPASSWORD = URL_BASE + "/Account/ChangePassword?";
-    String URL_REGISTRATION = URL_BASE + "/Account/Register";
+
     String URL_GETMOBILEHOME = URL_BASE + "/mobile/GetMobileHome";
     String URL_GETMOBILEMENU= URL_BASE + "/mobile/GetMobileMenu";
-    String URL_SAVELIKENCOMMENT= URL_BASE + "/mobile/SaveLikeNComment";
     String URL_GETMOBILEDETAILS= URL_BASE + "/mobile/GetMobileDetails";
+
+    String URL_SAVELIKENCOMMENT= URL_BASE + "/mobile/SaveLikeNComment";
     String URL_GETMOBILECOMMENTSNLIKES= URL_BASE + "/mobile/GetMobileCommentsnLikes";
+
     String URL_GETMOBILENOTICEBAORD= URL_BASE + "/mobile/GetMobileNoticeBoard";
+    String URL_REGISTRATION = URL_BASE + "/Account/Register";
     //-------------------------------------------------------------------------------------
     String TAG_LOGIN = "login";
     String TAG_LANG = "lang";

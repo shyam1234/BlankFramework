@@ -171,7 +171,7 @@ public class TableStudentOverallFeeSummary {
     }
 
 
-    public TableFeeMasterDataModel getInfo(String menuCode, String rederenceId) {
+    public TableFeeMasterDataModel getData(String menuCode, String rederenceId) {
         TableFeeMasterDataModel holder = new TableFeeMasterDataModel();
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "' and " + COL_REFERENCEID + " = '" + rederenceId + "'";
@@ -199,5 +199,38 @@ public class TableStudentOverallFeeSummary {
             AppLog.errLog("getData", e.getMessage());
         }
         return holder;
+    }
+
+
+    public ArrayList<TableFeeMasterDataModel> getData(String menuCode) {
+        ArrayList<TableFeeMasterDataModel> list = new ArrayList<>();
+        TableFeeMasterDataModel holder = new TableFeeMasterDataModel();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode  + "'";
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    holder.setCourseName(cursor.getString(cursor.getColumnIndex(COL_COURSENAME)));
+                    holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                    holder.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
+                    holder.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
+                    holder.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
+                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNUMBER)));
+                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNAME)));
+                    holder.setSemsterName(cursor.getString(cursor.getColumnIndex(COL_SEMESTERNAME)));
+                    holder.setTotalDue(cursor.getString(cursor.getColumnIndex(COL_TOTALDUE)));
+                    holder.setDueDate(cursor.getString(cursor.getColumnIndex(COL_DUEDATE)));
+                    holder.setPublishedOn(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON)));
+                    holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
+                    holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
+                    holder.setFeeTitle(cursor.getString(cursor.getColumnIndex(COL_FEETITLE)));
+                    list.add(holder);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("getData", e.getMessage());
+        }
+        return list;
     }
 }
