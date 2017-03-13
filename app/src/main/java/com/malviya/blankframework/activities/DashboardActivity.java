@@ -41,8 +41,6 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         init();
         initView();
         initRegistration();
-
-
     }
 
     private void init() {
@@ -75,10 +73,6 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
 
 
     private void initView() {
-        // mTextViewTitle = (TextView) findViewById(R.id.textview_title);
-        // mImageViewStudentTitleImg = (ImageView) findViewById(R.id.imageview_profile);
-        //----------------------------------------------------------------------------
-        // mContainer = (FrameLayout) findViewById(R.id.contentContainer);
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mViewPage = (ViewPager) findViewById(R.id.vpPager);
         mViewPage.addOnPageChangeListener(this);
@@ -88,12 +82,6 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
     private void initRegistration() {
         mBottomBar.setOnTabSelectListener(this);
         mViewPage.setAdapter(mAdapterViewPager);
-
-        //You can easily add badges for showing an unread message count or new items / whatever you like.
-        // BottomBarTab nearby = mBottomBar.getTabWithId(R.id.tab_home);
-        // nearby.setBadgeCount(5);
-        //nearby.removeBadge/();
-
     }
 
 
@@ -177,6 +165,6 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
             AppLog.errLog("onBackPressed", e.getMessage());
         }
     }
-
-
 }
+
+

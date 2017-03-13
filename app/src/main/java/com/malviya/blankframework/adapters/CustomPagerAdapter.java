@@ -65,17 +65,16 @@ public class CustomPagerAdapter extends PagerAdapter {
             GetPicassoImage.getImage(mContext, mResources.get(position).getDocumentpath(), imageView);
             imageView.setVisibility(View.VISIBLE);
         }
+
         container.addView(itemView);
         imageView.setOnClickListener(mListerner);
         imageView.setTag(position);
         return itemView;
     }
 
-
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((RelativeLayout) object);
     }
-
 
 }

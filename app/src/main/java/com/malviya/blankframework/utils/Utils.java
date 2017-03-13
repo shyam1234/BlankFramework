@@ -289,28 +289,27 @@ public class Utils {
         }
     }
 
+
     private static void initTableAndDisplay(String response, ICallBack pCallback) {
 
         if (response != null) {
             ParseResponse obj = new ParseResponse(response, GetMobileHomeDataModel.class, ModelFactory.MODEL_GETMOBILEHOME);
             GetMobileHomeDataModel holder = ((GetMobileHomeDataModel) obj.getModel());
-            for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
+            /*for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
                 AppLog.log(TAG, "IsDefault: " + parentStudentAsso.IsDefault);
                 if (parentStudentAsso.IsDefault) {
                     //UserInfo.studentId = parentStudentAsso.StudentId;
                     //SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
                 }
-            }
-
+            }*/
             for (LoginDataModel.University university : holder.universityArrayList) {
                 UserInfo.univercityId = university.UniversityId;
             }
-
             bindDataWithParentStudentMenuDetailsDataModel(holder);
             pCallback.callBack();
         }
-
     }
+
 
     private static void bindDataWithParentStudentMenuDetailsDataModel(GetMobileHomeDataModel holder) {
         try {
