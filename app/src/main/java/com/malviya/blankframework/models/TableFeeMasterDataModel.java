@@ -26,6 +26,7 @@ public class TableFeeMasterDataModel implements Comparable<TableFeeMasterDataMod
            "Status":"Not Paid"
          },*/
 
+
     @SerializedName("MenuCode")
     private String MenuCode;
     @SerializedName("ParentId")
@@ -53,7 +54,7 @@ public class TableFeeMasterDataModel implements Comparable<TableFeeMasterDataMod
     @SerializedName("ExpiryDate")
     private String ExpiryDate;
     @SerializedName("Status")
-    private String Status;
+    private String Status="";
     @SerializedName("FeeTitle")
     private String FeeTitle;
 
@@ -180,5 +181,13 @@ public class TableFeeMasterDataModel implements Comparable<TableFeeMasterDataMod
             AppLog.errLog("TableFeeMasterDataModel",e.getMessage());
         }
         return 0;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String status) {
+        Status = status;
     }
 }

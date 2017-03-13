@@ -53,6 +53,7 @@ import java.util.ArrayList;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+
             textViewDate = (TextView) itemView.findViewById(R.id.textview_fee_row_date_vaule);
             textViewPaymentValue = (TextView) itemView.findViewById(R.id.textview_fee_row_part_payment_value);
             btnViewDetails = (Button) itemView.findViewById(R.id.btn_view_details);

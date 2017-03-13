@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <include
+        android:visibility="gone"
         android:id="@+id/inc_results"
         layout="@layout/inc_main_header"
         android:layout_width="match_parent"
@@ -66,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/due_date"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/colorGrayTransparent" />
+                        android:textColor="@color/colorLightGray" />
 
 
                     <TextView
@@ -118,6 +119,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
         android:id="@+id/recyclerview_fee"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>

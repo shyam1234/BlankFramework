@@ -389,10 +389,12 @@ public class Utils {
     public static String getTimeInYYYYMMDD(String yyyyMMddHHmmss) {
         String time = "";
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-            SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = formatter.parse(yyyyMMddHHmmss);
-            time = formatter1.format(date);
+            if (yyyyMMddHHmmss != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = formatter.parse(yyyyMMddHHmmss);
+                time = formatter1.format(date);
+            }
         } catch (Exception e) {
             AppLog.errLog("Timestamp from Utils", e.getMessage());
         } finally {
@@ -404,10 +406,12 @@ public class Utils {
     public static String getTimeInDDMMYYYY(String yyyyMMddHHmmss) {
         String time = "";
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-            SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-            Date date = formatter.parse(yyyyMMddHHmmss);
-            time = formatter1.format(date);
+            if (yyyyMMddHHmmss != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                Date date = formatter.parse(yyyyMMddHHmmss);
+                time = formatter1.format(date);
+            }
         } catch (Exception e) {
             AppLog.errLog("Timestamp from Utils", e.getMessage());
         } finally {

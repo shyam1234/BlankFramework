@@ -74,5 +74,6 @@ public interface WSContant {
     String TAG_MESSAGERESULT="MessageResult";
     String TAG_MOBILENOTICEBOARD = "GetMobileNoticeBoard";
     String TAG_REFERENCEDATE = "ReferenceDate";
+    String TAG_VALUE_NOT_PAID = "Not Paid";
 }
 

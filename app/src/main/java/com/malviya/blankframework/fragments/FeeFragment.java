@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,10 +42,14 @@ import java.util.Map;
  */
 
 public class FeeFragment extends Fragment implements View.OnClickListener {
-    public final static String TAG="FeeFragment";
+    public final static String TAG = "FeeFragment";
     private RecyclerView mRecycleViewFee;
     private FeeAdapter mFeeAdapter;
     private ArrayList<TableFeeMasterDataModel> mFeeList;
+    private TextView mTextViewRPValue;
+    private TextView mTextViewDueDate;
+    private Button mButtonViewDetails;
+    private TextView mButtonPayNow;
 
     public FeeFragment() {
 
@@ -78,6 +83,8 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         //------------------------------------
+        View inc = (View) getView().findViewById(R.id.inc_results);
+        inc.setVisibility(View.VISIBLE);
         TextView mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_fee);
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
@@ -87,6 +94,11 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
+        mTextViewRPValue = (TextView) getView().findViewById(R.id.textview_fee_rp_value);
+        mTextViewDueDate = (TextView) getView().findViewById(R.id.textview_duedate_value);
+        mButtonViewDetails = (Button) getView().findViewById(R.id.btn_view_details);
+        mButtonPayNow = (TextView) getView().findViewById(R.id.btn_view_pay_now);
+
         initRecyclerView();
         setListener();
     }
@@ -98,6 +110,7 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
 
     private void initRecyclerView() {
         mRecycleViewFee = (RecyclerView) getView().findViewById(R.id.recyclerview_fee);
+        mRecycleViewFee.setVisibility(View.VISIBLE);
         mRecycleViewFee.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
@@ -121,14 +134,14 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
         TableStudentOverallFeeSummary table = new TableStudentOverallFeeSummary();
         table.openDB(getContext());
         mFeeList = table.getData(UserInfo.menuCode);
-        Collections.sort(mFeeList,Collections.<TableFeeMasterDataModel>reverseOrder());
+        Collections.sort(mFeeList, Collections.<TableFeeMasterDataModel>reverseOrder());
         table.closeDB();
         //----------------------------------------------------------
         if (Utils.isInternetConnected(getContext())) {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
             //-Utils-for body
             Map<String, String> body = new HashMap<>();
             body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
@@ -146,7 +159,7 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
                     GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
                     if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
                         mFeeList = holder.getMessageBody().getStudentOverallFeeSummary();
-                        Collections.sort(mFeeList,Collections.<TableFeeMasterDataModel>reverseOrder());
+                        Collections.sort(mFeeList, Collections.<TableFeeMasterDataModel>reverseOrder());
                         saveDataIntoTable(holder);
                         SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
                         initRecyclerView();

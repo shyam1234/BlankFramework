@@ -34,26 +34,28 @@ public class TableStudentOverallFeeSummary {
     private static final String COL_PUBLISHEDBY = "publishedby";
     private static final String COL_EXPIRYDATE = "expirydate";
     private static final String COL_FEETITLE = "feetitle";
+    private static final String COL_STATUS = "status";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
 
 
     public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
-            + COL_MENUCODE + " char(10), "
-            + COL_PARENTID + " int, "
-            + COL_STUDENTID + " int, "
-            + COL_REFERENCEID + " int, "
-            + COL_STUDENTNAME + " varchar(255), "
-            + COL_STUDENTNUMBER + " varchar(255), "
-            + COL_DUEDATE + " varchar(255), "
-            + COL_COURSENAME + " varchar(255), "
-            + COL_SEMESTERNAME + " varchar(255), "
-            + COL_TOTALDUE + " varchar(255), "
-            + COL_PUBLISHEDON + " varchar(255), "
-            + COL_PUBLISHEDBY + " varchar(255), "
-            + COL_FEETITLE + " varchar(255), "
-            + COL_EXPIRYDATE + " varchar(255) "
+            + COL_MENUCODE + " char(10) , "
+            + COL_PARENTID + " int , "
+            + COL_STUDENTID + " int , "
+            + COL_REFERENCEID + " int , "
+            + COL_STUDENTNAME + " varchar(255) , "
+            + COL_STUDENTNUMBER + " varchar(255) , "
+            + COL_DUEDATE + " varchar(255) , "
+            + COL_COURSENAME + " varchar(255) , "
+            + COL_SEMESTERNAME + " varchar(255) , "
+            + COL_TOTALDUE + " varchar(255) , "
+            + COL_PUBLISHEDON + " varchar(255) , "
+            + COL_PUBLISHEDBY + " varchar(255) , "
+            + COL_FEETITLE + " varchar(255) , "
+            + COL_EXPIRYDATE + " varchar(255) , "
+            + COL_STATUS + " varchar(100) "
             + " )";
 
     //For Foreign key
@@ -122,13 +124,14 @@ public class TableStudentOverallFeeSummary {
                     value.put(COL_PUBLISHEDBY, holder.getPublishedBy());
                     value.put(COL_FEETITLE, holder.getFeeTitle());
                     value.put(COL_EXPIRYDATE, holder.getExpiryDate());
+                    value.put(COL_STATUS, holder.getStatus());
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TABLE_NAME + " inserted: getParentId ", "" + holder.getParentId());
+                    AppLog.log(TABLE_NAME + " inserted: value ", "" +value.toString());
                     AppLog.log(TABLE_NAME + " inserted: getStudentId ", holder.getStudentId() + " row: " + row);
                 }
             }
         } catch (Exception e) {
-            AppLog.errLog("insert", e.getMessage());
+            AppLog.errLog(TABLE_NAME, e.getMessage());
         }
     }
 
@@ -138,7 +141,7 @@ public class TableStudentOverallFeeSummary {
             //String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentId() + "' and " + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
                     + COL_MENUCODE + " = '" + model.getMenuCode() + "' and "
-                    + COL_MENUCODE + " = '" + model.getReferenceId() + "' and "
+                    + COL_REFERENCEID + " = '" + model.getReferenceId() + "' and "
                     + COL_PARENTID + " = '" + model.getParentId() + "' and "
                     + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
@@ -175,6 +178,7 @@ public class TableStudentOverallFeeSummary {
         TableFeeMasterDataModel holder = new TableFeeMasterDataModel();
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "' and " + COL_REFERENCEID + " = '" + rederenceId + "'";
+            AppLog.log(TABLE_NAME,"selectQuery: "+selectQuery);
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -192,6 +196,8 @@ public class TableStudentOverallFeeSummary {
                     holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
                     holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
                     holder.setFeeTitle(cursor.getString(cursor.getColumnIndex(COL_FEETITLE)));
+                    holder.setStatus(cursor.getString(cursor.getColumnIndex(COL_STATUS)));
+                    AppLog.log(TABLE_NAME,"setTotalDue: "+holder.getTotalDue());
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -206,7 +212,7 @@ public class TableStudentOverallFeeSummary {
         ArrayList<TableFeeMasterDataModel> list = new ArrayList<>();
         TableFeeMasterDataModel holder = new TableFeeMasterDataModel();
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode  + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -224,6 +230,7 @@ public class TableStudentOverallFeeSummary {
                     holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
                     holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
                     holder.setFeeTitle(cursor.getString(cursor.getColumnIndex(COL_FEETITLE)));
+                    holder.setStatus(cursor.getString(cursor.getColumnIndex(COL_STATUS)));
                     list.add(holder);
                 } while (cursor.moveToNext());
             }

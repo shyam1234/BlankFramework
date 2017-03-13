@@ -137,7 +137,7 @@ public class TableStudentOverallResultSummary {
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
                     + COL_MENUCODE + " = '" + model.getMenuCode() + "' and "
-                    + COL_MENUCODE + " = '" + model.getReferenceId() + "' and "
+                    + COL_REFERENCEID + " = '" + model.getReferenceId() + "' and "
                     + COL_PARENTID + " = '" + model.getParentId() + "' and "
                     + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);

@@ -36,7 +36,6 @@ import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,7 +120,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
                 getActivity().onBackPressed();
                 break;
             case R.id.imageview_news_row_thumbnil:
-            case R.id.lin_news_row_holder:
+            case R.id.lin_noticeboard_row_holder:
                 int position = (Integer) view.getTag();
                 switch (mNoticeboardList.get(position).getMenuCode()) {
                     case Constant.TAG_FEE:
@@ -167,7 +166,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         TableNoticeBoard noticeBoard = new TableNoticeBoard();
         noticeBoard.openDB(getContext());
         mNoticeboardList = noticeBoard.getData(UserInfo.parentId,UserInfo.studentId);
-        Collections.sort(mNoticeboardList,Collections.<TableNoticeBoardDataModel>reverseOrder());
+        //Collections.sort(mNoticeboardList,Collections.<TableNoticeBoardDataModel>reverseOrder());
         noticeBoard.closeDB();
 
         if(Utils.isInternetConnected(getContext())){
@@ -213,7 +212,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     private void bindData(GetMobileMenuDataModel holder) {
         if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
             mNoticeboardList  = holder.getMessageBody().getNoticeBoardMenuList();
-            Collections.sort(mNoticeboardList,Collections.<TableNoticeBoardDataModel>reverseOrder());
+            //Collections.sort(mNoticeboardList,Collections.<TableNoticeBoardDataModel>reverseOrder());
             saveDataIntoTable(holder);
             SharedPreferencesApp.getInstance().saveGetMobileMenuTime(Utils.getCurrTime());
             initRecyclerView();
@@ -239,6 +238,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
             table2.openDB(getContext());
             table2.insert(holder.getMessageBody().getStudentOverallResultSummary());
             table2.closeDB();
+
             TableStudentOverallFeeSummary table3 = new TableStudentOverallFeeSummary();
             table3.openDB(getContext());
             table3.insert(holder.getMessageBody().getStudentOverallFeeSummary());
