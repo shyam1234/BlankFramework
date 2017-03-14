@@ -91,4 +91,7 @@
     <string name="unlike">Unlike</string>
     <string name="msg_success_msg_post">"Successfully Post Comment"</string>
     <string name="msg_validate_comment">Comment can not be empty</string>
+    <string name="tab_events">Events</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="past">Past</string>
 </resources>
