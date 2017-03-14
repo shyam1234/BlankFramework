@@ -8,7 +8,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class TableResultMasterDataModel {
 
-    /*{
+    /*
+    {
     "MenuCode":"RES",
     "ParentId":239,
     "StudentId":328,

@@ -116,7 +116,7 @@ public class TableNoticeBoard {
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
                     + COL_MENUCODE + " = '" + model.getMenuCode() + "' and "
-                    + COL_MENUCODE + " = '" + model.getRederenceId() + "' and "
+                    + COL_REFERENCEID + " = '" + model.getRederenceId() + "' and "
                     + COL_PARENTID + " = '" + model.getParentId() + "' and "
                     + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);

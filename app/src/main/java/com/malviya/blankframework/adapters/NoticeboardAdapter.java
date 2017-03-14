@@ -12,14 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableNewsMaster;
 import com.malviya.blankframework.database.TableStudentOverallFeeSummary;
 import com.malviya.blankframework.database.TableStudentOverallResultSummary;
 import com.malviya.blankframework.models.TableFeeMasterDataModel;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
-import com.malviya.blankframework.models.TableNoticeBoardDataModel;
 import com.malviya.blankframework.models.TableResultMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.GetPicassoImage;
@@ -33,14 +31,13 @@ import static com.malviya.blankframework.R.id.imageview_bottom_tag;
 /**
  * Created by Admin on 05-02-2017.
  */
-
 public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.MyViewHolder> {
     private static final String TAG = "NoticeboardAdapter";
     private Context mContext;
-    private ArrayList<TableNoticeBoardDataModel> mList;
+    private ArrayList<Object> mList;
     private View.OnClickListener mListener;
 
-    public NoticeboardAdapter(Context context, ArrayList<TableNoticeBoardDataModel> pList, View.OnClickListener pListener) {
+    public NoticeboardAdapter(Context context, ArrayList<Object> pList, View.OnClickListener pListener) {
         mContext = context;
         mList = pList;
         mListener = pListener;
@@ -54,32 +51,97 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
         return new MyViewHolder(viewHolder);
     }
 
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        AppLog.log(TAG, " +++ onBindViewHolder getMenuCode ++++ " + mList.get(position).getMenuCode());
-        AppLog.log(TAG, " +++ onBindViewHolder getRederenceId ++++ " + mList.get(position).getRederenceId());
-        holder.noticeboard_row_holder.setOnClickListener(mListener);
-        switch (mList.get(position).getMenuCode()) {
-            case Constant.TAG_FEE:
-                TableStudentOverallFeeSummary feeTable = new TableStudentOverallFeeSummary();
-                feeTable.openDB(mContext);
-                TableFeeMasterDataModel feeHolder = feeTable.getData(mList.get(position).getMenuCode(), mList.get(position).getRederenceId());
-                feeTable.closeDB();
-                if(feeHolder.getStatus().equalsIgnoreCase(WSContant.TAG_VALUE_NOT_PAID)) {
-                    holder.noticeboard_row_fee_holder.setVisibility(View.VISIBLE);
-                    holder.noticeboard_row_activity_fee_row_holder.setVisibility(View.GONE);
-                    holder.mTextViewRPValue.setText(feeHolder.getTotalDue());
-                    holder.mTextViewDueDate.setText(Utils.getTimeInYYYYMMDD(feeHolder.getDueDate()));
-                    holder.mButtonViewDetails.setOnClickListener(mListener);
-                    holder.mButtonPayNow.setOnClickListener(mListener);
-                }else{
-                    holder.noticeboard_row_activity_fee_row_holder.setVisibility(View.VISIBLE);
-                    holder.noticeboard_row_fee_holder.setVisibility(View.GONE);
-                    holder.textViewDate.setText(Utils.getTimeInYYYYMMDD(feeHolder.getDueDate()));
-                    holder.textViewPaymentValue.setText(feeHolder.getTotalDue());
-                    holder.btnViewDetails.setOnClickListener(mListener);
-                }
-                break;
+        if (mList.get(position) instanceof TableNewsMasterDataModel) {
+            holder.noticeboard_row_news_holder.setOnClickListener(mListener);
+            holder.noticeboard_row_news_holder.setTag(position);
+
+            holder.noticeboard_row_news_holder.setVisibility(View.VISIBLE);
+            holder.textViewPublishBy.setVisibility(View.VISIBLE);
+            holder.textViewRefTitle.setVisibility(View.VISIBLE);
+            holder.textViewPublishedTime.setVisibility(View.VISIBLE);
+            TableNewsMaster newsTable = new TableNewsMaster();
+            newsTable.openDB(mContext);
+            TableNewsMasterDataModel newsHolder = newsTable.getData(((TableNewsMasterDataModel) mList.get(position)).getMenuCode(), "" + ((TableNewsMasterDataModel) mList.get(position)).getReferenceId());
+            GetPicassoImage.getImage(mContext, newsHolder.getThumbNailPath(), holder.imageViewRhumbnil);
+            holder.imageViewRhumbnil.setVisibility(View.VISIBLE);
+            holder.textViewLike.setVisibility(View.VISIBLE);
+            holder.textViewComment.setVisibility(View.VISIBLE);
+            holder.imageViewTag.setVisibility(View.VISIBLE);
+            holder.imageViewComment.setVisibility(View.VISIBLE);
+            holder.imageViewLike.setVisibility(View.VISIBLE);
+            holder.textViewPublishBy.setText(newsHolder.getPublishedBy());
+            holder.textViewRefTitle.setText(newsHolder.getReferenceTitle());
+            //holder.textViewPublishedTime.setText(newsHolder.getPublishedOn());
+            holder.textViewPublishedTime.setText(Utils.getTimeInDDMMYYYY(newsHolder.getPublishedOn()));
+            holder.webviewShortBody.loadData(newsHolder.getShortBody(), "text/html; charset=utf-8", "utf-8");
+            holder.textViewTag.setText(newsHolder.getMenuCode());
+            holder.textViewLike.setText(newsHolder.getTotalLikes());
+            holder.textViewComment.setText(newsHolder.getTotalComments());
+            newsTable.closeDB();
+        } else if (mList.get(position) instanceof TableResultMasterDataModel) {
+
+
+            holder.textViewPublishBy.setVisibility(View.VISIBLE);
+            holder.textViewRefTitle.setVisibility(View.VISIBLE);
+            holder.textViewPublishedTime.setVisibility(View.VISIBLE);
+
+            TableStudentOverallResultSummary resultTable = new TableStudentOverallResultSummary();
+            resultTable.openDB(mContext);
+            TableResultMasterDataModel resultHolder = resultTable.getData(((TableResultMasterDataModel) mList.get(position)).getMenuCode(), "" + ((TableResultMasterDataModel) mList.get(position)).getReferenceId());
+            //GetPicassoImage.getImage(mContext, resultHolder.getThumbNailPath(), holder.imageViewRhumbnil);
+            holder.textViewPublishBy.setText(resultHolder.getPublishedBy());
+            holder.textViewRefTitle.setText(resultHolder.getCourseName());
+            //holder.textViewPublishedTime.setText(resultHolder.getPublishedOn());
+            holder.textViewPublishedTime.setText(Utils.getTimeInDDMMYYYY(resultHolder.getPublishedOn()));
+            holder.webviewShortBody.loadData(resultHolder.getResult(), "text/html; charset=utf-8", "utf-8");
+            holder.textViewTag.setText(resultHolder.getMenuCode());
+            resultTable.closeDB();
+        } else if (mList.get(position) instanceof TableFeeMasterDataModel) {
+            AppLog.log(TAG, "TableFeeMasterDataModel " + position);
+            TableStudentOverallFeeSummary feeTable = new TableStudentOverallFeeSummary();
+            feeTable.openDB(mContext);
+            TableFeeMasterDataModel feeHolder = feeTable.getData(((TableFeeMasterDataModel) mList.get(position)).getMenuCode(), "" + ((TableFeeMasterDataModel) mList.get(position)).getReferenceId());
+            //TableFeeMasterDataModel feeHolder = feeTable.getData(mList.get(position).getMenuCode(), mList.get(position).getRederenceId());
+            feeTable.closeDB();
+            if (feeHolder.getStatus().equalsIgnoreCase(WSContant.TAG_VALUE_NOT_PAID)) {
+                holder.noticeboard_row_fee_holder.setVisibility(View.VISIBLE);
+                holder.noticeboard_row_activity_fee_row_holder.setVisibility(View.GONE);
+                holder.mTextViewRPValue.setText(feeHolder.getTotalDue());
+                holder.mTextViewDueDate.setText(Utils.getTimeInYYYYMMDD(feeHolder.getDueDate()));
+                holder.mButtonViewDetails.setOnClickListener(mListener);
+                holder.mButtonViewDetails.setTag(position);
+                holder.mButtonPayNow.setOnClickListener(mListener);
+                holder.mButtonPayNow.setTag(position);
+                holder.noticeboard_row_fee_holder.setOnClickListener(mListener);
+                holder.noticeboard_row_fee_holder.setTag(position);
+            } else {
+                holder.noticeboard_row_activity_fee_row_holder.setVisibility(View.VISIBLE);
+                holder.noticeboard_row_fee_holder.setVisibility(View.GONE);
+                holder.textViewDate.setText(Utils.getTimeInYYYYMMDD(feeHolder.getDueDate()));
+                holder.textViewPaymentValue.setText(feeHolder.getTotalDue());
+                holder.btnViewDetails.setOnClickListener(mListener);
+                holder.btnViewDetails.setTag(position);
+                holder.noticeboard_row_activity_fee_row_holder.setOnClickListener(mListener);
+                holder.noticeboard_row_activity_fee_row_holder.setTag(position);
+            }
+        } else if (mList.get(position) instanceof TableResultMasterDataModel) {
+            TableStudentOverallResultSummary result = new TableStudentOverallResultSummary();
+            result.openDB(mContext);
+            TableResultMasterDataModel resultHolder = result.getData(((TableResultMasterDataModel) mList.get(position)).getMenuCode(), "" + ((TableResultMasterDataModel) mList.get(position)).getReferenceId());
+            result.closeDB();
+
+            holder.noticeboard_row_result_row_holder.setVisibility(View.VISIBLE);
+            holder.textview_result_subject.setText(resultHolder.getStudentName());
+            holder.textview_result_grade.setText(resultHolder.getAchievementIndex());
+            holder.textview_result_value.setText(resultHolder.getResult());
+            holder.noticeboard_row_result_row_holder.setTag(position);
+        }
+
+       /* switch (mList.get(position).getMenuCode()) {
+
             case Constant.TAG_ATTENDANCE:
                 break;
             case Constant.TAG_HOMEWORK:
@@ -93,32 +155,6 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
             case Constant.TAG_GALLERY:
                 break;
             case Constant.TAG_FEEDBACK:
-                break;
-            case Constant.TAG_NEWS:
-                holder.noticeboard_row_holder.setVisibility(View.VISIBLE);
-                holder.textViewPublishBy.setVisibility(View.VISIBLE);
-                holder.textViewRefTitle.setVisibility(View.VISIBLE);
-                holder.textViewPublishedTime.setVisibility(View.VISIBLE);
-                TableNewsMaster newsTable = new TableNewsMaster();
-                newsTable.openDB(mContext);
-                TableNewsMasterDataModel newsHolder = newsTable.getData(mList.get(position).getMenuCode(), mList.get(position).getRederenceId());
-                GetPicassoImage.getImage(mContext, newsHolder.getThumbNailPath(), holder.imageViewRhumbnil);
-                holder.imageViewRhumbnil.setVisibility(View.VISIBLE);
-                holder.textViewLike.setVisibility(View.VISIBLE);
-                holder.textViewComment.setVisibility(View.VISIBLE);
-                holder.imageViewTag.setVisibility(View.VISIBLE);
-                holder.imageViewComment.setVisibility(View.VISIBLE);
-                holder.imageViewLike.setVisibility(View.VISIBLE);
-
-                holder.textViewPublishBy.setText(newsHolder.getPublishedBy());
-                holder.textViewRefTitle.setText(newsHolder.getReferenceTitle());
-                //holder.textViewPublishedTime.setText(newsHolder.getPublishedOn());
-                holder.textViewPublishedTime.setText(Utils.getTimeInDDMMYYYY(newsHolder.getPublishedOn()));
-                holder.webviewShortBody.loadData(newsHolder.getShortBody(), "text/html; charset=utf-8", "utf-8");
-                holder.textViewTag.setText(newsHolder.getMenuCode());
-                holder.textViewLike.setText(newsHolder.getTotalLikes());
-                holder.textViewComment.setText(newsHolder.getTotalComments());
-                newsTable.closeDB();
                 break;
             case Constant.TAG_TIMETABLE:
                 holder.textViewPublishBy.setVisibility(View.GONE);
@@ -145,10 +181,7 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
                 //holder.textViewComment.setText(resultHolder.getTotalComments());
                 resultTable.closeDB();
                 break;
-        }
-        //--------------------------------------------------------------
-        holder.imageViewRhumbnil.setOnClickListener(mListener);
-        holder.imageViewRhumbnil.setTag(position);
+        }*/
     }
 
 
@@ -157,9 +190,8 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
         return mList.size();
     }
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public final LinearLayout noticeboard_row_holder;
+        public final LinearLayout noticeboard_row_news_holder;
         public final LinearLayout noticeboard_row_fee_holder;
         public final LinearLayout noticeboard_row_activity_fee_row_holder;
         private final TextView mTextViewRPValue;
@@ -180,11 +212,15 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
         private final TextView textViewDate;
         private final TextView textViewPaymentValue;
         private final Button btnViewDetails;
+        private final LinearLayout noticeboard_row_result_row_holder;
+        private final TextView textview_result_subject;
+        private final TextView textview_result_grade;
+        private final TextView textview_result_value;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             //For News-----------------------------------------------------------------------
-            noticeboard_row_holder = (LinearLayout) itemView.findViewById(R.id.lin_noticeboard_row_holder);
+            noticeboard_row_news_holder = (LinearLayout) itemView.findViewById(R.id.lin_noticeboard_news_row_holder);
             imageViewRhumbnil = (ImageView) itemView.findViewById(R.id.imageview_news_row_thumbnil);
             textViewRefTitle = (TextView) itemView.findViewById(R.id.textview_news_row_reference_title);
             textViewPublishBy = (TextView) itemView.findViewById(R.id.textview_news_row_published_by);
@@ -196,19 +232,22 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
             textViewTag = (TextView) itemView.findViewById(R.id.textview_inc_bottom_tag);
             textViewLike = (TextView) itemView.findViewById(R.id.textview_inc_bottom_like);
             textViewComment = (TextView) itemView.findViewById(R.id.textview_inc_bottom_comment);
-
             //For Fee----------------------------------------------------------------------
             noticeboard_row_fee_holder = (LinearLayout) itemView.findViewById(R.id.lin_noticeboard_row_fee_holder);
             mTextViewRPValue = (TextView) itemView.findViewById(R.id.textview_fee_rp_value);
             mTextViewDueDate = (TextView) itemView.findViewById(R.id.textview_duedate_value);
-            mButtonViewDetails = (Button) itemView.findViewById(R.id.btn_view_details);
+            mButtonViewDetails = (Button) itemView.findViewById(R.id.btn_download_details);
             mButtonPayNow = (TextView) itemView.findViewById(R.id.btn_view_pay_now);
             //For Fee Details--------------------------------------------------------------
             noticeboard_row_activity_fee_row_holder = (LinearLayout) itemView.findViewById(R.id.lin_noticeboard_row_activity_fee_row_holder);
             textViewDate = (TextView) itemView.findViewById(R.id.textview_fee_row_date_vaule);
             textViewPaymentValue = (TextView) itemView.findViewById(R.id.textview_fee_row_part_payment_value);
-            btnViewDetails = (Button) itemView.findViewById(R.id.btn_view_details);
-
+            btnViewDetails = (Button) itemView.findViewById(R.id.btn_download_details);
+            //For Result-------------------------------------------------------------------
+            noticeboard_row_result_row_holder = (LinearLayout) itemView.findViewById(R.id.lin_noticeboard_row_result_row_holder);
+            textview_result_subject = (TextView) itemView.findViewById(R.id.textview_result_row_subject_value);
+            textview_result_grade = (TextView) itemView.findViewById(R.id.textview_result_row_grade_value);
+            textview_result_value = (TextView) itemView.findViewById(R.id.textview_result_row_result_value);
 
         }
     }

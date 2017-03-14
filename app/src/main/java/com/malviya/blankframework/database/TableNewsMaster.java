@@ -138,7 +138,7 @@ public class TableNewsMaster {
                     value.put(COL_EXPIRYDATE, holder.getExpiryDate());
 
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TAG, TABLE_NAME + " inserted: "+ holder.getReferenceId() + " row: " + row);
+                    AppLog.log(TAG, TABLE_NAME + " inserted: " + holder.getReferenceId() + " row: " + row);
                 }
             }
         } catch (Exception e) {
@@ -151,7 +151,7 @@ public class TableNewsMaster {
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
                     + COL_MENUCODE + " = '" + model.getMenuCode() + "' and "
-                    + COL_MENUCODE + " = '" + model.getReferenceId() + "' and "
+                    + COL_REFERENCEID + " = '" + model.getReferenceId() + "' and "
                     + COL_PARENTID + " = '" + model.getParentId() + "' and "
                     + COL_STUDENTID + " = '" + model.getStudentId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
@@ -172,7 +172,7 @@ public class TableNewsMaster {
         try {
             if (mDB != null) {
                 long row = mDB.delete(TABLE_NAME, COL_PUBLISHEDON + "=? and " + COL_MENUCODE + "=? and " + COL_PARENTID + "=? and " + COL_STUDENTID + "=? and " + COL_REFERENCEID + "=?", new String[]{"" + holder.getPublishedOn(), "" + holder.getMenuCode(), "" + holder.getParentId(), "" + holder.getStudentId(), "" + holder.getReferenceId()});
-                AppLog.log(TAG,"deleteRecord row: " + row);
+                AppLog.log(TAG, "deleteRecord row: " + row);
                 return true;
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
@@ -187,11 +187,11 @@ public class TableNewsMaster {
     public boolean insertMessageBody(String pRefId, ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> pMessageBody) {
         try {
             if (mDB != null) {
-                for(GetMobileDetailsDataModel.MessageBodyDataModel obj : pMessageBody) {
+                for (GetMobileDetailsDataModel.MessageBodyDataModel obj : pMessageBody) {
                     ContentValues value = new ContentValues();
                     value.put(WSContant.TAG_NEWSBODY, obj.getMessageBodyHTML());
-                    long row = mDB.update(TABLE_NAME,value, COL_REFERENCEID + "=?", new String[]{pRefId});
-                    AppLog.log(TAG,"insertMessageBody row " + row);
+                    long row = mDB.update(TABLE_NAME, value, COL_REFERENCEID + "=?", new String[]{pRefId});
+                    AppLog.log(TAG, "insertMessageBody row " + row);
                 }
                 return true;
             } else {
@@ -230,7 +230,7 @@ public class TableNewsMaster {
                     holder.setDocumentId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTID)));
                     holder.setDocumentMasterId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTMASTERID)));
                     holder.setReferenceTitle(cursor.getString(cursor.getColumnIndex(COL_REFERENCETITLE)));
-                    AppLog.log("getData", "COL_REFERENCEID ++ "+holder.getReferenceId());
+                    AppLog.log("getData", "COL_REFERENCEID ++ " + holder.getReferenceId());
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -244,7 +244,7 @@ public class TableNewsMaster {
         ArrayList<TableNewsMasterDataModel> mNewsList = new ArrayList<>();
         TableNewsMasterDataModel holder = new TableNewsMasterDataModel();
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode  + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
@@ -267,7 +267,7 @@ public class TableNewsMaster {
                     holder.setDocumentMasterId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTMASTERID)));
                     holder.setReferenceTitle(cursor.getString(cursor.getColumnIndex(COL_REFERENCETITLE)));
                     mNewsList.add(holder);
-                    AppLog.log("getData", "COL_REFERENCEID ++ "+holder.getReferenceId());
+                    AppLog.log("getData", "COL_REFERENCEID ++ " + holder.getReferenceId());
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -276,6 +276,50 @@ public class TableNewsMaster {
         }
         return mNewsList;
     }
+
+
+    public ArrayList<TableNewsMasterDataModel> getData(int parentId, int studentId) {
+        ArrayList<TableNewsMasterDataModel> list = new ArrayList<>();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                    + COL_PARENTID + " = '" + parentId + "' and "
+                    + COL_STUDENTID + " = '" + studentId + "'";
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    TableNewsMasterDataModel model = new TableNewsMasterDataModel();
+                    model.setStudentId((cursor.getString(cursor.getColumnIndex(COL_STUDENTID))));
+                    model.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                    model.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENTID)));
+                    model.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENTID)));
+                    model.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
+                    model.setNewsTitle(cursor.getString(cursor.getColumnIndex(COL_NEWSTITLE)));
+                    model.setShortBody(cursor.getString(cursor.getColumnIndex(COL_SHORTBODY)));
+                    model.setNewsBody(cursor.getString(cursor.getColumnIndex(COL_NEWSBODY)));
+                    model.setThumbNailPath(cursor.getString(cursor.getColumnIndex(COL_THUMBNAILPATH)));
+                    model.setPublishedOn(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON)));
+                    model.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
+                    model.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
+                    model.setTotalComments(cursor.getString(cursor.getColumnIndex(COL_TOTALCOMMENTS)));
+                    model.setTotalLikes(cursor.getString(cursor.getColumnIndex(COL_TOTALLIKES)));
+                    model.setFilePath(cursor.getString(cursor.getColumnIndex(COL_FILEPATH)));
+                    model.setDocumentId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTID)));
+                    model.setDocumentMasterId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTMASTERID)));
+                    model.setReferenceTitle(cursor.getString(cursor.getColumnIndex(COL_REFERENCETITLE)));
+
+                    list.add(model);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "getData from TableNewsMasterDataModel " + e.getMessage());
+        } finally {
+
+            return list;
+        }
+    }
+
+
 }
 
 

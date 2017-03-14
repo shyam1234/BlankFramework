@@ -236,4 +236,43 @@ public class TableStudentOverallResultSummary {
         return list;
     }
 
+
+
+    public ArrayList<TableResultMasterDataModel> getData(int parentId, int studentId) {
+        ArrayList<TableResultMasterDataModel> list = new ArrayList<>();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                    + COL_PARENTID + " = '" + parentId + "' and "
+                    + COL_STUDENTID + " = '" + studentId + "'";
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    TableResultMasterDataModel holder = new TableResultMasterDataModel();
+                    holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                    holder.setParentId(cursor.getInt(cursor.getColumnIndex(COL_PARENTID)));
+                    holder.setStudentId(cursor.getInt(cursor.getColumnIndex(COL_STUDENTID)));
+                    holder.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
+                    holder.setPublishedOn(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON)));
+                    holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
+                    holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
+                    holder.setStudentNumber(cursor.getString(cursor.getColumnIndex(COL_STUDENTNUMBER)));
+                    holder.setStudentName(cursor.getString(cursor.getColumnIndex(COL_STUDENTNAME)));
+                    holder.setAcademicYear(cursor.getString(cursor.getColumnIndex(COL_ACADEMICYEAR)));
+                    holder.setCourseName(cursor.getString(cursor.getColumnIndex(COL_COURSENAME)));
+                    holder.setSemesterName(cursor.getString(cursor.getColumnIndex(COL_SEMESTERNAME)));
+                    holder.setAchievementIndex(cursor.getString(cursor.getColumnIndex(COL_ACHIEVEMENTINDEX)));
+                    holder.setResult(cursor.getString(cursor.getColumnIndex(COL_RESULT)));
+                    list.add(holder);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "getData from TableResultMasterDataModel " + e.getMessage());
+        } finally {
+
+            return list;
+        }
+    }
+
+
 }

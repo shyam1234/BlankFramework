@@ -96,7 +96,7 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
         //------------------------------------
         mTextViewRPValue = (TextView) getView().findViewById(R.id.textview_fee_rp_value);
         mTextViewDueDate = (TextView) getView().findViewById(R.id.textview_duedate_value);
-        mButtonViewDetails = (Button) getView().findViewById(R.id.btn_view_details);
+        mButtonViewDetails = (Button) getView().findViewById(R.id.btn_download_details);
         mButtonPayNow = (TextView) getView().findViewById(R.id.btn_view_pay_now);
 
         initRecyclerView();

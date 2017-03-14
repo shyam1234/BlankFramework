@@ -8,16 +8,16 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
-        android:paddingLeft="14dp"
-        android:paddingRight="14dp"
-        android:background="@color/colorGrayTransparent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorGrayTransparent"
         android:baselineAligned="false"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="10dp"
         android:weightSum="1">
 
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="left"
-                android:text="Major"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="normal" />
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="right"
-                android:text="A"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="normal" />
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:text="Pass"
+                android:text=""
                 android:textColor="@color/colorSkyBlue"
                 android:textSize="20sp"
                 android:textStyle="normal" />
