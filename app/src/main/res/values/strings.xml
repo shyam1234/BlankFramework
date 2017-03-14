@@ -94,4 +94,6 @@
     <string name="tab_events">Events</string>
     <string name="upcoming">Upcoming</string>
     <string name="past">Past</string>
+    <string name="attending">Attending</string>
+    <string name="not_going">Not Going</string>
 </resources>
