@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.NoticeboardAdapter;
+import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableNewsMaster;
 import com.malviya.blankframework.database.TableNoticeBoard;
@@ -49,6 +50,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     //private ArrayList<TableNoticeBoardDataModel> mNoticeboardList;
     private NoticeboardAdapter mNoticeboardAdapter;
     private ArrayList<Object> mCommonList;
+
     public NoticeboardFragment() {
         AppLog.log(TAG, "NoticeboardFragment");
     }
@@ -65,7 +67,6 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         super.onStart();
         AppLog.log(TAG, "onStart");
     }
-
 
 
     private void init() {
@@ -115,6 +116,11 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         mRecycleViewNews.setAdapter(mNoticeboardAdapter);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        UserInfo.menuCode = Constant.TAG_NOTICEBOARD;
+    }
 
     @Override
     public void onClick(View view) {
@@ -123,14 +129,17 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
                 getActivity().onBackPressed();
                 break;
             case R.id.lin_noticeboard_row_activity_fee_row_holder:
+                UserInfo.menuCode = Constant.TAG_FEE;
                 int position = (Integer) view.getTag();
                 Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
                 break;
             case R.id.lin_noticeboard_row_fee_holder:
+                UserInfo.menuCode = Constant.TAG_FEE;
                 int position1 = (Integer) view.getTag();
                 Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
                 break;
             case R.id.lin_noticeboard_news_row_holder:
+                UserInfo.menuCode = Constant.TAG_NEWS;
                 int position2 = (Integer) view.getTag();
                 Utils.navigateFragmentMenu(getFragmentManager(), new NewsFragment(), NewsFragment.TAG);
                 break;
@@ -143,6 +152,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
                 Toast.makeText(getContext(), "coming soon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.lin_noticeboard_row_result_row_holder:
+                UserInfo.menuCode = Constant.TAG_RESULT;
                 int position5 = (Integer) view.getTag();
                 Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);
                 break;
@@ -194,11 +204,11 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         mNoticeboardList = noticeBoard.getData(UserInfo.parentId,UserInfo.studentId);
         //Collections.sort(mNoticeboardList,Collections.<TableNoticeBoardDataModel>reverseOrder());
         noticeBoard.closeDB();*/
-        if(Utils.isInternetConnected(getContext())){
+        if (Utils.isInternetConnected(getContext())) {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
             // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
             //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
             //-Utils-for body
@@ -226,7 +236,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
                     Utils.dismissProgressBar();
                 }
             });
-        }else{
+        } else {
             initRecyclerView();
         }
 
@@ -251,21 +261,21 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
 
         TableNewsMaster table1 = new TableNewsMaster();
         table1.openDB(getContext());
-        for(TableNewsMasterDataModel model :table1.getData(UserInfo.parentId,UserInfo.studentId) ){
+        for (TableNewsMasterDataModel model : table1.getData(UserInfo.parentId, UserInfo.studentId)) {
             mCommonList.add(model);
         }
         table1.closeDB();
 
         TableStudentOverallResultSummary table2 = new TableStudentOverallResultSummary();
         table2.openDB(getContext());
-        for(TableResultMasterDataModel model1 : table2.getData(UserInfo.parentId,UserInfo.studentId) ){
+        for (TableResultMasterDataModel model1 : table2.getData(UserInfo.parentId, UserInfo.studentId)) {
             mCommonList.add(model1);
         }
         table2.closeDB();
 
         TableStudentOverallFeeSummary table3 = new TableStudentOverallFeeSummary();
         table3.openDB(getContext());
-        for(TableFeeMasterDataModel model3 : table3.getData(UserInfo.parentId,UserInfo.studentId) ){
+        for (TableFeeMasterDataModel model3 : table3.getData(UserInfo.parentId, UserInfo.studentId)) {
             mCommonList.add(model3);
         }
         table3.closeDB();
@@ -295,7 +305,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
             table3.closeDB();
             //-------------------------------------------------------------
         } catch (Exception e) {
-            AppLog.errLog(TAG, " saveDataIntoTable "+e.getMessage());
+            AppLog.errLog(TAG, " saveDataIntoTable " + e.getMessage());
         }
     }
 
