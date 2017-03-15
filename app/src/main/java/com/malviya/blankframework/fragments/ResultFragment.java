@@ -41,11 +41,11 @@ import java.util.Map;
 
 public class ResultFragment extends Fragment implements View.OnClickListener {
     public final static String TAG = "ResultFragment";
-    public static String selected_sem = "";
-    private TextView mTextViewSubjectSemster;
-    private ImageView mImageViewBack;
-    private TextView mTextViewTotalScore;
-    private TextView mTextViewAchievementIndex;
+//    public static String selected_sem = "";
+//    private TextView mTextViewSubjectSemster;
+//    private ImageView mImageViewBack;
+//    private TextView mTextViewTotalScore;
+//    private TextView mTextViewAchievementIndex;
     private ResultAdapter mResultAdapter;
     private ArrayList<TableResultMasterDataModel> mResultSummaryList;
 
@@ -83,7 +83,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        selected_sem = "";
+//        selected_sem = "";
         //------------------------------------
         TextView mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_result);
@@ -110,7 +110,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
 
 
     private void setListener() {
-        mImageViewBack.setOnClickListener(this);
+      //  mImageViewBack.setOnClickListener(this);
     }
 
 
@@ -118,8 +118,8 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         AppLog.log(TAG, "onResume");
-        if (selected_sem.trim().length() > 0)
-            mTextViewSubjectSemster.setText(selected_sem);
+//        if (selected_sem.trim().length() > 0)
+//            mTextViewSubjectSemster.setText(selected_sem);
     }
 
 

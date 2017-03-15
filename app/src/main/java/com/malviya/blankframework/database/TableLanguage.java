@@ -170,6 +170,8 @@ public class TableLanguage {
                         model.setEnglishVersion((cursor.getString(cursor.getColumnIndex(ENGLISH_VERSION))));
                         model.setBahasaVersion((cursor.getString(cursor.getColumnIndex(BAHASA_VERSION))));
                         model.setDateModified((cursor.getString(cursor.getColumnIndex(DATE_MODIFIED))));
+                        AppLog.log(TAG, "lang getVAlue for  " + pKey +" ENG "+model.getEnglishVersion());
+                        AppLog.log(TAG, "lang getVAlue for  " + pKey +" Bhasha "+model.getBahasaVersion());
                     } while (cursor.moveToNext());
                 }
                 cursor.close();

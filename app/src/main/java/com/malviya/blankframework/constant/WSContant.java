@@ -75,5 +75,14 @@ public interface WSContant {
     String TAG_MOBILENOTICEBOARD = "GetMobileNoticeBoard";
     String TAG_REFERENCEDATE = "ReferenceDate";
     String TAG_VALUE_NOT_PAID = "Not Paid";
+    String TAG_ENG = "eng";
+    String TAG_BHASHA = "bhasha";
+
+    String TAG_LANG_LOGIN = "lblLogin";
+    String TAG_LANG_USERNAME = "lblUserName";
+    String TAG_LANG_PASSWORD = "lblPassword";
+    String TAG_LANG_FORGOTPASSWORD = "lblForgetPassword";
+    String TAG_LANG_SUCCESS = "lblSuccess";
+    String TAG_LANG_PROCESSDING = "lblProceseding";
 }
 

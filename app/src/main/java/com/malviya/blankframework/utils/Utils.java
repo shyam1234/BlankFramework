@@ -14,12 +14,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.database.TableLanguage;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.interfaces.ICallBack;
 import com.malviya.blankframework.models.GetMobileHomeDataModel;
@@ -419,4 +422,43 @@ public class Utils {
         }
 
     }
+
+    public static void langConversion(Context pContext, Object obj, String pConversionCode, String defaultString, String langPref) {
+        TableLanguage holder = new TableLanguage();
+        try {
+            holder.openDB(pContext);
+            switch (langPref) {
+                case WSContant.TAG_ENG:
+                    if (obj instanceof Button) {
+                        ((Button) obj).setText(holder.getValue(pConversionCode).getEnglishVersion() != null ? holder.getValue(pConversionCode).getEnglishVersion() : defaultString);
+                    } else if (obj instanceof EditText) {
+                        ((EditText) obj).setHint(holder.getValue(pConversionCode).getEnglishVersion() != null ? holder.getValue(pConversionCode).getEnglishVersion() : defaultString);
+                    } else if (obj instanceof TextView) {
+                        ((TextView) obj).setText(holder.getValue(pConversionCode).getEnglishVersion() != null ? holder.getValue(pConversionCode).getEnglishVersion() : defaultString);
+                    }
+                    break;
+                case WSContant.TAG_BHASHA:
+                    if (obj instanceof Button) {
+                        ((Button) obj).setText(holder.getValue(pConversionCode).getBahasaVersion() != null ? holder.getValue(pConversionCode).getBahasaVersion() : defaultString);
+                    } else if (obj instanceof EditText) {
+                        ((EditText) obj).setHint(holder.getValue(pConversionCode).getBahasaVersion() != null ? holder.getValue(pConversionCode).getBahasaVersion() : defaultString);
+                    } else if (obj instanceof TextView) {
+                        ((TextView) obj).setText((holder.getValue(pConversionCode).getBahasaVersion() != null ? holder.getValue(pConversionCode).getBahasaVersion() : defaultString));
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            if (obj instanceof Button) {
+                ((Button) obj).setText(defaultString);
+            } else if (obj instanceof TextView) {
+                ((TextView) obj).setText(defaultString);
+            } else if (obj instanceof EditText) {
+                ((EditText) obj).setHint(defaultString);
+            }
+            AppLog.errLog(TAG, e.getMessage());
+        } finally {
+            holder.closeDB();
+        }
+    }
+
 }

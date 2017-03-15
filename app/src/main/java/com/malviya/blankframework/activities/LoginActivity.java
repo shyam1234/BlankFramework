@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,12 +43,13 @@ import java.util.Map;
  * Created by Admin on 03-12-2016.
  */
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private final String TAG = LoginActivity.class.getName();
     private TextView mTextViewForgotPassword;
     private Button mButtonLogin;
     private EditText mEditTextUserName;
     private EditText mEditTextPassword;
+    private SwitchCompat mSwitchLang;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +70,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mEditTextPassword = (EditText) findViewById(R.id.edittext_password);
         mTextViewForgotPassword = (TextView) findViewById(R.id.textview_forgot_password);
         mButtonLogin = (Button) findViewById(R.id.btnSignIn);
+
+        mSwitchLang = (SwitchCompat) findViewById(R.id.switch_login_language);
+        if (SharedPreferencesApp.getInstance().getLangSelection().equalsIgnoreCase(WSContant.TAG_ENG)) {
+            mSwitchLang.setChecked(false);
+            setLangSelection();
+        } else {
+            mSwitchLang.setChecked(true);
+            setLangSelection();
+        }
         setListner();
         //cheat code
         mEditTextUserName.setText("m1@gmail.com");
@@ -77,6 +89,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void setListner() {
         mTextViewForgotPassword.setOnClickListener(this);
         mButtonLogin.setOnClickListener(this);
+        mSwitchLang.setOnCheckedChangeListener(this);
     }
 
     @Override
@@ -104,7 +117,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (Utils.validateUserName(mEditTextUserName) &&
                 Utils.validatePassword(mEditTextPassword)) {
 
-            mButtonLogin.setText(getResources().getString(R.string.proceeding));
+            Utils.langConversion(this, mButtonLogin, WSContant.TAG_LANG_PROCESSDING, getString(R.string.proceeding), UserInfo.lang_pref);
+            //mButtonLogin.setText(getResources().getString(R.string.proceeding));
             mButtonLogin.setEnabled(false);
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
@@ -130,7 +144,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         bindDataWithUniversityDataModel(holder);
                         bindDataWithParentStudentMenuDetailsDataModel(holder);
                         //--------------------------------------------------------------------
-                        mButtonLogin.setText(getResources().getString(R.string.success));
+                        //mButtonLogin.setText(getResources().getString(R.string.success));
+                        Utils.langConversion(LoginActivity.this, mButtonLogin, WSContant.TAG_LANG_SUCCESS, getString(R.string.success), UserInfo.lang_pref);
                         mButtonLogin.setEnabled(false);
                         navigateToNextPage();
 
@@ -239,6 +254,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * bind data for dashboard
+     *
      * @param holder
      */
     private void bindDataWithParentDetailsDataModel(LoginDataModel holder) {
@@ -311,6 +327,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } catch (Exception e) {
             AppLog.errLog("LoginActivity bindDataWithParentStudentMenuDetailsDataModel", e.getMessage());
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            SharedPreferencesApp.getInstance().saveLangSelection(WSContant.TAG_BHASHA);
+            setLangSelection();
+        } else {
+            SharedPreferencesApp.getInstance().saveLangSelection(WSContant.TAG_ENG);
+            setLangSelection();
+        }
+    }
+
+    public void setLangSelection() {
+        Utils.langConversion(this, mButtonLogin, WSContant.TAG_LANG_LOGIN, getString(R.string.sign_in), UserInfo.lang_pref);
+        Utils.langConversion(this, mEditTextUserName, WSContant.TAG_LANG_USERNAME, getString(R.string.user_name), UserInfo.lang_pref);
+        Utils.langConversion(this, mEditTextPassword, WSContant.TAG_LANG_PASSWORD, getString(R.string.password), UserInfo.lang_pref);
+        Utils.langConversion(this, mTextViewForgotPassword, WSContant.TAG_LANG_FORGOTPASSWORD, getString(R.string.forgot_password), UserInfo.lang_pref);
     }
 
 }

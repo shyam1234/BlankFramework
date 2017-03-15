@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.ResultListAdapter;
-import com.malviya.blankframework.fragments.ResultFragment;
 import com.malviya.blankframework.models.ResultListDataModel;
 import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
@@ -112,7 +111,7 @@ public class ResultListActivity extends AppCompatActivity implements View.OnClic
             case R.id.imageview_resultlist_row_selection:
                 int position = (Integer) v.getTag();
                 ((ImageView) (v.findViewById(R.id.imageview_resultlist_row_selection))).setImageResource(R.drawable.selected);
-                ResultFragment.selected_sem = mResultList.get(position).getSemester();
+                //ResultFragment.selected_sem = mResultList.get(position).getSemester();
                 finish();
                 break;
         }

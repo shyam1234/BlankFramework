@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.fragments.ResultFragment;
 import com.malviya.blankframework.models.ResultListDataModel;
 
 import java.util.ArrayList;
@@ -41,12 +40,12 @@ public class ResultListAdapter extends RecyclerView.Adapter<ResultListAdapter.My
         holder.imageviewSelection.setTag(position);
         holder.imageviewSelection.setOnClickListener(mClickListener);
         holder.textViewSem.setText(mList.get(position).getSemester());
-        if(ResultFragment.selected_sem.trim().length()>0){
-            if(mList.get(position).getSemester().equalsIgnoreCase(ResultFragment.selected_sem))
-             holder.imageviewSelection.setImageResource(R.drawable.selected);
-            else
-                holder.imageviewSelection.setImageResource(R.drawable.select);
-        }
+//        if(ResultFragment.selected_sem.trim().length()>0){
+//            if(mList.get(position).getSemester().equalsIgnoreCase(ResultFragment.selected_sem))
+//             holder.imageviewSelection.setImageResource(R.drawable.selected);
+//            else
+//                holder.imageviewSelection.setImageResource(R.drawable.select);
+//        }
     }
 
 

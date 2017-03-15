@@ -70,9 +70,13 @@ public class SharedPreferencesApp {
 
 
     public void removeAll() {
-        removeLastLangSync();
+        //removeLastLangSync();
+        removeLastSavedUniversity();
         removeSavedTime();
         removeAuthToken();
+        removeLastGetMobileMenuTime();
+        removeLastLoginTime();
+        removeSavedTimeForNews();
         UserInfo.clearUSerInfo();
         savedDefaultChildSelection(-1);
     }
@@ -363,7 +367,7 @@ public class SharedPreferencesApp {
         }
     }
 
-    public static String getLastGetMobileMenuTime() {
+    public  String getLastGetMobileMenuTime() {
         String mLastLoginTime="";
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
@@ -388,6 +392,39 @@ public class SharedPreferencesApp {
             AppLog.errLog(" removeLastGetMobileMenuTime", e.getMessage());
         }
     }
+
+    //-----------------------------------------------------------
+
+    public void saveLangSelection(String pLangSelection) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            SharedPreferences.Editor data = sharePref.edit();
+            data.putString(WSContant.TAG_LANG, pLangSelection);
+            data.commit();
+            UserInfo.lang_pref = pLangSelection;
+            AppLog.log("sharePreferenceApp", "saveLangSelection: " + pLangSelection);
+        } catch (Exception e) {
+            AppLog.errLog(" sharePreferenceApp saveLangSelection", e.getMessage());
+        }
+    }
+
+    public  String getLangSelection() {
+        UserInfo.lang_pref=null;
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                UserInfo.lang_pref = sharePref.getString(WSContant.TAG_LANG,WSContant.TAG_ENG);
+            } else {
+                AppLog.log("getLangSelection", "there is not saved land selection ");
+            }
+            sharePref = null;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getLangSelection", e.getMessage());
+        } finally {
+            return UserInfo.lang_pref==null?WSContant.TAG_ENG:UserInfo.lang_pref;
+        }
+    }
+
 
     //-----------------------------------------------------------
 
