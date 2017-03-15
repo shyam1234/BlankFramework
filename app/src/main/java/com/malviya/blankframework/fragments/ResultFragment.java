@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.activities.ResultListActivity;
 import com.malviya.blankframework.adapters.ResultAdapter;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableStudentOverallResultSummary;
@@ -51,8 +50,8 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     private ArrayList<TableResultMasterDataModel> mResultSummaryList;
 
     public ResultFragment() {
-
     }
+
 
     private RecyclerView mRecycleViewResult;
 
@@ -62,6 +61,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         init();
     }
 
+
     private void init() {
         mResultSummaryList = new ArrayList<TableResultMasterDataModel>();
     }
@@ -70,7 +70,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
-        view = inflater.inflate(R.layout.fragment_results, null);
+        view = inflater.inflate(R.layout.fragment_noticeboard, null);
         return view;
     }
 
@@ -93,23 +93,18 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
-        //------------------------------------
-        mTextViewSubjectSemster = (TextView) getView().findViewById(R.id.textview_results_subject_sem);
-        mImageViewBack = (ImageView) getView().findViewById(R.id.imageview_results_arrow);
-        mTextViewTotalScore = (TextView) getView().findViewById(R.id.textview_results_total_score_value);
-        mTextViewAchievementIndex = (TextView) getView().findViewById(R.id.textview_results_achivement_index_value);
         initRecyclerView();
         setListener();
     }
 
 
     private void initRecyclerView() {
-        mRecycleViewResult = (RecyclerView) getView().findViewById(R.id.recyclerview_results);
+        mRecycleViewResult = (RecyclerView) getView().findViewById(R.id.recyclerview);
         mRecycleViewResult.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
         mRecycleViewResult.setLayoutManager(manager);
-        mResultAdapter = new ResultAdapter(getContext(), mResultSummaryList);
+        mResultAdapter = new ResultAdapter(getContext(), mResultSummaryList,this);
         mRecycleViewResult.setAdapter(mResultAdapter);
     }
 
@@ -134,8 +129,8 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
             case R.id.imageview_back:
                 getActivity().onBackPressed();
                 break;
-            case R.id.imageview_results_arrow:
-                navigateToNextPage(ResultListActivity.class);
+            case R.id.imagebtn_results_download:
+                Toast.makeText(getContext(), "coming soon", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
