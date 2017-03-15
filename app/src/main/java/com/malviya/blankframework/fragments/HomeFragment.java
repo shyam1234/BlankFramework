@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
@@ -155,37 +156,42 @@ public class HomeFragment extends Fragment {
                         Utils.navigateFragmentMenu(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
                         break;
                     case Constant.TAG_ATTENDANCE:
-                        Utils.navigateFragmentMenu(getFragmentManager(), new AttendanceFragment(), AttendanceFragment.TAG);
+                        //Utils.navigateFragmentMenu(getFragmentManager(), new AttendanceFragment(), AttendanceFragment.TAG);
+                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_DIARY:
                         //Utils.navigateFragmentMenu(getFragmentManager(), new DiaryFragment(), DiaryFragment.TAG);
-                        Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
+                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_EVENTS:
-                        Utils.navigateFragmentMenu(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
+                        //Utils.navigateFragmentMenu(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
+                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_FEE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
                         break;
                     case Constant.TAG_GALLERY:
-                        Utils.navigateFragmentMenu(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
+                        //Utils.navigateFragmentMenu(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
+                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_FEEDBACK:
-                        Utils.navigateFragmentMenu(getFragmentManager(), new FeedbackFragment(), FeedbackFragment.TAG);
+                        //Utils.navigateFragmentMenu(getFragmentManager(), new FeedbackFragment(), FeedbackFragment.TAG);
+                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_MESSAGE:
                         //Utils.navigateFragmentMenu(getFragmentManager(), new MessageFragment(), MessageFragment.TAG);
-                        Utils.navigateFragmentMenu(getFragmentManager(), new TimeTableFragment(), TimeTableFragment.TAG);
+                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_HOMEWORK:
-                        Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);
                         //Utils.navigateFragmentMenu(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
+                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_NEWS:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NewsFragment(), NewsFragment.TAG);
                         break;
                     case Constant.TAG_TIMETABLE:
-                        Utils.navigateFragmentMenu(getFragmentManager(), new TimeTableFragment(), TimeTableFragment.TAG);
+                        //Utils.navigateFragmentMenu(getFragmentManager(), new TimeTableFragment(), TimeTableFragment.TAG);
+                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_RESULT:
                         Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);

@@ -12,12 +12,19 @@
         android:layout_centerVertical="true"
         android:src="@drawable/logo" />
 
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/imgview_logo"
+        android:layout_marginTop="80dp" />
+
     <include
         android:id="@+id/inc_prog"
         layout="@layout/inc_progressbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/imgview_logo"
-        android:layout_marginTop="80dp"></include>
+        android:layout_marginTop="80dp"
+        android:visibility="gone"></include>
 
 </RelativeLayout>

@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,10 +45,6 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
     private RecyclerView mRecycleViewFee;
     private FeeAdapter mFeeAdapter;
     private ArrayList<TableFeeMasterDataModel> mFeeList;
-    private TextView mTextViewRPValue;
-    private TextView mTextViewDueDate;
-    private Button mButtonViewDetails;
-    private TextView mButtonPayNow;
 
     public FeeFragment() {
 
@@ -69,7 +64,7 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = null;
-        view = inflater.inflate(R.layout.fragment_fee, null);
+        view = inflater.inflate(R.layout.fragment_noticeboard, null);
         return view;
     }
 
@@ -93,29 +88,20 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
         ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
-        //------------------------------------
-        mTextViewRPValue = (TextView) getView().findViewById(R.id.textview_fee_rp_value);
-        mTextViewDueDate = (TextView) getView().findViewById(R.id.textview_duedate_value);
-        mButtonViewDetails = (Button) getView().findViewById(R.id.btn_download_details);
-        mButtonPayNow = (TextView) getView().findViewById(R.id.btn_view_pay_now);
 
         initRecyclerView();
-        setListener();
-    }
-
-    private void setListener() {
 
     }
 
 
     private void initRecyclerView() {
-        mRecycleViewFee = (RecyclerView) getView().findViewById(R.id.recyclerview_fee);
+        mRecycleViewFee = (RecyclerView) getView().findViewById(R.id.recyclerview);
         mRecycleViewFee.setVisibility(View.VISIBLE);
         mRecycleViewFee.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
         mRecycleViewFee.setLayoutManager(manager);
-        mFeeAdapter = new FeeAdapter(getContext(), mFeeList);
+        mFeeAdapter = new FeeAdapter(getContext(), mFeeList, this);
         mRecycleViewFee.setAdapter(mFeeAdapter);
     }
 
@@ -125,6 +111,18 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.imageview_back:
                 getActivity().onBackPressed();
+                break;
+            case R.id.lin_noticeboard_row_fee_holder:
+                //fee not paid
+                break;
+            case R.id.lin_noticeboard_row_activity_fee_row_holder:
+                //paid
+                break;
+            case R.id.btn_download_details:
+                Toast.makeText(getContext(), "Coming", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btn_view_pay_now:
+                Toast.makeText(getContext(), "Coming", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

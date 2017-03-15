@@ -3,6 +3,7 @@ package com.malviya.blankframework.activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable mRunnable;
     public static Context mContext;
     CircularProgressBar mCircularProgressBar;
+    ArrayList<TableLanguageDataModel> list;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +54,6 @@ public class SplashActivity extends AppCompatActivity {
         initView();
         Utils.showProgressBar(100, mCircularProgressBar);
     }
-
 
 
     private void init() {
@@ -81,17 +82,18 @@ public class SplashActivity extends AppCompatActivity {
         table.read();
         table.closeDB();
         //---------------------------------------------------------------------------------------
-        if(Utils.isInternetConnected(this)) {
+        if (Utils.isInternetConnected(this)) {
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_UNIVERSITYID, SharedPreferencesApp.getInstance().getLastSavedUniversityID());
             header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().getLastLangSync());
             WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_BASE, header, null, WSContant.TAG_LANG, new IWSRequest() {
                 @Override
                 public void onResponse(String response) {
+
                     AppLog.log("onResponse", "res++ " + response);
                     ParseResponse obj = new ParseResponse(response, LanguageArrayDataModel.class, ModelFactory.MODEL_LANG);
                     LanguageArrayDataModel holder = ((LanguageArrayDataModel) obj.getModel());
-                    bindDataWithLanguageDataModel(holder);
+                    new LoadLangAsyncTask().execute(holder);
                 }
 
                 @Override
@@ -103,7 +105,7 @@ public class SplashActivity extends AppCompatActivity {
                         dilog.show();
                         dilog.setOnKeyListener(new DialogInterface.OnKeyListener() {
                             @Override
-                            public boolean onKey(DialogInterface arg0, int keyCode,  KeyEvent event) {
+                            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
                                 // TODO Auto-generated method stub
                                 if (keyCode == KeyEvent.KEYCODE_BACK) {
                                     arg0.dismiss();
@@ -119,12 +121,12 @@ public class SplashActivity extends AppCompatActivity {
                                 finish();
                             }
                         });
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         AppLog.errLog("SplashActivity onErrorResponse", e.getMessage());
                     }
                 }
             });
-        }else{
+        } else {
 
         }
     }
@@ -143,9 +145,9 @@ public class SplashActivity extends AppCompatActivity {
         navigateToNextPage();
     }*/
 
-    private void bindDataWithLanguageDataModel(LanguageArrayDataModel holder) {
+    private boolean bindDataWithLanguageDataModel(LanguageArrayDataModel holder) {
         try {
-            ArrayList<TableLanguageDataModel> list = new ArrayList<TableLanguageDataModel>();
+            list = new ArrayList<TableLanguageDataModel>();
             for (LanguageArrayDataModel.LanguageDataModel model : holder.LanguageArray) {
                 //-- assign value to model
                 TableLanguageDataModel obj = new TableLanguageDataModel();
@@ -157,31 +159,12 @@ public class SplashActivity extends AppCompatActivity {
                 obj.setEnglishVersion(model.getEnglishVersion());
                 list.add(obj);
             }
-            //saving into database
-            TableLanguage table = new TableLanguage();
-            table.openDB(getApplicationContext());
-            boolean isAdded = table.insert(list);
-            table.closeDB();
-            AppLog.log("lang inserted+++ 111 ", "" + isAdded);
-            if (isAdded) {
-                SharedPreferencesApp.getInstance().saveLastLangSync(Utils.getCurrTime());
-                AppLog.log("splash","Lang Sync for university id: " +SharedPreferencesApp.getInstance().getLastSavedUniversityID());
-            }
 
-            AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken );
-            if( UserInfo.authToken !=null) {
-                Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
-                    @Override
-                    public void callBack() {
-                        navigateToNextPage(DashboardActivity.class);
-                    }
-                });
-            }else{
-                navigateToNextPage(LoginActivity.class);
-            }
         } catch (Exception e) {
             AppLog.errLog("SplashActivity bindDataWithLanguageDataModel", e.getMessage());
+            return false;
         }
+        return true;
     }
 
 
@@ -190,5 +173,49 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         Utils.animRightToLeft(SplashActivity.this);
+    }
+
+
+    private class LoadLangAsyncTask extends AsyncTask<LanguageArrayDataModel, Void, Boolean> {
+
+
+        @Override
+        protected Boolean doInBackground(LanguageArrayDataModel... holder) {
+            return  bindDataWithLanguageDataModel(holder[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean b) {
+            super.onPostExecute(b);
+            try {
+                if(!b){
+                    return;
+                }
+                //saving into database
+                TableLanguage table = new TableLanguage();
+                table.openDB(getApplicationContext());
+                boolean isAdded = table.insert(list);
+                table.closeDB();
+                AppLog.log("lang inserted+++ 111 ", "" + isAdded);
+                if (isAdded) {
+                    SharedPreferencesApp.getInstance().saveLastLangSync(Utils.getCurrTime());
+                    AppLog.log("splash", "Lang Sync for university id: " + SharedPreferencesApp.getInstance().getLastSavedUniversityID());
+                }
+
+                AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken);
+                if (UserInfo.authToken != null) {
+                    Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
+                        @Override
+                        public void callBack() {
+                            navigateToNextPage(DashboardActivity.class);
+                        }
+                    });
+                } else {
+                    navigateToNextPage(LoginActivity.class);
+                }
+            } catch (Exception e) {
+                AppLog.errLog(TAG, e.getMessage());
+            }
+        }
     }
 }
