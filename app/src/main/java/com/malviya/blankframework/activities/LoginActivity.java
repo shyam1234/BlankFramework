@@ -341,6 +341,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
     public void setLangSelection() {
         Utils.langConversion(this, mButtonLogin, WSContant.TAG_LANG_LOGIN, getString(R.string.sign_in), UserInfo.lang_pref);
         Utils.langConversion(this, mEditTextUserName, WSContant.TAG_LANG_USERNAME, getString(R.string.user_name), UserInfo.lang_pref);
