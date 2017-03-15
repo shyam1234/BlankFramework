@@ -423,6 +423,14 @@ public class Utils {
 
     }
 
+    /**
+     *
+     * @param pContext
+     * @param obj
+     * @param pConversionCode
+     * @param defaultString
+     * @param langPref
+     */
     public static void langConversion(Context pContext, Object obj, String pConversionCode, String defaultString, String langPref) {
         TableLanguage holder = new TableLanguage();
         try {
@@ -448,13 +456,6 @@ public class Utils {
                     break;
             }
         } catch (Exception e) {
-            if (obj instanceof Button) {
-                ((Button) obj).setText(defaultString);
-            } else if (obj instanceof TextView) {
-                ((TextView) obj).setText(defaultString);
-            } else if (obj instanceof EditText) {
-                ((EditText) obj).setHint(defaultString);
-            }
             AppLog.errLog(TAG, e.getMessage());
         } finally {
             holder.closeDB();

@@ -299,6 +299,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             table.openDB(getApplicationContext());
             table.insert(list);
             table.closeDB();
+
         } catch (Exception e) {
             AppLog.errLog("LoginActivity bindDataWithUniversityDataModel", e.getMessage());
         }
