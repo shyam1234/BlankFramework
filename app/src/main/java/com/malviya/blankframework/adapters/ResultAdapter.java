@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
@@ -47,6 +48,9 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
         holder.textViewGrade.setText("not coming");
         holder.textViewResult.setText(mList.get(position).getResult());
         holder.btnDownload.setOnClickListener(mListner);
+        holder.btnDownload.setTag(position);
+        holder.linearLayout.setOnClickListener(mListner);
+        holder.linearLayout.setTag(position);
     }
 
 
@@ -64,10 +68,11 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
         public final TextView textViewGrade;
         public final TextView textViewResult;
         private final Button btnDownload;
+        private final LinearLayout linearLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textViewSubject = (TextView) itemView.findViewById(R.id.textview_result_row_subject_value);
+            textViewSubject = (TextView) itemView.findViewById(R.id.textview_result_details_credits);
             textViewGrade = (TextView) itemView.findViewById(R.id.textview_result_row_grade_value);
             textViewResult = (TextView) itemView.findViewById(R.id.textview_result_row_result_value);
             //------------------------------------
@@ -76,6 +81,8 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
             mTextViewAchievementIndex = (TextView) itemView.findViewById(R.id.textview_results_achivement_index_value);
             //-------------------------------------
             btnDownload = (Button) itemView.findViewById(R.id.imagebtn_results_download);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.lin_result_holder);
+
 
         }
     }

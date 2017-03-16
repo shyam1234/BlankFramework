@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:text="Mar"
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                     android:textStyle="normal" />
 
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center"
-                    android:text="15"
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -71,7 +71,7 @@
                     android:id="@+id/textview_events_row_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sdfsfdsfdsfsdfdsfsdfsfsadfasffsjfhsadhfhfsfhaslfahlfhaslfhasfahfkahfak"
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorBlue" />
             </LinearLayout>
@@ -98,7 +98,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/imageview_events_row_watch_holder"
-                    android:text="7PM to 9 PM"
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/black" />
 
@@ -119,7 +119,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/imageview_events_row_location_holder"
-                    android:text="School Audi"
+                    android:text=""
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/black" />
 

@@ -245,7 +245,7 @@ public class NoticeboardAdapter extends RecyclerView.Adapter<NoticeboardAdapter.
             btnViewDetails = (Button) itemView.findViewById(R.id.btn_download_details);
             //For Result-------------------------------------------------------------------
             noticeboard_row_result_row_holder = (LinearLayout) itemView.findViewById(R.id.lin_noticeboard_row_result_row_holder);
-            textview_result_subject = (TextView) itemView.findViewById(R.id.textview_result_row_subject_value);
+            textview_result_subject = (TextView) itemView.findViewById(R.id.textview_result_details_credits);
             textview_result_grade = (TextView) itemView.findViewById(R.id.textview_result_row_grade_value);
             textview_result_value = (TextView) itemView.findViewById(R.id.textview_result_row_result_value);
 

@@ -15,7 +15,9 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.ResultDetailActivity;
 import com.malviya.blankframework.adapters.ResultAdapter;
+import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableStudentOverallResultSummary;
 import com.malviya.blankframework.models.GetMobileMenuDataModel;
@@ -41,7 +43,7 @@ import java.util.Map;
 
 public class ResultFragment extends Fragment implements View.OnClickListener {
     public final static String TAG = "ResultFragment";
-//    public static String selected_sem = "";
+    //    public static String selected_sem = "";
 //    private TextView mTextViewSubjectSemster;
 //    private ImageView mImageViewBack;
 //    private TextView mTextViewTotalScore;
@@ -104,13 +106,13 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
         mRecycleViewResult.setLayoutManager(manager);
-        mResultAdapter = new ResultAdapter(getContext(), mResultSummaryList,this);
+        mResultAdapter = new ResultAdapter(getContext(), mResultSummaryList, this);
         mRecycleViewResult.setAdapter(mResultAdapter);
     }
 
 
     private void setListener() {
-      //  mImageViewBack.setOnClickListener(this);
+        //  mImageViewBack.setOnClickListener(this);
     }
 
 
@@ -132,6 +134,14 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
             case R.id.imagebtn_results_download:
                 Toast.makeText(getContext(), "coming soon", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.lin_result_holder:
+                int posi = (Integer) view.getTag();
+                Intent intent = new Intent(getContext(), ResultDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constant.TAG_HOLDER, mResultSummaryList.get(posi));
+                intent.putExtras(bundle);
+                navigateToNextPage(intent);
+                break;
         }
     }
 
@@ -146,7 +156,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
             //-Utils-for body
             Map<String, String> body = new HashMap<>();
             body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
@@ -203,5 +213,11 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         Utils.animRightToLeft(getActivity());
     }
 
+
+    private void navigateToNextPage(Intent i) {
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        Utils.animRightToLeft(getActivity());
+    }
 
 }

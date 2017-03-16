@@ -9,6 +9,7 @@ import com.malviya.blankframework.models.LanguageArrayDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.NewsDetailsCommentLikeDataModel;
+import com.malviya.blankframework.models.TableResultDetailsDataModel;
 import com.malviya.blankframework.models.TableTimeTableDetailsDataModel;
 
 /**
@@ -66,8 +67,13 @@ public class ParseResponse {
                 mModel = mGson.fromJson(mRespose, TableTimeTableDetailsDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
+            case ModelFactory.MODEL_RESULTDETAILS:
+                mModel = mGson.fromJson(mRespose, TableResultDetailsDataModel.class);
+                ModelFactory.getInstance().register(mKey, mModel);
+                break;
             default:
                 break;
+
         }
     }
 

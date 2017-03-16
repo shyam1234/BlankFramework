@@ -81,17 +81,17 @@ public class TableResultDetails {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableResultDetailsDataModel> list) {
+    public void insert(ArrayList<TableResultDetailsDataModel.InnerResultDetails> list) {
         try {
             if (mDB != null) {
-                for (TableResultDetailsDataModel holder : list) {
+                for (TableResultDetailsDataModel.InnerResultDetails holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
                     //----------------------------------------
                     ContentValues value = new ContentValues();
                     value.put(COL_REFERENCEID, holder.getReferenceId());
-                    value.put(COL_STUDENTNAME, holder.getStudentName());
+                    value.put(COL_STUDENTNAME, holder.getSubjectName());
                     value.put(COL_CREDITS, holder.getCredits());
                     value.put(COL_GRADE, holder.getGrade());
                     value.put(COL_RESULT, holder.getResult());
@@ -105,7 +105,7 @@ public class TableResultDetails {
     }
 
 
-    public boolean isExists(TableResultDetailsDataModel model) {
+    public boolean isExists(TableResultDetailsDataModel.InnerResultDetails model) {
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_CREDITS + " = '" + model.getReferenceId() + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
@@ -122,7 +122,7 @@ public class TableResultDetails {
         return false;
     }
 
-    public boolean deleteRecord(TableResultDetailsDataModel holder) {
+    public boolean deleteRecord(TableResultDetailsDataModel.InnerResultDetails holder) {
         try {
             if (mDB != null) {
                 long row = mDB.delete(TABLE_NAME, COL_REFERENCEID + "=?", new String[]{"" + holder.getReferenceId()});
@@ -132,7 +132,7 @@ public class TableResultDetails {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "deleteRecord from TableResultDetailsDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "deleteRecord from TableResultDetailsDataModel.InnerResultDetails" + e.getMessage());
         }
         return false;
     }

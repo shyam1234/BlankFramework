@@ -15,6 +15,7 @@ public class ModelFactory {
     public static final String MODEL_NEWS_DETAILS_COMMENTS_LIKE = "commentlike";
     public static final String MODEL_NOTICEBOARD = "noticeboard";
     public final static String MODEL_LOGIN = "LoginDataModel";
+    public static final String MODEL_RESULTDETAILS = "ResultDetails";
     public static final String MODEL_GETMOBILEMENU = "NewsDataModel";
     public static final String MODEL_GETMOBILEDETAILS = "NewsDataModelDetails";
     public final static String MODEL_LANG = "LanguageArrayDataModel";

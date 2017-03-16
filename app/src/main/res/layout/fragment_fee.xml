@@ -37,7 +37,7 @@
                         android:id="@+id/textview_fee_rp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/msg_rp"
+                        android:text=""
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
                         android:textColor="@color/colorBlue" />
 
@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/textview_fee_rp"
-                        android:text="10000"
+                        android:text=""
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
                         android:textColor="@color/colorBlue" />
                 </LinearLayout>
@@ -76,7 +76,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/textview_duedate"
-                        android:text="Date Month Year"
+                        android:text=""
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/black" />
                 </LinearLayout>

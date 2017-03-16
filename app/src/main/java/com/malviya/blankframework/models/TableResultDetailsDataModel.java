@@ -1,54 +1,77 @@
 package com.malviya.blankframework.models;
 
+import com.google.gson.annotations.SerializedName;
+import com.malviya.blankframework.interfaces.IModel;
+
+import java.util.ArrayList;
+
 /**
  * Created by Admin on 05-02-2017.
  */
 
-public class TableResultDetailsDataModel {
-    private int ReferenceId;
-    private String StudentName;
-    private String Credits;
-    private String Grade;
-    private String Result;
+public class TableResultDetailsDataModel extends IModel {
 
 
-    public int getReferenceId() {
-        return ReferenceId;
+    @SerializedName("MessageBody")
+    private ArrayList<InnerResultDetails> MessageBody = new ArrayList<InnerResultDetails>();
+
+    public ArrayList<InnerResultDetails> getMessageBody() {
+        return MessageBody;
     }
 
-    public void setReferenceId(int referenceId) {
-        ReferenceId = referenceId;
-    }
 
-    public String getStudentName() {
-        return StudentName;
-    }
+    public class InnerResultDetails {
+        @SerializedName("ReferenceId")
+        private int ReferenceId;
+        @SerializedName("SubjectName")
+        private String SubjectName;
+        @SerializedName("Credits")
+        private String Credits;
+        @SerializedName("Grade")
+        private String Grade;
+        @SerializedName("Result")
+        private String Result;
 
-    public void setStudentName(String studentName) {
-        StudentName = studentName;
-    }
 
-    public String getCredits() {
-        return Credits;
-    }
+        public int getReferenceId() {
+            return ReferenceId;
+        }
 
-    public void setCredits(String credits) {
-        Credits = credits;
-    }
+        public void setReferenceId(int referenceId) {
+            ReferenceId = referenceId;
+        }
 
-    public String getGrade() {
-        return Grade;
-    }
+        public String getSubjectName() {
+            return SubjectName;
+        }
 
-    public void setGrade(String grade) {
-        Grade = grade;
-    }
+        public void setSubjectName(String studentName) {
+            SubjectName = studentName;
+        }
 
-    public String getResult() {
-        return Result;
-    }
+        public String getCredits() {
+            return Credits;
+        }
 
-    public void setResult(String result) {
-        Result = result;
+        public void setCredits(String credits) {
+            Credits = credits;
+        }
+
+        public String getGrade() {
+            return Grade;
+        }
+
+        public void setGrade(String grade) {
+            Grade = grade;
+        }
+
+        public String getResult() {
+            return Result;
+        }
+
+        public void setResult(String result) {
+            Result = result;
+        }
+
     }
 }

@@ -2,11 +2,13 @@ package com.malviya.blankframework.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Admin on 25-02-2017.
  */
 
-public class TableResultMasterDataModel {
+public class TableResultMasterDataModel implements Serializable{
 
     /*
     {

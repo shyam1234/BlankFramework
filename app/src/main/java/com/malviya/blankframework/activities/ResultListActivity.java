@@ -31,7 +31,7 @@ public class ResultListActivity extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result_list);
+        setContentView(R.layout.activity_result_detail);
 
         init();
         initView();
