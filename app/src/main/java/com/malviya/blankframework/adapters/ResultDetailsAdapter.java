@@ -37,7 +37,7 @@ public class ResultDetailsAdapter extends RecyclerView.Adapter<ResultDetailsAdap
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.textview_subject.setText(mList.get(position).getSubjectName());
-        holder.textview_credits.setText(mList.get(position).getCredits());
+        //holder.textview_credits.setText(mList.get(position).getCredits());
         holder.textview_grade.setText(mList.get(position).getGrade());
         holder.textview_result.setText(mList.get(position).getResult());
     }
@@ -51,14 +51,14 @@ public class ResultDetailsAdapter extends RecyclerView.Adapter<ResultDetailsAdap
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView textview_subject;
-        private final TextView textview_credits;
+       // private final TextView textview_credits;
         private final TextView textview_grade;
         private final TextView textview_result;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             textview_subject = (TextView) itemView.findViewById(R.id.textview_results_sem_value);
-            textview_credits = (TextView) itemView.findViewById(R.id.textview_result_details_credits);
+           // textview_credits = (TextView) itemView.findViewById(R.id.textview_result_details_credits);
             textview_grade = (TextView) itemView.findViewById(R.id.textview_result_row_grade_value);
             textview_result = (TextView) itemView.findViewById(R.id.textview_result_row_result_value);
         }

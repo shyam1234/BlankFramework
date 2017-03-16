@@ -43,11 +43,6 @@ import java.util.Map;
 
 public class ResultFragment extends Fragment implements View.OnClickListener {
     public final static String TAG = "ResultFragment";
-    //    public static String selected_sem = "";
-//    private TextView mTextViewSubjectSemster;
-//    private ImageView mImageViewBack;
-//    private TextView mTextViewTotalScore;
-//    private TextView mTextViewAchievementIndex;
     private ResultAdapter mResultAdapter;
     private ArrayList<TableResultMasterDataModel> mResultSummaryList;
 

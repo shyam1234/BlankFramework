@@ -7,51 +7,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="12dp">
 
-        <RelativeLayout
-            android:id="@+id/rel_sem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/view_resu"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:id="@+id/textview_results_sem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="@string/subject_semester"
-                android:textColor="@color/colorTextHint"
-                android:textSize="16sp"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/textview_results_sem_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:gravity="right"
-                android:text=""
-                android:textAlignment="gravity"
-                android:textColor="@color/colorBlue"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/rel_view3"
-            android:layout_width="match_parent"
-            android:layout_height="0.1dp"
-            android:layout_below="@+id/rel_results1"
-            android:background="@color/colorMargin"></View>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +17,7 @@
             android:baselineAligned="false"
             android:gravity="center"
             android:orientation="horizontal"
-            android:paddingTop="10dp"
+            android:paddingTop="0dp"
             android:weightSum="1">
 
 
@@ -67,7 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:layout_weight="0.33"
+                android:layout_weight="0.55"
                 android:gravity="left"
                 android:orientation="vertical">
 
@@ -77,20 +35,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:gravity="left"
-                    android:text="@string/Credits"
+                    android:text="@string/Major"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/colorTextHint"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
                 <TextView
-                    android:id="@+id/textview_result_details_credits"
+                    android:id="@+id/textview_results_sem_value"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left"
                     android:text=""
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
                     android:textStyle="normal" />
             </LinearLayout>
 
@@ -98,8 +56,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:layout_weight="0.33"
-                android:gravity="right"
+                android:layout_weight="0.22"
+                android:gravity="left"
                 android:orientation="vertical">
 
                 <TextView
@@ -107,10 +65,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:text="@string/grade"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/colorTextHint"
-                    android:textSize="16sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -118,10 +76,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:text=""
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
                     android:textStyle="normal" />
             </LinearLayout>
 
@@ -130,8 +88,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:layout_weight="0.33"
-                android:gravity="right"
+                android:layout_weight="0.22"
+                android:gravity="left"
                 android:orientation="vertical">
 
                 <TextView
@@ -139,10 +97,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:text="@string/result"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                     android:textColor="@color/colorTextHint"
-                    android:textSize="16sp"
                     android:textStyle="normal" />
 
                 <TextView
@@ -150,10 +108,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:gravity="right"
+                    android:gravity="left"
                     android:text=""
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/colorSkyBlue"
-                    android:textSize="20sp"
                     android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>

@@ -96,7 +96,9 @@
     <string name="past">Past</string>
     <string name="attending">Attending</string>
     <string name="not_going">Not Going</string>
-    <string name="subject_semester">SubjectName</string>
+    <string name="subject_semester">Semester</string>
     <string name="tab_result_details">Result Details</string>
     <string name="Credits">Credits</string>
+    <string name="Major">Major</string>
+    <string name="index">Index</string>
 </resources>

@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.models.TableResultMasterDataModel;
+import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
     public ResultAdapter(Context context, ArrayList<TableResultMasterDataModel> pList, View.OnClickListener pListner) {
         mContext = context;
         mList = pList;
-        mListner =pListner;
+        mListner = pListner;
     }
 
     @Override
@@ -41,14 +41,12 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.mTextViewSubjectSemster.setText(mList.get(position).getSemesterName());
-        holder.mTextViewTotalScore.setText("0");
-        holder.mTextViewAchievementIndex.setText(mList.get(position).getAchievementIndex());
-        holder.textViewSubject.setText(mList.get(position).getCourseName());
-        holder.textViewGrade.setText("not coming");
+        holder.textViewSemester.setText(mList.get(position).getSemesterName());
+        holder.textViewIndex.setText(mList.get(position).getAchievementIndex());
         holder.textViewResult.setText(mList.get(position).getResult());
-        holder.btnDownload.setOnClickListener(mListner);
-        holder.btnDownload.setTag(position);
+        holder.mTextViewSubject.setText(mList.get(position).getCourseName());
+        holder.mTextViewPublishedByAndTime.setText(mList.get(position).getPublishedBy() + " : " + Utils.getTimeInYYYYMMDD(mList.get(position).getPublishedOn()));
+        holder.textViewResult.setText(mContext.getString(R.string.tab_fee));
         holder.linearLayout.setOnClickListener(mListner);
         holder.linearLayout.setTag(position);
     }
@@ -61,28 +59,26 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultAdapter.MyViewHold
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private final TextView mTextViewSubjectSemster;
-        private final TextView mTextViewTotalScore;
-        private final TextView mTextViewAchievementIndex;
-        public final TextView textViewSubject;
-        public final TextView textViewGrade;
+        public final TextView textViewSemester;
+        public final TextView textViewIndex;
         public final TextView textViewResult;
-        private final Button btnDownload;
         private final LinearLayout linearLayout;
+        private final TextView mTextViewPublishedByAndTime;
+        private final TextView mTextViewTagValue;
+        private final TextView mTextViewSubject;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textViewSubject = (TextView) itemView.findViewById(R.id.textview_result_details_credits);
-            textViewGrade = (TextView) itemView.findViewById(R.id.textview_result_row_grade_value);
+
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.lin_result_holder);
+            mTextViewSubject = (TextView) itemView.findViewById(R.id.textview_subject);
+            mTextViewPublishedByAndTime = (TextView) itemView.findViewById(R.id.textview_result_row_admin_time);
+            //---------------------------------------------------------
+            textViewSemester = (TextView) itemView.findViewById(R.id.textview_results_sem_value);
+            textViewIndex = (TextView) itemView.findViewById(R.id.textview_result_row_grade_value);
             textViewResult = (TextView) itemView.findViewById(R.id.textview_result_row_result_value);
             //------------------------------------
-            mTextViewSubjectSemster = (TextView) itemView.findViewById(R.id.textview_results_sem_value);
-            mTextViewTotalScore = (TextView) itemView.findViewById(R.id.textview_results_total_score_value);
-            mTextViewAchievementIndex = (TextView) itemView.findViewById(R.id.textview_results_achivement_index_value);
-            //-------------------------------------
-            btnDownload = (Button) itemView.findViewById(R.id.imagebtn_results_download);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.lin_result_holder);
-
+            mTextViewTagValue = (TextView) itemView.findViewById(R.id.textview_result_row_tag_value);
 
         }
     }
