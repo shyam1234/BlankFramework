@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by Admin on 25-02-2017.
  */
 
-public class TableResultMasterDataModel implements Serializable{
+public class TableResultMasterDataModel extends Object implements Serializable{
 
     /*
     {

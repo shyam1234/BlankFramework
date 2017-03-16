@@ -268,8 +268,9 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
 
         TableStudentOverallResultSummary table2 = new TableStudentOverallResultSummary();
         table2.openDB(getContext());
-        for (TableResultMasterDataModel model1 : table2.getData(UserInfo.parentId, UserInfo.studentId)) {
-            mCommonList.add(model1);
+        for (TableResultMasterDataModel model123 : table2.getData(UserInfo.parentId, UserInfo.studentId)) {
+            mCommonList.add(model123);
+            AppLog.log(TAG,"getData+++ "+mCommonList.size()+" model123 "+model123);
         }
         table2.closeDB();
 

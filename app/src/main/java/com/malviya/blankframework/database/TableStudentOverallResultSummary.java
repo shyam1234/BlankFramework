@@ -262,14 +262,15 @@ public class TableStudentOverallResultSummary {
                     holder.setSemesterName(cursor.getString(cursor.getColumnIndex(COL_SEMESTERNAME)));
                     holder.setAchievementIndex(cursor.getString(cursor.getColumnIndex(COL_ACHIEVEMENTINDEX)));
                     holder.setResult(cursor.getString(cursor.getColumnIndex(COL_RESULT)));
+                    AppLog.log(TAG,"getData "+holder.getResult());
                     list.add(holder);
+                    AppLog.log(TAG,"list list  "+list.size());
                 } while (cursor.moveToNext());
             }
             cursor.close();
         } catch (Exception e) {
             AppLog.errLog(TAG, "getData from TableResultMasterDataModel " + e.getMessage());
         } finally {
-
             return list;
         }
     }
