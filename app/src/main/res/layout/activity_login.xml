@@ -75,6 +75,7 @@
                 android:padding="20dp"
                 android:paddingBottom="0dp"
                 android:singleLine="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite"
                 android:theme="@style/Theme.App.Base"
@@ -97,6 +98,7 @@
                 android:padding="20dp"
                 android:paddingBottom="10dp"
                 android:singleLine="true"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite"
                 android:theme="@style/Theme.App.Base"
@@ -108,7 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/edittext_password"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="30dp"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Button" />
         </RelativeLayout>
     </ScrollView>
 
@@ -124,5 +127,6 @@
         android:layout_weight="0.2"
         android:gravity="center_horizontal"
         android:text="@string/title_forgot_password"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
         android:textColor="@color/colorWhite" />
 </RelativeLayout>

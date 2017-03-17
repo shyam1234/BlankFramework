@@ -27,7 +27,6 @@ import com.malviya.blankframework.utils.CustomDialogbox;
 import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
-import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
     private Handler mHandler;
     private Runnable mRunnable;
     public static Context mContext;
-    CircularProgressBar mCircularProgressBar;
+   // CircularProgressBar mCircularProgressBar;
     ArrayList<TableLanguageDataModel> list;
 
     @Override
@@ -52,7 +51,7 @@ public class SplashActivity extends AppCompatActivity {
         Utils.animRightToLeft(SplashActivity.this);
         init();
         initView();
-        Utils.showProgressBar(100, mCircularProgressBar);
+       // Utils.showProgressBar(100, mCircularProgressBar);
     }
 
 
@@ -72,7 +71,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mCircularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
+        //mCircularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
     }
 
 

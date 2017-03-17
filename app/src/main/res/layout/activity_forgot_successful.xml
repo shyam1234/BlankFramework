@@ -30,9 +30,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="18dp"
                 android:gravity="center_horizontal"
-                android:text="Thank you!"
-                android:textColor="@color/colorWhite"
-                android:textSize="22sp" />
+                android:text="@string/thank_you"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorWhite" />
 
             <TextView
                 android:id="@+id/textview2"
@@ -42,8 +42,8 @@
                 android:layout_marginTop="25dp"
                 android:gravity="center_horizontal"
                 android:text="@string/a_temporary_password_has_been_sent_to_the"
-                android:textColor="@color/colorWhite"
-                android:textSize="18sp" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+                android:textColor="@color/colorWhite" />
 
 
             <Button
@@ -58,8 +58,8 @@
                 android:background="@color/colorWhite"
                 android:text="@string/back_to_login"
                 android:textAllCaps="false"
-                android:textColor="@color/colorGreen"
-                android:textSize="18sp" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+                android:textColor="@color/colorGreen" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

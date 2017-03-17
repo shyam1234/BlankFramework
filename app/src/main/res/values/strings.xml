@@ -101,4 +101,9 @@
     <string name="Credits">Credits</string>
     <string name="Major">Major</string>
     <string name="index">Index</string>
+    <string name="thank_you">Thank you!</string>
+    <string name="english">English</string>
+    <string name="bahasa">Bahasa</string>
+    <string name="loading_language">Loading language...</string>
+    <string name="date">Date</string>
 </resources>

@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/like"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button" />
 
     </RelativeLayout>
 
@@ -64,7 +64,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/comment"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button" />
 
     </RelativeLayout>
 </LinearLayout>

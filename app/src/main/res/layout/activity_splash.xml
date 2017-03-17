@@ -13,10 +13,21 @@
         android:src="@drawable/logo" />
 
     <ProgressBar
+        android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/imgview_logo"
-        android:layout_marginTop="80dp" />
+        android:layout_centerVertical="true"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="@string/loading_language"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
     <include
         android:id="@+id/inc_prog"

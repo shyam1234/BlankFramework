@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_toRightOf="@+id/textview_fee_rp"
-                        android:text="10000"
+                        android:text="0"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                         android:textColor="@color/colorBlue" />
                 </LinearLayout>

@@ -38,8 +38,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/name"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="16sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
 
                 <TextView
                     android:id="@+id/textview_name_value"
@@ -50,8 +50,8 @@
                     android:gravity="right"
                     android:text="value"
                     android:textAlignment="gravity"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="18sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
             </RelativeLayout>
 
             <View
@@ -74,8 +74,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/msg_class"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="16sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
 
                 <TextView
                     android:id="@+id/textview_child_profile_class_value"
@@ -86,8 +86,8 @@
                     android:gravity="right"
                     android:text="value"
                     android:textAlignment="gravity"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="18sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
             </RelativeLayout>
 
             <View
@@ -110,8 +110,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/msg_class_teacher"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="16sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
 
                 <TextView
                     android:id="@+id/textview_child_profile_class_teacher_value"
@@ -122,8 +122,8 @@
                     android:gravity="right"
                     android:text="value"
                     android:textAlignment="gravity"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="18sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
             </RelativeLayout>
 
             <View
@@ -145,8 +145,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="@string/msg_class_teacher_phone"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="16sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
 
                 <TextView
                     android:id="@+id/textview_child_profile_teacher_phone_value"
@@ -157,8 +157,8 @@
                     android:gravity="right"
                     android:text="value"
                     android:textAlignment="gravity"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="18sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -174,8 +174,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:text="Language"
-                    android:textColor="@color/dashboardTextColor"
-                    android:textSize="16sp" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/dashboardTextColor" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

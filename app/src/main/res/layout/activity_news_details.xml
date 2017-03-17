@@ -44,14 +44,15 @@
                 android:orientation="horizontal" />
 
             <TextView
+
                 android:id="@+id/textview_news_details_reference_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/viewPagerCountDots"
                 android:layout_marginTop="5dp"
                 android:text=""
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
-                android:textColor="@color/colorGreen" />
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorBlue" />
 
             <RelativeLayout
                 android:id="@+id/rel_news_details"
@@ -64,8 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text=""
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                     android:textColor="@color/colorLightGray" />
 
                 <TextView
@@ -108,12 +108,13 @@
     </LinearLayout>
     <!--bottom sheet layo<ut-->
     <FrameLayout
-        android:visibility="gone"
-        android:background="@color/colorWhite"
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:background="@color/colorWhite"
+        android:visibility="gone"
         app:layout_behavior="@string/bottom_sheet_behavior">
-        <include layout="@layout/comment_like_page"/>
+
+        <include layout="@layout/comment_like_page" />
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

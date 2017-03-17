@@ -42,20 +42,18 @@
             android:text="@string/welcome_to"
             android:textAlignment="gravity"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textview_uni_header_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
             android:layout_marginTop="0dp"
             android:gravity="left"
-            android:layout_gravity="left"
             android:src="@drawable/logo"
             android:textAlignment="gravity"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textColor="@color/black" />
     </LinearLayout>
 </RelativeLayout>

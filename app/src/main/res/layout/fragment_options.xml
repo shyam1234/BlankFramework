@@ -36,8 +36,8 @@
             android:layout_toRightOf="@+id/imageview_options_share_title"
             android:src="@drawable/share"
             android:text="@string/share_this_app"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black" />
     </RelativeLayout>
 
     <View
@@ -68,8 +68,8 @@
             android:layout_toRightOf="@+id/imageview_options_profile"
             android:src="@drawable/share"
             android:text="@string/tab_profile"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black" />
     </RelativeLayout>
 
     <View
@@ -100,8 +100,8 @@
             android:layout_toRightOf="@+id/imageview_options_setting"
             android:src="@drawable/share"
             android:text="@string/setting"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black" />
     </RelativeLayout>
 
     <View
@@ -133,8 +133,8 @@
             android:layout_toRightOf="@+id/imageview_options_logout"
             android:src="@drawable/share"
             android:text="@string/logout"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/black" />
     </RelativeLayout>
 
 </LinearLayout>
