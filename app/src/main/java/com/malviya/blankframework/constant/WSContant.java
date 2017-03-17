@@ -20,6 +20,9 @@ public interface WSContant {
 
     String URL_GETMOBILENOTICEBAORD= URL_BASE + "/mobile/GetMobileNoticeBoard";
     String URL_REGISTRATION = URL_BASE + "/Account/Register";
+
+    String URL_PRINT_SEMESTER_RESULT = URL_BASE + "/StudentPortal/OverallResult/PrintSemesterResult?StudentId=";
+
     //-------------------------------------------------------------------------------------
     String TAG_LOGIN = "login";
     String TAG_LANG = "lang";
