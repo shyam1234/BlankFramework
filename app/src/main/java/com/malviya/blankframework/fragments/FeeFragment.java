@@ -18,6 +18,7 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.FeeAdapter;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableStudentOverallFeeSummary;
+import com.malviya.blankframework.interfaces.ICallBack;
 import com.malviya.blankframework.models.GetMobileMenuDataModel;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
@@ -26,6 +27,7 @@ import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.DownloadFileAsync;
 import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
@@ -119,7 +121,31 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
                 //paid
                 break;
             case R.id.btn_download_details:
-                Toast.makeText(getContext(), "Coming", Toast.LENGTH_SHORT).show();
+                int posi = (int)view.getTag();
+                AppLog.log(TAG, "btn_download_details");
+                final String sfAssociationId = ""+mFeeList.get(posi).getReferenceId();//"436";
+
+                if (!Utils.isFileDownloaded(getActivity(), WSContant.DOWNLOAD_FOLDER,sfAssociationId + ".pdf")) {
+                    new DownloadFileAsync(getActivity(), WSContant.DOWNLOAD_FOLDER, new ICallBack() {
+                        @Override
+                        public void callBack() {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Utils.showDownloadFile(getActivity(), WSContant.DOWNLOAD_FOLDER, sfAssociationId + ".pdf");
+                                }
+                            });
+                        }
+                    }).execute(WSContant.URL_PRINT_RECEIPT, "" + sfAssociationId);
+                }else{
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utils.showDownloadFile(getActivity(), WSContant.DOWNLOAD_FOLDER, "" + sfAssociationId + ".pdf");
+                            Utils.dismissProgressBar();
+                        }
+                    });
+                }
                 break;
             case R.id.btn_view_pay_now:
                 Toast.makeText(getContext(), "Coming", Toast.LENGTH_SHORT).show();

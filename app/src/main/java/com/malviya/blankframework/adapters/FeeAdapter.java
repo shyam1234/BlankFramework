@@ -40,22 +40,17 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        //TableStudentOverallFeeSummary feeTable = new TableStudentOverallFeeSummary();
-        //feeTable.openDB(mContext);
-        //TableFeeMasterDataModel mList = feeTable.getData(((TableFeeMasterDataModel) mList.get(position)).getMenuCode(), "" + ((TableFeeMasterDataModel) mList.get(position)).getReferenceId());
-        //TableFeeMasterDataModel mList = feeTable.getData(mList.get(position).getMenuCode(), mList.get(position).getRederenceId());
-        //feeTable.closeDB();
         if (mList.get(position).getStatus().equalsIgnoreCase(WSContant.TAG_VALUE_NOT_PAID)) {
             holder.noticeboard_row_fee_holder.setVisibility(View.VISIBLE);
             holder.noticeboard_row_activity_fee_row_holder.setVisibility(View.GONE);
             holder.mTextViewRPValue.setText(mList.get(position).getTotalDue());
             holder.mTextViewDueDate.setText(Utils.getTimeInYYYYMMDD(mList.get(position).getDueDate()));
-            holder.mButtonViewDetails.setOnClickListener(mListener);
-            holder.mButtonViewDetails.setTag(position);
             holder.mButtonPayNow.setOnClickListener(mListener);
             holder.mButtonPayNow.setTag(position);
             holder.noticeboard_row_fee_holder.setOnClickListener(mListener);
             holder.noticeboard_row_fee_holder.setTag(position);
+            holder.btnViewDetails.setOnClickListener(mListener);
+            holder.btnViewDetails.setTag(position);
         } else {
             holder.noticeboard_row_activity_fee_row_holder.setVisibility(View.VISIBLE);
             holder.noticeboard_row_fee_holder.setVisibility(View.GONE);
@@ -82,7 +77,7 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.MyViewHolder> {
 
         private TextView mTextViewRPValue;
         private TextView mTextViewDueDate;
-        private Button mButtonViewDetails;
+        //private Button mButtonViewDetails;
         private TextView mButtonPayNow;
         private LinearLayout noticeboard_row_fee_holder;
         private LinearLayout noticeboard_row_activity_fee_row_holder;
@@ -97,7 +92,6 @@ public class FeeAdapter extends RecyclerView.Adapter<FeeAdapter.MyViewHolder> {
             //------------------------------------
             mTextViewRPValue = (TextView) itemView.findViewById(R.id.textview_fee_rp_value);
             mTextViewDueDate = (TextView) itemView.findViewById(R.id.textview_duedate_value);
-            mButtonViewDetails = (Button) itemView.findViewById(R.id.btn_download_details);
             mButtonPayNow = (TextView) itemView.findViewById(R.id.btn_view_pay_now);
             noticeboard_row_fee_holder = (LinearLayout) itemView.findViewById(R.id.lin_noticeboard_row_fee_holder);
 

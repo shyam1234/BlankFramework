@@ -505,6 +505,7 @@ public class Utils {
     public static boolean isFileDownloaded(Context pContext, String pFolderName, String pFileName) {
         // File pdfFile = new File(Environment.getExternalStorageDirectory()+ "/" + pFolderName + "/" + pFileName);
         // boolean isSDPresent = Environment.getExternalStorageDirectory().equals(Environment.MEDIA_MOUNTED);
+        //Utils.showProgressBar(pContext);
         if (true/*isSDPresent*/) {
             File file[] = Environment.getExternalStorageDirectory().listFiles();
             if (file != null) {
