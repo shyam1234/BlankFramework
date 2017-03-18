@@ -492,8 +492,25 @@ public class Utils {
 
     public static boolean isFileDownloaded(String pFolderName, String pFileName) {
         File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + pFolderName + "/" + pFileName);
-        if(pdfFile!=null) {
-            return  true;
+        boolean isSDPresent = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+
+        if (isSDPresent) {
+            File file[] = Environment.getExternalStorageDirectory().listFiles();
+            if (file != null) {
+                for (int i = 0; i < file.length; i++) {
+                    File fileList = file[i].getAbsoluteFile();
+                    AppLog.log("getAbsolutePath ",fileList.toString());
+                    if(fileList.toString().contains(pFolderName)){
+                        File[] files = fileList.listFiles();
+                        for (File f : files){
+                            AppLog.log("getAbsolutePath file : "+f.getName());
+                            if(f.getName().equals(pFileName)){
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
         }
         return  false;
     }
