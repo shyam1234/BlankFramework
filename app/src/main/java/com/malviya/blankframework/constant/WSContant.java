@@ -20,9 +20,11 @@ public interface WSContant {
 
     String URL_GETMOBILENOTICEBAORD= URL_BASE + "/mobile/GetMobileNoticeBoard";
     String URL_REGISTRATION = URL_BASE + "/Account/Register";
+    String URL_PRINT_OVERALL_RESULT = URL_BASE + "/StudentPortal/OverallResult/PrintOverallResult?StudentId=";
+    String URL_PRINT_RECEIPT = URL_BASE + "/Fee/FeeCollection/PrintReceipt?sfAssociationId=";
 
-    String URL_PRINT_SEMESTER_RESULT = URL_BASE + "/StudentPortal/OverallResult/PrintSemesterResult?StudentId=";
-
+    //http://stpl-edurpapi.azurewebsites.net/api/StudentPortal/OverallResult/PrintOverallResult?StudentId=325
+    //http://stpl-edurpapi.azurewebsites.net/api/Fee/FeeCollection/PrintReceipt?sfAssociationId=436
     //-------------------------------------------------------------------------------------
     String TAG_LOGIN = "login";
     String TAG_LANG = "lang";
@@ -65,6 +67,8 @@ public interface WSContant {
     String TAG_ISDELETE = "IsDelete";
     String TAG_REFERENCEID = "ReferenceId";
     String TAG_MESSAGEBODYHTML = "MessageBodyHTML";
+    String TAG_PRINT_OVERALL_RESULT = "print_overall_result";
+    String TAG_PRINT_RECEIPT = "print_receipt";
     String TAG_NEWS_GET_LAST_TIME = "get_news_last_time";
     String TAG_NEWS = "news";
     String TAG_OK = "OK";

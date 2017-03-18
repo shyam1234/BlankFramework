@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGrayTransparent"
     android:orientation="vertical">
 
     <include
+        android:id="@+id/inc_main_holder"
         layout="@layout/inc_main_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></include>
@@ -13,7 +14,22 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_results_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_results_download"
+        android:layout_below="@+id/inc_main_holder"></android.support.v7.widget.RecyclerView>
 
+    <Button
+        android:id="@+id/btn_results_download"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="4dp"
+        android:background="@drawable/filled_rect"
+        android:gravity="center"
+        android:text="@string/download"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold" />
 
-</LinearLayout>
+</RelativeLayout>
