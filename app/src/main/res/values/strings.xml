@@ -106,4 +106,7 @@
     <string name="bahasa">Bahasa</string>
     <string name="loading_language">Loading language...</string>
     <string name="date">Date</string>
+    <string name="msg_view">View</string>
+    <string name="delete">Delete</string>
+    <string name="View">View</string>
 </resources>

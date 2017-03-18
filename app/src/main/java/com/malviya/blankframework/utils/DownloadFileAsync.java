@@ -1,15 +1,12 @@
 package com.malviya.blankframework.utils;
 
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.widget.Toast;
 
 import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.interfaces.ICallBack;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,10 +27,12 @@ public class DownloadFileAsync extends AsyncTask<String, String, String> {
     public static final String TAG = "DownloadFileAsync";
     private final Context mContext;
     private final String mFolderName;
+    private final ICallBack mCallback;
 
-    public DownloadFileAsync(Activity pContext, String pFolderName) {
+    public DownloadFileAsync(Activity pContext, String pFolderName, ICallBack pCallback) {
         mContext = pContext;
         mFolderName = pFolderName;
+        mCallback = pCallback;
     }
 
     @Override
@@ -45,18 +44,8 @@ public class DownloadFileAsync extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String pFileName) {
         Utils.dismissProgressBar();
-        AppLog.log("Response", pFileName);
-        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + mFolderName + "/" + pFileName);  // -> filename = maven.pdf
-        Uri path = Uri.fromFile(pdfFile);
-        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
-        pdfIntent.setDataAndType(path, "application/pdf");
-        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        try {
-            mContext.startActivity(pdfIntent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(mContext, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
-        }
+        mCallback.callBack();
+        //Utils.showDownloadFile(WSContant.DOWNLOAD_FOLDER,pFileName);
     }
 
     @Override

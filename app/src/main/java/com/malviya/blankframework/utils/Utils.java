@@ -2,9 +2,13 @@ package com.malviya.blankframework.utils;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -34,6 +39,7 @@ import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -424,7 +430,6 @@ public class Utils {
     }
 
     /**
-     *
      * @param pContext
      * @param obj
      * @param pConversionCode
@@ -462,4 +467,34 @@ public class Utils {
         }
     }
 
+
+    public static  void showDownloadFile(Context pContext, String pFolderName, String pFileName) {
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + pFolderName + "/" + pFileName);  // -> filename = maven.pdf
+        Uri path = Uri.fromFile(pdfFile);
+        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+        pdfIntent.setDataAndType(path, "application/pdf");
+        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        try {
+            pContext.startActivity(pdfIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(pContext, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void deleteDownloadFile(String pFolderName, String pFileName, ICallBack pCallBack) {
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + pFolderName + "/" + pFileName);  // -> filename = maven.pdf
+        if(pdfFile!=null) {
+            pdfFile.delete();
+            pCallBack.callBack();
+        }
+    }
+
+    public static boolean isFileDownloaded(String pFolderName, String pFileName) {
+        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + pFolderName + "/" + pFileName);
+        if(pdfFile!=null) {
+            return  true;
+        }
+        return  false;
+    }
 }

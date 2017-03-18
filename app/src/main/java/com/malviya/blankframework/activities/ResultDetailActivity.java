@@ -16,6 +16,7 @@ import com.malviya.blankframework.adapters.ResultDetailsAdapter;
 import com.malviya.blankframework.constant.Constant;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableResultDetails;
+import com.malviya.blankframework.interfaces.ICallBack;
 import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableResultDetailsDataModel;
@@ -35,7 +36,6 @@ import java.util.Map;
 /**
  * Created by 23508 on 2/7/2017.
  */
-
 public class ResultDetailActivity extends AppCompatActivity implements View.OnClickListener {
     private static final java.lang.String TAG = "ResultDetailActivity";
     private RecyclerView mRecycleViewResultList;
@@ -43,10 +43,8 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
     private TableResultMasterDataModel mResultDataModel;
     private TableResultDetailsDataModel mMobileDetailsHolder;
     private Button mBtnDownload;
-    private String dest_file_path = "db_name";
-    private int totalsize;
-    private int downloadedSize;
-    private float per;
+    private Button mBtnDelete;
+    private Button mBtnView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +58,6 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
 
     private void init() {
         mMobileDetailsHolder = new TableResultDetailsDataModel();
-        // mResultDetailList = new ArrayList<TableResultDetailsDataModel>();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             mResultDataModel = (TableResultMasterDataModel) bundle.getSerializable(Constant.TAG_HOLDER);
@@ -68,8 +65,8 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+
     private void initView() {
-        //------------------------------------
         TextView mTextViewTitle = (TextView) findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_result_details);
         ImageView mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
@@ -81,6 +78,21 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
         //------------------------------------
         mBtnDownload = (Button) findViewById(R.id.btn_results_download);
         mBtnDownload.setOnClickListener(this);
+        //-------------------------------------
+        mBtnDelete = (Button) findViewById(R.id.btn_results_delete);
+        mBtnView = (Button) findViewById(R.id.btn_results_view);
+        mBtnView.setOnClickListener(this);
+        mBtnDelete.setOnClickListener(this);
+        //-------------------------------------
+        if (Utils.isFileDownloaded(WSContant.DOWNLOAD_FOLDER, "" + UserInfo.studentId + ".pdf")) {
+            mBtnDownload.setVisibility(View.GONE);
+            mBtnView.setVisibility(View.VISIBLE);
+            mBtnDelete.setVisibility(View.VISIBLE);
+        } else {
+            mBtnDownload.setVisibility(View.VISIBLE);
+            mBtnView.setVisibility(View.GONE);
+            mBtnDelete.setVisibility(View.GONE);
+        }
         initRecyclerView();
     }
 
@@ -120,7 +132,36 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
                 finish();
                 break;
             case R.id.btn_results_download:
-                new DownloadFileAsync(this,WSContant.DOWNLOAD_FOLDER).execute( WSContant.URL_PRINT_OVERALL_RESULT,"" + UserInfo.studentId);
+                new DownloadFileAsync(ResultDetailActivity.this, WSContant.DOWNLOAD_FOLDER, new ICallBack() {
+                    @Override
+                    public void callBack() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (mBtnDownload != null) {
+                                    mBtnDownload.setVisibility(View.GONE);
+                                    mBtnView.setVisibility(View.VISIBLE);
+                                    mBtnDelete.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
+                    }
+                }).execute(WSContant.URL_PRINT_OVERALL_RESULT, "" + UserInfo.studentId);
+                break;
+            case R.id.btn_results_delete:
+                Utils.deleteDownloadFile(WSContant.DOWNLOAD_FOLDER, "" + UserInfo.studentId + ".pdf", new ICallBack() {
+                    @Override
+                    public void callBack() {
+                        if (mBtnDelete != null) {
+                            mBtnDelete.setVisibility(View.GONE);
+                            mBtnView.setVisibility(View.GONE);
+                            mBtnDownload.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+                break;
+            case R.id.btn_results_view:
+                Utils.showDownloadFile(this, WSContant.DOWNLOAD_FOLDER, "" + UserInfo.studentId + ".pdf");
                 break;
         }
     }
