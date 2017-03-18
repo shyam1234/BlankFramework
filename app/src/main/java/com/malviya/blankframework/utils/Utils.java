@@ -1,14 +1,17 @@
 package com.malviya.blankframework.utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -468,7 +471,15 @@ public class Utils {
     }
 
 
-    public static  void showDownloadFile(Context pContext, String pFolderName, String pFileName) {
+    /**
+     * getExternalStorageDirectory creates folder in This "Internal storage\Edurp_results"
+     *
+     * @param pContext
+     * @param pFolderName
+     * @param pFileName
+     */
+    public static void showDownloadFile(Activity pContext, String pFolderName, String pFileName) {
+        verifyStoragePermissions(pContext);
         File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + pFolderName + "/" + pFileName);  // -> filename = maven.pdf
         Uri path = Uri.fromFile(pdfFile);
         Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
@@ -482,29 +493,29 @@ public class Utils {
         }
     }
 
-    public static void deleteDownloadFile(String pFolderName, String pFileName, ICallBack pCallBack) {
+    public static void deleteDownloadFile(Activity pContext, String pFolderName, String pFileName, ICallBack pCallBack) {
+        verifyStoragePermissions(pContext);
         File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + pFolderName + "/" + pFileName);  // -> filename = maven.pdf
-        if(pdfFile!=null) {
+        if (pdfFile != null) {
             pdfFile.delete();
             pCallBack.callBack();
         }
     }
 
-    public static boolean isFileDownloaded(String pFolderName, String pFileName) {
-        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + pFolderName + "/" + pFileName);
-        boolean isSDPresent = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
-
-        if (isSDPresent) {
+    public static boolean isFileDownloaded(Context pContext, String pFolderName, String pFileName) {
+        // File pdfFile = new File(Environment.getExternalStorageDirectory()+ "/" + pFolderName + "/" + pFileName);
+        // boolean isSDPresent = Environment.getExternalStorageDirectory().equals(Environment.MEDIA_MOUNTED);
+        if (true/*isSDPresent*/) {
             File file[] = Environment.getExternalStorageDirectory().listFiles();
             if (file != null) {
                 for (int i = 0; i < file.length; i++) {
                     File fileList = file[i].getAbsoluteFile();
-                    AppLog.log("getAbsolutePath ",fileList.toString());
-                    if(fileList.toString().contains(pFolderName)){
+                    AppLog.log("getAbsolutePath ", fileList.toString());
+                    if (fileList.toString().contains(pFolderName)) {
                         File[] files = fileList.listFiles();
-                        for (File f : files){
-                            AppLog.log("getAbsolutePath file : "+f.getName());
-                            if(f.getName().equals(pFileName)){
+                        for (File f : files) {
+                            AppLog.log("getAbsolutePath file : " + f.getName());
+                            if (f.getName().equals(pFileName)) {
                                 return true;
                             }
                         }
@@ -512,6 +523,32 @@ public class Utils {
                 }
             }
         }
-        return  false;
+        return false;
+    }
+
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
+
+    /**
+     * permission is need from Android 6.0
+     *
+     * @param activity
+     */
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
     }
 }

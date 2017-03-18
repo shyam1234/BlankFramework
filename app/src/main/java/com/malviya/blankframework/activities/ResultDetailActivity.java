@@ -84,7 +84,7 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
         mBtnView.setOnClickListener(this);
         mBtnDelete.setOnClickListener(this);
         //-------------------------------------
-        if (Utils.isFileDownloaded(WSContant.DOWNLOAD_FOLDER, "" + UserInfo.studentId + ".pdf")) {
+        if (Utils.isFileDownloaded(this, WSContant.DOWNLOAD_FOLDER, "" + UserInfo.studentId + ".pdf")) {
             mBtnDownload.setVisibility(View.GONE);
             mBtnView.setVisibility(View.VISIBLE);
             mBtnDelete.setVisibility(View.VISIBLE);
@@ -149,7 +149,7 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
                 }).execute(WSContant.URL_PRINT_OVERALL_RESULT, "" + UserInfo.studentId);
                 break;
             case R.id.btn_results_delete:
-                Utils.deleteDownloadFile(WSContant.DOWNLOAD_FOLDER, "" + UserInfo.studentId + ".pdf", new ICallBack() {
+                Utils.deleteDownloadFile(this, WSContant.DOWNLOAD_FOLDER, "" + UserInfo.studentId + ".pdf", new ICallBack() {
                     @Override
                     public void callBack() {
                         if (mBtnDelete != null) {
@@ -201,4 +201,7 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
         table.insert(mMobileDetailsHolder.getMessageBody());
         table.closeDB();
     }
+
+
+
 }
