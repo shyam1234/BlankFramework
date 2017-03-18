@@ -17,8 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static com.malviya.blankframework.utils.DownloadFileAsync.TAG;
-
 /**
  * Created by Admin on 18-03-2017.
  */
@@ -74,35 +72,38 @@ public class DownloadFileAsync extends AsyncTask<String, String, String> {
         }
         return mFileName;
     }
-}
 
+    private static class FileDownloader {
+        private static final int MEGABYTE = 1024 * 1024;
 
-class FileDownloader {
-    private static final int MEGABYTE = 1024 * 1024;
-    public static void downloadFile(String fileUrl, File directory) {
-        try {
-            URL url = new URL(fileUrl);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty(WSContant.TAG_TOKEN, UserInfo.authToken);
-            urlConnection.setRequestProperty(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
-            //-----------------------------------
-            InputStream inputStream = urlConnection.getInputStream();
-            FileOutputStream fileOutputStream = new FileOutputStream(directory);
-            int totalSize = urlConnection.getContentLength();
-            //-----------------------------------
-            byte[] buffer = new byte[MEGABYTE];
-            int bufferLength = 0;
-            while ((bufferLength = inputStream.read(buffer)) > 0) {
-                fileOutputStream.write(buffer, 0, bufferLength);
+        public static void downloadFile(String fileUrl, File directory) {
+            try {
+                URL url = new URL(fileUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setRequestProperty(WSContant.TAG_TOKEN, UserInfo.authToken);
+                urlConnection.setRequestProperty(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
+                //-----------------------------------
+                InputStream inputStream = urlConnection.getInputStream();
+                FileOutputStream fileOutputStream = new FileOutputStream(directory);
+                int totalSize = urlConnection.getContentLength();
+                //-----------------------------------
+                byte[] buffer = new byte[MEGABYTE];
+                int bufferLength = 0;
+                while ((bufferLength = inputStream.read(buffer)) > 0) {
+                    fileOutputStream.write(buffer, 0, bufferLength);
+                }
+                fileOutputStream.close();
+            } catch (FileNotFoundException e) {
+                AppLog.errLog(TAG, e.getMessage());
+            } catch (MalformedURLException e) {
+                AppLog.errLog(TAG, e.getMessage());
+            } catch (IOException e) {
+                AppLog.errLog(TAG, e.getMessage());
             }
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            AppLog.errLog(TAG, e.getMessage());
-        } catch (MalformedURLException e) {
-            AppLog.errLog(TAG, e.getMessage());
-        } catch (IOException e) {
-            AppLog.errLog(TAG, e.getMessage());
         }
     }
 }
+
+
+
