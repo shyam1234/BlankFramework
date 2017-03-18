@@ -12,13 +12,13 @@ public interface WSContant {
     String URL_CHANGEPASSWORD = URL_BASE + "/Account/ChangePassword?";
 
     String URL_GETMOBILEHOME = URL_BASE + "/mobile/GetMobileHome";
-    String URL_GETMOBILEMENU= URL_BASE + "/mobile/GetMobileMenu";
-    String URL_GETMOBILEDETAILS= URL_BASE + "/mobile/GetMobileDetails";
+    String URL_GETMOBILEMENU = URL_BASE + "/mobile/GetMobileMenu";
+    String URL_GETMOBILEDETAILS = URL_BASE + "/mobile/GetMobileDetails";
 
-    String URL_SAVELIKENCOMMENT= URL_BASE + "/mobile/SaveLikeNComment";
-    String URL_GETMOBILECOMMENTSNLIKES= URL_BASE + "/mobile/GetMobileCommentsnLikes";
+    String URL_SAVELIKENCOMMENT = URL_BASE + "/mobile/SaveLikeNComment";
+    String URL_GETMOBILECOMMENTSNLIKES = URL_BASE + "/mobile/GetMobileCommentsnLikes";
 
-    String URL_GETMOBILENOTICEBAORD= URL_BASE + "/mobile/GetMobileNoticeBoard";
+    String URL_GETMOBILENOTICEBAORD = URL_BASE + "/mobile/GetMobileNoticeBoard";
     String URL_REGISTRATION = URL_BASE + "/Account/Register";
     String URL_PRINT_OVERALL_RESULT = URL_BASE + "/StudentPortal/OverallResult/PrintOverallResult?StudentId=";
     String URL_PRINT_RECEIPT = URL_BASE + "/Fee/FeeCollection/PrintReceipt?sfAssociationId=";
@@ -26,6 +26,7 @@ public interface WSContant {
     //http://stpl-edurpapi.azurewebsites.net/api/StudentPortal/OverallResult/PrintOverallResult?StudentId=325
     //http://stpl-edurpapi.azurewebsites.net/api/Fee/FeeCollection/PrintReceipt?sfAssociationId=436
     //-------------------------------------------------------------------------------------
+    String DOWNLOAD_FOLDER = "Edurp_results";
     String TAG_LOGIN = "login";
     String TAG_LANG = "lang";
     String TAG_GETMOBILEHOME = "mobilehome";
@@ -45,21 +46,21 @@ public interface WSContant {
     String TAG_NEW = "NEW";
     String TAG_SHAREDPREF_NAME = "edurp_sharepref";
     String TAG_SHAREDPREF_GET_LAST_TIME = "get_last_time";
-    String TAG_STUDENTID= "StudentId";
+    String TAG_STUDENTID = "StudentId";
     String TAG_ISMOBILE = "isMobile";
-    String TAG_LANG_RETRIVE_TIME= "lan_retriev_time";
-    String TAG_LAST_LOGIN_TIME= "last_login_time";
+    String TAG_LANG_RETRIVE_TIME = "lan_retriev_time";
+    String TAG_LAST_LOGIN_TIME = "last_login_time";
     String TAG_AUTHTOKEN = "auth_token";
     String TAG_SAVED_USERID = "saved_userid";
     String TAG_USERTYPE_PARENT = "P";
     String TAG_USERTYPE_STUDENT = "S";
     String TAG_USER_TYPE = "user_type";
     String TAG_DEFAULT_CHILD = "default_child";
-    String TAG_MENUCODE="MenuCode";
-    String TAG_USERID="UserId";
-    String TAG_PARENTID="ParentId";
-    String TAG_USERTYPE="UserType";
-    String TAG_LASTRETRIEVED="LastRetrieved";
+    String TAG_MENUCODE = "MenuCode";
+    String TAG_USERID = "UserId";
+    String TAG_PARENTID = "ParentId";
+    String TAG_USERTYPE = "UserType";
+    String TAG_LASTRETRIEVED = "LastRetrieved";
     int TAG_UNAUTHORIZED_CODE = 401;
     int TAG_SUCCESS_CODE = 200;
     String TAG_COMMENT = "Comment";
@@ -78,7 +79,7 @@ public interface WSContant {
     String TAG_VIDEO = "V";
 
     String TAG_SAVELIKECOMMENT = "SaveLikeNComment";
-    String TAG_MESSAGERESULT="MessageResult";
+    String TAG_MESSAGERESULT = "MessageResult";
     String TAG_MOBILENOTICEBOARD = "GetMobileNoticeBoard";
     String TAG_REFERENCEDATE = "ReferenceDate";
     String TAG_VALUE_NOT_PAID = "Not Paid";
@@ -91,5 +92,6 @@ public interface WSContant {
     String TAG_LANG_FORGOTPASSWORD = "lblForgetPassword";
     String TAG_LANG_SUCCESS = "lblSuccess";
     String TAG_LANG_PROCESSDING = "lblProceseding";
+
 }
 
