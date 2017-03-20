@@ -433,6 +433,8 @@ public class Utils {
     }
 
     /**
+     * * this method takes single conversion code and append in signle String
+     *
      * @param pContext
      * @param obj
      * @param pConversionCode
@@ -442,7 +444,9 @@ public class Utils {
     public static void langConversion(Context pContext, Object obj, String pConversionCode, String defaultString, String langPref) {
         TableLanguage holder = new TableLanguage();
         try {
+            AppLog.log(TAG, "Lang pref " + langPref);
             holder.openDB(pContext);
+            langPref = (langPref != null ? langPref : WSContant.TAG_ENG);
             switch (langPref) {
                 case WSContant.TAG_ENG:
                     if (obj instanceof Button) {
@@ -462,6 +466,50 @@ public class Utils {
                         ((TextView) obj).setText((holder.getValue(pConversionCode).getBahasaVersion() != null ? holder.getValue(pConversionCode).getBahasaVersion() : defaultString));
                     }
                     break;
+            }
+        } catch (Exception e) {
+            AppLog.errLog(TAG, e.getMessage());
+        } finally {
+            holder.closeDB();
+        }
+    }
+
+
+    /**
+     * this method takes array of conversion code and append in signle String
+     *
+     * @param pContext
+     * @param obj
+     * @param pArrayConversionCode
+     * @param defaultString
+     * @param langPref
+     */
+    public static void langConversion(Context pContext, Object obj, String[] pArrayConversionCode, String defaultString, String langPref) {
+        TableLanguage holder = new TableLanguage();
+        try {
+            AppLog.log(TAG, "Lang pref " + langPref);
+            holder.openDB(pContext);
+            langPref = (langPref != null ? langPref : WSContant.TAG_ENG);
+            String text = "";
+            for (String pConversionCode : pArrayConversionCode) {
+                if (text.toString().trim().length() > 0) {
+                    text = text + " ";
+                }
+                switch (langPref) {
+                    case WSContant.TAG_ENG:
+                        text = text + (holder.getValue(pConversionCode).getEnglishVersion() != null ? holder.getValue(pConversionCode).getEnglishVersion() : defaultString);
+                        break;
+                    case WSContant.TAG_BHASHA:
+                        text = text + (holder.getValue(pConversionCode).getBahasaVersion() != null ? holder.getValue(pConversionCode).getBahasaVersion() : defaultString);
+                        break;
+                }
+            }
+            if (obj instanceof Button) {
+                ((Button) obj).setText(text);
+            } else if (obj instanceof EditText) {
+                ((EditText) obj).setHint(text);
+            } else if (obj instanceof TextView) {
+                ((TextView) obj).setText(text);
             }
         } catch (Exception e) {
             AppLog.errLog(TAG, e.getMessage());

@@ -70,15 +70,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mEditTextPassword = (EditText) findViewById(R.id.edittext_password);
         mTextViewForgotPassword = (TextView) findViewById(R.id.textview_forgot_password);
         mButtonLogin = (Button) findViewById(R.id.btnSignIn);
-
         mSwitchLang = (SwitchCompat) findViewById(R.id.switch_login_language);
-        if (SharedPreferencesApp.getInstance().getLangSelection().equalsIgnoreCase(WSContant.TAG_ENG)) {
+        //----------------------------------------------------
+        if (UserInfo.lang_pref.equalsIgnoreCase(WSContant.TAG_ENG)) {
             mSwitchLang.setChecked(false);
             setLangSelection();
         } else {
             mSwitchLang.setChecked(true);
             setLangSelection();
         }
+        //----------------------------------------------------
         setListner();
         //cheat code
         mEditTextUserName.setText("m1@gmail.com");

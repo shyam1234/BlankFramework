@@ -39,7 +39,7 @@
             android:layout_gravity="left"
             android:gravity="left"
             android:src="@drawable/logo"
-            android:text="@string/welcome_to"
+            android:text=""
             android:textAlignment="gravity"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/black" />

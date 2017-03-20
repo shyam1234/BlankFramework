@@ -19,6 +19,7 @@ import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.HomeAdapter;
 import com.malviya.blankframework.constant.Constant;
+import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.models.DashboardCellDataModel;
 import com.malviya.blankframework.utils.AppLog;
@@ -46,7 +47,7 @@ public class HomeFragment extends Fragment {
     private GridView mGridViewCell;
     private HomeAdapter mAdapter;
     private ArrayList<DashboardCellDataModel> mCellList;
-   // private ArrayList<TableStudentDetailsDataModel> mUniver;
+    // private ArrayList<TableStudentDetailsDataModel> mUniver;
     private ImageView mImageViewUnivercityLogo;
     private TextView mTextViewUnivercityText;
     private LinearLayout mLinearHolder;
@@ -150,7 +151,7 @@ public class HomeFragment extends Fragment {
                 TextView textView = ((TextView) view.findViewById(R.id.textview_dashboard_cell_name));
                 AppLog.log("HomeFragment : onItemClick menu name: ", textView.getText().toString());
                 AppLog.log("HomeFragment :  onItemClick getTag", textView.getTag().toString());
-                UserInfo.menuCode  = textView.getTag().toString().trim();
+                UserInfo.menuCode = textView.getTag().toString().trim();
                 switch (textView.getTag().toString()) {
                     case Constant.TAG_NOTICEBOARD:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
@@ -165,7 +166,7 @@ public class HomeFragment extends Fragment {
                         break;
                     case Constant.TAG_EVENTS:
                         Utils.navigateFragmentMenu(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
-                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "coming soon", Toast.LENGTH_SHORT).show();
 //                        break;
                     case Constant.TAG_FEE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
@@ -203,5 +204,13 @@ public class HomeFragment extends Fragment {
         if (mCellList.size() > 0) {
             mTextViewUnivercityText.setText(mCellList.get(0).getUniversity_name());
         }
+
+        setLangSelection();
+    }
+
+
+    public void setLangSelection() {
+        Utils.langConversion(getContext(), mTextViewTitle, WSContant.TAG_LANG_HOME, getString(R.string.tab_home), UserInfo.lang_pref);
+        Utils.langConversion(getContext(), ((TextView)getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
     }
 }

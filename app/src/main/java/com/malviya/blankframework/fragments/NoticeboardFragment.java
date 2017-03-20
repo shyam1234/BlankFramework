@@ -50,6 +50,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     //private ArrayList<TableNoticeBoardDataModel> mNoticeboardList;
     private NoticeboardAdapter mNoticeboardAdapter;
     private ArrayList<Object> mCommonList;
+    private TextView mTextViewTitle;
 
     public NoticeboardFragment() {
         AppLog.log(TAG, "NoticeboardFragment");
@@ -92,7 +93,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     }
 
     private void initView() {
-        TextView mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
+        mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_noticeboard);
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
@@ -103,6 +104,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         mRecycleViewNews = (RecyclerView) getView().findViewById(R.id.recyclerview_news);
         //------------------------------------
         //initRecyclerView();
+        setLangSelection();
 
     }
 
@@ -270,7 +272,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
         table2.openDB(getContext());
         for (TableResultMasterDataModel model123 : table2.getData(UserInfo.parentId, UserInfo.studentId)) {
             mCommonList.add(model123);
-            AppLog.log(TAG,"getData+++ "+mCommonList.size()+" model123 "+model123);
+            AppLog.log(TAG, "getData+++ " + mCommonList.size() + " model123 " + model123);
         }
         table2.closeDB();
 
@@ -322,4 +324,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
     }
 
 
+    public void setLangSelection() {
+        Utils.langConversion(getContext(), mTextViewTitle, new String[]{WSContant.TAG_LANG_NOTICEBOARD}, getString(R.string.tab_noticeboard), UserInfo.lang_pref);
+    }
 }

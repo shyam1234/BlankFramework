@@ -9,6 +9,7 @@ import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.activities.LoginActivity;
 import com.malviya.blankframework.activities.SplashActivity;
 import com.malviya.blankframework.application.MyApplication;
+import com.malviya.blankframework.constant.WSContant;
 
 /**
  * Created by Admin on 14-01-2017.
@@ -27,9 +28,10 @@ public class UserInfo {
     public static String selectedStudentImageURL="";
     public static String menuCode="";
     public static String timeTableRefDate="2016-02-04 09:54:14";
-    public static String lang_pref;
+    public static String lang_pref= WSContant.TAG_ENG;
 
     public static void clearUSerInfo() {
+        lang_pref = WSContant.TAG_ENG;
         userId = -1;
         parentName = null;
         parentId = -1;

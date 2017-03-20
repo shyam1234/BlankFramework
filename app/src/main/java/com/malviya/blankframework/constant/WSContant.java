@@ -92,6 +92,22 @@ public interface WSContant {
     String TAG_LANG_FORGOTPASSWORD = "lblForgetPassword";
     String TAG_LANG_SUCCESS = "lblSuccess";
     String TAG_LANG_PROCESSDING = "lblProceseding";
-
+    String TAG_LANG_FORGOTPASSWORDTITLE = "lblForgotPasswordTittle";
+    String TAG_LANG_WELCOME = "bnrWelcome";
+    String TAG_LANG_EMAIL="lblEmail";
+    String TAG_LANG_SUBMIT="lblSubmit";
+    String TAG_LANG_NEWS = "NEW";
+    String TAG_LANG_DETAILS = "lblDetails";
+    String TAG_LANG_COMMENTS = "lblComments";
+    String TAG_LANG_LIKE="lblLike"; //pending
+    String TAG_LANG_HOME = "lblHome";//pending
+    String TAG_LANG_NOTICEBOARD="lblNoticeboard"; //pending
+    String TAG_LANG_SEND="lblSend";
+    String TAG_LANG_TYPE ="lblType";
+    String TAG_LANG_MYPREFERENCE = "lblMyPreference";
+    String TAG_LANG_SHARE_THIS_APP = "lblShareThisApp";//pending
+    String TAG_LANG_OPTIONS = "lblOptions";//pending
+    String TAG_LANG_SETTING="lblSettings";
+    String TAG_LANG_LOGOUT="lblLogout";
 }
 

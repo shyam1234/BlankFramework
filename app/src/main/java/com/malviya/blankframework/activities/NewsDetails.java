@@ -83,6 +83,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private NewsDetailsCommentLikeDataModel mNewsDetailsCommentLikeDataModel;
     private NewsDetailsCommentAdapter mNewsDetailsCommentAdapter;
     private RelativeLayout mRelComment;
+    private TextView mTextViewTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
     private void initView() {
         //------------------------------------
-        TextView mTextViewTitle = (TextView) findViewById(R.id.textview_title);
+        mTextViewTitle = (TextView) findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.title_news_details);
         ImageView mImgProfile = (ImageView) findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
@@ -130,6 +131,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         RelativeLayout rel_comment = (RelativeLayout) findViewById(R.id.rel_inc_like_comment_comment_holder);
         rel_comment.setOnClickListener(this);
         initBottomSheetLayout();
+        setLangSelection();
     }
 
 
@@ -137,7 +139,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         //call to WS and validate given credential----
         Map<String, String> header = new HashMap<>();
         header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-        header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+        header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
         // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
         //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
         //-Utils-for body
@@ -372,7 +374,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 getLikes();
                 break;
             case R.id.textview_send_comment_send:
-                doComment(((EditText)findViewById(R.id.edittext_send_comment_comment)));
+                doComment(((EditText) findViewById(R.id.edittext_send_comment_comment)));
                 break;
         }
     }
@@ -420,12 +422,12 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS_COMMENTS_LIKE);
                 mNewsDetailsCommentLikeDataModel = ((NewsDetailsCommentLikeDataModel) obj.getModel());
                 mRecycleViewCommentLike.setAdapter(mNewsDetailsCommentAdapter);
-                if((type==2) && mNewsDetailsCommentAdapter!=null){
+                if ((type == 2) && mNewsDetailsCommentAdapter != null) {
                     getComments();
-                    mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getCommentMaster().size()-1);
-                }else if((type==1) &&  mNewsDetailsLikeAdapter!=null){
+                    mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getCommentMaster().size() - 1);
+                } else if ((type == 1) && mNewsDetailsLikeAdapter != null) {
                     getLikes();
-                    mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getLikeMaster().size()-1);
+                    mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getLikeMaster().size() - 1);
                 }
                 Utils.dismissProgressBar();
             }
@@ -496,7 +498,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
 
     private void doComment(final EditText editText) {
-        if(editText.getText().toString().trim().length()>0) {
+        if (editText.getText().toString().trim().length() > 0) {
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
             header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
@@ -539,10 +541,20 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                     Utils.dismissProgressBar();
                 }
             });
-        }else{
+        } else {
             Toast.makeText(NewsDetails.this, R.string.msg_validate_comment, Toast.LENGTH_SHORT).show();
         }
     }
 
+    public void setLangSelection() {
+        Utils.langConversion(NewsDetails.this, mTextViewTitle, new String[]{WSContant.TAG_LANG_NEWS, WSContant.TAG_LANG_DETAILS}, getString(R.string.tab_news), UserInfo.lang_pref);
+        Utils.langConversion(NewsDetails.this, ((TextView) findViewById(R.id.textview_inc_bottom_like)), new String[]{WSContant.TAG_LANG_LIKE}, getString(R.string.like), UserInfo.lang_pref);
+        Utils.langConversion(NewsDetails.this, ((TextView) findViewById(R.id.textview_inc_bottom_comment)), new String[]{WSContant.TAG_LANG_COMMENTS}, getString(R.string.comment), UserInfo.lang_pref);
 
+        Utils.langConversion(NewsDetails.this, mTextViewCommentTab, new String[]{WSContant.TAG_LANG_COMMENTS}, getString(R.string.comment), UserInfo.lang_pref);
+        Utils.langConversion(NewsDetails.this, mTextViewLikeTab, new String[]{WSContant.TAG_LANG_LIKE}, getString(R.string.like), UserInfo.lang_pref);
+        Utils.langConversion(NewsDetails.this, mEditTextComment, new String[]{WSContant.TAG_LANG_TYPE, WSContant.TAG_LANG_COMMENTS}, getString(R.string.type_comment), UserInfo.lang_pref);
+        Utils.langConversion(NewsDetails.this, mTextViewSend, new String[]{WSContant.TAG_LANG_SEND}, getString(R.string.send), UserInfo.lang_pref);
+
+    }
 }

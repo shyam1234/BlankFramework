@@ -66,6 +66,7 @@ public class SplashActivity extends AppCompatActivity {
         };
         mHandler.postDelayed(mRunnable, TIME_DELAY);
         UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
+        SharedPreferencesApp.getInstance().getLangSelection();
         //------------------------------------------
 
     }

@@ -47,6 +47,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     private RecyclerView mRecycleViewNews;
     private ArrayList<TableNewsMasterDataModel> mNewsList;
     private NewsAdapter mNewsAdapter;
+    private TextView mTextViewTitle;
 
     public NewsFragment() {
           AppLog.log(TAG,"NewsFragment");
@@ -82,7 +83,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
 
     private void initView() {
         AppLog.log(TAG,"initView 111 ");
-        TextView mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
+        mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_news);
         AppLog.log(TAG,"initView 222 ");
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
@@ -96,7 +97,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         //------------------------------------
         //initRecyclerView();
         AppLog.log(TAG,"initView 555 ");
-
+        setLangSelection();
     }
 
     private void initRecyclerView() {
@@ -209,5 +210,8 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     }
 
 
-
+    public void setLangSelection() {
+        Utils.langConversion(getContext(), mTextViewTitle, WSContant.TAG_LANG_NEWS, getString(R.string.tab_news), UserInfo.lang_pref);
+        //Utils.langConversion(getContext(), ((TextView)getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
+    }
 }

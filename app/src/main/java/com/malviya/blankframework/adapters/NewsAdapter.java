@@ -10,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.GetPicassoImage;
+import com.malviya.blankframework.utils.UserInfo;
+import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -50,12 +53,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.MyViewHolder> 
         holder.textViewRefTitle.setText(mList.get(position).getReferenceTitle());
         holder.textViewPublishedTime.setText(mList.get(position).getPublishedOn());
         holder.webviewShortBody.loadData(mList.get(position).getShortBody(),"text/html; charset=utf-8", "utf-8");
-        holder.textViewTag.setText(mList.get(position).getMenuCode());
+        //holder.textViewTag.setText(mList.get(position).getMenuCode());
         holder.textViewLike.setText(mList.get(position).getTotalLikes());
         holder.textViewComment.setText(mList.get(position).getTotalComments());
         //--------------------------------------------------------------
         holder.imageViewRhumbnil.setOnClickListener(mListener);
         holder.imageViewRhumbnil.setTag(position);
+        Utils.langConversion(mContext, holder.textViewTag, WSContant.TAG_LANG_NEWS, mList.get(position).getMenuCode(), UserInfo.lang_pref);
     }
 
 

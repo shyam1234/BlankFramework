@@ -2,8 +2,6 @@ package com.malviya.blankframework.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,9 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.activities.ProfileActivity;
 import com.malviya.blankframework.activities.SettingActivity;
+import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
@@ -79,6 +77,7 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
         relLogoutTab = (RelativeLayout) getView().findViewById(R.id.rel_options_logout);
         relMyProfileTab = (RelativeLayout) getView().findViewById(R.id.rel_options_profile);
         setListener();
+        setLangSelection();
     }
 
     private void setListener() {
@@ -114,5 +113,13 @@ public class OptionsFragment extends Fragment implements View.OnClickListener {
         Utils.animRightToLeft(getActivity());
     }
 
+
+    public void setLangSelection() {
+        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_title)), WSContant.TAG_LANG_OPTIONS, getString(R.string.tab_options), UserInfo.lang_pref);
+        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_options_share_title)), WSContant.TAG_LANG_SHARE_THIS_APP, getString(R.string.share_this_app), UserInfo.lang_pref);
+        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_options_profile)), WSContant.TAG_LANG_MYPREFERENCE, getString(R.string.tab_profile), UserInfo.lang_pref);
+        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_options_setting)), WSContant.TAG_LANG_SETTING, getString(R.string.setting), UserInfo.lang_pref);
+        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_options_logout)), WSContant.TAG_LANG_LOGOUT, getString(R.string.logout), UserInfo.lang_pref);
+    }
 
 }

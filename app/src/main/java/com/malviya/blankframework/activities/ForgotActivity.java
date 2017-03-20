@@ -15,6 +15,7 @@ import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import org.json.JSONException;
@@ -26,6 +27,7 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
     private EditText mEditTextUserName;
     private Button mBtnSubmit;
     private ImageView mImageViewBack;
+    private TextView mTextViewTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +40,10 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
         mEditTextUserName = (EditText) findViewById(R.id.edittext_email);
         mBtnSubmit = (Button) findViewById(R.id.btnSubmit);
         mImageViewBack = (ImageView) findViewById(R.id.imageview_back);
-        TextView pTextViewTitle = (TextView) findViewById(R.id.textview_title);
-        pTextViewTitle.setText(getResources().getString(R.string.forgot_password));
+        mTextViewTitle = (TextView) findViewById(R.id.textview_title);
+        mTextViewTitle.setText(getResources().getString(R.string.forgot_password));
         setListener();
+        setLangSelection();
 
     }
 
@@ -120,5 +123,12 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
     private void reset() {
         mBtnSubmit.setText(getResources().getString(R.string.btn_submit));
         mBtnSubmit.setEnabled(true);
+    }
+
+    public void setLangSelection() {
+        Utils.langConversion(ForgotActivity.this, mTextViewTitle, WSContant.TAG_LANG_FORGOTPASSWORD, getString(R.string.forgot_password), UserInfo.lang_pref);
+        Utils.langConversion(ForgotActivity.this, ((TextView)findViewById(R.id.textview1)), WSContant.TAG_LANG_FORGOTPASSWORDTITLE, getString(R.string.title_forgot_password), UserInfo.lang_pref);
+        Utils.langConversion(ForgotActivity.this, mEditTextUserName, WSContant.TAG_LANG_EMAIL, getString(R.string.email), UserInfo.lang_pref);
+        Utils.langConversion(ForgotActivity.this, mBtnSubmit, WSContant.TAG_LANG_SUBMIT, getString(R.string.btn_submit), UserInfo.lang_pref);
     }
 }
