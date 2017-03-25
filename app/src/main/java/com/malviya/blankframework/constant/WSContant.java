@@ -17,12 +17,12 @@ public interface WSContant {
 
     String URL_SAVELIKENCOMMENT = URL_BASE + "/mobile/SaveLikeNComment";
     String URL_GETMOBILECOMMENTSNLIKES = URL_BASE + "/mobile/GetMobileCommentsnLikes";
-
-    String URL_GETMOBILENOTICEBAORD = URL_BASE + "/mobile/GetMobileNoticeBoard";
-    String URL_REGISTRATION = URL_BASE + "/Account/Register";
     String URL_PRINT_OVERALL_RESULT = URL_BASE + "/StudentPortal/OverallResult/PrintOverallResult?StudentId=";
     String URL_PRINT_RECEIPT = URL_BASE + "/Fee/FeeCollection/PrintReceipt?sfAssociationId=";
 
+    String URL_TIMETABLE = URL_BASE + "/mobile/GetMobileTimeTable";
+    String URL_GETMOBILENOTICEBAORD = URL_BASE + "/mobile/GetMobileNoticeBoard";
+    String URL_REGISTRATION = URL_BASE + "/Account/Register";
     //http://stpl-edurpapi.azurewebsites.net/api/StudentPortal/OverallResult/PrintOverallResult?StudentId=325
     //http://stpl-edurpapi.azurewebsites.net/api/Fee/FeeCollection/PrintReceipt?sfAssociationId=436
     //-------------------------------------------------------------------------------------
