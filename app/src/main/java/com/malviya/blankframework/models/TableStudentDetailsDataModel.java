@@ -16,7 +16,7 @@ public class TableStudentDetailsDataModel implements Serializable {
     private String StudentNumber;
     private String DateOfBirth;
     private String lastRetrievedOn;
-
+    private String unversity_name;
     public String getCourseCode() {
         return CourseCode;
     }
@@ -87,5 +87,13 @@ public class TableStudentDetailsDataModel implements Serializable {
 
     public void setLastRetrievedOn(String lastRetrievedOn) {
         this.lastRetrievedOn = lastRetrievedOn;
+    }
+
+    public String getUnversity_name() {
+        return unversity_name;
+    }
+
+    public void setUnversity_name(String unversity_name) {
+        this.unversity_name = unversity_name;
     }
 }

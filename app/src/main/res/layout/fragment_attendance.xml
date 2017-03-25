@@ -50,7 +50,7 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <view
+        <View
             android:id="@+id/view_attend"
             class="com.malviya.blankframework.utils.MyGridView"
             android:layout_width="0.1dp"
@@ -60,7 +60,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_toRightOf="@+id/lin_attendance_holder_course_team"
-            android:background="@color/colorMargin"></view>
+            android:background="@color/colorMargin"></View>
 
 
         <LinearLayout
@@ -90,12 +90,11 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <view
+    <View
         android:id="@+id/view_1"
-        class="com.malviya.blankframework.utils.MyGridView"
         android:layout_width="match_parent"
         android:layout_height="0.1dp"
-        android:background="@color/colorMargin"></view>
+        android:background="@color/colorMargin"></View>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview_attendance"

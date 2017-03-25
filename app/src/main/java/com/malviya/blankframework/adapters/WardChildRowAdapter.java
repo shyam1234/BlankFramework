@@ -42,7 +42,7 @@ public class WardChildRowAdapter extends RecyclerView.Adapter<WardChildRowAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.mTextViewName.setText(mListHolder.get(position).getFullName());
-        holder.mTextViewAddress.setText(mListHolder.get(position).getCourseCode());
+        holder.mTextViewAddress.setText(mListHolder.get(position).getUnversity_name());
         GetPicassoImage.setCircleImageByPicasso(mContext,mListHolder.get(position).getImageurl(), holder.mImageViewChildIcon);
         holder.mRelHolder.setOnClickListener(mListener);
         holder.mRelHolder.setTag(position);

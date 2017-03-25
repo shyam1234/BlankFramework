@@ -113,7 +113,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mPosition = position;
         GetPicassoImage.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mProfileImage);
         mTextViewProfileHeaderName.setText(mListChildInfoHolder.get(position).getFullName());
-        mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getCourseCode());
+        mProfileHeaderLocation.setText(mListChildInfoHolder.get(position).getUnversity_name());
         GetPicassoImage.setCircleImageByPicasso(getContext(), mListChildInfoHolder.get(position).getImageurl(), mImageViewStudentTitleImg);
 
         AppLog.log("setDefaultStudentProfileInHeader getFullName ", mListChildInfoHolder.get(position).getFullName());

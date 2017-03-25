@@ -35,9 +35,11 @@ public class CommonInfo {
         ArrayList<TableStudentDetailsDataModel> list = new ArrayList<TableStudentDetailsDataModel>();
         try {
             if (mDB != null) {
-                String query = "select * from " + TableStudentDetails.TABLE_NAME + " join " + TableParentStudentAssociation.TABLE_NAME
+                String query = "select * from " + TableStudentDetails.TABLE_NAME + " join " + TableParentStudentAssociation.TABLE_NAME+" , "+TableUniversityMaster.TABLE_NAME
                         + " on " + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_STUDENT_ID
-                        + "=" + TableParentStudentAssociation.TABLE_NAME + "." + TableParentStudentAssociation.COL_STUDENTID
+                        + "=" + TableParentStudentAssociation.TABLE_NAME + "." + TableParentStudentAssociation.COL_STUDENTID+" and "
+                        + TableStudentDetails.TABLE_NAME + "." + TableStudentDetails.COL_UNIVERSITY_ID
+                        + "=" + TableUniversityMaster.TABLE_NAME + "." + TableUniversityMaster.COL_UNIVERSITY_ID
                         + " where " + TableParentStudentAssociation.TABLE_NAME + "." + TableParentStudentAssociation.COL_PARENTID + "='" + parentId + "'";
                 AppLog.log("query getCourseCode: ",query);
 
@@ -52,6 +54,7 @@ public class CommonInfo {
                         model.setImageurl(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_IMAGEURL)));
                         model.setFullName(cursor.getString(cursor.getColumnIndex(TableStudentDetails.COL_STUDENT_NAME)));
                         model.setUniversity_id(cursor.getInt(cursor.getColumnIndex(TableStudentDetails.COL_UNIVERSITY_ID)));
+                        model.setUnversity_name(cursor.getString(cursor.getColumnIndex(TableUniversityMaster.COL_UNIVERSITY_NAME)));
                         list.add(model);
                         AppLog.log("getAllChildWRTParent getFullName: ", model.getFullName());
                         AppLog.log("getAllChildWRTParent getCourseCode: ", model.getCourseCode());
