@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText mEditTextUserName;
     private EditText mEditTextPassword;
     private SwitchCompat mSwitchLang;
+    private ScrollView mScrollView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,12 +68,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
+        mScrollView = (ScrollView) findViewById(R.id.scrollview);
         mEditTextUserName = (EditText) findViewById(R.id.edittext_email);
         mEditTextPassword = (EditText) findViewById(R.id.edittext_password);
         mTextViewForgotPassword = (TextView) findViewById(R.id.textview_forgot_password);
         mButtonLogin = (Button) findViewById(R.id.btnSignIn);
         mSwitchLang = (SwitchCompat) findViewById(R.id.switch_login_language);
         //----------------------------------------------------
+        mScrollView.setSmoothScrollingEnabled(true);
         if (UserInfo.lang_pref.equalsIgnoreCase(WSContant.TAG_ENG)) {
             mSwitchLang.setChecked(false);
             setLangSelection();
@@ -108,6 +112,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Utils.animRightToLeft(LoginActivity.this);
                 break;
             case R.id.btnSignIn:
+                mScrollView.setEnabled(false);
+                mEditTextUserName.setFocusable(false);
+                mEditTextPassword.setFocusable(false);
+                mScrollView.setFocusable(false);
                 doLogin();
                 break;
         }
@@ -189,8 +197,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void reset() {
+        mScrollView.setFocusable(true);
+        mScrollView.setEnabled(true);
         mButtonLogin.setText(getResources().getString(R.string.sign_in));
         mButtonLogin.setEnabled(true);
+        mEditTextUserName.setFocusable(true);
     }
 
     @Override
