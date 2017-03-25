@@ -114,7 +114,12 @@ public class HomeAdapter extends BaseAdapter {
             if(number>0) {
                 notificationCounter.setVisibility(View.VISIBLE);
             }
-            this.notificationCounter.setText(""+number);
+            if(number>0 && number < 10){
+                this.notificationCounter.setText("0"+number);
+            }else{
+                this.notificationCounter.setText(""+number);
+            }
+
         }
 
         public RelativeLayout getCellLayout() {
