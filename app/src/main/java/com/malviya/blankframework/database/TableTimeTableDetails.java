@@ -27,6 +27,11 @@ public class TableTimeTableDetails {
     private static final String COL_TTIME = "ttime";
     private static final String COL_FACULTY = "faculty";
     private static final String COL_ROOMNAME = "roomname";
+
+    private static final String COL_EMPLOYEENAME = "employeeName";
+    private static final String COL_FROMTIME = "fromtime";
+    private static final String COL_TOTIME = "totime";
+    private static final String COL_ISPRESENT = "ispresent";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -40,6 +45,10 @@ public class TableTimeTableDetails {
             + COL_TTIME + " varchar(50), "
             + COL_FACULTY + " varchar(100), "
             + COL_ROOMNAME + " varchar(50) "
+            + COL_EMPLOYEENAME + " varchar(255) "
+            + COL_FROMTIME + " varchar(255) "
+            + COL_TOTIME + " varchar(255) "
+            + COL_ISPRESENT + " varchar(255) "
             + " )";
 
     //For Foreign key
@@ -101,6 +110,12 @@ public class TableTimeTableDetails {
                     value.put(COL_TTIME, holder.getTTime());
                     value.put(COL_FACULTY, holder.getFaculty());
                     value.put(COL_ROOMNAME, holder.getRoomName());
+
+                    value.put(COL_EMPLOYEENAME, holder.getEmployeeName());
+                    value.put(COL_FROMTIME,holder.getFromTime());
+                    value.put(COL_TOTIME,holder.getToTime());
+                    value.put(COL_ISPRESENT,holder.getIsPresent());
+
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: getSubjectName ", holder.getSubjectName() + " row: " + row);
                 }

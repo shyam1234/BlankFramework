@@ -22,6 +22,15 @@ public class TableTimeTableDetailsDataModel extends IModel {
     private String Faculty;
     @SerializedName("RoomName")
     private String RoomName;
+    //----------------------------------------
+    @SerializedName("EmployeeName")
+    private String EmployeeName;
+    @SerializedName("FromTime")
+    private String FromTime;
+    @SerializedName("ToTime")
+    private String ToTime;
+    @SerializedName("IsPresent")
+    private String IsPresent;
 
     public String getMenuCode() {
         return MenuCode;
@@ -77,5 +86,37 @@ public class TableTimeTableDetailsDataModel extends IModel {
 
     public void setRoomName(String roomName) {
         RoomName = roomName;
+    }
+
+    public String getEmployeeName() {
+        return EmployeeName;
+    }
+
+    public void setEmployeeName(String employeeName) {
+        EmployeeName = employeeName;
+    }
+
+    public String getFromTime() {
+        return FromTime;
+    }
+
+    public void setFromTime(String fromTime) {
+        FromTime = fromTime;
+    }
+
+    public String getToTime() {
+        return ToTime;
+    }
+
+    public void setToTime(String toTime) {
+        ToTime = toTime;
+    }
+
+    public String getIsPresent() {
+        return IsPresent;
+    }
+
+    public void setIsPresent(String isPresent) {
+        IsPresent = isPresent;
     }
 }
