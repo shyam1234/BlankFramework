@@ -85,6 +85,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         initView();
         fetchDataFromWS();
         setLangSelection();
+        AppLog.log(TAG, "UserInfo.normal -++ :" + UserInfo.studentId);;
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -94,6 +95,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         fetchDataFromWS();
                         setLangSelection();
                         DashboardActivity.mHandler.removeMessages(1);
+                        AppLog.log(TAG, "UserInfo.handlerrrr  :" + UserInfo.studentId);
                         return true;
                 }
                 return false;
@@ -109,10 +111,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         table.closeDB();
         AppLog.log("HomeFragment ", "mCellList mCellList " + mCellList.size());
         mLinearHolder.setVisibility(View.GONE);
-        AppLog.log(TAG, "UserInfo.studentId :" + UserInfo.studentId);
         if (mCellList.size() > 0) {
             mTextViewUnivercityText.setText(mCellList.get(0).getUniversity_name());
         }
+        AppLog.log(TAG, "UserInfo.studentId :" + UserInfo.studentId);
     }
 
 
@@ -152,8 +154,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
     public void setLangSelection() {
-        Utils.langConversion(getContext(), mTextViewTitle, WSContant.TAG_LANG_HOME, getString(R.string.tab_home), UserInfo.lang_pref);
-        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
+        if(getContext()!=null){
+            Utils.langConversion(getContext(), mTextViewTitle, WSContant.TAG_LANG_HOME, getString(R.string.tab_home), UserInfo.lang_pref);
+            Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
+        }
     }
 
     @Override
