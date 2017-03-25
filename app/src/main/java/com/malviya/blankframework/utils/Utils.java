@@ -191,6 +191,15 @@ public class Utils {
 
     }
 
+    public static String getCurrTimeYYYYMMDD() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        String formattedDate = df.format(c.getTime());
+        AppLog.log("getCurrTimeYYYYMMDD ", formattedDate);
+        return formattedDate;
+
+    }
+
     public static void showProgressBar(int progress, CircularProgressBar circularProgressBar) {
 
         circularProgressBar.setColor(ContextCompat.getColor(circularProgressBar.getContext(), R.color.progressBarColor));

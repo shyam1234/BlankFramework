@@ -109,5 +109,8 @@ public interface WSContant {
     String TAG_LANG_OPTIONS = "lblOptions";//pending
     String TAG_LANG_SETTING="lblSettings";
     String TAG_LANG_LOGOUT="lblLogout";
+    String TAG_TIMETABLEDATE="TimeTableDate";
+    String TAG_WS_TIMETABLE = "ws_timetable";
 }
+
 

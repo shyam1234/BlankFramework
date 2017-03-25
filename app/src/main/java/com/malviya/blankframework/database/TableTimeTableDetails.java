@@ -27,10 +27,6 @@ public class TableTimeTableDetails {
     private static final String COL_TTIME = "ttime";
     private static final String COL_FACULTY = "faculty";
     private static final String COL_ROOMNAME = "roomname";
-
-    private static final String COL_EMPLOYEENAME = "employeeName";
-    private static final String COL_FROMTIME = "fromtime";
-    private static final String COL_TOTIME = "totime";
     private static final String COL_ISPRESENT = "ispresent";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
@@ -44,10 +40,7 @@ public class TableTimeTableDetails {
             + COL_SUBJECTNAME + " varchar(255), "
             + COL_TTIME + " varchar(50), "
             + COL_FACULTY + " varchar(100), "
-            + COL_ROOMNAME + " varchar(50) "
-            + COL_EMPLOYEENAME + " varchar(255) "
-            + COL_FROMTIME + " varchar(255) "
-            + COL_TOTIME + " varchar(255) "
+            + COL_ROOMNAME + " varchar(50), "
             + COL_ISPRESENT + " varchar(255) "
             + " )";
 
@@ -110,11 +103,7 @@ public class TableTimeTableDetails {
                     value.put(COL_TTIME, holder.getTTime());
                     value.put(COL_FACULTY, holder.getFaculty());
                     value.put(COL_ROOMNAME, holder.getRoomName());
-
-                    value.put(COL_EMPLOYEENAME, holder.getEmployeeName());
-                    value.put(COL_FROMTIME,holder.getFromTime());
-                    value.put(COL_TOTIME,holder.getToTime());
-                    value.put(COL_ISPRESENT,holder.getIsPresent());
+                    value.put(COL_ISPRESENT, holder.getIsPresent());
 
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: getSubjectName ", holder.getSubjectName() + " row: " + row);
@@ -162,11 +151,12 @@ public class TableTimeTableDetails {
     }
 
 
-    public ArrayList<TableTimeTableDetailsDataModel> getData(String menuCode) {
+    public ArrayList<TableTimeTableDetailsDataModel> getData(int studentId, String refDate) {
         ArrayList<TableTimeTableDetailsDataModel> list = new ArrayList<>();
         TableTimeTableDetailsDataModel holder = new TableTimeTableDetailsDataModel();
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + menuCode  + "'";
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_STUDENTID + " = '" + studentId + "' and "
+                    + COL_REFERENCEDATE + " = '" + refDate + "'";
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {

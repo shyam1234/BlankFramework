@@ -24,7 +24,6 @@ import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableStudentOverallFeeSummary;
 import com.malviya.blankframework.database.TableTimeTableDetails;
 import com.malviya.blankframework.models.GetMobileMenuDataModel;
-import com.malviya.blankframework.models.LoginDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableTimeTableDetailsDataModel;
 import com.malviya.blankframework.network.IWSRequest;
@@ -37,7 +36,6 @@ import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,10 +44,11 @@ import java.util.Map;
  */
 
 public class TimeTableFragment extends Fragment implements View.OnClickListener {
-    public final static String TAG="TimeTableFragment";
+    public final static String TAG = "TimeTableFragment";
     private RecyclerView mRecycleViewTimeTable;
     private TimeTableAdapter mTimeTableAdapter;
     private ArrayList<TableTimeTableDetailsDataModel> mTimetableList;
+
     public TimeTableFragment() {
 
     }
@@ -106,7 +105,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         mImgBack.setOnClickListener(this);
         //------------------------------------
 
-        ImageView navigateToOtherPage = (ImageView)getView().findViewById(R.id.imageview_timetable_arrow);
+        ImageView navigateToOtherPage = (ImageView) getView().findViewById(R.id.imageview_timetable_arrow);
         navigateToOtherPage.setOnClickListener(this);
         initRecyclerView();
         setListener();
@@ -144,39 +143,37 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private void fetchDataFromServer() {
         TableTimeTableDetails table = new TableTimeTableDetails();
         table.openDB(getContext());
-        mTimetableList = table.getData(UserInfo.menuCode);
-        Collections.sort(mTimetableList,Collections.<TableTimeTableDetailsDataModel>reverseOrder());
+        mTimetableList = table.getData(UserInfo.studentId, Utils.getCurrTimeYYYYMMDD());
+        //Collections.sort(mTimetableList,Collections.<TableTimeTableDetailsDataModel>reverseOrder());
         table.closeDB();
         //----------------------------------------------------------
         if (Utils.isInternetConnected(getContext())) {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+            header.put(WSContant.TAG_DATELASTRETRIEVED, SharedPreferencesApp.getInstance().getLastRetrieveTime(WSContant.TAG_WS_TIMETABLE));
+            header.put(WSContant.TAG_NEW, Utils.getCurrTimeYYYYMMDD());
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
             //-Utils-for body
             Map<String, String> body = new HashMap<>();
-            body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
-            body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
-            body.put(WSContant.TAG_USERID, "" + UserInfo.studentId);
-            body.put(WSContant.TAG_USERTYPE, "" + UserInfo.currUserType);
-            body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
-            body.put(WSContant.TAG_LASTRETRIEVED, "" + Utils.getLastRetrivedTimeForNews());
+            body.put(WSContant.TAG_STUDENTID, "" + UserInfo.studentId);
+            body.put(WSContant.TAG_TIMETABLEDATE, "" + Utils.getCurrTimeYYYYMMDD());
             Utils.showProgressBar(getContext());
-            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEMENU, header, body, WSContant.TAG_NEWS, new IWSRequest() {
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_TIMETABLE, header, body, WSContant.TAG_WS_TIMETABLE, new IWSRequest() {
                 @Override
                 public void onResponse(String response) {
                     mTimetableList.clear();
-                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEMENU);
-                    GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
-                    if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
-                      //pp  mTimetableList = holder.getMessageBody().getStudentOverallFeeSummary();
-                        Collections.sort(mTimetableList,Collections.<TableTimeTableDetailsDataModel>reverseOrder());
-                        saveDataIntoTable(holder);
-                        SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
-                        initRecyclerView();
-                    } else {
-                        Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
-                    }
+                    ParseResponse obj = new ParseResponse(response, TableTimeTableDetailsDataModel.class, ModelFactory.MODEL_TIMETABLEDETAILS);
+                    TableTimeTableDetailsDataModel holder = ((TableTimeTableDetailsDataModel) obj.getModel());
+//                    if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
+//                        //pp  mTimetableList = holder.getMessageBody().getStudentOverallFeeSummary();
+//                        Collections.sort(mTimetableList, Collections.<TableTimeTableDetailsDataModel>reverseOrder());
+//                        saveDataIntoTable(holder);
+//                        SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+//                        initRecyclerView();
+//                    } else {
+//                        Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
+//                    }
                     Utils.dismissProgressBar();
                 }
 
@@ -201,8 +198,6 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
             AppLog.errLog(TAG, "Exception from saveDataIntoTable");
         }
     }
-
-
 
 
     private void navigateToNextPage(Class mClass) {

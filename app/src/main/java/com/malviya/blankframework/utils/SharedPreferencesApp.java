@@ -368,8 +368,8 @@ public class SharedPreferencesApp {
         }
     }
 
-    public  String getLastGetMobileMenuTime() {
-        String mLastLoginTime="";
+    public String getLastGetMobileMenuTime() {
+        String mLastLoginTime = "";
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
@@ -409,12 +409,12 @@ public class SharedPreferencesApp {
         }
     }
 
-    public  String getLangSelection() {
-        UserInfo.lang_pref=null;
+    public String getLangSelection() {
+        UserInfo.lang_pref = null;
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
-                UserInfo.lang_pref = sharePref.getString(WSContant.TAG_LANG,WSContant.TAG_ENG);
+                UserInfo.lang_pref = sharePref.getString(WSContant.TAG_LANG, WSContant.TAG_ENG);
             } else {
                 AppLog.log("getLangSelection", "there is not saved land selection ");
             }
@@ -422,7 +422,7 @@ public class SharedPreferencesApp {
         } catch (Exception e) {
             AppLog.errLog("sharePreferenceApp : getLangSelection", e.getMessage());
         } finally {
-            return UserInfo.lang_pref==null?WSContant.TAG_ENG:UserInfo.lang_pref;
+            return UserInfo.lang_pref == null ? WSContant.TAG_ENG : UserInfo.lang_pref;
         }
     }
 
@@ -436,4 +436,42 @@ public class SharedPreferencesApp {
     }
     //-----------------------------------------------------------
 
+    public String getLastRetrieveTime(String pTAG) {
+        String mCurrTime = "";
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                switch (pTAG) {
+                    case WSContant.TAG_WS_TIMETABLE:
+                        mCurrTime = sharePref.getString(pTAG, "");
+                        break;
+                }
+            } else {
+                AppLog.log("getSavedTime", "there is not savedTime ");
+            }
+            sharePref = null;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : getSavedTime", e.getMessage());
+        } finally {
+            return mCurrTime;
+        }
+    }
+    public void setLastRetrieveTime(String pTAG, String time) {
+        try {
+            SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
+            if (sharePref != null) {
+                switch (pTAG) {
+                    case WSContant.TAG_WS_TIMETABLE:
+                        SharedPreferences.Editor data = sharePref.edit();
+                        data.putString(pTAG, time);
+                        break;
+                }
+            } else {
+                AppLog.log("setLastRetrieveTime", "there is not setLastRetrieveTime ");
+            }
+            sharePref = null;
+        } catch (Exception e) {
+            AppLog.errLog("sharePreferenceApp : setLastRetrieveTime", e.getMessage());
+        }
+    }
 }
