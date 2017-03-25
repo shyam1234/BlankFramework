@@ -82,7 +82,7 @@ public class HomeAdapter extends BaseAdapter {
             textView = (TextView) view.findViewById(R.id.textview_dashboard_cell_name);
             notificationCounter = (TextView) view.findViewById(R.id.textview_dashboard_notifcation_count);
             cellLayout = (RelativeLayout) view.findViewById(R.id.rel_cell_holder);
-            cellBgLayout = (RelativeLayout)view.findViewById(R.id.rel_dashboard_cell_bg_holder);
+            cellBgLayout = (RelativeLayout) view.findViewById(R.id.rel_dashboard_cell_bg_holder);
 
         }
 
@@ -115,13 +115,13 @@ public class HomeAdapter extends BaseAdapter {
         }
 
         public void setNotificationCounter(int number) {
-            if(number>0) {
+            if (number > 0) {
                 notificationCounter.setVisibility(View.VISIBLE);
             }
-            if(number>0 && number < 10){
-                this.notificationCounter.setText("0"+number);
-            }else{
-                this.notificationCounter.setText(""+number);
+            if (number > 0 && number < 10) {
+                this.notificationCounter.setText("0" + number);
+            } else {
+                this.notificationCounter.setText("" + number);
             }
 
         }

@@ -8,6 +8,7 @@
     android:padding="5dp">
 
     <RelativeLayout
+        android:elevation="1dp"
         android:id="@+id/rel_dashboard_cell_bg_holder"
         android:layout_width="100dp"
         android:layout_height="100dp"
