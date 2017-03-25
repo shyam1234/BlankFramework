@@ -77,6 +77,7 @@ public class SharedPreferencesApp {
         removeLastGetMobileMenuTime();
         removeLastLoginTime();
         removeSavedTimeForNews();
+        removeSelectedLangPref();
         UserInfo.clearUSerInfo();
         savedDefaultChildSelection(-1);
     }
@@ -426,6 +427,13 @@ public class SharedPreferencesApp {
     }
 
 
+    public void removeSelectedLangPref() {
+        try {
+            saveLangSelection(WSContant.TAG_ENG);
+        } catch (Exception e) {
+            AppLog.errLog(" removeSelectedLangPref", e.getMessage());
+        }
+    }
     //-----------------------------------------------------------
 
 }
