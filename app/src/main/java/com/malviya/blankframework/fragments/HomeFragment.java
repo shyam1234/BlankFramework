@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentMenuDetails;
 import com.malviya.blankframework.models.DashboardCellDataModel;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.ExpandableHeightGridView;
 import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
             R.drawable.gallery, R.drawable.feedback, R.drawable.fee,
             R.drawable.dashboard_time_table, R.drawable.dashboard_news, R.drawable.dashboard_results};
 
-    private GridView mGridViewCell;
+    private ExpandableHeightGridView mGridViewCell;
     private HomeAdapter mAdapter;
     private ArrayList<DashboardCellDataModel> mCellList;
     // private ArrayList<TableStudentDetailsDataModel> mUniver;
@@ -134,14 +134,14 @@ public class HomeFragment extends Fragment {
         //----------------------------------------------------------------------
         mLinearHolder.setVisibility(View.GONE);
         mAdapter = new HomeAdapter(getContext(), mCellList);
-        mGridViewCell = (GridView) getView().findViewById(R.id.gridview_dashboard);
+        mGridViewCell = (ExpandableHeightGridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
+        mGridViewCell.setExpanded(true);
         mImageViewUnivercityLogo = (ImageView) getView().findViewById(R.id.imgview_uni_logo);
         if (mCellList.size() > 0) {
             UserInfo.selectedStudentImageURL = mCellList.get(0).getStudentProfileImage();
             GetPicassoImage.setCircleImageByPicasso(getContext(), mCellList.get(0).getUniversity_url(), mImageViewUnivercityLogo);
             GetPicassoImage.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
-
         }
         //RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
         mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
@@ -211,6 +211,6 @@ public class HomeFragment extends Fragment {
 
     public void setLangSelection() {
         Utils.langConversion(getContext(), mTextViewTitle, WSContant.TAG_LANG_HOME, getString(R.string.tab_home), UserInfo.lang_pref);
-        Utils.langConversion(getContext(), ((TextView)getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
+        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
     }
 }

@@ -10,38 +10,46 @@
         android:layout_height="wrap_content"
         android:visibility="visible"></include>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/inc_home_header"
         android:layout_gravity="center"
-        android:background="@color/colorWhite"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/comm_padding"
-        android:paddingLeft="@dimen/comm_padding"
-        android:paddingRight="@dimen/comm_padding">
+        android:background="@color/colorWhite">
 
-        <include
-            android:id="@+id/inc_fragment_home_header"
-            layout="@layout/inc_university_header"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"></include>
-
-        <com.malviya.blankframework.utils.MyGridView
-            android:id="@+id/gridview_dashboard"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:clipToPadding="true"
-            android:fitsSystemWindows="true"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:numColumns="3"></com.malviya.blankframework.utils.MyGridView>
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/comm_padding"
+            android:paddingLeft="@dimen/comm_padding"
+            android:paddingRight="@dimen/comm_padding">
 
-    </LinearLayout>
+            <include
+                android:id="@+id/inc_fragment_home_header"
+                layout="@layout/inc_university_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"></include>
 
+            <com.malviya.blankframework.utils.ExpandableHeightGridView
+                android:id="@+id/gridview_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:clipToPadding="true"
+                android:fitsSystemWindows="true"
+                android:gravity="center"
+                android:isScrollContainer="false"
+                android:numColumns="3"
+                android:stretchMode="columnWidth"></com.malviya.blankframework.utils.ExpandableHeightGridView>
+
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/linearlayout"
