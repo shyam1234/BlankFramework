@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
@@ -84,31 +83,36 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         AppLog.log("HomeFragment ", "bindDataWithParentStudentMenuDetailsDataModel: : onActivityCreated");
         initView();
+        fetchDataFromWS();
+        setLangSelection();
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 switch ((Integer) msg.what) {
                     case 1:
-                        //----------------------------------------------------------------------
-                        final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
-                        table.openDB(getContext());
-                        Toast.makeText(getContext(), "student id : " + UserInfo.studentId, Toast.LENGTH_SHORT).show();
-                        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
-                        table.closeDB();
-                        AppLog.log("HomeFragment ", "mCellList mCellList " + mCellList.size());
-                        AppLog.log("HomeFragment ", "bindDataWithParentStudentMenuDetailsDataModel: handleMessage : onActivityCreated");
-                        DashboardActivity.mHandler.removeMessages(1);
-                        mLinearHolder.setVisibility(View.GONE);
-                        AppLog.log(TAG, "UserInfo.studentId :" + UserInfo.studentId);
                         initView();
-                        //----------------------------------------------------------------------
-                        // fetchDataFromWS();
+                        fetchDataFromWS();
+                        setLangSelection();
+                        DashboardActivity.mHandler.removeMessages(1);
                         return true;
                 }
                 return false;
             }
         });
 
+    }
+
+    private void fetchDataFromWS() {
+        final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
+        table.openDB(getContext());
+        mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
+        table.closeDB();
+        AppLog.log("HomeFragment ", "mCellList mCellList " + mCellList.size());
+        mLinearHolder.setVisibility(View.GONE);
+        AppLog.log(TAG, "UserInfo.studentId :" + UserInfo.studentId);
+        if (mCellList.size() > 0) {
+            mTextViewUnivercityText.setText(mCellList.get(0).getUniversity_name());
+        }
     }
 
 
@@ -144,7 +148,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         //RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
         mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
-
     }
 
 
@@ -200,11 +203,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
         }
-        if (mCellList.size() > 0) {
-            mTextViewUnivercityText.setText(mCellList.get(0).getUniversity_name());
-        }
-
-        setLangSelection();
     }
 
 
