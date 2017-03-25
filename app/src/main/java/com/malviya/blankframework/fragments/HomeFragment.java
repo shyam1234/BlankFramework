@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
  * Created by Admin on 24-12-2016.
  */
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements View.OnClickListener {
     public static final String TAG = "HomeFramgent";
     public static int[] mMenuColor = new int[]{R.color.colorGreen, R.color.colorDarkYellow, R.color.colorLightVallet,
             R.color.colorSkyBlue, R.color.colorDarkPink, R.color.colorDarkblue,
@@ -93,6 +92,7 @@ public class HomeFragment extends Fragment {
                         //----------------------------------------------------------------------
                         final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
                         table.openDB(getContext());
+                        Toast.makeText(getContext(), "student id : " + UserInfo.studentId, Toast.LENGTH_SHORT).show();
                         mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);
                         table.closeDB();
                         AppLog.log("HomeFragment ", "mCellList mCellList " + mCellList.size());
@@ -101,7 +101,6 @@ public class HomeFragment extends Fragment {
                         mLinearHolder.setVisibility(View.GONE);
                         AppLog.log(TAG, "UserInfo.studentId :" + UserInfo.studentId);
                         initView();
-
                         //----------------------------------------------------------------------
                         // fetchDataFromWS();
                         return true;
@@ -133,7 +132,7 @@ public class HomeFragment extends Fragment {
         AppLog.log("HomeFragment ", "mCellList mCellList " + mCellList.size());
         //----------------------------------------------------------------------
         mLinearHolder.setVisibility(View.GONE);
-        mAdapter = new HomeAdapter(getContext(), mCellList);
+        mAdapter = new HomeAdapter(getContext(), mCellList, this);
         mGridViewCell = (ExpandableHeightGridView) getView().findViewById(R.id.gridview_dashboard);
         mGridViewCell.setAdapter(mAdapter);
         mGridViewCell.setExpanded(true);
@@ -145,62 +144,62 @@ public class HomeFragment extends Fragment {
         }
         //RenderImageByUIL.getInstance(getContext()).setImageByURL(UserInfo.university_logo_url, mImageViewUnivercityLogo, R.drawable.logo, R.drawable.loader);
         mTextViewUnivercityText = (TextView) getView().findViewById(R.id.textview_uni_header_name);
-        mGridViewCell.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView textView = ((TextView) view.findViewById(R.id.textview_dashboard_cell_name));
-                AppLog.log("HomeFragment : onItemClick menu name: ", textView.getText().toString());
-                AppLog.log("HomeFragment :  onItemClick getTag", textView.getTag().toString());
-                UserInfo.menuCode = textView.getTag().toString().trim();
-                switch (textView.getTag().toString()) {
+
+    }
+
+
+    public void setLangSelection() {
+        Utils.langConversion(getContext(), mTextViewTitle, WSContant.TAG_LANG_HOME, getString(R.string.tab_home), UserInfo.lang_pref);
+        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.rel_dashboard_cell_bg_holder:
+                String menu_code = (String) v.getTag();
+                AppLog.log("HomeFragment : onItemClick menu name: ", menu_code);
+                UserInfo.menuCode = menu_code.trim();
+                switch ( UserInfo.menuCode) {
                     case Constant.TAG_NOTICEBOARD:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NoticeboardFragment(), NoticeboardFragment.TAG);
                         break;
                     case Constant.TAG_ATTENDANCE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new AttendanceFragment(), AttendanceFragment.TAG);
-//                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_DIARY:
                         Utils.navigateFragmentMenu(getFragmentManager(), new DiaryFragment(), DiaryFragment.TAG);
-//                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_EVENTS:
                         Utils.navigateFragmentMenu(getFragmentManager(), new EventsFragment(), EventsFragment.TAG);
-                        Toast.makeText(getContext(), "coming soon", Toast.LENGTH_SHORT).show();
-//                        break;
+                        break;
                     case Constant.TAG_FEE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
                         break;
                     case Constant.TAG_GALLERY:
                         Utils.navigateFragmentMenu(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
-//                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_FEEDBACK:
                         Utils.navigateFragmentMenu(getFragmentManager(), new FeedbackFragment(), FeedbackFragment.TAG);
-//                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_MESSAGE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new MessageFragment(), MessageFragment.TAG);
-//                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_HOMEWORK:
                         Utils.navigateFragmentMenu(getFragmentManager(), new HomeworkFragment(), HomeworkFragment.TAG);
-//                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_NEWS:
                         Utils.navigateFragmentMenu(getFragmentManager(), new NewsFragment(), NewsFragment.TAG);
                         break;
                     case Constant.TAG_TIMETABLE:
                         Utils.navigateFragmentMenu(getFragmentManager(), new TimeTableFragment(), TimeTableFragment.TAG);
-//                        Toast.makeText(getContext(),"coming soon",Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_RESULT:
                         Utils.navigateFragmentMenu(getFragmentManager(), new ResultFragment(), ResultFragment.TAG);
                         break;
                 }
-            }
-        });
-
+                break;
+        }
         if (mCellList.size() > 0) {
             mTextViewUnivercityText.setText(mCellList.get(0).getUniversity_name());
         }
@@ -209,8 +208,4 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public void setLangSelection() {
-        Utils.langConversion(getContext(), mTextViewTitle, WSContant.TAG_LANG_HOME, getString(R.string.tab_home), UserInfo.lang_pref);
-        Utils.langConversion(getContext(), ((TextView) getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
-    }
 }

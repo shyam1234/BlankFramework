@@ -2,6 +2,8 @@ package com.malviya.blankframework.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.activities.ResultDetailActivity;
 import com.malviya.blankframework.adapters.ResultAdapter;
 import com.malviya.blankframework.constant.Constant;
@@ -77,6 +80,20 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         initView();
         fetchDataFromServer();
+        DashboardActivity.mHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                switch ((Integer) msg.what) {
+                    case 1:
+                        Toast.makeText(getContext(), "student id : " + UserInfo.studentId, Toast.LENGTH_SHORT).show();
+                        DashboardActivity.mHandler.removeMessages(1);
+                        initView();
+                        fetchDataFromServer();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void initView() {

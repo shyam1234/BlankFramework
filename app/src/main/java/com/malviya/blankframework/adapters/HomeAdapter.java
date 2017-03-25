@@ -22,10 +22,12 @@ public class HomeAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final ArrayList<DashboardCellDataModel> mCellList;
+    private View.OnClickListener mListner;
 
-    public HomeAdapter(Context pContext, ArrayList<DashboardCellDataModel> pCellList) {
+    public HomeAdapter(Context pContext, ArrayList<DashboardCellDataModel> pCellList, View.OnClickListener pListner) {
         mContext = pContext;
         mCellList = pCellList;
+        mListner = pListner;
     }
 
     @Override
@@ -59,7 +61,9 @@ public class HomeAdapter extends BaseAdapter {
         holder.setTextView(mCellList.get(position).getText());
         holder.setNotificationCounter(mCellList.get(position).getNotification());
         holder.cellBgLayout.setBackgroundResource(mCellList.get(position).getColor());
+        holder.cellBgLayout.setOnClickListener(mListner);
         holder.textView.setTag(mCellList.get(position).getMenu_code());
+        holder.cellBgLayout.setTag(mCellList.get(position).getMenu_code());
         return holder.getView();
     }
 

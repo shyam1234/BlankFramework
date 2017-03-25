@@ -76,6 +76,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         AppLog.log("WardFragment", "onActivityCreated");
         initView();
+
     }
 
     private void initView() {
