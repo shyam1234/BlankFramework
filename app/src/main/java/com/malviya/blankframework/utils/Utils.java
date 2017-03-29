@@ -191,14 +191,6 @@ public class Utils {
 
     }
 
-    public static String getCurrTimeYYYYMMDD() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-        String formattedDate = df.format(c.getTime());
-        AppLog.log("getCurrTimeYYYYMMDD ", formattedDate);
-        return formattedDate;
-
-    }
 
     public static void showProgressBar(int progress, CircularProgressBar circularProgressBar) {
 
@@ -415,9 +407,10 @@ public class Utils {
                 SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = formatter.parse(yyyyMMddHHmmss);
                 time = formatter1.format(date);
+                AppLog.log("Time: "+time);
             }
         } catch (Exception e) {
-            AppLog.errLog("Timestamp from Utils", e.getMessage());
+            AppLog.errLog("getTimeInYYYYMMDD+++ from Utils", e.getMessage());
         } finally {
             return time;
         }
@@ -432,14 +425,41 @@ public class Utils {
                 SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                 Date date = formatter.parse(yyyyMMddHHmmss);
                 time = formatter1.format(date);
+                AppLog.log("Time: "+time);
             }
         } catch (Exception e) {
-            AppLog.errLog("Timestamp from Utils", e.getMessage());
+            AppLog.errLog("getTimeInDDMMYYYY 333  from Utils", e.getMessage());
         } finally {
             return time;
         }
 
     }
+
+
+    /**
+     * Firday, 19th March 2017 (today)
+     *
+     * @param yyyyMMdd
+     * @return
+     */
+    public static String getTimeInDayDateMonthYear(String yyyyMMdd) {
+        String time = "";
+        try {
+            if (yyyyMMdd != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                SimpleDateFormat formatter1 = new SimpleDateFormat("EEE, MMMM d, yyyy");
+                Date date = formatter.parse(yyyyMMdd);
+                time = formatter1.format(date);
+                AppLog.log("Time: "+time);
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getTimeInDayDateMonthYear from Utils", e.getMessage());
+        } finally {
+            return time;
+        }
+
+    }
+
 
     /**
      * * this method takes single conversion code and append in signle String
@@ -608,5 +628,61 @@ public class Utils {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    public static String getTimeInDayDateMonthYear(String string, int value) {
+        String time = "";
+        try {
+            if (string != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMMM d, yyyy");
+                SimpleDateFormat formatter1 = new SimpleDateFormat("EEE, MMMM d, yyyy");
+                Calendar c = Calendar.getInstance();
+                c.setTime(formatter.parse(string));
+                c.add(Calendar.DATE, value);
+                time = formatter1.format(c.getTime());
+                AppLog.log("Time: "+time);
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getTimeInDayDateMonthYear from Utils", e.getMessage());
+        } finally {
+            return time;
+        }
+
+    }
+
+
+
+    public static String getCurrTimeYYYYMMDD(String string) {
+        String time = "";
+        try {
+            if (string != null) {
+                SimpleDateFormat formatter1 = new SimpleDateFormat("yyyyMMdd");
+                SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMMM d, yyyy");
+                Date date = formatter.parse(string);
+                time = formatter1.format(date);
+                AppLog.log("Time: "+time);
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getCurrTimeYYYYMMDD from Utils", e.getMessage());
+        } finally {
+            return time;
+        }
+    }
+
+    public static String getCurrTimeYYYYMMDD() {
+        String time = "";
+        Calendar c = Calendar.getInstance();
+        try {
+            if (true) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                time = formatter.format(c.getTime());
+                AppLog.log("Time: " + time);
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getCurrTimeYYYYMMDD from Utils", e.getMessage());
+        } finally {
+            return time;
+        }
+
     }
 }

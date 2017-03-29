@@ -1,12 +1,14 @@
 package com.malviya.blankframework.models;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Admin on 21-01-2017.
  */
 
-public class TableAttendanceDataModel {
+public class TableAttendanceDataModel implements Comparable<TableAttendanceDataModel> {
 
     @SerializedName("StudentId")
     private int StudentId;
@@ -98,5 +100,11 @@ public class TableAttendanceDataModel {
 
     public void setColor(String color) {
         Color = color;
+    }
+
+
+    @Override
+    public int compareTo(@NonNull TableAttendanceDataModel o) {
+        return 0;
     }
 }

@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.TableTimeTableDetailsDataModel;
 
 import java.util.ArrayList;
@@ -15,12 +17,11 @@ import java.util.ArrayList;
 /**
  * Created by Admin on 05-02-2017.
  */
-
 public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.MyViewHolder> {
     private Context mContext;
-    private ArrayList<TableTimeTableDetailsDataModel> mList;
+    private ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel> mList;
 
-    public TimeTableAdapter(Context context, ArrayList<TableTimeTableDetailsDataModel> pList) {
+    public TimeTableAdapter(Context context, ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel> pList) {
         mContext = context;
         mList = pList;
     }
@@ -28,37 +29,44 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        //View view = inflater.inflate(R.layout.attendance_row, null);
-        //if use null then recyclerview not take match_parent as width
-        View viewHolder = inflater.inflate(R.layout.fragment_timetable_row, parent,false);
-        //viewHolder.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        View viewHolder = inflater.inflate(R.layout.fragment_timetable_row, parent, false);
         return new MyViewHolder(viewHolder);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        //holder.textViewDate.setText("" + mList.get(position).getSubjectValue() + "%");
-       // holder.textViewPaymentValue.setText("" + mList.get(position).getTotalDays());
-       // holder.textViewResult.setText("" + mList.get(position).getAbsentDays());
+        holder.textViewTime.setText(mList.get(position).getTTime());
+        holder.textViewSubject.setText(mList.get(position).getSubjectName());
+        holder.textViewFaculty.setText(mList.get(position).getFaculty());
+        holder.textViewRoom.setText(mList.get(position).getRoomName());
+        if (mList.get(position).getIsPresent().equalsIgnoreCase(WSContant.TAG_NR)) {
+            holder.imageviewTimetableIcon.setImageResource(R.drawable.avater);
+        } else {
+            holder.imageviewTimetableIcon.setImageResource(R.drawable.back);
+        }
     }
 
 
     @Override
-    public int getItemCount()
-    {
-        return 10;
-       // return mList.size();
+    public int getItemCount() {
+        return mList.size();
     }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewTime;
         public TextView textViewSubject;
+        public TextView textViewFaculty;
+        public TextView textViewRoom;
+        public ImageView imageviewTimetableIcon;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             textViewTime = (TextView) itemView.findViewById(R.id.textview_timetable_time_value);
-            textViewSubject = (TextView) itemView.findViewById(R.id.textview_timetable_subject_value);
+            textViewSubject = (TextView) itemView.findViewById(R.id.textview_timetable_subject);
+            textViewFaculty = (TextView) itemView.findViewById(R.id.textview_timetable_faculty);
+            imageviewTimetableIcon = (ImageView) itemView.findViewById(R.id.imageview_timetable);
+            textViewRoom = (TextView) itemView.findViewById(R.id.textview_timetable_room_value);
         }
     }
 }

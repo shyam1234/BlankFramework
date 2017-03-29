@@ -1,5 +1,7 @@
 package com.malviya.blankframework.fragments;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,12 +22,9 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.DashboardActivity;
-import com.malviya.blankframework.activities.TimeTableDetailsActivity;
 import com.malviya.blankframework.adapters.TimeTableAdapter;
 import com.malviya.blankframework.constant.WSContant;
-import com.malviya.blankframework.database.TableStudentOverallFeeSummary;
 import com.malviya.blankframework.database.TableTimeTableDetails;
-import com.malviya.blankframework.models.GetMobileMenuDataModel;
 import com.malviya.blankframework.models.ModelFactory;
 import com.malviya.blankframework.models.TableTimeTableDetailsDataModel;
 import com.malviya.blankframework.network.IWSRequest;
@@ -36,6 +37,8 @@ import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,7 +50,10 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     public final static String TAG = "TimeTableFragment";
     private RecyclerView mRecycleViewTimeTable;
     private TimeTableAdapter mTimeTableAdapter;
-    private ArrayList<TableTimeTableDetailsDataModel> mTimetableList;
+    private ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel> mTimetableList;
+    private ImageButton mleftArrow;
+    private ImageButton mRightArrow;
+    private TextView mTextViewDate;
 
     public TimeTableFragment() {
 
@@ -60,7 +66,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
     private void init() {
-        mTimetableList = new ArrayList<TableTimeTableDetailsDataModel>();
+        mTimetableList = new ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel>();
     }
 
     @Nullable
@@ -104,9 +110,16 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
+        mleftArrow = (ImageButton) getView().findViewById(R.id.imagebtn_left_arrow);
+        mRightArrow = (ImageButton) getView().findViewById(R.id.imagebtn_right_arrow);
+        mTextViewDate = (TextView) getView().findViewById(R.id.textview_timetable_date);
+        mleftArrow.setOnClickListener(this);
+        mRightArrow.setOnClickListener(this);
+        mTextViewDate.setOnClickListener(this);
 
-        ImageView navigateToOtherPage = (ImageView) getView().findViewById(R.id.imageview_timetable_arrow);
-        navigateToOtherPage.setOnClickListener(this);
+        //set today date and show to textview
+        //initTimeTable();
+        mTextViewDate.setText(Utils.getTimeInDayDateMonthYear(Utils.getCurrTimeYYYYMMDD()));
         initRecyclerView();
         setListener();
     }
@@ -133,17 +146,42 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
             case R.id.imageview_back:
                 getActivity().onBackPressed();
                 break;
-            case R.id.imageview_timetable_arrow:
-                navigateToNextPage(TimeTableDetailsActivity.class);
+            case R.id.imagebtn_left_arrow:
+                mTextViewDate.setText(Utils.getTimeInDayDateMonthYear(mTextViewDate.getText().toString(), -1));
+                fetchDataFromServer();
+                break;
+            case R.id.imagebtn_right_arrow:
+                mTextViewDate.setText(Utils.getTimeInDayDateMonthYear(mTextViewDate.getText().toString(), 1));
+                fetchDataFromServer();
+                break;
+            case R.id.textview_timetable_date:
+                showPopupCalender(getContext());
+                fetchDataFromServer();
                 break;
         }
+
+
+    }
+
+    public void showPopupCalender(Context pContext) {
+        Calendar c = Calendar.getInstance();
+        new DatePickerDialog(pContext, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                 String str = Utils.getTimeInDayDateMonthYear(new StringBuilder().append(year)
+                        .append("").append(((month+1)/10 != 0 ? (month+1):"0"+(month+1))).append("").append(dayOfMonth)
+                        .append(" ").toString());
+                AppLog.log("Time::: "+str);
+                mTextViewDate.setText(str);
+            }
+        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
     }
 
 
     private void fetchDataFromServer() {
         TableTimeTableDetails table = new TableTimeTableDetails();
         table.openDB(getContext());
-        mTimetableList = table.getData(UserInfo.studentId, Utils.getCurrTimeYYYYMMDD());
+        mTimetableList = table.getData(UserInfo.studentId, Utils.getCurrTimeYYYYMMDD(mTextViewDate.getText().toString()));
         //Collections.sort(mTimetableList,Collections.<TableTimeTableDetailsDataModel>reverseOrder());
         table.closeDB();
         //----------------------------------------------------------
@@ -157,7 +195,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
             //-Utils-for body
             Map<String, String> body = new HashMap<>();
             body.put(WSContant.TAG_STUDENTID, "" + UserInfo.studentId);
-            body.put(WSContant.TAG_TIMETABLEDATE, "" + Utils.getCurrTimeYYYYMMDD());
+            body.put(WSContant.TAG_TIMETABLEDATE, Utils.getCurrTimeYYYYMMDD(mTextViewDate.getText().toString()));
             Utils.showProgressBar(getContext());
             WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_TIMETABLE, header, body, WSContant.TAG_WS_TIMETABLE, new IWSRequest() {
                 @Override
@@ -165,15 +203,15 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
                     mTimetableList.clear();
                     ParseResponse obj = new ParseResponse(response, TableTimeTableDetailsDataModel.class, ModelFactory.MODEL_TIMETABLEDETAILS);
                     TableTimeTableDetailsDataModel holder = ((TableTimeTableDetailsDataModel) obj.getModel());
-//                    if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
-//                        //pp  mTimetableList = holder.getMessageBody().getStudentOverallFeeSummary();
-//                        Collections.sort(mTimetableList, Collections.<TableTimeTableDetailsDataModel>reverseOrder());
-//                        saveDataIntoTable(holder);
-//                        SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
-//                        initRecyclerView();
-//                    } else {
-//                        Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
-//                    }
+                    if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
+                        mTimetableList = holder.getMessageBody();
+                        Collections.sort(mTimetableList, Collections.<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel>reverseOrder());
+                        saveDataIntoTable(holder);
+                        //SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
+                        initRecyclerView();
+                    } else {
+                        Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
+                    }
                     Utils.dismissProgressBar();
                 }
 
@@ -189,10 +227,10 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     }
 
 
-    private void saveDataIntoTable(GetMobileMenuDataModel holder) {
+    private void saveDataIntoTable(TableTimeTableDetailsDataModel holder) {
         try {
-            TableStudentOverallFeeSummary table = new TableStudentOverallFeeSummary();
-            table.insert(holder.getMessageBody().getStudentOverallFeeSummary());
+            TableTimeTableDetails table = new TableTimeTableDetails();
+            table.insert(holder.getMessageBody());
             table.closeDB();
         } catch (Exception e) {
             AppLog.errLog(TAG, "Exception from saveDataIntoTable");

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.models.TableTimeTableDetailsDataModel;
+import com.malviya.blankframework.models.TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class TableTimeTableDetails {
     private static final String COL_FACULTY = "faculty";
     private static final String COL_ROOMNAME = "roomname";
     private static final String COL_ISPRESENT = "ispresent";
+    private static final String COL_SQORDER = "sqorder";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -41,7 +43,8 @@ public class TableTimeTableDetails {
             + COL_TTIME + " varchar(50), "
             + COL_FACULTY + " varchar(100), "
             + COL_ROOMNAME + " varchar(50), "
-            + COL_ISPRESENT + " varchar(255) "
+            + COL_ISPRESENT + " varchar(255), "
+            + COL_SQORDER + " varchar(50) "
             + " )";
 
     //For Foreign key
@@ -87,10 +90,10 @@ public class TableTimeTableDetails {
 
     //---------------------------------------------------------------------------------------
 
-    public void insert(ArrayList<TableTimeTableDetailsDataModel> list) {
+    public void insert(ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel> list) {
         try {
             if (mDB != null) {
-                for (TableTimeTableDetailsDataModel holder : list) {
+                for (TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel holder : list) {
                     if (isExists(holder)) {
                         deleteRecord(holder);
                     }
@@ -104,7 +107,7 @@ public class TableTimeTableDetails {
                     value.put(COL_FACULTY, holder.getFaculty());
                     value.put(COL_ROOMNAME, holder.getRoomName());
                     value.put(COL_ISPRESENT, holder.getIsPresent());
-
+                    value.put(COL_SQORDER, holder.getSqOrder());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: getSubjectName ", holder.getSubjectName() + " row: " + row);
                 }
@@ -115,7 +118,7 @@ public class TableTimeTableDetails {
     }
 
 
-    public boolean isExists(TableTimeTableDetailsDataModel model) {
+    public boolean isExists(TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel model) {
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_MENUCODE + " = '" + model.getMenuCode() + "'"
                     + " and " + COL_REFERENCEDATE + " = '" + model.getReferenceDate() + "'"
@@ -134,7 +137,7 @@ public class TableTimeTableDetails {
         return false;
     }
 
-    public boolean deleteRecord(TableTimeTableDetailsDataModel holder) {
+    public boolean deleteRecord(TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel holder) {
         try {
             if (mDB != null) {
                 long row = mDB.delete(TABLE_NAME, COL_MENUCODE + "=? and " + COL_REFERENCEDATE + "=? " +
@@ -145,15 +148,15 @@ public class TableTimeTableDetails {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
-            AppLog.errLog(TAG, "deleteRecord from TableTimeTableDetailsDataModel" + e.getMessage());
+            AppLog.errLog(TAG, "deleteRecord from TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel" + e.getMessage());
         }
         return false;
     }
 
 
-    public ArrayList<TableTimeTableDetailsDataModel> getData(int studentId, String refDate) {
-        ArrayList<TableTimeTableDetailsDataModel> list = new ArrayList<>();
-        TableTimeTableDetailsDataModel holder = new TableTimeTableDetailsDataModel();
+    public ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel> getData(int studentId, String refDate) {
+        ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel> list = new ArrayList<>();
+        TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel holder = new InnerTimeTableDetailDataModel();
         try {
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_STUDENTID + " = '" + studentId + "' and "
                     + COL_REFERENCEDATE + " = '" + refDate + "'";
@@ -167,6 +170,7 @@ public class TableTimeTableDetails {
                     holder.setRoomName(cursor.getString(cursor.getColumnIndex(COL_ROOMNAME)));
                     holder.setSubjectName(cursor.getString(cursor.getColumnIndex(COL_SUBJECTNAME)));
                     holder.setTTime(cursor.getString(cursor.getColumnIndex(COL_TTIME)));
+                    holder.setSqOrder(cursor.getString(cursor.getColumnIndex(COL_SQORDER)));
                     list.add(holder);
                 } while (cursor.moveToNext());
             }

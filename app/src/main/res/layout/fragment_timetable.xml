@@ -6,40 +6,23 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/inc_results"
+        android:id="@+id/inc_title"
         layout="@layout/inc_main_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></include>
 
-    <RelativeLayout
-        android:id="@+id/rel_results"
+    <LinearLayout
+        android:id="@+id/lin_calendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inc_results"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/colorWhite"
-        android:padding="14dp">
+        android:layout_below="@+id/inc_title">
 
-        <TextView
-            android:id="@+id/textview_timetable_day_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="Day ( Today )"
-            android:textColor="@color/colorBlue"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/imageview_timetable_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/next_screen_arrow" />
-
-    </RelativeLayout>
+        <include
+            android:id="@+id/inc_calendar"
+            layout="@layout/inc_timetable_calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></include>
+    </LinearLayout>
 
     <View
         android:id="@+id/view_resu"
@@ -48,18 +31,9 @@
         android:layout_below="@+id/rel_results"
         android:background="@color/colorMargin"></View>
 
-
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_timetable"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/view_resu"
-        android:background="@color/colorGrayTransparent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_timetable"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-
-    </LinearLayout>
-
+        android:layout_below="@+id/lin_calendar"></android.support.v7.widget.RecyclerView>
 </RelativeLayout>

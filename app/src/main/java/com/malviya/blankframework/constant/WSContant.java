@@ -21,8 +21,7 @@ public interface WSContant {
     String URL_PRINT_RECEIPT = URL_BASE + "/Fee/FeeCollection/PrintReceipt?sfAssociationId=";
 
     String URL_TIMETABLE = URL_BASE + "/mobile/GetMobileTimeTable";
-    String URL_GETMOBILENOTICEBAORD = URL_BASE + "/mobile/GetMobileNoticeBoard";
-    String URL_REGISTRATION = URL_BASE + "/Account/Register";
+    //String URL_REGISTRATION = URL_BASE + "/Account/Register";
     //http://stpl-edurpapi.azurewebsites.net/api/StudentPortal/OverallResult/PrintOverallResult?StudentId=325
     //http://stpl-edurpapi.azurewebsites.net/api/Fee/FeeCollection/PrintReceipt?sfAssociationId=436
     //-------------------------------------------------------------------------------------
@@ -111,6 +110,7 @@ public interface WSContant {
     String TAG_LANG_LOGOUT="lblLogout";
     String TAG_TIMETABLEDATE="TimeTableDate";
     String TAG_WS_TIMETABLE = "ws_timetable";
+    String TAG_NR = "NR";
 }
 
 
