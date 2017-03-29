@@ -168,10 +168,10 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
         new DatePickerDialog(pContext, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                 String str = Utils.getTimeInDayDateMonthYear(new StringBuilder().append(year)
-                        .append("").append(((month+1)/10 != 0 ? (month+1):"0"+(month+1))).append("").append(dayOfMonth)
+                String str = Utils.getTimeInDayDateMonthYear(new StringBuilder().append(year)
+                        .append("").append(((month + 1) / 10 != 0 ? (month + 1) : "0" + (month + 1))).append("").append(dayOfMonth)
                         .append(" ").toString());
-                AppLog.log("Time::: "+str);
+                AppLog.log("Time::: " + str);
                 mTextViewDate.setText(str);
             }
         }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
