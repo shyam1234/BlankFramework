@@ -205,7 +205,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
                     TableTimeTableDetailsDataModel holder = ((TableTimeTableDetailsDataModel) obj.getModel());
                     if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
                         mTimetableList = holder.getMessageBody();
-                        Collections.sort(mTimetableList, Collections.<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel>reverseOrder());
+                        Collections.sort(mTimetableList/*, Collections.<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel>reverseOrder()*/);
                         saveDataIntoTable(holder);
                         //SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
                         initRecyclerView();
