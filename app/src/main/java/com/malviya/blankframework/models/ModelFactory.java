@@ -21,6 +21,7 @@ public class ModelFactory {
     public final static String MODEL_LANG = "LanguageArrayDataModel";
     public final static String MODEL_GETMOBILEHOME = "GetMobileHome";
     public final static String MODEL_TIMETABLEDETAILS = "TableTimeTableDetails";
+    public static final String MODEL_GETMOBILEATTDANCEDETAIL = "GetMobileAttendanceDetail";
     private volatile static ModelFactory mInstance;
     private HashMap<String, IModel> mHashMapMode;
 

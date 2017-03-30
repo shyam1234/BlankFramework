@@ -21,9 +21,9 @@ public interface WSContant {
     String URL_PRINT_RECEIPT = URL_BASE + "/Fee/FeeCollection/PrintReceipt?sfAssociationId=";
 
     String URL_TIMETABLE = URL_BASE + "/mobile/GetMobileTimeTable";
+    String URL_GETMOBILEATTENDANCEDETAIL = URL_BASE + "/mobile/GetMobileAttendanceDetail";
+    String URL_GETMOBILEATTENDANCEABSENCEDETAIL = URL_BASE + "/mobile/GetMobileAttendanceAbsenceDetail";
     //String URL_REGISTRATION = URL_BASE + "/Account/Register";
-    //http://stpl-edurpapi.azurewebsites.net/api/StudentPortal/OverallResult/PrintOverallResult?StudentId=325
-    //http://stpl-edurpapi.azurewebsites.net/api/Fee/FeeCollection/PrintReceipt?sfAssociationId=436
     //-------------------------------------------------------------------------------------
     String DOWNLOAD_FOLDER = "Edurp_results";
     String TAG_LOGIN = "login";
@@ -111,6 +111,7 @@ public interface WSContant {
     String TAG_TIMETABLEDATE="TimeTableDate";
     String TAG_WS_TIMETABLE = "ws_timetable";
     String TAG_NR = "NR";
+    String TAG_MOBILEATTENDANCEDETAIL = "ws_GetMobileAttendanceDetail";
 }
 
 

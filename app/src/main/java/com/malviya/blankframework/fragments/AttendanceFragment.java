@@ -15,16 +15,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.activities.AttendanceDetails;
 import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.AttendanceAdapter;
+import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.database.TableAttendanceDetails;
 import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.models.GetMobileAttendanceDetailDataModel;
+import com.malviya.blankframework.models.ModelFactory;
+import com.malviya.blankframework.models.TableAttendanceDataModel;
+import com.malviya.blankframework.network.IWSRequest;
+import com.malviya.blankframework.network.WSRequest;
+import com.malviya.blankframework.parser.ParseResponse;
+import com.malviya.blankframework.utils.AppLog;
 import com.malviya.blankframework.utils.GetPicassoImage;
+import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Admin on 24-12-2016.
@@ -37,6 +50,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     private AttendanceAdapter mAttendanceAdapter;
     private TextView mTextViewCourse;
     private TextView mTextViewTerm;
+    private ArrayList<TableAttendanceDataModel> mAttendanceDetailsList;
 
     public AttendanceFragment() {
 
@@ -65,6 +79,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
+        fetchDataFromServer();
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -127,6 +142,60 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     }
 
 
+    private void fetchDataFromServer() {
+        TableAttendanceDetails table = new TableAttendanceDetails();
+        table.openDB(getContext());
+        mAttendanceDetailsList = table.getValueBySem(UserInfo.menuCode);
+        table.closeDB();
+        //----------------------------------------------------------
+        if (Utils.isInternetConnected(getContext())) {
+            //call to WS and validate given credential----
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            header.put(WSContant.TAG_DATELASTRETRIEVED, SharedPreferencesApp.getInstance().getLastRetrieveTime(WSContant.TAG_MOBILEATTENDANCEDETAIL));
+            header.put(WSContant.TAG_NEW, SharedPreferencesApp.getInstance().getLastRetrieveTime(WSContant.TAG_MOBILEATTENDANCEDETAIL));
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
+            //-Utils-for body
+            Map<String, String> body = new HashMap<>();
+            body.put(WSContant.TAG_STUDENTID, "" + UserInfo.studentId);
+
+            Utils.showProgressBar(getContext());
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEATTENDANCEDETAIL, header, body, WSContant.TAG_MOBILEATTENDANCEDETAIL, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    //mAttendanceDetailsList.clear();
+                    ParseResponse obj = new ParseResponse(response, GetMobileAttendanceDetailDataModel.class, ModelFactory.MODEL_GETMOBILEATTDANCEDETAIL);
+                    GetMobileAttendanceDetailDataModel holder = ((GetMobileAttendanceDetailDataModel) obj.getModel());
+                    if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
+                        mAttendanceDetailsList = holder.getMessageBody().getStudentAttendanceDetailList();
+                        saveDataIntoTable(holder);
+                        SharedPreferencesApp.getInstance().setLastRetrieveTime(WSContant.TAG_MOBILEATTENDANCEDETAIL,Utils.getCurrTime());
+                        initRecyclerView();
+                    } else {
+                        Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
+                    }
+                    Utils.dismissProgressBar();
+                }
+                @Override
+                public void onErrorResponse(VolleyError response) {
+                    Utils.dismissProgressBar();
+                }
+            });
+        } else {
+            initRecyclerView();
+        }
+    }
+
+
+    private void saveDataIntoTable(GetMobileAttendanceDetailDataModel holder) {
+        try {
+            TableAttendanceDetails table = new TableAttendanceDetails();
+            table.insert(holder.getMessageBody().getStudentAttendanceDetailList());
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "Exception from saveDataIntoTable " + e.getMessage());
+        }
+    }
 
     private void navigateToNextPage(Class mClass) {
         Intent i = new Intent(getActivity(), mClass);
@@ -134,6 +203,4 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         startActivity(i);
         Utils.animRightToLeft(getActivity());
     }
-
-
 }

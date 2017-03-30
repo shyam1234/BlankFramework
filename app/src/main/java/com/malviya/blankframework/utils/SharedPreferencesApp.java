@@ -445,6 +445,9 @@ public class SharedPreferencesApp {
                     case WSContant.TAG_WS_TIMETABLE:
                         mCurrTime = sharePref.getString(pTAG, "");
                         break;
+                    case WSContant.TAG_MOBILEATTENDANCEDETAIL:
+                        mCurrTime = sharePref.getString(pTAG, "");
+                        break;
                 }
             } else {
                 AppLog.log("getSavedTime", "there is not savedTime ");
@@ -464,6 +467,10 @@ public class SharedPreferencesApp {
                     case WSContant.TAG_WS_TIMETABLE:
                         SharedPreferences.Editor data = sharePref.edit();
                         data.putString(pTAG, time);
+                        break;
+                    case WSContant.TAG_MOBILEATTENDANCEDETAIL:
+                        SharedPreferences.Editor data1 = sharePref.edit();
+                        data1.putString(pTAG, time);
                         break;
                 }
             } else {

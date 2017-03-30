@@ -168,14 +168,16 @@ public class TableAttendanceDetails {
     }
 
 
-    public TableAttendanceDataModel getValueBySem(String pSemseter) {
+    public ArrayList<TableAttendanceDataModel> getValueBySem(String pSemseter) {
         try {
-            TableAttendanceDataModel model = new TableAttendanceDataModel();
+            ArrayList<TableAttendanceDataModel> holder =new ArrayList<TableAttendanceDataModel>();
+
             if (mDB != null) {
                 String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + SEMESTER + "='" + pSemseter + "'";
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
+                        TableAttendanceDataModel model = new TableAttendanceDataModel();
                         // get the data into array, or class variable
                         model.setStudentId(cursor.getInt(cursor.getColumnIndex(STUDENTID)));
                         model.setSemester((cursor.getString(cursor.getColumnIndex(SEMESTER))));
@@ -186,15 +188,16 @@ public class TableAttendanceDetails {
                         model.setPercentage((cursor.getString(cursor.getColumnIndex(PERCENTAGE))));
                         model.setAbsent((cursor.getString(cursor.getColumnIndex(ABSENT))));
                         model.setColor(cursor.getString(cursor.getColumnIndex(COLOR)));
+                        holder.add(model);
                     } while (cursor.moveToNext());
                 }
                 cursor.close();
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }
-            return model;
+            return holder;
         } catch (Exception e) {
-            AppLog.errLog(TAG, "Exception from insert() " + e.getMessage());
+            AppLog.errLog(TAG, "Exception from getValueBySem() " + e.getMessage());
             return null;
         }
     }

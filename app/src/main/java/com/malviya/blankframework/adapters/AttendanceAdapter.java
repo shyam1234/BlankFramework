@@ -46,8 +46,9 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
     @Override
     public int getItemCount()
     {
-        return 10;
-       // return mList.size();
+//        return 10;
+        return mList.size();
+        // ();
     }
 
 

@@ -2,6 +2,7 @@ package com.malviya.blankframework.parser;
 
 import com.google.gson.Gson;
 import com.malviya.blankframework.interfaces.IModel;
+import com.malviya.blankframework.models.GetMobileAttendanceDetailDataModel;
 import com.malviya.blankframework.models.GetMobileDetailsDataModel;
 import com.malviya.blankframework.models.GetMobileHomeDataModel;
 import com.malviya.blankframework.models.GetMobileMenuDataModel;
@@ -69,6 +70,10 @@ public class ParseResponse {
                 break;
             case ModelFactory.MODEL_RESULTDETAILS:
                 mModel = mGson.fromJson(mRespose, TableResultDetailsDataModel.class);
+                ModelFactory.getInstance().register(mKey, mModel);
+                break;
+            case ModelFactory.MODEL_GETMOBILEATTDANCEDETAIL:
+                mModel = mGson.fromJson(mRespose, GetMobileAttendanceDetailDataModel.class);
                 ModelFactory.getInstance().register(mKey, mModel);
                 break;
             default:

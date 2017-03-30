@@ -3,12 +3,13 @@ package com.malviya.blankframework.models;
 import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
+import com.malviya.blankframework.interfaces.IModel;
 
 /**
  * Created by Admin on 21-01-2017.
  */
 
-public class TableAttendanceDataModel implements Comparable<TableAttendanceDataModel> {
+public class TableAttendanceDataModel extends IModel implements Comparable<TableAttendanceDataModel> {
 
     @SerializedName("StudentId")
     private int StudentId;
