@@ -260,6 +260,7 @@ public class SharedPreferencesApp {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             SharedPreferences.Editor data = sharePref.edit();
             data.putString(WSContant.TAG_UNIVERSITYID, langID);
+            UserInfo.univercityId = Integer.parseInt(langID);
             data.commit();
             AppLog.log("sharePreferenceApp", "saveLastSavedUniversityID: " + langID);
         } catch (Exception e) {
@@ -273,6 +274,7 @@ public class SharedPreferencesApp {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
                 str = sharePref.getString(WSContant.TAG_UNIVERSITYID, "1");
+                UserInfo.univercityId = Integer.parseInt(str);
             } else {
                 AppLog.log("getLastSavedUniversityID", "there is not getAllStoreData ");
             }

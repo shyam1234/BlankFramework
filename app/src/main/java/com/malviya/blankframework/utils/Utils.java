@@ -268,12 +268,14 @@ public class Utils {
     public static void updateHomeTableAsPerDefaultChildSelection(final ICallBack pCallback) {
         // UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
         AppLog.log("Utils ", "UserInfo.studentId :" + UserInfo.studentId);
+        AppLog.log("Utils ", "UserInfo.univercityId :" + UserInfo.univercityId);
         if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
             //--for header
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
             header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTime());
             header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
             //-Utils-for body
             Map<String, String> body = new HashMap<>();
             body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
@@ -315,9 +317,9 @@ public class Utils {
                     //SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
                 }
             }*/
-            for (LoginDataModel.University university : holder.universityArrayList) {
+            /*for (LoginDataModel.University university : holder.universityArrayList) {
                 UserInfo.univercityId = university.UniversityId;
-            }
+            }*/
             bindDataWithParentStudentMenuDetailsDataModel(holder);
             pCallback.callBack();
         }

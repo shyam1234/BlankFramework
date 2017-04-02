@@ -9,9 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.TableCourseMasterDataModel;
-import com.malviya.blankframework.utils.SharedPreferencesApp;
+import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -43,7 +42,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
     public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.textViewSubject.setText(mList.get(position).getCourse());
         holder.textViewSemester.setText(mList.get(position).getSemester());
-        holder.textViewLastSyncDate.setText(SharedPreferencesApp.getInstance().getLastRetrieveTime(WSContant.TAG_MOBILEATTENDANCEDETAIL));
+        holder.textViewLastSyncDate.setText(Utils.getTimeInDayDateMonthYear(mList.get(position).getLastRetrieved()));
         holder.linearLayout.setOnClickListener(mListner);
         holder.linearLayout.setTag(position);
     }

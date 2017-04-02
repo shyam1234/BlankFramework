@@ -134,6 +134,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             header.put(WSContant.TAG_AUTHORIZATION, "Basic " + Utils.encodeToString(mEditTextUserName.getText().toString() + ":" + mEditTextPassword.getText().toString()));
             header.put(WSContant.TAG_LANGUAGE_VERSION_DATE, SharedPreferencesApp.getInstance().getLastLangSync());
             header.put(WSContant.TAG_ISMOBILE, "true");
+            //header.put(WSContant.TAG_UNIVERSITYID, "" + 3);
             header.put(WSContant.TAG_DATELASTRETRIEVED, SharedPreferencesApp.getInstance().getSavedTime());
 
             WSRequest.getInstance().requestWithParam(WSRequest.GET, WSContant.URL_LOGIN, header, null, WSContant.TAG_LOGIN, new IWSRequest() {
