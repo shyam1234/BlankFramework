@@ -10,6 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -73,6 +76,9 @@ public class SplashActivity extends AppCompatActivity {
 
     private void initView() {
         //mCircularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
+        ImageView logo = (ImageView)findViewById(R.id.imgview_logo);
+        Animation an2= AnimationUtils.loadAnimation(this,R.anim.bounce);
+        logo.startAnimation(an2);
     }
 
 

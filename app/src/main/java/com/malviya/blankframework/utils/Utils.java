@@ -23,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -704,5 +705,10 @@ public class Utils {
         } finally {
             return date;
         }
+    }
+
+    public static void setBounceAni(Context context, ImageView pImgView) {
+        Animation an2= AnimationUtils.loadAnimation(context,R.anim.bounce);
+        pImgView.startAnimation(an2);
     }
 }

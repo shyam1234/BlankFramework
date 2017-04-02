@@ -129,7 +129,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mTextViewTitle.setText(R.string.tab_home);
         mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
-
+        Utils.setBounceAni(getContext(),mImgProfile);
         //----------------------------------------------------------------------
         final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
         table.openDB(getContext());
