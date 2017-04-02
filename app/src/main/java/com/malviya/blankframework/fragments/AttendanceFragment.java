@@ -207,7 +207,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
 
     private void navigateToNextPage(Class mClass, TableCourseMasterDataModel mStudentDetailList) {
         Intent i = new Intent(getActivity(), mClass);
-        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        //i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         Bundle bundle = new Bundle();
         bundle.putSerializable(WSContant.TAG_NEW, mStudentDetailList);
         i.putExtras(bundle);
