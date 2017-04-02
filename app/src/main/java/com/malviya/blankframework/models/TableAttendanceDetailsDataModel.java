@@ -29,8 +29,9 @@ public class TableAttendanceDetailsDataModel extends IModel implements Comparabl
     private String Color;
     @SerializedName("ReferenceId")
     private int ReferenceId;
-    private String Semester;
+    @SerializedName("Subject")
     private String Subject;
+    private String Semester;
 
     public int getSubjectId() {
         return SubjectId;

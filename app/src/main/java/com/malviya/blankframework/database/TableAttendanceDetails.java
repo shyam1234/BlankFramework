@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class TableAttendanceDetails {
     private SQLiteDatabase mDB;
     //--------------------------------------------------------------------------
-    public static final String TAG = "TableAttendanceDetails";
+    public static final String TAG = "TableAtbtendanceDetails";
     public static final String TABLE_NAME = "table_attendacedetails";
     public static final String SUBJECTID = "subjectid";
     public static final String SUBJECT = "Subject";
@@ -68,7 +68,7 @@ public class TableAttendanceDetails {
             }
 
             if (mDB != null) {
-                //deleteDataIfExist(list.get(0).getSubjectId(), list.get(0).getSemester(), list.get(0).getReferenceId());
+                deleteDataIfExist(list.get(0).getSubjectId(), list.get(0).getSemester(), list.get(0).getReferenceId());
                 for (TableAttendanceDetailsDataModel holder : list) {
                     deleteDataIfExist(holder.getSubjectId(), holder.getSemester(), holder.getReferenceId());
                     ContentValues contentValues = new ContentValues();
@@ -120,7 +120,7 @@ public class TableAttendanceDetails {
                         model.setSubjectId(cursor.getInt(cursor.getColumnIndex(SUBJECTID)));
                         model.setSemester((cursor.getString(cursor.getColumnIndex(TableCourseMaster.SEMESTER))));
                         model.setCourse((cursor.getString(cursor.getColumnIndex(TableCourseMaster.COURSE))));
-                        model.setSubject((cursor.getString(cursor.getColumnIndex(SUBJECTID))));
+                        model.setSubject((cursor.getString(cursor.getColumnIndex(SUBJECT))));
                         model.setTotal((cursor.getString(cursor.getColumnIndex(TOTAL))));
                         model.setPresent((cursor.getString(cursor.getColumnIndex(PRESENT))));
                         model.setPercentage((cursor.getString(cursor.getColumnIndex(PERCENTAGE))));
