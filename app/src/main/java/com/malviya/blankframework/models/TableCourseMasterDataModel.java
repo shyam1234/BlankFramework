@@ -2,20 +2,31 @@ package com.malviya.blankframework.models;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Admin on 21-01-2017.
  */
 
-public class TableCourseMasterDataModel {
+public class TableCourseMasterDataModel  implements Serializable {
 
+    /* {
+        "StudentId": 335,
+        "Course": "CSE-A",
+        "Semester": "Semester 2",
+        "ReferenceId": 2428
+        "LastRetrieved": 20170428
+      }*/
     @SerializedName("StudentId")
     private int StudentId;
     @SerializedName("Course")
-    private int Course;
+    private String Course;
     @SerializedName("Semester")
     private String Semester;
     @SerializedName("LastRetrieved")
     private String LastRetrieved;
+    @SerializedName("ReferenceId")
+    private int ReferenceId;
 
 
     public int getStudentId() {
@@ -26,11 +37,11 @@ public class TableCourseMasterDataModel {
         StudentId = studentId;
     }
 
-    public int getCourse() {
+    public String getCourse() {
         return Course;
     }
 
-    public void setCourse(int course) {
+    public void setCourse(String course) {
         Course = course;
     }
 
@@ -48,5 +59,13 @@ public class TableCourseMasterDataModel {
 
     public void setLastRetrieved(String lastRetrieved) {
         LastRetrieved = lastRetrieved;
+    }
+
+    public int getReferenceId() {
+        return ReferenceId;
+    }
+
+    public void setReferenceId(int referenceId) {
+        ReferenceId = referenceId;
     }
 }

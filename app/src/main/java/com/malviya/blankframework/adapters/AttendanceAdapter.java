@@ -5,10 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.constant.WSContant;
+import com.malviya.blankframework.models.TableCourseMasterDataModel;
+import com.malviya.blankframework.utils.SharedPreferencesApp;
 
 import java.util.ArrayList;
 
@@ -18,50 +21,52 @@ import java.util.ArrayList;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.MyViewHolder> {
     private Context mContext;
-    private ArrayList<AttendanceDataModel> mList;
+    private ArrayList<TableCourseMasterDataModel> mList;
+    private View.OnClickListener mListner;
 
-    public AttendanceAdapter(Context context, ArrayList<AttendanceDataModel> pList) {
+
+    public AttendanceAdapter(Context context, ArrayList<TableCourseMasterDataModel> mStudentDetailList,
+                             View.OnClickListener pListner) {
         mContext = context;
-        mList = pList;
+        mList = mStudentDetailList;
+        mListner =  pListner;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        //View view = inflater.inflate(R.layout.attendance_row, null);
-        //if use null then recyclerview not take match_parent as width
-        View viewHolder = inflater.inflate(R.layout.attendance_row, parent,false);
-        //viewHolder.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+        View viewHolder = inflater.inflate(R.layout.attendance_row, parent, false);
         return new MyViewHolder(viewHolder);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        //holder.textViewDate.setText("" + mList.get(position).getSubjectValue() + "%");
-       // holder.textViewPaymentValue.setText("" + mList.get(position).getTotalDays());
-       // holder.textViewResult.setText("" + mList.get(position).getAbsentDays());
+        holder.textViewSubject.setText(mList.get(position).getCourse());
+        holder.textViewSemester.setText(mList.get(position).getSemester());
+        holder.textViewLastSyncDate.setText(SharedPreferencesApp.getInstance().getLastRetrieveTime(WSContant.TAG_MOBILEATTENDANCEDETAIL));
+        holder.linearLayout.setOnClickListener(mListner);
+        holder.linearLayout.setTag(position);
     }
 
 
     @Override
-    public int getItemCount()
-    {
-//        return 10;
+    public int getItemCount() {
         return mList.size();
-        // ();
     }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        public LinearLayout linearLayout;
         public TextView textViewSubject;
-        public TextView textViewTotalDays;
-        public TextView textViewabsentDays;
+        public TextView textViewSemester;
+        public TextView textViewLastSyncDate;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textViewSubject = (TextView) itemView.findViewById(R.id.textview_attendance_row_subject_value);
-            textViewTotalDays = (TextView) itemView.findViewById(R.id.textview_attendance_row_total_value);
-            textViewabsentDays = (TextView) itemView.findViewById(R.id.textview_attendance_row_absent_value);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.lin_holder);
+            textViewSubject = (TextView) itemView.findViewById(R.id.textview_attendance_row_subject);
+            textViewSemester = (TextView) itemView.findViewById(R.id.textview_attendance_row_semester);
+            textViewLastSyncDate = (TextView) itemView.findViewById(R.id.textview_attendance_row_lastsync_value);
         }
     }
 }

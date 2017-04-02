@@ -8,100 +8,55 @@
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:id="@+id/lin_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
         android:baselineAligned="false"
         android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:weightSum="1">
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textview_attendance_row_subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorGrayTransparent"
+            android:padding="10dp"
+            android:text="Subject"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/textview_attendance_row_semester"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Semester Number"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.30"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <TextView
-                android:id="@+id/textview_attendance_row_subject"
-                android:layout_width="match_parent"
+                android:id="@+id/textview_attendance_row_lastsync"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/msg_subject"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:text="Last Sync-"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black" />
+
 
             <TextView
-                android:id="@+id/textview_attendance_row_subject_value"
-                android:layout_width="match_parent"
+                android:id="@+id/textview_attendance_row_lastsync_value"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="0%"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/colorLightRed"
-                android:textStyle="normal" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.34"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textview_attendance_row_total"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/msg_total"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorTextHint"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/textview_attendance_row_total_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="0 days"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/black"
-                android:textStyle="normal" />
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.29"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textview_attendance_row_absent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/msg_absent"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="@color/colorTextHint"
-                android:textStyle="normal" />
-
-            <TextView
-                android:id="@+id/textview_attendance_row_absent_value"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="0 days"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/colorSkyBlue"
-                android:textStyle="normal" />
+                android:layout_marginLeft="5dp"
+                android:text="Last Sync"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

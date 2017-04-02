@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.malviya.blankframework.R;
+
 /**
  * Created by Admin on 26-11-2016.
  * a. Create table in database package
@@ -12,7 +14,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  * We can access same parse model by ModelFactory
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "db_edurp";
+    //    private static final String DB_NAME = "db_edurp";
     private static final int DB_VERSION = 1;
     private static DatabaseHelper mInstance;
 
@@ -25,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     private DatabaseHelper(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+        super(context, context.getString(R.string.app_name)+"_db", null, DB_VERSION);
     }
 
     @Override
@@ -46,12 +48,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(TableStudentOverallResultSummary.CREATE_TABLE);
         db.execSQL(TableResultDetails.CREATE_TABLE);
         db.execSQL(TableTimeTableDetails.CREATE_TABLE);
+        db.execSQL(TableCourseMaster.CREATE_TABLE);
+        db.execSQL(TableAttendanceDetails.CREATE_TABLE);
+        db.execSQL(TableAbsenseDetails.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int old_version, int new_version) {
         //modify table if version changes
         if (old_version < new_version) {
+            db.execSQL(TableCourseMaster.DROP_TABLE);
             db.execSQL(TableLanguage.DROP_TABLE_DIARY);
             db.execSQL(TableParentStudentMenuDetails.DROP_TABLE);
             db.execSQL(TableParentMaster.DROP_TABLE);
@@ -66,6 +72,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(TableStudentOverallFeeSummary.DROP_TABLE);
             db.execSQL(TableResultDetails.DROP_TABLE);
             db.execSQL(TableTimeTableDetails.DROP_TABLE);
+            db.execSQL(TableAttendanceDetails.DROP_TABLE);
+            db.execSQL(TableAbsenseDetails.DROP_TABLE);
             onCreate(db);
         }
     }

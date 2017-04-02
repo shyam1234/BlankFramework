@@ -441,14 +441,7 @@ public class SharedPreferencesApp {
         try {
             SharedPreferences sharePref = MyApplication.getInstance().getSharedPreferences(DEFAULT_SHAREPREF, Context.MODE_PRIVATE);
             if (sharePref != null) {
-                switch (pTAG) {
-                    case WSContant.TAG_WS_TIMETABLE:
-                        mCurrTime = sharePref.getString(pTAG, "");
-                        break;
-                    case WSContant.TAG_MOBILEATTENDANCEDETAIL:
-                        mCurrTime = sharePref.getString(pTAG, "");
-                        break;
-                }
+                mCurrTime = sharePref.getString(pTAG, "");
             } else {
                 AppLog.log("getSavedTime", "there is not savedTime ");
             }
@@ -471,6 +464,10 @@ public class SharedPreferencesApp {
                     case WSContant.TAG_MOBILEATTENDANCEDETAIL:
                         SharedPreferences.Editor data1 = sharePref.edit();
                         data1.putString(pTAG, time);
+                        break;
+                    default:
+                        SharedPreferences.Editor data2 = sharePref.edit();
+                        data2.putString(pTAG, time);
                         break;
                 }
             } else {

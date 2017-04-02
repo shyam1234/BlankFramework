@@ -127,7 +127,7 @@ public class TableStudentOverallFeeSummary {
                     value.put(COL_STATUS, holder.getStatus());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: value ", "" +value.toString());
-                    AppLog.log(TABLE_NAME + " inserted: getStudentId ", holder.getStudentId() + " row: " + row);
+                    AppLog.log(TABLE_NAME + " inserted: getSubjectId ", holder.getStudentId() + " row: " + row);
                 }
             }
         } catch (Exception e) {
@@ -138,7 +138,7 @@ public class TableStudentOverallFeeSummary {
 
     public boolean isExists(TableFeeMasterDataModel model) {
         try {
-            //String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentId() + "' and " + COL_STUDENTID + " = '" + model.getStudentId() + "'";
+            //String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PARENTID + " = '" + model.getParentId() + "' and " + COL_STUDENTID + " = '" + model.getSubjectId() + "'";
             String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
                     + COL_MENUCODE + " = '" + model.getMenuCode() + "' and "
                     + COL_REFERENCEID + " = '" + model.getReferenceId() + "' and "

@@ -69,7 +69,7 @@ public class LoginDataModel extends IModel {
         "UserType":"Admin",
         "DeviceToken":null,
         "DeviceIdentifier":null,
-        "TOTAL":0,
+        "ATTENDANCEDATE":0,
         "RoleCode":"ADMIN,OPERATOR",
         "RoleId":"1,2"
         }
@@ -134,7 +134,7 @@ public class LoginDataModel extends IModel {
         public String DeviceToken;
         @SerializedName("DeviceIdentifier")
         public String DeviceIdentifier;
-        @SerializedName("TOTAL")
+        @SerializedName("ATTENDANCEDATE")
         public String TOTAL;
         @SerializedName("RoleCode")
         public String RoleCode;

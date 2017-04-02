@@ -121,7 +121,7 @@ public class TableParentStudentMenuDetails {
                     value.put(COL_PARENTID, holder.getParent_id());
                     value.put(COL_STUDENTID, holder.getStudentId());
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TABLE_NAME + " inserted: ", "getStudentId " + holder.getStudentId() + " holder.getParent_id() " + holder.getParent_id() + " row: " + row);
+                    AppLog.log(TABLE_NAME + " inserted: ", "getSubjectId " + holder.getStudentId() + " holder.getParent_id() " + holder.getParent_id() + " row: " + row);
                 }
                 dismissedDialog();
             }

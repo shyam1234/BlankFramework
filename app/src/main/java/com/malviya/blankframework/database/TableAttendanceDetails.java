@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
-import com.malviya.blankframework.models.TableAttendanceDataModel;
+import com.malviya.blankframework.models.TableAttendanceDetailsDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -20,26 +20,24 @@ public class TableAttendanceDetails {
     //--------------------------------------------------------------------------
     public static final String TAG = "TableAttendanceDetails";
     public static final String TABLE_NAME = "table_attendacedetails";
-    public static final String STUDENTID = "studentid";
-    public static final String COURSE = "course";
-    public static final String SEMESTER = "semester";
-    public static final String SUBJECTNAME = "subjectname";
+    public static final String SUBJECTID = "subjectid";
+    public static final String SUBJECT = "Subject";
     public static final String TOTAL = "total";
     public static final String PRESENT = "present";
     public static final String ABSENT = "absent";
     public static final String PERCENTAGE = "percentage";
     public static final String COLOR = "color";
+    public static final String REFENCEID = "referenceid";
 
     //-------------------------------------------------------------------------
-    public static final String DROP_TABLE_DIARY = "Drop table if exists " + TABLE_NAME;
+    public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE_DIARY = "TRUNCATE TABLE " + TABLE_NAME;
 
 
-    public static final String CREATE_LANGUAGE_TABLE = "Create table " + TABLE_NAME + "( "
-            + STUDENTID + " int, "
-            + COURSE + " varchar(100), "
-            + SEMESTER + " varchar(100), "
-            + SUBJECTNAME + " varchar(100), "
+    public static final String CREATE_TABLE = "Create table " + TABLE_NAME + "( "
+            + SUBJECTID + " int, "
+            + REFENCEID + " int, "
+            + SUBJECT + " varchar(255), "
             + TOTAL + " varchar(50), "
             + PRESENT + " varchar(50), "
             + ABSENT + " varchar(50), "
@@ -62,21 +60,26 @@ public class TableAttendanceDetails {
 
     //--------------------------------------------------------------------------------------------------------------------
 
-    public boolean insert(ArrayList<TableAttendanceDataModel> list) {
+    public boolean insert(ArrayList<TableAttendanceDetailsDataModel> list) {
         try {
+            if(list.size()<= 0){
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "StudentAttendanceDetailList is empty. Contact to DB", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
             if (mDB != null) {
-                for (TableAttendanceDataModel holder : list) {
-                    deleteDataIfExist(holder.getStudentId(), holder.getSemester());
+                //deleteDataIfExist(list.get(0).getSubjectId(), list.get(0).getSemester(), list.get(0).getReferenceId());
+                for (TableAttendanceDetailsDataModel holder : list) {
+                    deleteDataIfExist(holder.getSubjectId(), holder.getSemester(), holder.getReferenceId());
                     ContentValues contentValues = new ContentValues();
-                    contentValues.put(STUDENTID, holder.getStudentId());
-                    contentValues.put(COURSE, holder.getCourse());
-                    contentValues.put(SEMESTER, holder.getSemester());
-                    contentValues.put(SUBJECTNAME, holder.getSubjectName());
+                    contentValues.put(SUBJECTID, holder.getSubjectId());
+                    contentValues.put(SUBJECT, holder.getSubject());
                     contentValues.put(TOTAL, holder.getTotal());
                     contentValues.put(PRESENT, holder.getPresent());
                     contentValues.put(ABSENT, holder.getAbsent());
                     contentValues.put(PERCENTAGE, holder.getPercentage());
                     contentValues.put(COLOR, holder.getColor());
+                    contentValues.put(REFENCEID, holder.getReferenceId());
                     mDB.insert(TABLE_NAME, null, contentValues);
                 }
                 return true;
@@ -90,9 +93,10 @@ public class TableAttendanceDetails {
         return false;
     }
 
-    private void deleteDataIfExist(int pStudentId, String pSemester) {
+    private void deleteDataIfExist(int pSubject, String pSemester, int pRefID) {
         try {
-            String selectQuery = "DELETE FROM " + TABLE_NAME + " WHERE " + STUDENTID + "=" + pStudentId + " AND " + SEMESTER + "=" + pSemester;
+            String selectQuery = "DELETE FROM " + TABLE_NAME + " WHERE " + SUBJECTID + "= '" + pSubject
+                    + "'  AND " + REFENCEID + "= '" + pRefID + "'";
             AppLog.log(TAG, "deleteDataIfExist +++selectQuery():" + selectQuery.toString());
             mDB.execSQL(selectQuery);
         } catch (Exception e) {
@@ -100,94 +104,29 @@ public class TableAttendanceDetails {
         }
     }
 
-    public ArrayList<TableAttendanceDataModel> read() {
+
+    public ArrayList<TableAttendanceDetailsDataModel> getValue(int pRefId) {
         try {
-            ArrayList<TableAttendanceDataModel> list = new ArrayList<>();
+            ArrayList<TableAttendanceDetailsDataModel> holder = new ArrayList<TableAttendanceDetailsDataModel>();
+
             if (mDB != null) {
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME;
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " INNER JOIN "
+                        + TableCourseMaster.TABLE_NAME + " on " + TABLE_NAME + "." + REFENCEID + "=" + TableCourseMaster.TABLE_NAME + "." + TableCourseMaster.REFERENCEID + " WHERE " + REFENCEID + "='" + pRefId + "'" ;
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
+                        TableAttendanceDetailsDataModel model = new TableAttendanceDetailsDataModel();
                         // get the data into array, or class variable
-                        TableAttendanceDataModel model = new TableAttendanceDataModel();
-                        model.setStudentId(cursor.getInt(cursor.getColumnIndex(STUDENTID)));
-                        model.setSemester((cursor.getString(cursor.getColumnIndex(SEMESTER))));
-                        model.setCourse((cursor.getInt(cursor.getColumnIndex(COURSE))));
-                        model.setSubjectName((cursor.getString(cursor.getColumnIndex(SUBJECTNAME))));
+                        model.setSubjectId(cursor.getInt(cursor.getColumnIndex(SUBJECTID)));
+                        model.setSemester((cursor.getString(cursor.getColumnIndex(TableCourseMaster.SEMESTER))));
+                        model.setCourse((cursor.getString(cursor.getColumnIndex(TableCourseMaster.COURSE))));
+                        model.setSubject((cursor.getString(cursor.getColumnIndex(SUBJECTID))));
                         model.setTotal((cursor.getString(cursor.getColumnIndex(TOTAL))));
                         model.setPresent((cursor.getString(cursor.getColumnIndex(PRESENT))));
                         model.setPercentage((cursor.getString(cursor.getColumnIndex(PERCENTAGE))));
                         model.setAbsent((cursor.getString(cursor.getColumnIndex(ABSENT))));
                         model.setColor(cursor.getString(cursor.getColumnIndex(COLOR)));
-                        list.add(model);
-                    } while (cursor.moveToNext());
-                }
-                cursor.close();
-            } else {
-                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
-            }
-            return list;
-        } catch (Exception e) {
-            AppLog.errLog(TAG, "Exception from insert() " + e.getMessage());
-            return null;
-        }
-    }
-
-
-    public ArrayList<TableAttendanceDataModel> read(int pStudentId) {
-        try {
-            ArrayList<TableAttendanceDataModel> list = new ArrayList<>();
-            if (mDB != null) {
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + STUDENTID + "='" + pStudentId + "'";
-                Cursor cursor = mDB.rawQuery(selectQuery, null);
-                if (cursor.moveToFirst()) {
-                    do {
-                        // get the data into array, or class variable
-                        TableAttendanceDataModel model = new TableAttendanceDataModel();
-                        model.setStudentId(cursor.getInt(cursor.getColumnIndex(STUDENTID)));
-                        model.setSemester((cursor.getString(cursor.getColumnIndex(SEMESTER))));
-                        model.setCourse((cursor.getInt(cursor.getColumnIndex(COURSE))));
-                        model.setSubjectName((cursor.getString(cursor.getColumnIndex(SUBJECTNAME))));
-                        model.setTotal((cursor.getString(cursor.getColumnIndex(TOTAL))));
-                        model.setPresent((cursor.getString(cursor.getColumnIndex(PRESENT))));
-                        model.setPercentage((cursor.getString(cursor.getColumnIndex(PERCENTAGE))));
-                        model.setAbsent((cursor.getString(cursor.getColumnIndex(ABSENT))));
-                        model.setColor(cursor.getString(cursor.getColumnIndex(COLOR)));
-                        list.add(model);
-                    } while (cursor.moveToNext());
-                }
-                cursor.close();
-            } else {
-                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
-            }
-            return list;
-        } catch (Exception e) {
-            AppLog.errLog(TAG, "Exception from insert() " + e.getMessage());
-            return null;
-        }
-    }
-
-
-    public ArrayList<TableAttendanceDataModel> getValueBySem(String pSemseter) {
-        try {
-            ArrayList<TableAttendanceDataModel> holder =new ArrayList<TableAttendanceDataModel>();
-
-            if (mDB != null) {
-                String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE " + SEMESTER + "='" + pSemseter + "'";
-                Cursor cursor = mDB.rawQuery(selectQuery, null);
-                if (cursor.moveToFirst()) {
-                    do {
-                        TableAttendanceDataModel model = new TableAttendanceDataModel();
-                        // get the data into array, or class variable
-                        model.setStudentId(cursor.getInt(cursor.getColumnIndex(STUDENTID)));
-                        model.setSemester((cursor.getString(cursor.getColumnIndex(SEMESTER))));
-                        model.setCourse((cursor.getInt(cursor.getColumnIndex(COURSE))));
-                        model.setSubjectName((cursor.getString(cursor.getColumnIndex(SUBJECTNAME))));
-                        model.setTotal((cursor.getString(cursor.getColumnIndex(TOTAL))));
-                        model.setPresent((cursor.getString(cursor.getColumnIndex(PRESENT))));
-                        model.setPercentage((cursor.getString(cursor.getColumnIndex(PERCENTAGE))));
-                        model.setAbsent((cursor.getString(cursor.getColumnIndex(ABSENT))));
-                        model.setColor(cursor.getString(cursor.getColumnIndex(COLOR)));
+                        model.setReferenceId(cursor.getInt(cursor.getColumnIndex(REFENCEID)));
                         holder.add(model);
                     } while (cursor.moveToNext());
                 }
@@ -197,7 +136,7 @@ public class TableAttendanceDetails {
             }
             return holder;
         } catch (Exception e) {
-            AppLog.errLog(TAG, "Exception from getValueBySem() " + e.getMessage());
+            AppLog.errLog(TAG, " getValueBySem() " + e.getMessage());
             return null;
         }
     }
@@ -206,7 +145,7 @@ public class TableAttendanceDetails {
     public void dropTable() {
         try {
             if (mDB != null) {
-                mDB.execSQL(DROP_TABLE_DIARY);
+                mDB.execSQL(DROP_TABLE);
             } else {
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
             }

@@ -5,20 +5,18 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 import com.malviya.blankframework.interfaces.IModel;
 
+import java.io.Serializable;
+
 /**
  * Created by Admin on 21-01-2017.
  */
 
-public class TableAttendanceDataModel extends IModel implements Comparable<TableAttendanceDataModel> {
+public class TableAttendanceDetailsDataModel extends IModel implements Comparable<TableAttendanceDetailsDataModel>, Serializable {
 
-    @SerializedName("StudentId")
-    private int StudentId;
+    @SerializedName("SubjectId")
+    private int SubjectId;
     @SerializedName("Course")
-    private int Course;
-    @SerializedName("Semester")
-    private String Semester;
-    @SerializedName("SubjectName")
-    private String SubjectName;
+    private String Course;
     @SerializedName("Total")
     private String Total;
     @SerializedName("Present")
@@ -29,21 +27,24 @@ public class TableAttendanceDataModel extends IModel implements Comparable<Table
     private String Percentage;
     @SerializedName("Color")
     private String Color;
+    @SerializedName("ReferenceId")
+    private int ReferenceId;
+    private String Semester;
+    private String Subject;
 
-
-    public int getStudentId() {
-        return StudentId;
+    public int getSubjectId() {
+        return SubjectId;
     }
 
-    public void setStudentId(int studentId) {
-        StudentId = studentId;
+    public void setSubjectId(int subjectId) {
+        SubjectId = subjectId;
     }
 
-    public int getCourse() {
+    public String getCourse() {
         return Course;
     }
 
-    public void setCourse(int course) {
+    public void setCourse(String course) {
         Course = course;
     }
 
@@ -55,12 +56,12 @@ public class TableAttendanceDataModel extends IModel implements Comparable<Table
         Semester = semester;
     }
 
-    public String getSubjectName() {
-        return SubjectName;
+    public String getSubject() {
+        return Subject;
     }
 
-    public void setSubjectName(String subjectName) {
-        SubjectName = subjectName;
+    public void setSubject(String subject) {
+        Subject = subject;
     }
 
     public String getTotal() {
@@ -105,7 +106,15 @@ public class TableAttendanceDataModel extends IModel implements Comparable<Table
 
 
     @Override
-    public int compareTo(@NonNull TableAttendanceDataModel o) {
+    public int compareTo(@NonNull TableAttendanceDetailsDataModel o) {
         return 0;
+    }
+
+    public int getReferenceId() {
+        return ReferenceId;
+    }
+
+    public void setReferenceId(int referenceId) {
+        ReferenceId = referenceId;
     }
 }

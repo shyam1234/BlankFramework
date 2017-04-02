@@ -109,7 +109,7 @@ public class TableTimeTableDetails {
                     value.put(COL_ISPRESENT, holder.getIsPresent());
                     value.put(COL_SQORDER, holder.getSqOrder());
                     long row = mDB.insert(TABLE_NAME, null, value);
-                    AppLog.log(TABLE_NAME + " inserted: getSubjectName ", holder.getSubjectName() + " row: " + row);
+                    AppLog.log(TABLE_NAME + " inserted: getSubject ", holder.getSubjectName() + " row: " + row);
                 }
             }
         } catch (Exception e) {

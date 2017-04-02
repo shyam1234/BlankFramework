@@ -124,7 +124,7 @@ public class TableStudentOverallResultSummary {
                     value.put(COL_EXPIRYDATE, holder.getExpiryDate());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TABLE_NAME + " inserted: getParentId ", "" + holder.getParentId());
-                    AppLog.log(TABLE_NAME + " inserted: getStudentId ", holder.getStudentId() + " row: " + row);
+                    AppLog.log(TABLE_NAME + " inserted: getSubjectId ", holder.getStudentId() + " row: " + row);
                 }
             }
         } catch (Exception e) {

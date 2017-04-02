@@ -17,15 +17,16 @@ import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
-import com.malviya.blankframework.activities.AttendanceDetails;
+import com.malviya.blankframework.activities.AttendanceDetailActivity;
 import com.malviya.blankframework.activities.DashboardActivity;
 import com.malviya.blankframework.adapters.AttendanceAdapter;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableAttendanceDetails;
-import com.malviya.blankframework.models.AttendanceDataModel;
+import com.malviya.blankframework.database.TableCourseMaster;
 import com.malviya.blankframework.models.GetMobileAttendanceDetailDataModel;
 import com.malviya.blankframework.models.ModelFactory;
-import com.malviya.blankframework.models.TableAttendanceDataModel;
+import com.malviya.blankframework.models.TableAttendanceDetailsDataModel;
+import com.malviya.blankframework.models.TableCourseMasterDataModel;
 import com.malviya.blankframework.network.IWSRequest;
 import com.malviya.blankframework.network.WSRequest;
 import com.malviya.blankframework.parser.ParseResponse;
@@ -46,11 +47,8 @@ import java.util.Map;
 public class AttendanceFragment extends Fragment implements View.OnClickListener {
     public final static String TAG = "AttendanceFragment";
     private RecyclerView mRecycleViewAttendance;
-    private ArrayList<AttendanceDataModel> mAttendanceList;
     private AttendanceAdapter mAttendanceAdapter;
-    private TextView mTextViewCourse;
-    private TextView mTextViewTerm;
-    private ArrayList<TableAttendanceDataModel> mAttendanceDetailsList;
+    private ArrayList<TableCourseMasterDataModel> mStudentDetailList;
 
     public AttendanceFragment() {
 
@@ -63,7 +61,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     }
 
     private void init() {
-        mAttendanceList = new ArrayList<AttendanceDataModel>();
+        mStudentDetailList = new ArrayList<TableCourseMasterDataModel>();
     }
 
     @Nullable
@@ -85,9 +83,9 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             public boolean handleMessage(Message msg) {
                 switch ((Integer) msg.what) {
                     case 1:
-                        Toast.makeText(getContext(), "student id : " + UserInfo.studentId, Toast.LENGTH_SHORT).show();
                         DashboardActivity.mHandler.removeMessages(1);
                         initView();
+                        fetchDataFromServer();
                         return true;
                 }
                 return false;
@@ -107,11 +105,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         mImgBack.setOnClickListener(this);
         //------------------------------------
         initRecyclerView();
-        mTextViewCourse = (TextView) getView().findViewById(R.id.textview_attendance_course_value);
-        mTextViewTerm = (TextView) getView().findViewById(R.id.textview_attendance_term_value);
-        setListener();
-
-
     }
 
     private void initRecyclerView() {
@@ -120,12 +113,10 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
         mRecycleViewAttendance.setLayoutManager(manager);
-        mAttendanceAdapter = new AttendanceAdapter(getContext(), mAttendanceList);
+        mAttendanceAdapter = new AttendanceAdapter(getContext(), mStudentDetailList, this);
         mRecycleViewAttendance.setAdapter(mAttendanceAdapter);
-    }
+        //--For Course and Term
 
-    private void setListener() {
-        mTextViewTerm.setOnClickListener(this);
     }
 
 
@@ -135,17 +126,18 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             case R.id.imageview_back:
                 getActivity().onBackPressed();
                 break;
-            case R.id.textview_attendance_term_value:
-                navigateToNextPage(AttendanceDetails.class);
+            case R.id.lin_holder:
+                int position = (Integer) view.getTag();
+                navigateToNextPage(AttendanceDetailActivity.class, mStudentDetailList.get(position));
                 break;
         }
     }
 
 
     private void fetchDataFromServer() {
-        TableAttendanceDetails table = new TableAttendanceDetails();
+        TableCourseMaster table = new TableCourseMaster();
         table.openDB(getContext());
-        mAttendanceDetailsList = table.getValueBySem(UserInfo.menuCode);
+        mStudentDetailList = table.getValueBySem();
         table.closeDB();
         //----------------------------------------------------------
         if (Utils.isInternetConnected(getContext())) {
@@ -167,15 +159,17 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
                     ParseResponse obj = new ParseResponse(response, GetMobileAttendanceDetailDataModel.class, ModelFactory.MODEL_GETMOBILEATTDANCEDETAIL);
                     GetMobileAttendanceDetailDataModel holder = ((GetMobileAttendanceDetailDataModel) obj.getModel());
                     if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
-                        mAttendanceDetailsList = holder.getMessageBody().getStudentAttendanceDetailList();
-                        saveDataIntoTable(holder);
-                        SharedPreferencesApp.getInstance().setLastRetrieveTime(WSContant.TAG_MOBILEATTENDANCEDETAIL,Utils.getCurrTime());
+                        mStudentDetailList = holder.getMessageBody().getStudentDetailList();
+                        saveDataIntoTableCourseMaster(mStudentDetailList);
+                        saveDataIntoTableAttendanceDetails(holder.getMessageBody().getStudentAttendanceDetailList());
+                        SharedPreferencesApp.getInstance().setLastRetrieveTime(WSContant.TAG_MOBILEATTENDANCEDETAIL, Utils.getCurrTime());
                         initRecyclerView();
                     } else {
                         Toast.makeText(getContext(), R.string.msg_network_prob, Toast.LENGTH_SHORT).show();
                     }
                     Utils.dismissProgressBar();
                 }
+
                 @Override
                 public void onErrorResponse(VolleyError response) {
                     Utils.dismissProgressBar();
@@ -187,19 +181,36 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     }
 
 
-    private void saveDataIntoTable(GetMobileAttendanceDetailDataModel holder) {
+    private void saveDataIntoTableCourseMaster(ArrayList<TableCourseMasterDataModel> holder) {
         try {
-            TableAttendanceDetails table = new TableAttendanceDetails();
-            table.insert(holder.getMessageBody().getStudentAttendanceDetailList());
+            TableCourseMaster table = new TableCourseMaster();
+            table.openDB(getContext());
+            table.insert(holder);
             table.closeDB();
         } catch (Exception e) {
-            AppLog.errLog(TAG, "Exception from saveDataIntoTable " + e.getMessage());
+            AppLog.errLog(TAG, "Exception from saveDataIntoTableCourseMaster " + e.getMessage());
         }
     }
 
-    private void navigateToNextPage(Class mClass) {
+
+    private void saveDataIntoTableAttendanceDetails(ArrayList<TableAttendanceDetailsDataModel> list) {
+        try {
+            TableAttendanceDetails table = new TableAttendanceDetails();
+            table.openDB(getContext());
+            table.insert(list);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "saveDataIntoTableAttendanceDetails " + e.getMessage());
+        }
+    }
+
+
+    private void navigateToNextPage(Class mClass, TableCourseMasterDataModel mStudentDetailList) {
         Intent i = new Intent(getActivity(), mClass);
         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(WSContant.TAG_NEW, mStudentDetailList);
+        i.putExtras(bundle);
         startActivity(i);
         Utils.animRightToLeft(getActivity());
     }

@@ -133,7 +133,7 @@ public class MyApplication extends Application {
 
 //    private void initMenuDetails() {
 //        TableParentStudentMenuDetailsDataModel holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("33");
 //        holder.setMenuCode("MENU1");
 //        holder.setParentId("parent1");
@@ -141,7 +141,7 @@ public class MyApplication extends Application {
 //        tableMenuDetailList.add(holder);
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("3");
 //        holder.setMenuCode("MENU2");
 //        holder.setParentId("parent1");
@@ -149,7 +149,7 @@ public class MyApplication extends Application {
 //        tableMenuDetailList.add(holder);
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("23");
 //        holder.setMenuCode("MENU3");
 //        holder.setParentId("parent1");
@@ -157,7 +157,7 @@ public class MyApplication extends Application {
 //        tableMenuDetailList.add(holder);
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("98");
 //        holder.setMenuCode("MENU4");
 //        holder.setParentId("parent1");
@@ -166,7 +166,7 @@ public class MyApplication extends Application {
 //
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("11");
 //        holder.setMenuCode("MENU5");
 //        holder.setParentId("parent1");
@@ -175,7 +175,7 @@ public class MyApplication extends Application {
 //
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("55");
 //        holder.setMenuCode("MENU6");
 //        holder.setParentId("parent1");
@@ -184,7 +184,7 @@ public class MyApplication extends Application {
 //
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("1");
 //        holder.setMenuCode("MENU7");
 //        holder.setParentId("parent1");
@@ -193,7 +193,7 @@ public class MyApplication extends Application {
 //
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("9");
 //        holder.setMenuCode("MENU8");
 //        holder.setParentId("parent1");
@@ -202,7 +202,7 @@ public class MyApplication extends Application {
 //
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setAlert_count("243");
 //        holder.setMenuCode("MENU9");
 //        holder.setParentId("parent1");
@@ -210,7 +210,7 @@ public class MyApplication extends Application {
 //        tableMenuDetailList.add(holder);
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student2");
+//        holder.setSubjectId("student2");
 //        holder.setAlert_count("2");
 //        holder.setMenuCode("MENU1");
 //        holder.setParentId("parent2");
@@ -218,7 +218,7 @@ public class MyApplication extends Application {
 //        tableMenuDetailList.add(holder);
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student2");
+//        holder.setSubjectId("student2");
 //        holder.setAlert_count("3");
 //        holder.setMenuCode("MENU2");
 //        holder.setParentId("parent2");
@@ -227,7 +227,7 @@ public class MyApplication extends Application {
 //
 //
 //        holder = new TableParentStudentMenuDetailsDataModel();
-//        holder.setStudentId("student2");
+//        holder.setSubjectId("student2");
 //        holder.setAlert_count("34");
 //        holder.setMenuCode("MENU3");
 //        holder.setParentId("parent2");
@@ -241,7 +241,7 @@ public class MyApplication extends Application {
 //        holder.setCourseCode("math");
 //        holder.setStudentProfileImage("http://whatsappdp.net/wp-content/uploads/2016/03/funny-profile-pictures.jpg");
 //        holder.setGender("male");
-//        holder.setStudentId("student1");
+//        holder.setSubjectId("student1");
 //        holder.setFullName("David");
 //        holder.setUniversity_id("univercity1");
 //        tableStudentList.add(holder);
@@ -250,7 +250,7 @@ public class MyApplication extends Application {
 //        holder.setCourseCode("english");
 //        holder.setStudentProfileImage("https://cdn2.iconfinder.com/data/icons/professions/512/student_graduate_boy_profile-512.png");
 //        holder.setGender("female");
-//        holder.setStudentId("student3");
+//        holder.setSubjectId("student3");
 //        holder.setFullName("Juli");
 //        holder.setUniversity_id("univercity1");
 //        tableStudentList.add(holder);
@@ -259,7 +259,7 @@ public class MyApplication extends Application {
 //        holder.setCourseCode("science");
 //        holder.setStudentProfileImage("https://cdn2.iconfinder.com/data/icons/professions/512/student_graduate_boy_profile-512.png");
 //        holder.setGender("female");
-//        holder.setStudentId("student2");
+//        holder.setSubjectId("student2");
 //        holder.setFullName("Shyli");
 //        holder.setUniversity_id("univercity2");
 //        tableStudentList.add(holder);

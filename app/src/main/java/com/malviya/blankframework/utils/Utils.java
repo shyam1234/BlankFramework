@@ -407,7 +407,7 @@ public class Utils {
                 SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = formatter.parse(yyyyMMddHHmmss);
                 time = formatter1.format(date);
-                AppLog.log("Time: "+time);
+                AppLog.log("Time: " + time);
             }
         } catch (Exception e) {
             AppLog.errLog("getTimeInYYYYMMDD+++ from Utils", e.getMessage());
@@ -425,7 +425,7 @@ public class Utils {
                 SimpleDateFormat formatter1 = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                 Date date = formatter.parse(yyyyMMddHHmmss);
                 time = formatter1.format(date);
-                AppLog.log("Time: "+time);
+                AppLog.log("Time: " + time);
             }
         } catch (Exception e) {
             AppLog.errLog("getTimeInDDMMYYYY 333  from Utils", e.getMessage());
@@ -450,7 +450,7 @@ public class Utils {
                 SimpleDateFormat formatter1 = new SimpleDateFormat("EEE, MMMM d, yyyy");
                 Date date = formatter.parse(yyyyMMdd);
                 time = formatter1.format(date);
-                AppLog.log("Time: "+time);
+                AppLog.log("Time: " + time);
             }
         } catch (Exception e) {
             AppLog.errLog("getTimeInDayDateMonthYear from Utils", e.getMessage());
@@ -640,7 +640,7 @@ public class Utils {
                 c.setTime(formatter.parse(string));
                 c.add(Calendar.DATE, value);
                 time = formatter1.format(c.getTime());
-                AppLog.log("Time: "+time);
+                AppLog.log("Time: " + time);
             }
         } catch (Exception e) {
             AppLog.errLog("getTimeInDayDateMonthYear from Utils", e.getMessage());
@@ -651,7 +651,6 @@ public class Utils {
     }
 
 
-
     public static String getCurrTimeYYYYMMDD(String string) {
         String time = "";
         try {
@@ -660,7 +659,7 @@ public class Utils {
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE, MMMM d, yyyy");
                 Date date = formatter.parse(string);
                 time = formatter1.format(date);
-                AppLog.log("Time: "+time);
+                AppLog.log("Time: " + time);
             }
         } catch (Exception e) {
             AppLog.errLog("getCurrTimeYYYYMMDD from Utils", e.getMessage());
@@ -684,5 +683,24 @@ public class Utils {
             return time;
         }
 
+    }
+
+    /**
+     * @param attendanceDate:20170322
+     * @return date object
+     */
+    public static Date getDate(String attendanceDate) {
+        Date date = null;
+        try {
+            if (attendanceDate != null) {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+                date = formatter.parse(attendanceDate);
+                AppLog.log("getDate from Utils", date.toString());
+            }
+        } catch (Exception e) {
+            AppLog.errLog("getDate from Utils", e.getMessage());
+        } finally {
+            return date;
+        }
     }
 }

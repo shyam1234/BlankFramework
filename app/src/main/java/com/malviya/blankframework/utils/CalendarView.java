@@ -60,6 +60,7 @@ public class CalendarView extends LinearLayout {
 
     // month-season association (northern hemisphere, sorry australia :)
     int[] monthSeason = new int[]{2, 2, 3, 3, 3, 0, 0, 0, 1, 1, 1, 2};
+    private HashSet<Date> mEvents = new HashSet<>();
 
     public CalendarView(Context context) {
         super(context);
@@ -149,13 +150,14 @@ public class CalendarView extends LinearLayout {
      * Display dates correctly in grid
      */
     public void updateCalendar() {
-        updateCalendar(null);
+        updateCalendar(mEvents);
     }
 
     /**
      * Display dates correctly in grid
      */
     public void updateCalendar(HashSet<Date> events) {
+        mEvents  = events;
         ArrayList<Date> cells = new ArrayList<>();
         Calendar calendar = (Calendar) currentDate.clone();
 
@@ -224,7 +226,8 @@ public class CalendarView extends LinearLayout {
                             eventDate.getMonth() == month &&
                             eventDate.getYear() == year) {
                         // mark this day for event
-                        view.setBackgroundResource(R.drawable.reminder);
+                        //view.setBackgroundResource(R.drawable.reminder);
+                        view.setBackgroundResource(R.drawable.circle_filled);
                         break;
                     }
                 }
