@@ -33,7 +33,7 @@
         <View
             android:id="@+id/view_attend"
             android:layout_width="0.1dp"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_alignBottom="@+id/lin_attendance_detail_holder_term_course"
             android:layout_alignTop="@+id/lin_attendance_detail_holder_term_course"
             android:layout_marginLeft="20dp"
@@ -63,7 +63,7 @@
         <View
             android:id="@+id/view_attend_details"
             android:layout_width="0.1dp"
-            android:layout_height="20dp"
+            android:layout_height="30dp"
             android:layout_alignBottom="@+id/lin_attendance_detail_holder_term"
             android:layout_alignTop="@+id/lin_attendance_detail_holder_term"
             android:layout_marginLeft="20dp"
