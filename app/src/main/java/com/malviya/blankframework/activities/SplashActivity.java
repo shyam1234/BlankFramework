@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -77,8 +78,22 @@ public class SplashActivity extends AppCompatActivity {
     private void initView() {
         //mCircularProgressBar = (CircularProgressBar) findViewById(R.id.progressBar);
         ImageView logo = (ImageView)findViewById(R.id.imgview_logo);
-        Animation an2= AnimationUtils.loadAnimation(this,R.anim.bounce);
-        logo.startAnimation(an2);
+//        Animation an2= AnimationUtils.loadAnimation(this,R.anim.bounce);
+//        logo.startAnimation(an2);
+
+
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        anim.reset();
+        RelativeLayout l=(RelativeLayout) findViewById(R.id.lin_lay);
+        l.clearAnimation();
+        l.startAnimation(anim);
+
+        anim = AnimationUtils.loadAnimation(this, R.anim.translate);
+        anim.reset();
+        logo.clearAnimation();
+        logo.startAnimation(anim);
+
+
     }
 
 
@@ -213,11 +228,11 @@ public class SplashActivity extends AppCompatActivity {
                     Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
                         @Override
                         public void callBack() {
-                            navigateToNextPage(DashboardActivity.class);
+                           navigateToNextPage(DashboardActivity.class);
                         }
                     });
                 } else {
-                    navigateToNextPage(LoginActivity.class);
+                           navigateToNextPage(LoginActivity.class);
                 }
             } catch (Exception e) {
                 AppLog.errLog(TAG, e.getMessage());
