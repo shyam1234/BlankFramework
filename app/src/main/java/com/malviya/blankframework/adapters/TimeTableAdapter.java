@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.models.TableTimeTableDetailsDataModel;
+import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
 
@@ -39,7 +40,7 @@ public class TimeTableAdapter extends RecyclerView.Adapter<TimeTableAdapter.MyVi
         holder.textViewSubject.setText(mList.get(position).getSubjectName());
         holder.textViewFaculty.setText(mList.get(position).getFaculty());
         holder.textViewRoom.setText(mList.get(position).getRoomName());
-        if (mList.get(position).getIsPresent().equalsIgnoreCase(WSContant.TAG_NR)) {
+        if (mList.get(position).getIsPresent()!=null && mList.get(position).getIsPresent().equalsIgnoreCase(WSContant.TAG_NR)) {
             holder.imageviewTimetableIcon.setImageResource(R.drawable.avater);
         } else {
             holder.imageviewTimetableIcon.setImageResource(R.drawable.back);

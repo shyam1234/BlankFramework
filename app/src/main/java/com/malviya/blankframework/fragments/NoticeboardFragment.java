@@ -218,11 +218,6 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
 
 
     private void fetchDataFromServer() {
-        /*TableNoticeBoard noticeBoard = new TableNoticeBoard();
-        noticeBoard.openDB(getContext());
-        mNoticeboardList = noticeBoard.getData(UserInfo.parentId,UserInfo.studentId);
-        //Collections.sort(mNoticeboardList,Collections.<TableNoticeBoardDataModel>reverseOrder());
-        noticeBoard.closeDB();*/
         if (Utils.isInternetConnected(getContext())) {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
@@ -256,6 +251,7 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
                 }
             });
         } else {
+            readFromTable();
             initRecyclerView();
         }
 
@@ -277,12 +273,12 @@ public class NoticeboardFragment extends Fragment implements View.OnClickListene
 
     private void readFromTable() {
         mCommonList.clear();
-
         TableNewsMaster table1 = new TableNewsMaster();
         table1.openDB(getContext());
-        for (TableNewsMasterDataModel model : table1.getData(UserInfo.parentId, UserInfo.studentId)) {
+        for (TableNewsMasterDataModel model : table1.getDataByStudent(UserInfo.studentId)) {
             mCommonList.add(model);
         }
+
         table1.closeDB();
 
         TableStudentOverallResultSummary table2 = new TableStudentOverallResultSummary();

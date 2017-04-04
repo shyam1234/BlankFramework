@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -30,6 +31,7 @@ import com.malviya.blankframework.utils.GetPicassoImage;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,10 +43,11 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
     private RecyclerView mRecycleViewResultList;
     private ResultDetailsAdapter mResultDetailsAdapter;
     private TableResultMasterDataModel mResultDataModel;
-    private TableResultDetailsDataModel mMobileDetailsHolder;
+   // private TableResultDetailsDataModel mMobileDetailsHolder;
     private Button mBtnDownload;
     private Button mBtnDelete;
     private Button mBtnView;
+    private ArrayList<TableResultDetailsDataModel.InnerResultDetails> mMobileDetailsHolder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,11 +56,12 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
         init();
         initView();
         fetchDataFromServer();
+
     }
 
 
     private void init() {
-        mMobileDetailsHolder = new TableResultDetailsDataModel();
+        mMobileDetailsHolder = new TableResultDetailsDataModel().getMessageBody();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             mResultDataModel = (TableResultMasterDataModel) bundle.getSerializable(Constant.TAG_HOLDER);
@@ -168,40 +172,50 @@ public class ResultDetailActivity extends AppCompatActivity implements View.OnCl
 
 
     private void fetchDataFromServer() {
-        //call to WS and validate given credential----
-        Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-        header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
-        //-Utils-for body
-        Map<String, String> body = new HashMap<>();
-        body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
-        body.put(WSContant.TAG_REFERENCEID, "" + (mResultDataModel != null ? mResultDataModel.getReferenceId() : ""));
-        body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
-        Utils.showProgressBar(this);
-        WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEDETAILS, header, body, WSContant.TAG_GETMOBILEDETAILS, new IWSRequest() {
-            @Override
-            public void onResponse(String response) {
-                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_RESULTDETAILS);
-                mMobileDetailsHolder = ((TableResultDetailsDataModel) obj.getModel());
-                saveIntoDatabase();
-                Utils.dismissProgressBar();
-                initRecyclerView();
-            }
+        TableResultDetails table = new TableResultDetails();
+        table.openDB(this);
+        table.openDB(ResultDetailActivity.this);
+        mMobileDetailsHolder = table.getValue((mResultDataModel != null ? mResultDataModel.getReferenceId() : 0));
+        table.closeDB();
+        if (Utils.isInternetConnected(this)) {
 
-            @Override
-            public void onErrorResponse(VolleyError response) {
-                Utils.dismissProgressBar();
-            }
-        });
+
+            //call to WS and validate given credential----
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
+            //-Utils-for body
+            Map<String, String> body = new HashMap<>();
+            body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
+            body.put(WSContant.TAG_REFERENCEID, "" + (mResultDataModel != null ? mResultDataModel.getReferenceId() : ""));
+            body.put(WSContant.TAG_REFERENCEDATE, "" + UserInfo.timeTableRefDate);
+            Utils.showProgressBar(this);
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEDETAILS, header, body, WSContant.TAG_GETMOBILEDETAILS, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_RESULTDETAILS);
+                    mMobileDetailsHolder =  ((TableResultDetailsDataModel)obj.getModel()).getMessageBody();
+                    saveIntoDatabase();
+                    Utils.dismissProgressBar();
+                    initRecyclerView();
+                }
+
+                @Override
+                public void onErrorResponse(VolleyError response) {
+                    Utils.dismissProgressBar();
+                }
+            });
+        } else {
+            initRecyclerView();
+        }
     }
 
     private void saveIntoDatabase() {
         TableResultDetails table = new TableResultDetails();
         table.openDB(ResultDetailActivity.this);
-        table.insert(mMobileDetailsHolder.getMessageBody());
+        table.insert(mMobileDetailsHolder);
         table.closeDB();
     }
-
 
 
 }

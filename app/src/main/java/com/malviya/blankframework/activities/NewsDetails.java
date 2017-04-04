@@ -64,7 +64,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private TextView mTextViewPublishedBy;
     private TextView mTextViewTime;
     private WebView mWebViewNewsBody;
-    private GetMobileDetailsDataModel mMobileDetailsHolder;
+    //private GetMobileDetailsDataModel mMobileDetailsHolder;
     private ViewPager mViewPagerNewsImages;
     private CustomPagerAdapter mCustomPagerAdapter;
     private int dotsCount;
@@ -84,6 +84,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private NewsDetailsCommentAdapter mNewsDetailsCommentAdapter;
     private RelativeLayout mRelComment;
     private TextView mTextViewTitle;
+    //private ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> mMesgBodyDataList;
+    private ArrayList<TableDocumentMasterDataModel> mTableDocumentMesgList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,13 +93,22 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_news_details);
         init();
         initView();
-        fetchDataFromServer();
+
+        if (Utils.isInternetConnected(this)) {
+            fetchDataFromServer();
+        } else {
+            TableDocumentMaster table = new TableDocumentMaster();
+            table.openDB(this);
+            mTableDocumentMesgList = table.getDocument(mNewsMasterDataModel.getDocumentMasterId()
+                   /* , mNewsMasterDataModel.getReferenceId()*/);
+            table.closeDB();
+            bindDataWithUI();
+        }
 
     }
 
     private void init() {
-        //mNewsDetailsMessageBodyList = new ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel>();
-        // mDocumentList = new ArrayList<TableDocumentMasterDataModel>();
+        mTableDocumentMesgList = new ArrayList<>();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             mNewsMasterDataModel = (TableNewsMasterDataModel) bundle.getSerializable(Constant.TAG_HOLDER);
@@ -152,13 +163,11 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onResponse(String response) {
                 ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEDETAILS);
-                mMobileDetailsHolder = ((GetMobileDetailsDataModel) obj.getModel());
-                mMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML();
-                //mNewsDetailsMessageBodyList = mMobileDetailsHolder.getMessageBody();
-                //mDocumentList = mMobileDetailsHolder.getDocuments();
-                saveDataIntoTable("" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""), mMobileDetailsHolder.getMessageBody(), mMobileDetailsHolder.getDocuments());
+                GetMobileDetailsDataModel pMobileDetailsHolder = ((GetMobileDetailsDataModel) obj.getModel());
+                mNewsMasterDataModel.setNewsBody(pMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML());
+                mTableDocumentMesgList = pMobileDetailsHolder.getDocuments();
+                saveDataIntoTable("" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""), mNewsMasterDataModel.getNewsBody(),mTableDocumentMesgList );
                 bindDataWithUI();
-//                Utils.dismissProgressBar();
                 fetchCommentDataFromServer(0);
             }
 
@@ -170,24 +179,23 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void bindDataWithUI() {
-        if (mMobileDetailsHolder != null) {
+        if (mNewsMasterDataModel != null) {
             mTextViewRefTitle.setText(mNewsMasterDataModel.getReferenceTitle());
             mTextViewPublishedBy.setText(mNewsMasterDataModel.getPublishedBy());
             mTextViewTime.setText(mNewsMasterDataModel.getPublishedOn());
-            mWebViewNewsBody.loadData(mMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML(), "text/html; charset=utf-8", "utf-8");
+            mWebViewNewsBody.loadData(mNewsMasterDataModel.getNewsBody(), "text/html; charset=utf-8", "utf-8");
             //--------------------------------------------
-            if (mMobileDetailsHolder.getDocuments() != null) {
-                mCustomPagerAdapter = new CustomPagerAdapter(this, mMobileDetailsHolder.getDocuments(), this);
+            if (mTableDocumentMesgList != null) {
+                mCustomPagerAdapter = new CustomPagerAdapter(this, mTableDocumentMesgList, this);
                 mViewPagerNewsImages.setAdapter(mCustomPagerAdapter);
                 mViewPagerNewsImages.setCurrentItem(0);
             }
-
             setUiPageViewController();
         }
     }
 
 
-    private void saveDataIntoTable(String pRefId, ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> pMessageBodyList, ArrayList<TableDocumentMasterDataModel> pDocumentList) {
+    private void saveDataIntoTable(String pRefId, String pMessageBodyList, ArrayList<TableDocumentMasterDataModel> pDocumentList) {
         TableNewsMaster newsTable = new TableNewsMaster();
         newsTable.openDB(this);
         newsTable.insertMessageBody(pRefId, pMessageBodyList);
@@ -270,8 +278,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         Intent i = new Intent(this, NewsScreenSliderPagerActivity.class);
         //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Bundle bundle = new Bundle();
-        if (mMobileDetailsHolder.getDocuments() != null) {
-            bundle.putSerializable(Constant.TAG_HOLDER, mMobileDetailsHolder.getDocuments());
+        if (mTableDocumentMesgList != null) {
+            bundle.putSerializable(Constant.TAG_HOLDER, mTableDocumentMesgList);
         }
         bundle.putInt(Constant.TAG_POSITION, posi);
         i.putExtras(bundle);
@@ -362,19 +370,33 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 navigateToNextPage(posi);
                 break;
             case R.id.rel_inc_like_comment_like_holder:
-                doLike(((TextView) v.findViewById(R.id.textview_inc_bottom_like)));
+                if (Utils.isInternetConnected(this)) {
+                    doLike(((TextView) v.findViewById(R.id.textview_inc_bottom_like)));
+                } else {
+                    //Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.rel_inc_like_comment_comment_holder:
-                viewComment();
+                if (Utils.isInternetConnected(this)) {
+                    viewComment();
+                }
                 break;
             case R.id.textview_comment_like_page_comment:
-                getComments();
+                if (Utils.isInternetConnected(this)) {
+                    getComments();
+                }
                 break;
             case R.id.textview_comment_like_page_like:
-                getLikes();
+                if (Utils.isInternetConnected(this)) {
+                    getLikes();
+                }
                 break;
             case R.id.textview_send_comment_send:
-                doComment(((EditText) findViewById(R.id.edittext_send_comment_comment)));
+                if (Utils.isInternetConnected(this)) {
+                    doComment(((EditText) findViewById(R.id.edittext_send_comment_comment)));
+                } else {
+                   // Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
@@ -404,39 +426,44 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     }
 
     private void fetchCommentDataFromServer(final int type) {
+        if (Utils.isInternetConnected(this)) {
 
-        //call to WS and validate given credential----
-        Map<String, String> header = new HashMap<>();
-        header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-        header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
-        header.put(WSContant.TAG_NEW, Utils.getCurrTime());
-        header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
-        //-Utils-for body
-        Map<String, String> body = new HashMap<>();
-        body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
-        body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
-        // Utils.showProgressBar(this);
-        WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILECOMMENTSNLIKES, header, body, WSContant.TAG_COMMENT, new IWSRequest() {
-            @Override
-            public void onResponse(String response) {
-                ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS_COMMENTS_LIKE);
-                mNewsDetailsCommentLikeDataModel = ((NewsDetailsCommentLikeDataModel) obj.getModel());
-                mRecycleViewCommentLike.setAdapter(mNewsDetailsCommentAdapter);
-                if ((type == 2) && mNewsDetailsCommentAdapter != null) {
-                    getComments();
-                    mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getCommentMaster().size() - 1);
-                } else if ((type == 1) && mNewsDetailsLikeAdapter != null) {
-                    getLikes();
-                    mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getLikeMaster().size() - 1);
+
+            //call to WS and validate given credential----
+            Map<String, String> header = new HashMap<>();
+            header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
+            header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
+            header.put(WSContant.TAG_NEW, Utils.getCurrTime());
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
+            //-Utils-for body
+            Map<String, String> body = new HashMap<>();
+            body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
+            body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
+            // Utils.showProgressBar(this);
+            WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILECOMMENTSNLIKES, header, body, WSContant.TAG_COMMENT, new IWSRequest() {
+                @Override
+                public void onResponse(String response) {
+                    ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_NEWS_DETAILS_COMMENTS_LIKE);
+                    mNewsDetailsCommentLikeDataModel = ((NewsDetailsCommentLikeDataModel) obj.getModel());
+                    mRecycleViewCommentLike.setAdapter(mNewsDetailsCommentAdapter);
+                    if ((type == 2) && mNewsDetailsCommentAdapter != null) {
+                        getComments();
+                        mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getCommentMaster().size() - 1);
+                    } else if ((type == 1) && mNewsDetailsLikeAdapter != null) {
+                        getLikes();
+                        mRecycleViewCommentLike.smoothScrollToPosition(mNewsDetailsCommentLikeDataModel.getLikeMaster().size() - 1);
+                    }
+                    Utils.dismissProgressBar();
                 }
-                Utils.dismissProgressBar();
-            }
 
-            @Override
-            public void onErrorResponse(VolleyError response) {
-                Utils.dismissProgressBar();
-            }
-        });
+                @Override
+                public void onErrorResponse(VolleyError response) {
+                    Utils.dismissProgressBar();
+                }
+            });
+        } else {
+            //Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+        }
     }
 
 

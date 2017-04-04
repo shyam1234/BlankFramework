@@ -144,11 +144,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
 
 
     private void fetchDataFromServer() {
-        TableNewsMaster table = new TableNewsMaster();
-        table.openDB(getContext());
-        mNewsList = table.getData(UserInfo.menuCode);
-        Collections.sort(mNewsList,Collections.<TableNewsMasterDataModel>reverseOrder());
-        table.closeDB();
+
         //----------------------------------------------------------
         if(Utils.isInternetConnected(getContext())){
             //call to WS and validate given credential----
@@ -180,11 +176,10 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
                         Collections.sort(mNewsList,Collections.<TableNewsMasterDataModel>reverseOrder());
                         AppLog.log(TAG,"fetchDataFromServe2r "+mNewsList.size());
                         saveDataIntoTable(holder);
+                        readNewsFromDB();
                         AppLog.log(TAG,"fetchDataFromServe3r "+mNewsList.size());
-                        //mNewsAdapter.notifyDataSetChanged();
                         SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
                         initRecyclerView();
-
                         //-------------------------------------------------------
                         //navigateToNextPage();
                     } else {
@@ -200,14 +195,24 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
             });
 
         }else{
+            readNewsFromDB();
             initRecyclerView();
         }
+    }
+
+    private void readNewsFromDB() {
+        TableNewsMaster table = new TableNewsMaster();
+        table.openDB(getContext());
+        mNewsList = table.getDataByStudent(UserInfo.studentId);
+        Collections.sort(mNewsList,Collections.<TableNewsMasterDataModel>reverseOrder());
+        table.closeDB();
     }
 
 
     private void saveDataIntoTable(GetMobileMenuDataModel holder) {
         try {
             TableNewsMaster table = new TableNewsMaster();
+            table.openDB(getContext());
             table.insert(holder.getMessageBody().getNewsMasterMenuList());
             table.closeDB();
         } catch (Exception e) {

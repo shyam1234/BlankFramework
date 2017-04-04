@@ -76,11 +76,10 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         AppLog.log("WardFragment", "onActivityCreated");
         initView();
-
     }
 
-    private void initView() {
 
+    private void initView() {
         mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_wards);
         mImageViewStudentTitleImg = (ImageView) getView().findViewById(R.id.imageview_profile);
@@ -95,10 +94,11 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         mProfileEye.setVisibility(View.VISIBLE);
         mRecycleViewChildInfo = (RecyclerView) getView().findViewById(R.id.listview_frag_ward);
         mProfileEye.setOnClickListener(this);
-        //  mFloatingBtn.setOnClickListener(this);
+        //mFloatingBtn.setOnClickListener(this);
         initRecycleAdapter();
         setDefaultStudent();
     }
+
 
     private void setDefaultStudent() {
         for(int index = 0 ; index < mListChildInfoHolder.size() ;index++){
@@ -121,14 +121,16 @@ public class WardFragment extends Fragment implements View.OnClickListener {
         //save user default child selection
 
         if (isClicked) {
-            Utils.showProgressBar(getContext());
             UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
-            Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
-                @Override
-                public void callBack() {
-                    Utils.dismissProgressBar();
-                }
-            });
+            if(Utils.isInternetConnected(getContext())) {
+                Utils.showProgressBar(getContext());
+                Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
+                    @Override
+                    public void callBack() {
+                        Utils.dismissProgressBar();
+                    }
+                });
+            }
         }else{
             UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
             AppLog.log("setDefaultStudentProfileInHeader   UserInfo.studentId222 ", ""+mListChildInfoHolder.get(position).getStudent_id());

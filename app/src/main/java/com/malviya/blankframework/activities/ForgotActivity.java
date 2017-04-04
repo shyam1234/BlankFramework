@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -59,7 +60,9 @@ public class ForgotActivity extends AppCompatActivity implements View.OnClickLis
                 onBackPressed();
                 break;
             case R.id.btnSubmit:
-                doForgotPassword();
+                if(Utils.isInternetConnected(this)) {
+                    doForgotPassword();
+                }
                 break;
         }
     }

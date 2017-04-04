@@ -161,7 +161,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     private void fetchDataFromServer() {
         TableStudentOverallResultSummary table = new TableStudentOverallResultSummary();
         table.openDB(getContext());
-        mResultSummaryList = table.getData(UserInfo.menuCode);
+        mResultSummaryList = table.getData(UserInfo.menuCode, UserInfo.studentId);
         table.closeDB();
         //----------------------------------------------------------
         if (Utils.isInternetConnected(getContext())) {
@@ -210,6 +210,7 @@ public class ResultFragment extends Fragment implements View.OnClickListener {
     private void saveDataIntoTable(GetMobileMenuDataModel holder) {
         try {
             TableStudentOverallResultSummary table = new TableStudentOverallResultSummary();
+            table.openDB(getContext());
             table.insert(holder.getMessageBody().getStudentOverallResultSummary());
             table.closeDB();
         } catch (Exception e) {

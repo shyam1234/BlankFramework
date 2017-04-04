@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -98,10 +99,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
     private void checkForLanguage() {
-        TableLanguage table = new TableLanguage();
-        table.openDB(SplashActivity.this);
-        table.read();
-        table.closeDB();
+
         //---------------------------------------------------------------------------------------
         if (Utils.isInternetConnected(this)) {
             Map<String, String> header = new HashMap<>();
@@ -120,35 +118,56 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError response) {
                     AppLog.log("splashActivity++", "onErrorResponse");
-                    try {
-                        final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
-                        dilog.setTitle(getResources().getString(R.string.msg_network_prob));
-                        dilog.show();
-                        dilog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-                            @Override
-                            public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
-                                // TODO Auto-generated method stub
-                                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                                    arg0.dismiss();
-                                    finish();
-                                }
-                                return true;
-                            }
-                        });
-                        dilog.getBtnOK().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dilog.dismiss();
-                                finish();
-                            }
-                        });
-                    } catch (Exception e) {
-                        AppLog.errLog("SplashActivity onErrorResponse", e.getMessage());
-                    }
+                    showErrorDialog();
                 }
             });
         } else {
+            TableLanguage table = new TableLanguage();
+            table.openDB(SplashActivity.this);
+            final ArrayList<TableLanguageDataModel> lLangList = table.read();
+            table.closeDB();
+            checkOfflineData(lLangList);
+        }
+    }
 
+    private void checkOfflineData(ArrayList<TableLanguageDataModel> lLangList) {
+         if(lLangList.size()>0){
+             Toast.makeText(mContext, "Offline Activated", Toast.LENGTH_SHORT).show();
+             if (UserInfo.authToken != null && (UserInfo.parentId != -1 && UserInfo.studentId != -1)) {
+                 navigateToNextPage(DashboardActivity.class);
+             } else {
+                 navigateToNextPage(LoginActivity.class);
+             }
+         }else{
+             showErrorDialog();
+         }
+    }
+
+    private void showErrorDialog() {
+        try {
+            final CustomDialogbox dilog = new CustomDialogbox(SplashActivity.this, CustomDialogbox.TYPE_OK);
+            dilog.setTitle(getResources().getString(R.string.msg_network_prob));
+            dilog.show();
+            dilog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                @Override
+                public boolean onKey(DialogInterface arg0, int keyCode, KeyEvent event) {
+                    // TODO Auto-generated method stub
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        arg0.dismiss();
+                        finish();
+                    }
+                    return true;
+                }
+            });
+            dilog.getBtnOK().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dilog.dismiss();
+                    finish();
+                }
+            });
+        } catch (Exception e) {
+            AppLog.errLog("SplashActivity onErrorResponse", e.getMessage());
         }
     }
 

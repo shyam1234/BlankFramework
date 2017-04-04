@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.malviya.blankframework.R;
@@ -86,7 +87,9 @@ public class ChangePasswordtActivity extends AppCompatActivity implements View.O
                 onBackPressed();
                 break;
             case R.id.btnSubmit:
-                doChangePassword();
+                if(Utils.isInternetConnected(this)) {
+                    doChangePassword();
+                }
                 break;
         }
     }

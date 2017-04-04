@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onActivityCreated(savedInstanceState);
         AppLog.log("HomeFragment ", "bindDataWithParentStudentMenuDetailsDataModel: : onActivityCreated");
         initView();
-        fetchDataFromWS();
+        fetchDataFromTable();
         setLangSelection();
         AppLog.log(TAG, "UserInfo.normal -++ :" + UserInfo.studentId);;
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 switch ((Integer) msg.what) {
                     case 1:
                         initView();
-                        fetchDataFromWS();
+                        fetchDataFromTable();
                         setLangSelection();
                         DashboardActivity.mHandler.removeMessages(1);
                         AppLog.log(TAG, "UserInfo.handlerrrr  :" + UserInfo.studentId);
@@ -104,7 +104,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void fetchDataFromWS() {
+    private void fetchDataFromTable() {
         final TableParentStudentMenuDetails table = new TableParentStudentMenuDetails();
         table.openDB(getContext());
         mCellList = table.getHomeFragmentData(UserInfo.parentId, UserInfo.studentId);

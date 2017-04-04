@@ -214,4 +214,35 @@ public class TableCourseMaster {
     }
 
 
-}
+
+    public ArrayList<TableCourseMasterDataModel> getValueByStudent(int pStudentId) {
+            try {
+                ArrayList<TableCourseMasterDataModel> holder = new ArrayList<TableCourseMasterDataModel>();
+
+                if (mDB != null) {
+                    String selectQuery = "SELECT  * FROM " + TABLE_NAME+ " WHERE " + STUDENTID + "= '" + pStudentId +"'";
+                    Cursor cursor = mDB.rawQuery(selectQuery, null);
+                    if (cursor.moveToFirst()) {
+                        do {
+                            TableCourseMasterDataModel model = new TableCourseMasterDataModel();
+                            // get the data into array, or class variable
+                            model.setStudentId(cursor.getInt(cursor.getColumnIndex(STUDENTID)));
+                            model.setSemester((cursor.getString(cursor.getColumnIndex(SEMESTER))));
+                            model.setCourse((cursor.getString(cursor.getColumnIndex(COURSE))));
+                            model.setReferenceId((cursor.getInt(cursor.getColumnIndex(REFERENCEID))));
+                            holder.add(model);
+                        } while (cursor.moveToNext());
+                    }
+                    cursor.close();
+                } else {
+                    Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+                }
+                return holder;
+            } catch (Exception e) {
+                AppLog.errLog(TAG, "Exception from getValueByStudent " + e.getMessage());
+                return null;
+            }
+        }
+
+
+    }

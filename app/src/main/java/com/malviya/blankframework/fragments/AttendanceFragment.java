@@ -137,7 +137,7 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
     private void fetchDataFromServer() {
         TableCourseMaster table = new TableCourseMaster();
         table.openDB(getContext());
-        mStudentDetailList = table.getValueBySem();
+        mStudentDetailList = table.getValueByStudent(UserInfo.studentId);
         table.closeDB();
         //----------------------------------------------------------
         if (Utils.isInternetConnected(getContext())) {
@@ -150,7 +150,6 @@ public class AttendanceFragment extends Fragment implements View.OnClickListener
             //-Utils-for body
             Map<String, String> body = new HashMap<>();
             body.put(WSContant.TAG_STUDENTID, "" + UserInfo.studentId);
-
             Utils.showProgressBar(getContext());
             WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_GETMOBILEATTENDANCEDETAIL, header, body, WSContant.TAG_MOBILEATTENDANCEDETAIL, new IWSRequest() {
                 @Override

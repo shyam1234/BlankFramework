@@ -62,6 +62,7 @@ public class Utils {
 
     private static final String TAG = Utils.class.getName();
     private static Context mContext = MyApplication.getInstance().getApplicationContext();
+    private static String currTimeYYYYMMDDOOOOOO;
 
 
     public static boolean validateUserName(EditText pEditText) {
@@ -268,6 +269,7 @@ public class Utils {
 
     public static void updateHomeTableAsPerDefaultChildSelection(final ICallBack pCallback) {
         // UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
+
         AppLog.log("Utils ", "UserInfo.studentId :" + UserInfo.studentId);
         AppLog.log("Utils ", "UserInfo.univercityId :" + UserInfo.univercityId);
         if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
@@ -276,7 +278,7 @@ public class Utils {
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
             header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTime());
             header.put(WSContant.TAG_NEW, Utils.getCurrTime());
-            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
             //-Utils-for body
             Map<String, String> body = new HashMap<>();
             body.put(WSContant.TAG_PARENTID, "" + UserInfo.parentId);
@@ -311,19 +313,9 @@ public class Utils {
         if (response != null) {
             ParseResponse obj = new ParseResponse(response, GetMobileHomeDataModel.class, ModelFactory.MODEL_GETMOBILEHOME);
             GetMobileHomeDataModel holder = ((GetMobileHomeDataModel) obj.getModel());
-            /*for (LoginDataModel.ParentStudentAssociation parentStudentAsso : holder.parentStudentAssociationArrayList) {
-                AppLog.log(TAG, "IsDefault: " + parentStudentAsso.IsDefault);
-                if (parentStudentAsso.IsDefault) {
-                    //UserInfo.studentId = parentStudentAsso.StudentId;
-                    //SharedPreferencesApp.getInstance().savedDefaultChildSelection(UserInfo.studentId);
-                }
-            }*/
-            /*for (LoginDataModel.University university : holder.universityArrayList) {
-                UserInfo.univercityId = university.UniversityId;
-            }*/
             bindDataWithParentStudentMenuDetailsDataModel(holder);
-            pCallback.callBack();
         }
+        pCallback.callBack();
     }
 
 
@@ -399,6 +391,9 @@ public class Utils {
 
     public static boolean isInternetConnected(Context pContext) {
         ConnectivityManager cm = (ConnectivityManager) pContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm.getActiveNetworkInfo() == null) {
+            Toast.makeText(pContext, R.string.no_internet, Toast.LENGTH_SHORT).show();
+        }
         return cm.getActiveNetworkInfo() != null;
     }
 
@@ -708,7 +703,26 @@ public class Utils {
     }
 
     public static void setBounceAni(Context context, ImageView pImgView) {
-        Animation an2= AnimationUtils.loadAnimation(context,R.anim.bounce);
+        Animation an2 = AnimationUtils.loadAnimation(context, R.anim.bounce);
         pImgView.startAnimation(an2);
+    }
+
+    /**
+     * yyyyMMddHHmmss
+     * @return yyyyMMddHHmmss
+     */
+    public static String getCurrTimeYYYYMMDDOOOOOO() {
+        String time = "";
+        try {
+                SimpleDateFormat formatter1 = new SimpleDateFormat("yyyyMMddHHmmss");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = formatter.parse(getCurrTime());
+                time = formatter1.format(date);
+                AppLog.log("Time: " + time);
+        } catch (Exception e) {
+            AppLog.errLog("getCurrTimeYYYYMMDDOOOOOO from Utils", e.getMessage());
+        } finally {
+            return "20170301000000";//time  //cheat code
+        }
     }
 }

@@ -18,7 +18,7 @@ import com.malviya.blankframework.utils.SharedPreferencesApp;
  */
 public class MyApplication extends Application {
     static final String TAG = MyApplication.class.getSimpleName();
-    private static final int MY_SOCKET_TIMEOUT_MS = 20000;
+    private static final int MY_SOCKET_TIMEOUT_MS = 20000;//20000;
     private RequestQueue mRequestQueue;
     private ImageLoader mImageLoader;
     private static MyApplication mInstance;

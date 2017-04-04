@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by Admin on 28-01-2017.
  */
 
-public class TableNewsMasterDataModel implements Serializable, Comparable<TableNewsMasterDataModel>{
+public class TableNewsMasterDataModel implements Serializable, Comparable<TableNewsMasterDataModel> {
 
 
     /*{
@@ -65,6 +65,8 @@ public class TableNewsMasterDataModel implements Serializable, Comparable<TableN
     private int DocumentId;
     @SerializedName("FilePath")
     private String FilePath;
+    @SerializedName("FileType")
+    private String FileType;
 
     public String getParentId() {
         return ParentId;
@@ -81,7 +83,7 @@ public class TableNewsMasterDataModel implements Serializable, Comparable<TableN
     public void setStudentId(String studentId) {
         StudentId = studentId;
     }
-    
+
 
     public String getNewsTitle() {
         return NewsTitle;
@@ -206,10 +208,19 @@ public class TableNewsMasterDataModel implements Serializable, Comparable<TableN
     @Override
     public int compareTo(TableNewsMasterDataModel o) {
         try {
-            return getPublishedOn().compareTo(o.getPublishedOn());
-        }catch (Exception e){
-            AppLog.errLog("TableNewsMasterDataModel",e.getMessage());
+            if (o.getPublishedOn() != null && getPublishedOn() != null)
+                return getPublishedOn().compareTo(o.getPublishedOn());
+        } catch (Exception e) {
+            AppLog.errLog("TableNewsMasterDataModel", e.getMessage());
         }
         return 0;
+    }
+
+    public String getFileType() {
+        return FileType;
+    }
+
+    public void setFileType(String fileType) {
+        FileType = fileType;
     }
 }

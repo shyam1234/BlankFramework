@@ -31,59 +31,7 @@ public class GetMobileDetailsDataModel extends IModel
       "SortOrder": 1,
       "FileURL": "https://edurpstorage.blob.core.windows.net/edurpcontainer/DEV/0/51/52?sv=2015-12-11&sr=c&sig=71YMTMHXmp%2B7zkI8z9KQx9sWcavfjRCOO%2Bh9liLTAFI%3D&se=2017-02-23T15%3A07%3A48Z&sp=rwl"
     },
-    {
-      "DocumentMasterId": 51,
-      "DocumentId": 53,
-      "ReferenceId": 2,
-      "MenuCode": "NEW",
-      "DocumentName": "Picture",
-      "DocumentPath": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/BSF-Republic_day.jpeg/1920px-BSF-Republic_day.jpeg",
-      "DocumentExtn": ".JPG",
-      "IsAttachment": 0,
-      "MediaType": "I",
-      "SortOrder": 2,
-      "FileURL": "https://edurpstorage.blob.core.windows.net/edurpcontainer/DEV/0/51/53?sv=2015-12-11&sr=c&sig=71YMTMHXmp%2B7zkI8z9KQx9sWcavfjRCOO%2Bh9liLTAFI%3D&se=2017-02-23T15%3A07%3A48Z&sp=rwl"
-    },
-    {
-      "DocumentMasterId": 51,
-      "DocumentId": 54,
-      "ReferenceId": 2,
-      "MenuCode": "NEW",
-      "DocumentName": "Picture3",
-      "DocumentPath": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/PM_at_India_Gate_on_Republic_Day_%2824743728320%29.jpg/1920px-PM_at_India_Gate_on_Republic_Day_%2824743728320%29.jpg",
-      "DocumentExtn": ".JPG",
-      "IsAttachment": 0,
-      "MediaType": "I",
-      "SortOrder": 3,
-      "FileURL": "https://edurpstorage.blob.core.windows.net/edurpcontainer/DEV/0/51/54?sv=2015-12-11&sr=c&sig=71YMTMHXmp%2B7zkI8z9KQx9sWcavfjRCOO%2Bh9liLTAFI%3D&se=2017-02-23T15%3A07%3A48Z&sp=rwl"
-    },
-    {
-      "DocumentMasterId": 51,
-      "DocumentId": 55,
-      "ReferenceId": 2,
-      "MenuCode": "NEW",
-      "DocumentName": "Document",
-      "DocumentPath": "https://web.archive.org/web/20101221130453/http://mea.gov.in/meaxpsite/annualreport/ar20002001.pdf",
-      "DocumentExtn": ".pdf",
-      "IsAttachment": 1,
-      "MediaType": "D",
-      "SortOrder": 4,
-      "FileURL": "https://edurpstorage.blob.core.windows.net/edurpcontainer/DEV/0/51/55?sv=2015-12-11&sr=c&sig=71YMTMHXmp%2B7zkI8z9KQx9sWcavfjRCOO%2Bh9liLTAFI%3D&se=2017-02-23T15%3A07%3A48Z&sp=rwl"
-    },
-    {
-      "DocumentMasterId": 51,
-      "DocumentId": 108,
-      "ReferenceId": 2,
-      "MenuCode": "NEW",
-      "DocumentName": "Video",
-      "DocumentPath": "",
-      "DocumentExtn": ".MP4",
-      "IsAttachment": 0,
-      "MediaType": "V",
-      "SortOrder": 5,
-      "FileURL": "https://edurpstorage.blob.core.windows.net/edurpcontainer/DEV/0/51/108?sv=2015-12-11&sr=c&sig=71YMTMHXmp%2B7zkI8z9KQx9sWcavfjRCOO%2Bh9liLTAFI%3D&se=2017-02-23T15%3A07%3A48Z&sp=rwl"
-    }
-  ]
+    ]
 }*/
 
 
@@ -102,11 +50,12 @@ public class GetMobileDetailsDataModel extends IModel
     }
 
 
-    public class MessageBodyDataModel {
+    public static class MessageBodyDataModel {
         @SerializedName("MessageBodyHTML")
         private String MessageBodyHTML;
 
-        public String getMessageBodyHTML() {
+        public String getMessageBodyHTML()
+        {
             return MessageBodyHTML;
         }
 

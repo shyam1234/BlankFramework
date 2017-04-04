@@ -99,14 +99,23 @@ public class WSRequest {
                 if (error.networkResponse != null) {
                     AppLog.networkLog(TAG, "Error: statusCode: " + error.networkResponse.statusCode);
                     switch (TAG) {
-                        case WSContant.TAG_GETMOBILEHOME:
+                       /* case WSContant.TAG_GETMOBILEHOME:
                             if (error.networkResponse.statusCode == WSContant.TAG_UNAUTHORIZED_CODE) {
                                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), MyApplication.getInstance().getApplicationContext().getResources().getString(R.string.msg_session_exp), Toast.LENGTH_SHORT).show();
                                 UserInfo.logout();
                             }
-                            break;
+                            break;*/
+                        default:
+                            if (error.networkResponse.statusCode == WSContant.TAG_UNAUTHORIZED_CODE) {
+                                Toast.makeText(MyApplication.getInstance().getApplicationContext(), MyApplication.getInstance().getApplicationContext().getResources().getString(R.string.msg_session_exp), Toast.LENGTH_SHORT).show();
+                                UserInfo.logout();
+                            }
                     }
                 }
+                //for offline handling----------------------------------
+
+
+                //-------------------------------------------------------
                 Toast.makeText(MyApplication.getInstance().getApplicationContext(), MyApplication.getInstance().getApplicationContext().getString(R.string.msg_network_prob) + error.getMessage(), Toast.LENGTH_SHORT).show();
 
             }

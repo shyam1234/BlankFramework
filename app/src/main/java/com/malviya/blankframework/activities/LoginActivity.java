@@ -116,7 +116,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 mEditTextUserName.setFocusable(false);
                 mEditTextPassword.setFocusable(false);
                 mScrollView.setFocusable(false);
-                doLogin();
+                if(Utils.isInternetConnected(this)) {
+                    doLogin();
+                }
                 break;
         }
     }

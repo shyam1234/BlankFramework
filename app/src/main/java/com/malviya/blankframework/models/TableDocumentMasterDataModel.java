@@ -28,7 +28,7 @@ public class TableDocumentMasterDataModel implements Serializable{
     @SerializedName("DocumentId")
     private  String documentId;
     @SerializedName("DocumentMasterId")
-    private  String DocumentMasterId;
+    private  int DocumentMasterId;
     @SerializedName("FileURL")
     private  String FileURL;
 
@@ -87,10 +87,10 @@ public class TableDocumentMasterDataModel implements Serializable{
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
-    public String getDocumentMasterId() {
+    public int getDocumentMasterId() {
         return DocumentMasterId;
     }
-    public void setDocumentMasterId(String documentMasterId) {
+    public void setDocumentMasterId(int documentMasterId) {
         DocumentMasterId = documentMasterId;
     }
 

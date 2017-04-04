@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.models.TableDocumentMasterDataModel;
+import com.malviya.blankframework.models.TableDocumentMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ public class TableDocumentMaster {
     private static final String COL_MEDIATYPE = "mediatype";
     private static final String COL_SORTORDER = "sortorder";
     private static final String COL_DOCUMENT_ID = "documentid";
+    private static final String COL_DOCUMENTMASTERID= "documentmasterid";
+    private static final String COL_FILEURL= "fileurl";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -42,7 +45,9 @@ public class TableDocumentMaster {
             + COL_IS_ATTACHMENT + " bit , "
             + COL_MEDIATYPE + " char(1) , "
             + COL_SORTORDER + " int , "
-            + COL_DOCUMENT_ID + " varchar(100) "
+            + COL_DOCUMENT_ID + " varchar(100) , "
+            + COL_DOCUMENTMASTERID + " int , "
+            + COL_FILEURL + " varchar(255) "
             + " )";
 
     //For Foreign key
@@ -106,8 +111,8 @@ public class TableDocumentMaster {
                     value.put(COL_MENUCODE, holder.getMenucode());
                     value.put(COL_SORTORDER, holder.getSortorder());
                     value.put(COL_DOCUMENT_ID, holder.getDocumentId());
-
-
+                    value.put(COL_DOCUMENTMASTERID, holder.getDocumentMasterId());
+                    value.put(COL_FILEURL, holder.getFileURL());
                     long row = mDB.insert(TABLE_NAME, null, value);
                     AppLog.log(TAG, TABLE_NAME + " inserted: "+ holder.getDocumentname() + " row: " + row);
                 }
@@ -151,4 +156,36 @@ public class TableDocumentMaster {
     }
 
 
+    public ArrayList<TableDocumentMasterDataModel>   getDocument(int pDocMasterID/*, int referenceId*/) {
+            ArrayList<TableDocumentMasterDataModel> list = new ArrayList<>();
+            try {
+                String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                        + COL_DOCUMENTMASTERID + " = '" + pDocMasterID /*+ "' and "
+                        + COL_REFERENCEID + " = '" + referenceId */+ "'";
+                Cursor cursor = mDB.rawQuery(selectQuery, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        TableDocumentMasterDataModel holder = new TableDocumentMasterDataModel();
+                        holder.setReferenceid(cursor.getString(cursor.getColumnIndex(COL_REFERENCEID)));
+                        holder.setDocumentname(cursor.getString(cursor.getColumnIndex(COL_DOCUMENT_NAME)));
+                        holder.setDocumentextn(cursor.getString(cursor.getColumnIndex(COL_DOOCUMENT_EXTN)));
+                        holder.setDocumentpath(cursor.getString(cursor.getColumnIndex(COL_DOCUMENT_PATH)));
+                        holder.setIsattachment(cursor.getString(cursor.getColumnIndex(COL_IS_ATTACHMENT)));
+                        holder.setMediatype(cursor.getString(cursor.getColumnIndex(COL_MEDIATYPE)));
+                        holder.setMenucode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                        holder.setSortorder(cursor.getString(cursor.getColumnIndex(COL_SORTORDER)));
+                        holder.setDocumentId(cursor.getString(cursor.getColumnIndex(COL_DOCUMENT_ID)));
+                        holder.setFileURL(cursor.getString(cursor.getColumnIndex(COL_FILEURL)));
+                        holder.setDocumentMasterId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTMASTERID)));
+                        list.add(holder);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            } catch (Exception e) {
+                AppLog.errLog(TAG, "getData from TableDocumentMasterDataModel " + e.getMessage());
+            } finally {
+
+                return list;
+            }
+        }
 }

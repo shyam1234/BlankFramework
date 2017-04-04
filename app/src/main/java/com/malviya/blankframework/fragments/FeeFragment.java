@@ -174,7 +174,7 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
     private void fetchDataFromServer() {
         TableStudentOverallFeeSummary table = new TableStudentOverallFeeSummary();
         table.openDB(getContext());
-        mFeeList = table.getData(UserInfo.menuCode);
+        mFeeList = table.getData(UserInfo.studentId);
         Collections.sort(mFeeList, Collections.<TableFeeMasterDataModel>reverseOrder());
         table.closeDB();
         //----------------------------------------------------------
@@ -225,6 +225,7 @@ public class FeeFragment extends Fragment implements View.OnClickListener {
     private void saveDataIntoTable(GetMobileMenuDataModel holder) {
         try {
             TableStudentOverallFeeSummary table = new TableStudentOverallFeeSummary();
+            table.openDB(getContext());
             table.insert(holder.getMessageBody().getStudentOverallFeeSummary());
             table.closeDB();
         } catch (Exception e) {

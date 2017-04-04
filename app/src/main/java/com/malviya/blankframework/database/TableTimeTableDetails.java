@@ -140,8 +140,8 @@ public class TableTimeTableDetails {
     public boolean deleteRecord(TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel holder) {
         try {
             if (mDB != null) {
-                long row = mDB.delete(TABLE_NAME, COL_MENUCODE + "=? and " + COL_REFERENCEDATE + "=? " +
-                        "and " + COL_STUDENTID + "=?", new String[]{holder.getMenuCode(), "" + holder.getReferenceDate(), "" + holder.getStudentId()});
+                long row = mDB.delete(TABLE_NAME, COL_SUBJECTNAME + "=? and " + COL_REFERENCEDATE + "=? " +
+                        "and " + COL_STUDENTID + "=?", new String[]{holder.getSubjectName(), "" + holder.getReferenceDate(), "" + holder.getStudentId()});
                 AppLog.log("deleteRecord ", "" + row);
                 return true;
             } else {
@@ -156,13 +156,16 @@ public class TableTimeTableDetails {
 
     public ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel> getData(int studentId, String refDate) {
         ArrayList<TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel> list = new ArrayList<>();
-        TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel holder = new InnerTimeTableDetailDataModel();
+
         try {
-            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_STUDENTID + " = '" + studentId + "' and "
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                    + COL_STUDENTID + " = '" + studentId + "' and "
                     + COL_REFERENCEDATE + " = '" + refDate + "'";
+            AppLog.log(TAG,"getData selectQuery: "+selectQuery);
             Cursor cursor = mDB.rawQuery(selectQuery, null);
             if (cursor.moveToFirst()) {
                 do {
+                    TableTimeTableDetailsDataModel.InnerTimeTableDetailDataModel holder = new InnerTimeTableDetailDataModel();
                     holder.setReferenceDate(cursor.getString(cursor.getColumnIndex(COL_REFERENCEDATE)));
                     holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
                     holder.setFaculty(cursor.getString(cursor.getColumnIndex(COL_FACULTY)));
@@ -172,6 +175,7 @@ public class TableTimeTableDetails {
                     holder.setTTime(cursor.getString(cursor.getColumnIndex(COL_TTIME)));
                     holder.setSqOrder(cursor.getString(cursor.getColumnIndex(COL_SQORDER)));
                     list.add(holder);
+                    AppLog.log(TAG,"SubjectName: "+holder.getSubjectName());
                 } while (cursor.moveToNext());
             }
             cursor.close();

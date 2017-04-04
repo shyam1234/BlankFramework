@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
+import com.malviya.blankframework.activities.ResultDetailActivity;
 import com.malviya.blankframework.models.TableResultDetailsDataModel;
 
 import java.util.ArrayList;
@@ -21,11 +22,12 @@ public class ResultDetailsAdapter extends RecyclerView.Adapter<ResultDetailsAdap
     private ArrayList<TableResultDetailsDataModel.InnerResultDetails> mList;
     private View.OnClickListener mClickListener;
 
-    public ResultDetailsAdapter(Context context, TableResultDetailsDataModel pList, View.OnClickListener pClickListener) {
+    public ResultDetailsAdapter(Context context, ArrayList<TableResultDetailsDataModel.InnerResultDetails>  pList, View.OnClickListener pClickListener) {
         mContext = context;
-        mList = pList.getMessageBody();
+        mList = pList;
         mClickListener = pClickListener;
     }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -230,6 +230,7 @@ public class TimeTableFragment extends Fragment implements View.OnClickListener 
     private void saveDataIntoTable(TableTimeTableDetailsDataModel holder) {
         try {
             TableTimeTableDetails table = new TableTimeTableDetails();
+            table.openDB(getContext());
             table.insert(holder.getMessageBody());
             table.closeDB();
         } catch (Exception e) {

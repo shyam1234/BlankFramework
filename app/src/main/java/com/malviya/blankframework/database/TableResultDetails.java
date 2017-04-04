@@ -138,4 +138,37 @@ public class TableResultDetails {
     }
 
 
+
+
+    public ArrayList<TableResultDetailsDataModel.InnerResultDetails> getValue(int pRefId) {
+        try {
+            ArrayList<TableResultDetailsDataModel.InnerResultDetails> holder = new ArrayList<TableResultDetailsDataModel.InnerResultDetails>();
+
+            if (mDB != null) {
+                String selectQuery = "SELECT  * FROM " + TABLE_NAME+ " WHERE " +COL_REFERENCEID+ "= '" + pRefId +"'";
+                Cursor cursor = mDB.rawQuery(selectQuery, null);
+                if (cursor.moveToFirst()) {
+                    do {
+                        TableResultDetailsDataModel.InnerResultDetails model = new TableResultDetailsDataModel.InnerResultDetails();
+                        // get the data into array, or class variable
+                        model.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
+                        model.setSubjectName((cursor.getString(cursor.getColumnIndex(COL_STUDENTNAME))));
+                        model.setCredits((cursor.getString(cursor.getColumnIndex(COL_CREDITS))));
+                        model.setGrade((cursor.getString(cursor.getColumnIndex(COL_GRADE))));
+                        model.setResult((cursor.getString(cursor.getColumnIndex(COL_RESULT))));
+                        holder.add(model);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+            return holder;
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "getValue " + e.getMessage());
+            return null;
+        }
+    }
+
+
 }

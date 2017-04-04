@@ -115,8 +115,8 @@ public class AttendanceDetailCalendarActivity extends AppCompatActivity implemen
     private void fetchDataFromServer() {
         TableAbsenseDetails table = new TableAbsenseDetails();
         table.openDB(this);
-        mMessageBodyList = table.getValue(mTableStudentAttendanceDetailListDataModel.getSubjectId(), mTableStudentAttendanceDetailListDataModel.getCourse()
-                , mTableStudentAttendanceDetailListDataModel.getSemester(), mTableStudentAttendanceDetailListDataModel.getSubject());
+        mMessageBodyList = table.getValue(mTableStudentAttendanceDetailListDataModel.getSubjectId(),
+                mTableStudentAttendanceDetailListDataModel.getReferenceId());
         table.closeDB();
         //----------------------------------------------------------
         if (Utils.isInternetConnected(this)) {

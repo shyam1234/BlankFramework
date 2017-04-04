@@ -20,7 +20,7 @@ public class TableResultDetailsDataModel extends IModel {
     }
 
 
-    public class InnerResultDetails {
+    public static class InnerResultDetails {
         @SerializedName("ReferenceId")
         private int ReferenceId;
         @SerializedName("SubjectName")

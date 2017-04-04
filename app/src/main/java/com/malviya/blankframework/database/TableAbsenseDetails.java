@@ -167,15 +167,14 @@ public class TableAbsenseDetails {
     }
 
 
-    public ArrayList<TableAbsenseDetailsDataModel.MessageBodyDataModel> getValue(int studentId, String course, String semester, String subjectName) {
+    public ArrayList<TableAbsenseDetailsDataModel.MessageBodyDataModel> getValue(int studentId, int pRefID) {
         try {
             ArrayList<TableAbsenseDetailsDataModel.MessageBodyDataModel> holder = new ArrayList<TableAbsenseDetailsDataModel.MessageBodyDataModel>();
 
             if (mDB != null) {
                 String selectQuery = "SELECT  * FROM " + TABLE_NAME + " WHERE "
-                        + REFERENCE_ID + "='" + studentId + " and '"
-                        + SUBJECT_ID + "='" + studentId + " and '"
-                        + ABSENCE_DATE + "='" + studentId + "'";
+                        + REFERENCE_ID + "='" + pRefID +"' and "
+                        + SUBJECT_ID + "='" + studentId +"'";
                 Cursor cursor = mDB.rawQuery(selectQuery, null);
                 if (cursor.moveToFirst()) {
                     do {
@@ -193,7 +192,7 @@ public class TableAbsenseDetails {
             }
             return holder;
         } catch (Exception e) {
-            AppLog.errLog(TAG, "Exception from getValueByDate() " + e.getMessage());
+            AppLog.errLog(TAG, "Exception from getValue " + e.getMessage());
             return null;
         }
 
