@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="@string/english"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textColor="@color/black" />
 
     <android.support.v7.widget.SwitchCompat
@@ -32,6 +32,6 @@
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/switch_login_language"
         android:text="@string/bahasa"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textColor="@color/black" />
 </RelativeLayout>
