@@ -258,7 +258,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 AppLog.log("splash UserInfo.authToken  ", "" + UserInfo.authToken);
                 if (UserInfo.authToken != null && (UserInfo.parentId != -1 && UserInfo.studentId != -1)) {
-                    Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
+                    Utils.getHomeFragmentItems(new ICallBack() {
                         @Override
                         public void callBack() {
                            navigateToNextPage(DashboardActivity.class);

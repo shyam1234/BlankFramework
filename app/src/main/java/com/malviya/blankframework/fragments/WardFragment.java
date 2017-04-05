@@ -124,7 +124,7 @@ public class WardFragment extends Fragment implements View.OnClickListener {
             UserInfo.studentId = mListChildInfoHolder.get(position).getStudent_id();
             if(Utils.isInternetConnected(getContext())) {
                 Utils.showProgressBar(getContext());
-                Utils.updateHomeTableAsPerDefaultChildSelection(new ICallBack() {
+                Utils.getHomeFragmentItems(new ICallBack() {
                     @Override
                     public void callBack() {
                         Utils.dismissProgressBar();

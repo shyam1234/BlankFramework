@@ -267,7 +267,7 @@ public class Utils {
     }
 
 
-    public static void updateHomeTableAsPerDefaultChildSelection(final ICallBack pCallback) {
+    public static void getHomeFragmentItems(final ICallBack pCallback) {
         // UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
 
         AppLog.log("Utils ", "UserInfo.studentId :" + UserInfo.studentId);
