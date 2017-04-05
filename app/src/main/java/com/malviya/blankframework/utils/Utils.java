@@ -269,7 +269,6 @@ public class Utils {
 
     public static void getHomeFragmentItems(final ICallBack pCallback) {
         // UserInfo.studentId = SharedPreferencesApp.getInstance().getDefaultChildSelection();
-
         AppLog.log("Utils ", "UserInfo.studentId :" + UserInfo.studentId);
         AppLog.log("Utils ", "UserInfo.univercityId :" + UserInfo.univercityId);
         if (UserInfo.parentId != -1 && UserInfo.studentId != -1) {
