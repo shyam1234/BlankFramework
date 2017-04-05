@@ -15,7 +15,7 @@ import com.malviya.blankframework.R;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     //    private static final String DB_NAME = "db_edurp";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 2;
     private static DatabaseHelper mInstance;
 
     public static DatabaseHelper getInstance(Context context) {

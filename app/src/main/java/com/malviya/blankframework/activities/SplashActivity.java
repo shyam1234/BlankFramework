@@ -56,7 +56,21 @@ public class SplashActivity extends AppCompatActivity {
         Utils.animRightToLeft(SplashActivity.this);
         init();
         initView();
+        checkDPI();
+
        // Utils.showProgressBar(100, mCircularProgressBar);
+    }
+
+    private void checkDPI() {
+        /*  0.75 - ldpi
+            1.0 - mdpi
+            1.5 - hdpi
+            2.0 - xhdpi
+            3.0 - xxhdpi
+            4.0 - xxxhdpi
+        */
+        AppLog.log(TAG,"density+++ "+getResources().getDisplayMetrics().density);
+        Toast.makeText(mContext, "dpi: "+getResources().getDisplayMetrics().density, Toast.LENGTH_SHORT).show();
     }
 
 

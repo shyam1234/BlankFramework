@@ -48,7 +48,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
         mAdapterViewPager = new DashboardAdapter(getSupportFragmentManager());
         TableParentStudentAssociation table = new TableParentStudentAssociation();
         table.openDB(DashboardActivity.this);
-        Log.d("ITC", "UserInfo.currUserType: " + UserInfo.currUserType);
+        AppLog.log("ITC", "UserInfo.currUserType: " + UserInfo.currUserType);
         switch (UserInfo.currUserType) {
             case WSContant.TAG_USERTYPE_PARENT:
                 UserInfo.parentId = UserInfo.userId;
