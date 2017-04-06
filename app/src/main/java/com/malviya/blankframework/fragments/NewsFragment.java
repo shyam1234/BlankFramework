@@ -53,7 +53,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     private TextView mTextViewTitle;
 
     public NewsFragment() {
-          AppLog.log(TAG,"NewsFragment");
+        AppLog.log(TAG, "NewsFragment");
     }
 
     @Override
@@ -62,6 +62,13 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         init();
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNewsMasterDataModel();
+        initRecyclerView();
+    }
 
     private void init() {
         mNewsList = new ArrayList<TableNewsMasterDataModel>();
@@ -79,7 +86,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        AppLog.log(TAG,"onActivityCreated");
+        AppLog.log(TAG, "onActivityCreated");
         initView();
         fetchDataFromServer();
         DashboardActivity.mHandler = new Handler(new Handler.Callback() {
@@ -99,21 +106,21 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView() {
-        AppLog.log(TAG,"initView 111 ");
+        AppLog.log(TAG, "initView 111 ");
         mTextViewTitle = (TextView) getView().findViewById(R.id.textview_title);
         mTextViewTitle.setText(R.string.tab_news);
-        AppLog.log(TAG,"initView 222 ");
+        AppLog.log(TAG, "initView 222 ");
         ImageView mImgProfile = (ImageView) getView().findViewById(R.id.imageview_profile);
         mImgProfile.setVisibility(View.VISIBLE);
-        AppLog.log(TAG,"initView 333 ");
+        AppLog.log(TAG, "initView 333 ");
         GetPicassoImage.setCircleImageByPicasso(getContext(), UserInfo.selectedStudentImageURL, mImgProfile);
-        AppLog.log(TAG,"initView 444 ");
+        AppLog.log(TAG, "initView 444 ");
         ImageView mImgBack = (ImageView) getView().findViewById(R.id.imageview_back);
         mImgBack.setVisibility(View.VISIBLE);
         mImgBack.setOnClickListener(this);
         //------------------------------------
         //initRecyclerView();
-        AppLog.log(TAG,"initView 555 ");
+        AppLog.log(TAG, "initView 555 ");
         setLangSelection();
     }
 
@@ -146,11 +153,11 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
     private void fetchDataFromServer() {
 
         //----------------------------------------------------------
-        if(Utils.isInternetConnected(getContext())){
+        if (Utils.isInternetConnected(getContext())) {
             //call to WS and validate given credential----
             Map<String, String> header = new HashMap<>();
             header.put(WSContant.TAG_TOKEN, UserInfo.authToken);
-            header.put(WSContant.TAG_UNIVERSITYID, ""+UserInfo.univercityId);
+            header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
             // header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
             //header.put(WSContant.TAG_NEW, Utils.getCurrTime());
             //-Utils-for body
@@ -168,16 +175,16 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
                     mNewsList.clear();
                     ParseResponse obj = new ParseResponse(response, LoginDataModel.class, ModelFactory.MODEL_GETMOBILEMENU);
                     GetMobileMenuDataModel holder = ((GetMobileMenuDataModel) obj.getModel());
-                    AppLog.log(TAG,"fetchDataFromServe1r3333 "+mNewsList.size());
+                    AppLog.log(TAG, "fetchDataFromServe1r3333 " + mNewsList.size());
                     if (holder.getMessageResult().equalsIgnoreCase(WSContant.TAG_OK)) {
                         //update UI and save data to table ---------------------
-                        AppLog.log(TAG,"fetchDataFromServe1r "+mNewsList.size());
+                        AppLog.log(TAG, "fetchDataFromServe1r " + mNewsList.size());
                         mNewsList = holder.getMessageBody().getNewsMasterMenuList();
-                        Collections.sort(mNewsList,Collections.<TableNewsMasterDataModel>reverseOrder());
-                        AppLog.log(TAG,"fetchDataFromServe2r "+mNewsList.size());
+                        Collections.sort(mNewsList, Collections.<TableNewsMasterDataModel>reverseOrder());
+                        AppLog.log(TAG, "fetchDataFromServe2r " + mNewsList.size());
                         saveDataIntoTable(holder);
-                        readNewsFromDB();
-                        AppLog.log(TAG,"fetchDataFromServe3r "+mNewsList.size());
+                        getNewsMasterDataModel();
+                        AppLog.log(TAG, "fetchDataFromServe3r " + mNewsList.size());
                         SharedPreferencesApp.getInstance().saveLastLoginTime(Utils.getCurrTime());
                         initRecyclerView();
                         //-------------------------------------------------------
@@ -194,18 +201,22 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
                 }
             });
 
-        }else{
-            readNewsFromDB();
-            initRecyclerView();
+        } else {
+           // getNewsMasterDataModel();
+           // initRecyclerView();
         }
     }
 
-    private void readNewsFromDB() {
-        TableNewsMaster table = new TableNewsMaster();
-        table.openDB(getContext());
-        mNewsList = table.getDataByStudent(UserInfo.studentId);
-        Collections.sort(mNewsList,Collections.<TableNewsMasterDataModel>reverseOrder());
-        table.closeDB();
+    private void getNewsMasterDataModel() {
+        try {
+            TableNewsMaster table = new TableNewsMaster();
+            table.openDB(getContext());
+            mNewsList = table.getDataByStudent(UserInfo.studentId);
+            Collections.sort(mNewsList, Collections.<TableNewsMasterDataModel>reverseOrder());
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog(TAG,e.getMessage());
+        }
     }
 
 
@@ -225,7 +236,7 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         Intent i = new Intent(getActivity(), NewsDetails.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Bundle bundle = new Bundle();
-        bundle.putSerializable(Constant.TAG_HOLDER, mNewsList.get(position));
+        bundle.putInt(Constant.TAG_HOLDER, mNewsList.get(position).getReferenceId());
         i.putExtras(bundle);
         startActivity(i);
         Utils.animRightToLeft(getActivity());
@@ -236,4 +247,6 @@ public class NewsFragment extends Fragment implements View.OnClickListener {
         Utils.langConversion(getContext(), mTextViewTitle, WSContant.TAG_LANG_NEWS, getString(R.string.tab_news), UserInfo.lang_pref);
         //Utils.langConversion(getContext(), ((TextView)getView().findViewById(R.id.textview_welcome_to)), WSContant.TAG_LANG_WELCOME, getString(R.string.welcome_to), UserInfo.lang_pref);
     }
+
+
 }

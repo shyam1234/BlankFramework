@@ -86,6 +86,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     private TextView mTextViewTitle;
     //private ArrayList<GetMobileDetailsDataModel.MessageBodyDataModel> mMesgBodyDataList;
     private ArrayList<TableDocumentMasterDataModel> mTableDocumentMesgList;
+    private int mReferenceId;
+    private ImageView mImageview_bottom_like;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,9 +113,10 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         mTableDocumentMesgList = new ArrayList<>();
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            mNewsMasterDataModel = (TableNewsMasterDataModel) bundle.getSerializable(Constant.TAG_HOLDER);
-            AppLog.log(TAG, "ref id: " + mNewsMasterDataModel.getReferenceId());
+            mReferenceId = (int) bundle.getSerializable(Constant.TAG_HOLDER);
+            AppLog.log(TAG,"getReferenceId: "+mReferenceId);
         }
+        mNewsMasterDataModel = getNewsMasterDataModel();
     }
 
     private void initView() {
@@ -136,6 +139,16 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         pager_indicator = (LinearLayout) findViewById(R.id.viewPagerCountDots);
         mViewPagerNewsImages.addOnPageChangeListener(this);
         mViewPagerNewsImages.setPageTransformer(true, new ZoomOutPageTransformer());
+
+        mImageview_bottom_like = (ImageView)findViewById(R.id.imageview_bottom_like);
+        TextView textView = (((TextView) findViewById(R.id.textview_inc_bottom_like)));
+        if (mNewsMasterDataModel.getLikedByMe() == 1) {
+            textView.setText(getResources().getString(R.string.unlike));
+            mImageview_bottom_like.setImageResource(R.drawable.comments_like_icon_active);
+        } else {
+            textView.setText(getResources().getString(R.string.like));
+            mImageview_bottom_like.setImageResource(R.drawable.comments_like_icon);
+        }
 
         RelativeLayout rel_like = (RelativeLayout) findViewById(R.id.rel_inc_like_comment_like_holder);
         rel_like.setOnClickListener(this);
@@ -166,7 +179,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 GetMobileDetailsDataModel pMobileDetailsHolder = ((GetMobileDetailsDataModel) obj.getModel());
                 mNewsMasterDataModel.setNewsBody(pMobileDetailsHolder.getMessageBody().get(0).getMessageBodyHTML());
                 mTableDocumentMesgList = pMobileDetailsHolder.getDocuments();
-                saveDataIntoTable("" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""), mNewsMasterDataModel.getNewsBody(),mTableDocumentMesgList );
+                saveDataIntoTable("" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""), mNewsMasterDataModel.getNewsBody(), mTableDocumentMesgList);
                 bindDataWithUI();
                 fetchCommentDataFromServer(0);
             }
@@ -335,6 +348,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         mTextViewSend.setOnClickListener(this);
         mTextViewCommentTab.setOnClickListener(this);
         mTextViewLikeTab.setOnClickListener(this);
+
         initRecyclerView();
 
     }
@@ -395,7 +409,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                 if (Utils.isInternetConnected(this)) {
                     doComment(((EditText) findViewById(R.id.edittext_send_comment_comment)));
                 } else {
-                   // Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -481,15 +495,14 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         body.put(WSContant.TAG_REFERENCEID, "" + (mNewsMasterDataModel != null ? mNewsMasterDataModel.getReferenceId() : ""));
         body.put(WSContant.TAG_USERID, "" + UserInfo.userId);
         body.put(WSContant.TAG_COMMENT, "");
-        if (pStr.equalsIgnoreCase(getResources().getString(R.string.like))) {
-            body.put(WSContant.TAG_ISLIKE, "1");
-            body.put(WSContant.TAG_ISDELETE, "0");
-            // textView.setText(getResources().getString(R.string.unlike));
-        } else {
-            // textView.setText(getResources().getString(R.string.like));
+        if (mNewsMasterDataModel.getLikedByMe() == 1) {
             body.put(WSContant.TAG_ISLIKE, "0");
             body.put(WSContant.TAG_ISDELETE, "1");
+        } else {
+            body.put(WSContant.TAG_ISLIKE, "1");
+            body.put(WSContant.TAG_ISDELETE, "0");
         }
+
         Utils.showProgressBar(this);
         WSRequest.getInstance().requestWithParam(WSRequest.POST, WSContant.URL_SAVELIKENCOMMENT, header, body, WSContant.TAG_SAVELIKECOMMENT, new IWSRequest() {
             @Override
@@ -500,10 +513,14 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
                         JSONObject jsonObject = new JSONObject(response);
                         String resp = jsonObject.getString(WSContant.TAG_MESSAGERESULT);
                         if (resp.equalsIgnoreCase(WSContant.TAG_OK)) {
-                            if (pStr.equalsIgnoreCase(getResources().getString(R.string.like))) {
-                                textView.setText(getResources().getString(R.string.unlike));
-                            } else {
+                            if (mNewsMasterDataModel.getLikedByMe() == 1) {
+                                saveLikeIntoDB(0);
                                 textView.setText(getResources().getString(R.string.like));
+                                mImageview_bottom_like.setImageResource(R.drawable.comments_like_icon);
+                            } else {
+                                textView.setText(getResources().getString(R.string.unlike));
+                                mImageview_bottom_like.setImageResource(R.drawable.comments_like_icon_active);
+                                saveLikeIntoDB(1);
                             }
                             fetchCommentDataFromServer(1);
                         } else {
@@ -524,6 +541,8 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
     }
 
 
+
+
     private void doComment(final EditText editText) {
         if (editText.getText().toString().trim().length() > 0) {
             Map<String, String> header = new HashMap<>();
@@ -531,7 +550,6 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
             header.put(WSContant.TAG_UNIVERSITYID, "" + UserInfo.univercityId);
             header.put(WSContant.TAG_DATELASTRETRIEVED, Utils.getLastRetrivedTimeForNews());
             header.put(WSContant.TAG_NEW, Utils.getCurrTime());
-
             //-Utils-for body
             final Map<String, String> body = new HashMap<>();
             body.put(WSContant.TAG_MENUCODE, "" + UserInfo.menuCode);
@@ -575,7 +593,7 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
 
     public void setLangSelection() {
         Utils.langConversion(NewsDetails.this, mTextViewTitle, new String[]{WSContant.TAG_LANG_NEWS, WSContant.TAG_LANG_DETAILS}, getString(R.string.tab_news), UserInfo.lang_pref);
-        Utils.langConversion(NewsDetails.this, ((TextView) findViewById(R.id.textview_inc_bottom_like)), new String[]{WSContant.TAG_LANG_LIKE}, getString(R.string.like), UserInfo.lang_pref);
+        //Utils.langConversion(NewsDetails.this, ((TextView) findViewById(R.id.textview_inc_bottom_like)), new String[]{WSContant.TAG_LANG_LIKE}, getString(R.string.like), UserInfo.lang_pref);
         Utils.langConversion(NewsDetails.this, ((TextView) findViewById(R.id.textview_inc_bottom_comment)), new String[]{WSContant.TAG_LANG_COMMENTS}, getString(R.string.comment), UserInfo.lang_pref);
 
         Utils.langConversion(NewsDetails.this, mTextViewCommentTab, new String[]{WSContant.TAG_LANG_COMMENTS}, getString(R.string.comment), UserInfo.lang_pref);
@@ -583,5 +601,31 @@ public class NewsDetails extends AppCompatActivity implements View.OnClickListen
         Utils.langConversion(NewsDetails.this, mEditTextComment, new String[]{WSContant.TAG_LANG_TYPE, WSContant.TAG_LANG_COMMENTS}, getString(R.string.type_comment), UserInfo.lang_pref);
         Utils.langConversion(NewsDetails.this, mTextViewSend, new String[]{WSContant.TAG_LANG_SEND}, getString(R.string.send), UserInfo.lang_pref);
 
+    }
+
+    public TableNewsMasterDataModel getNewsMasterDataModel() {
+        TableNewsMasterDataModel pNewsList = null;//new TableNewsMasterDataModel();
+        try {
+            TableNewsMaster table = new TableNewsMaster();
+            table.openDB(this);
+            pNewsList = table.getNews(UserInfo.studentId, mReferenceId);
+            table.closeDB();
+        } catch (Exception e) {
+            AppLog.errLog(TAG, e.getMessage());
+        } finally {
+            return pNewsList;
+        }
+    }
+
+    private void saveLikeIntoDB(int value) {
+        try {
+            TableNewsMaster table = new TableNewsMaster();
+            table.openDB(this);
+            table.updateLikedByMe(value, UserInfo.studentId, mReferenceId);
+            table.closeDB();
+            mNewsMasterDataModel.setLikedByMe(value);
+        } catch (Exception e) {
+            AppLog.errLog(TAG, e.getMessage());
+        }
     }
 }

@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/course"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@color/colorTextHint" />
         </LinearLayout>
 
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/subject_semester"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@color/colorTextHint" />
         </LinearLayout>
 
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/subject"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@color/colorTextHint" />
         </LinearLayout>
     </LinearLayout>
@@ -116,7 +116,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="0dp"
                 android:text="value"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@color/colorSkyBlue"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -150,7 +150,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="0dp"
                 android:text="value"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@color/colorSkyBlue"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -178,11 +178,11 @@
             <TextView
                 android:id="@+id/textview_attendance_detail_holder_subject_value"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="0dp"
                 android:text="value"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@color/colorSkyBlue"
                 android:textStyle="bold" />
         </LinearLayout>

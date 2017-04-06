@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.malviya.blankframework.application.MyApplication;
 import com.malviya.blankframework.models.TableNewsMasterDataModel;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class TableNewsMaster {
     private static final String COL_EXPIRYDATE = "ExpiryDate";
     private static final String COL_FILEPATH = "FilePath";
     private static final String COL_FILETYPE = "FileType";
+    private static final String COL_LIKEDBYME = "LikedByMe";
     //-------------------------------------------------------------------------
     public static final String DROP_TABLE = "Drop table if exists " + TABLE_NAME;
     public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME;
@@ -56,6 +58,7 @@ public class TableNewsMaster {
             + COL_PUBLISHEDBY + " char(30) , "
             + COL_TOTALCOMMENTS + " int , "
             + COL_TOTALLIKES + " int , "
+            + COL_LIKEDBYME + " int , "
             + COL_MENUCODE + " int , "
             + COL_REFERENCEID + " int , "
             + COL_DOCUMENTMASTERID + " int ,"
@@ -130,6 +133,7 @@ public class TableNewsMaster {
                     value.put(COL_TOTALLIKES, holder.getTotalLikes());
                     value.put(COL_MENUCODE, holder.getMenuCode());
                     value.put(COL_FILEPATH, holder.getFilePath());
+                    value.put(COL_LIKEDBYME, holder.getLikedByMe());
                     value.put(COL_REFERENCEID, holder.getReferenceId());
                     value.put(COL_DOCUMENTMASTERID, holder.getDocumentMasterId());
                     value.put(COL_DOCUMENTID, holder.getDocumentId());
@@ -188,7 +192,7 @@ public class TableNewsMaster {
             if (mDB != null) {
                 ContentValues value = new ContentValues();
                 value.put(COL_NEWSBODY, pMessageBody);
-                long row = mDB.update(TABLE_NAME, value, COL_REFERENCEID + "=?", new String[]{pRefId});
+                long row = mDB.update(TABLE_NAME, value, COL_REFERENCEID + "=? and "+COL_STUDENTID+ "=?", new String[]{""+pRefId,""+ UserInfo.studentId});
                 AppLog.log(TAG, "insertMessageBody row " + row);
                 return true;
             } else {
@@ -230,6 +234,7 @@ public class TableNewsMaster {
                     holder.setDocumentMasterId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTMASTERID)));
                     holder.setReferenceTitle(cursor.getString(cursor.getColumnIndex(COL_REFERENCETITLE)));
                     holder.setFileType(cursor.getString(cursor.getColumnIndex(COL_FILETYPE)));
+                    holder.setLikedByMe(cursor.getInt(cursor.getColumnIndex(COL_LIKEDBYME)));
                     mNewsList.add(holder);
                     AppLog.log("getData", "COL_REFERENCEID ++ " + holder.getReferenceId());
                 } while (cursor.moveToNext());
@@ -241,6 +246,60 @@ public class TableNewsMaster {
         return mNewsList;
     }
 
+    public TableNewsMasterDataModel getNews(int pStudent, int pReferenceId) {
+        TableNewsMasterDataModel holder = new TableNewsMasterDataModel();
+        try {
+            String selectQuery = "SELECT * FROM " + TABLE_NAME + " WHERE "
+                    + COL_STUDENTID + " = '" + pStudent
+                    + "' and " + COL_REFERENCEID + " = '" + pReferenceId
+                    + "' and " + COL_EXPIRYDATE + " >= '" + Utils.getCurrTimeYYYYMMDDOOOOOO() + "'";
+            AppLog.log(TAG,"getNews selectQuery: "+selectQuery);
+            Cursor cursor = mDB.rawQuery(selectQuery, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    holder.setMenuCode(cursor.getString(cursor.getColumnIndex(COL_MENUCODE)));
+                    holder.setParentId(cursor.getString(cursor.getColumnIndex(COL_PARENTID)));
+                    holder.setStudentId(cursor.getString(cursor.getColumnIndex(COL_STUDENTID)));
+                    holder.setReferenceId(cursor.getInt(cursor.getColumnIndex(COL_REFERENCEID)));
+                    holder.setNewsTitle(cursor.getString(cursor.getColumnIndex(COL_NEWSTITLE)));
+                    holder.setShortBody(cursor.getString(cursor.getColumnIndex(COL_SHORTBODY)));
+                    holder.setNewsBody(cursor.getString(cursor.getColumnIndex(COL_NEWSBODY)));
+                    holder.setThumbNailPath(cursor.getString(cursor.getColumnIndex(COL_THUMBNAILPATH)));
+                    holder.setPublishedOn(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDON)));
+                    holder.setPublishedBy(cursor.getString(cursor.getColumnIndex(COL_PUBLISHEDBY)));
+                    holder.setExpiryDate(cursor.getString(cursor.getColumnIndex(COL_EXPIRYDATE)));
+                    holder.setTotalComments(cursor.getString(cursor.getColumnIndex(COL_TOTALCOMMENTS)));
+                    holder.setTotalLikes(cursor.getString(cursor.getColumnIndex(COL_TOTALLIKES)));
+                    holder.setFilePath(cursor.getString(cursor.getColumnIndex(COL_FILEPATH)));
+                    holder.setDocumentId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTID)));
+                    holder.setDocumentMasterId(cursor.getInt(cursor.getColumnIndex(COL_DOCUMENTMASTERID)));
+                    holder.setReferenceTitle(cursor.getString(cursor.getColumnIndex(COL_REFERENCETITLE)));
+                    holder.setFileType(cursor.getString(cursor.getColumnIndex(COL_FILETYPE)));
+                    holder.setLikedByMe(cursor.getInt(cursor.getColumnIndex(COL_LIKEDBYME)));
+                    AppLog.log("getNews", "COL_REFERENCEID ++ " + holder.getReferenceId());
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        } catch (Exception e) {
+            AppLog.errLog("getNews", e.getMessage());
+        }
+        return holder;
+    }
+
+    public void updateLikedByMe(int pLikeValue, int studentId, int mReferenceId) {
+        try {
+            if (mDB != null) {
+                ContentValues value = new ContentValues();
+                value.put(COL_LIKEDBYME, pLikeValue);
+                long row = mDB.update(TABLE_NAME, value, COL_REFERENCEID + "=? and "+COL_STUDENTID+ "=?", new String[]{""+mReferenceId,""+studentId});
+                AppLog.log(TAG, "insertMessageBody row " + row);
+            } else {
+                Toast.makeText(MyApplication.getInstance().getApplicationContext(), "Need to open DB", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            AppLog.errLog(TAG, "insertMessageBody from TableNewsMaster" + e.getMessage());
+        }
+    }
 }
 
 

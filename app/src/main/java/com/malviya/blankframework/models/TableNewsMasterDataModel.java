@@ -28,6 +28,7 @@ public class TableNewsMasterDataModel implements Serializable, Comparable<TableN
         "ExpiryDate":"20170309000000",
         "TotalComments":55,
         "TotalLikes":6
+        "LikedByMe":1
         },*/
 
 
@@ -67,6 +68,8 @@ public class TableNewsMasterDataModel implements Serializable, Comparable<TableN
     private String FilePath;
     @SerializedName("FileType")
     private String FileType;
+    @SerializedName("LikedByMe")
+    private int LikedByMe;
 
     public String getParentId() {
         return ParentId;
@@ -222,5 +225,13 @@ public class TableNewsMasterDataModel implements Serializable, Comparable<TableN
 
     public void setFileType(String fileType) {
         FileType = fileType;
+    }
+
+    public int getLikedByMe() {
+        return LikedByMe;
+    }
+
+    public void setLikedByMe(int likedByMe) {
+        LikedByMe = likedByMe;
     }
 }
