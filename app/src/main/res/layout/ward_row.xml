@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/name"
             android:textColor="@color/colorBlack"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@android:style/TextAppearance.Small" />
 
         <TextView
             android:id="@+id/textview_ward_row_address"
@@ -42,7 +42,7 @@
             android:layout_marginTop="2dp"
             android:text="@string/address"
             android:textColor="@color/colorLightGray"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+            android:textAppearance="@android:style/TextAppearance.Small" />
 
     </LinearLayout>
 
