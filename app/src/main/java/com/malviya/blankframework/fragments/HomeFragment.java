@@ -193,8 +193,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
                         break;
                     case Constant.TAG_FEE:
-                        //Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
-                        Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
+                        Utils.navigateFragmentMenu(getFragmentManager(), new FeeFragment(), FeeFragment.TAG);
                         break;
                     case Constant.TAG_GALLERY:
                         //Utils.navigateFragmentMenu(getFragmentManager(), new GalleryFragment(), GalleryFragment.TAG);
