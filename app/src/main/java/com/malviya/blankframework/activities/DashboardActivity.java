@@ -1,5 +1,6 @@
 package com.malviya.blankframework.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IdRes;
@@ -7,6 +8,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 
 import com.malviya.blankframework.R;
 import com.malviya.blankframework.adapters.DashboardAdapter;
@@ -14,6 +20,7 @@ import com.malviya.blankframework.constant.WSContant;
 import com.malviya.blankframework.database.TableParentStudentAssociation;
 import com.malviya.blankframework.fragments.HomeFragment;
 import com.malviya.blankframework.utils.AppLog;
+import com.malviya.blankframework.utils.CustomDialogbox;
 import com.malviya.blankframework.utils.SharedPreferencesApp;
 import com.malviya.blankframework.utils.UserInfo;
 import com.malviya.blankframework.utils.Utils;
@@ -137,9 +144,7 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
                     case 0:
                         switch (name) {
                             case HomeFragment.TAG:
-                                // getSupportFragmentManager().popBackStack(HomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                                finish();
-                                Utils.animLeftToRight(DashboardActivity.this);
+                                popupCloseAppAcknowledge();
                                 break;
                             default:
                                 getSupportFragmentManager().popBackStack();
@@ -157,14 +162,49 @@ public class DashboardActivity extends AppCompatActivity implements OnTabSelectL
                 AppLog.log("onBackPressed", "" + getSupportFragmentManager().getBackStackEntryCount());
                 AppLog.log("onBackPressed", "name " + name);
             } else if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-                finish();
-                Utils.animLeftToRight(DashboardActivity.this);
+//                finish();
+//                Utils.animLeftToRight(DashboardActivity.this);
+                popupCloseAppAcknowledge();
                 AppLog.log("onBackPressed", "finish ");
             }
         } catch (Exception e) {
             AppLog.errLog("onBackPressed", e.getMessage());
         }
     }
+
+    /**
+     * acknowledge before closing app
+     */
+    private void popupCloseAppAcknowledge() {
+        // getSupportFragmentManager().popBackStack(HomeFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        final CustomDialogbox dialogbox = new CustomDialogbox(this,CustomDialogbox.TYPE_YES_NO);
+        dialogbox.setTitle(getResources().getString(R.string.msg_exit));
+        dialogbox.show();
+        dialogbox.getBtnYes().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                Utils.animLeftToRight(DashboardActivity.this);
+            }
+        });
+        dialogbox.getBtnNo().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogbox.dismiss();
+            }
+        });
+        dialogbox.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                // TODO Auto-generated method stub
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    dialog.dismiss();
+                }
+                return true;
+            }
+        });
+    }
+
 }
 
 

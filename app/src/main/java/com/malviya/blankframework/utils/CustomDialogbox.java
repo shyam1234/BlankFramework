@@ -6,7 +6,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.malviya.blankframework.R;
@@ -21,6 +24,7 @@ public class CustomDialogbox extends Dialog {
     public final static int TYPE_YES_NO = 2;
     public final static int TYPE_YES_NO_SKIP = 3;
     private final Context mContext;
+    private RelativeLayout mRel;
     private int mType;
     private Button mBtnOK, mBtnYes, mBtnNo, mBtnSkip;
     private TextView mTextViewMessage;
@@ -35,23 +39,40 @@ public class CustomDialogbox extends Dialog {
         switch (mType) {
             case TYPE_OK:
                 setContentView(R.layout.dialog_ok);
+                mRel = (RelativeLayout)findViewById(R.id.rel_dialog);
                 mBtnOK = (Button)findViewById(R.id.btnOK);
                 mTextViewMessage = (TextView)findViewById(R.id.textview_message);
                 break;
             case TYPE_YES_NO:
                 setContentView(R.layout.dialog_yes_no);
+                mRel = (RelativeLayout)findViewById(R.id.rel_dialog);
                 mBtnYes = (Button)findViewById(R.id.btnYes);
                 mBtnNo = (Button)findViewById(R.id.btnNo);
                 mTextViewMessage = (TextView)findViewById(R.id.textview_message);
                 break;
             case TYPE_YES_NO_SKIP:
                 setContentView(R.layout.dialog_yes_no_skip);
+                mRel = (RelativeLayout)findViewById(R.id.rel_dialog);
                 mBtnYes = (Button)findViewById(R.id.btnYes);
                 mBtnNo = (Button)findViewById(R.id.btnNo);
                 mBtnSkip = (Button)findViewById(R.id.btnSkip);
                 mTextViewMessage = (TextView)findViewById(R.id.textview_message);
                 break;
         }
+        setAnimation();
+    }
+
+    private void setAnimation() {
+        Animation anim = AnimationUtils.loadAnimation(mContext, R.anim.alpha);
+        anim.reset();
+        RelativeLayout l=(RelativeLayout) findViewById(R.id.lin_lay);
+        getmRel().clearAnimation();
+        getmRel().startAnimation(anim);
+
+        anim = AnimationUtils.loadAnimation(mContext, R.anim.dialog_translate);
+        anim.reset();
+        getmRel().clearAnimation();
+        getmRel().startAnimation(anim);
     }
 
 
@@ -82,4 +103,7 @@ public class CustomDialogbox extends Dialog {
     }
 
 
+    public RelativeLayout getmRel() {
+        return mRel;
+    }
 }
